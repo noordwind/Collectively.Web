@@ -1,10 +1,10 @@
 {
   "name": "coolector",
-  "description": "An Aurelia client application.",
+  "description": "Coolector web application.",
   "version": "0.1.0",
   "repository": {
-    "type": "???",
-    "url": "???"
+    "type": "git",
+    "url": "https://github.com/noordwind/Coolector-Web"
   },
   "license": "MIT",
   "dependencies": {
@@ -48,6 +48,7 @@
     "karma": "^0.13.22",
     "karma-chrome-launcher": "^1.0.1",
     "karma-jasmine": "^1.0.2",
-    "karma-babel-preprocessor": "^6.0.1"
+    "karma-babel-preprocessor": "^6.0.1",
+    "whatwg-fetch": "^1.0.0"
   }
 }

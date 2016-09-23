@@ -1,0 +1,33 @@
+<template>
+    <nav role="navigation" class="ft-nav">
+        <div class="container">
+            <a href="#" data-activates="nav-mobile" class="button-collapse right">
+                <i class="material-icons">menu</i>
+            </a>
+            <ul class="right hide-on-med-and-down">
+                <li repeat.for="route of navigation">
+                    <a href.bind="route.href">
+                        <span>${route.title}</span>
+                    </a>
+                </li>
+                <li if.bind="authService.isLoggedIn">
+                    <a href="#" click.delegate="logout()">
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="side-nav" id="nav-mobile">
+                <li repeat.for="route of navigation">
+                    <a href.bind="route.href">
+                        <span>${route.title}</span>
+                    </a>
+                </li>
+                <li if.bind="authService.isLoggedIn">
+                    <a href="#" click.delegate="logout()">
+                        <span>Logout</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</template>

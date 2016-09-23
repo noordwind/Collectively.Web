@@ -1,3 +1,10 @@
 <template>
-  <h1>${message}</h1>
+    <require from="styles/app.css"></require>
+    <require from="resources/features/nav/nav-bar"></require>
+    <nav-bar router.bind="router" if.bind="!router.currentInstruction.config.settings.hideNavbar"></nav-bar>
+    <main>
+        <div class="container">
+            <router-view></router-view>
+        </div>
+    </main>
 </template>
