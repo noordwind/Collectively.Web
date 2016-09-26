@@ -1,0 +1,32 @@
+$primary-color: #E40521;
+$primary-color-light: #FF1F3B;
+$primary-color-strong: #970214;
+$secondary-color: #009720;
+
+body{
+
+}
+
+h1,h2,h3,h4{
+    color: $primary-color
+}
+
+nav{
+    background-color: $primary-color
+}
+
+.btn{
+    background-color: $primary-color
+}
+
+.btn:hover{
+    background-color: $primary-color-light;
+}
+
+.btn:active{
+    background-color: $primary-color-light;   
+}
+
+.btn:focus{
+    background-color: $primary-color-light;   
+}
