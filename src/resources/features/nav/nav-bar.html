@@ -6,26 +6,31 @@
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">
-                <li repeat.for="route of navigation">
-                    <a href.bind="route.href">
+                <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
+                    <a class="waves-effect" href.bind="route.href">
+                        <i class="material-icons left">${route.settings.icon}</i>
                         <span>${route.title}</span>
                     </a>
                 </li>
                 <li if.bind="authService.isLoggedIn">
-                    <a href="#" click.delegate="logout()">
+                    <a class="waves-effect"  href="#" click.delegate="logout()">
+                        <i class="material-icons left">power_settings_new</i>
                         <span>Logout</span>
                     </a>
                 </li>
             </ul>
             <ul class="side-nav" id="nav-mobile">
-                <li repeat.for="route of navigation">
-                    <a href.bind="route.href">
-                        <span>${route.title}</span>
+                <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
+                    <a class="waves-effect" href.bind="route.href">
+                        <i class="material-icons">${route.settings.icon}</i>
+                        ${route.title}
                     </a>
                 </li>
+                <li><div class="divider"></div></li>
                 <li if.bind="authService.isLoggedIn">
-                    <a href="#" click.delegate="logout()">
-                        <span>Logout</span>
+                    <a class="waves-effect" href="#" click.delegate="logout()">
+                        <i class="material-icons">power_settings_new</i>  
+                        Logout
                     </a>
                 </li>
             </ul>

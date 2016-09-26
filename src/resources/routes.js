@@ -8,7 +8,8 @@ export default [
     title:    'Home',
     nav:      true,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        icon:     "dashboard"
     }
   },
   {
@@ -16,9 +17,9 @@ export default [
     moduleId:   `${modulePrefix}/account/login`,
     name:       'login',
     title:      'Login',
-      settings: {
-        hideNavbar:        true
-      }
+    settings: {
+      hideNavbar: true
+    }
   },
   {
     route:    'remarks',
@@ -27,7 +28,8 @@ export default [
     title:    'Remarks',
     nav:      true,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        icon: "view_list"
     }
   }
 ]
