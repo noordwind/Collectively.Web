@@ -1,17 +1,17 @@
 import {inject} from 'aurelia-framework';
 import fetch from 'whatwg-fetch';
 import {HttpClient, json} from 'aurelia-fetch-client';
-import AppConfig from 'resources/app-config'
+import environment from '../../environment';
 import AuthService from 'resources/services/auth-service';
 
-@inject(HttpClient, AuthService, AppConfig)
+@inject(HttpClient, AuthService)
 export default class ApiBaseService {
-    constructor(http, authService, appConfig) {
+    constructor(http, authService) {
         this.authService = authService;
         this.http = http;
         this.http.configure(config => {
             config
-              .withBaseUrl(appConfig.apiUrl)
+              .withBaseUrl(environment.apiUrl)
               .withDefaults({
                   headers: {
                       'content-type':     'application/json',

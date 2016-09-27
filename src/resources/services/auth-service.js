@@ -1,34 +1,33 @@
 import {inject} from 'aurelia-framework';
-import AppConfig from 'resources/app-config';
+import environment from '../../environment';
 
-@inject(AppConfig)
 export default class AuthService {
-    constructor(appConfig) {
-        this.appConfig = appConfig;
+    constructor() {
+        this.environment = environment;
     }
 
     get idToken() {
-        return localStorage.getItem(this.appConfig.idTokenStorageKey);
+        return localStorage.getItem(this.environment.idTokenStorageKey);
     }
 
     set idToken(newToken) {
-        localStorage.setItem(this.appConfig.idTokenStorageKey, newToken);
+        localStorage.setItem(this.environment.idTokenStorageKey, newToken);
     }
 
     removeIdToken() {
-        localStorage.removeItem(this.appConfig.idTokenStorageKey);
+        localStorage.removeItem(this.environment.idTokenStorageKey);
     }
 
     get accessToken() {
-        return localStorage.getItem(this.appConfig.accessTokenStorageKey);
+        return localStorage.getItem(this.environment.accessTokenStorageKey);
     }
 
     set accessToken(newToken) {
-        localStorage.setItem(this.appConfig.accessTokenStorageKey, newToken);
+        localStorage.setItem(this.environment.accessTokenStorageKey, newToken);
     }
 
     removeAccessToken() {
-        localStorage.removeItem(this.appConfig.accessTokenStorageKey);
+        localStorage.removeItem(this.environment.accessTokenStorageKey);
     }
 
     get isLoggedIn() {
@@ -36,15 +35,15 @@ export default class AuthService {
     }
 
     get profile() {
-        return localStorage.getItem(this.appConfig.profileStorageKey);
+        return localStorage.getItem(this.environment.profileStorageKey);
     }
 
     set profile(newProfile) {
-        localStorage.setItem(this.appConfig.profileStorageKey, newProfile);
+        localStorage.setItem(this.environment.profileStorageKey, newProfile);
     }
 
     removeProfile() {
-        localStorage.removeItem(this.appConfig.profileStorageKey);
+        localStorage.removeItem(this.environment.profileStorageKey);
     }
 
     authorizeRequest(request) {
@@ -58,7 +57,7 @@ export default class AuthService {
     }
 
     getAuth0Lock() {
-        return new Auth0Lock(this.appConfig.auth0.token, this.appConfig.auth0.domain);
+        return new Auth0Lock(this.environment.auth0.token, this.environment.auth0.domain);
     }
 
     authenticateViaAuth0(lock, next) {
