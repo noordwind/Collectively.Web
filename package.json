@@ -8,14 +8,17 @@
   },
   "license": "MIT",
   "dependencies": {
+    "aurelia-animator-css": "^1.0.0",
     "aurelia-bootstrapper": "^1.0.0",
     "aurelia-fetch-client": "^1.0.0",
-    "aurelia-animator-css": "^1.0.0",
+    "aurelia-materialize-bridge": "^0.17.0",
+    "aurelia-validation": "^0.12.5",
     "bluebird": "^3.4.1"
   },
   "peerDependencies": {},
   "devDependencies": {
     "aurelia-cli": "^0.18.0",
+    "aurelia-event-aggregator": "^1.0.0",
     "aurelia-testing": "^1.0.0-beta.2.0.0",
     "aurelia-tools": "^0.2.2",
     "babel-eslint": "^6.0.4",

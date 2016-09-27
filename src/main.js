@@ -1,4 +1,4 @@
-require('node_modules/babel-polyfill/dist/polyfill.js')
+require('node_modules/babel-polyfill/dist/polyfill.js');
 import environment from './environment';
 
 //Configure Bluebird Promises.
@@ -12,7 +12,8 @@ import environment from './environment';
 export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
-    .feature('resources');
+    .feature('resources')
+    .plugin('aurelia-materialize-bridge', b => b.useAll());
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

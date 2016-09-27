@@ -8,5 +8,8 @@
                 <button click.delegate="login()" class="btn btn-large waves-effect waves-light"><i class="material-icons left">input</i>Sign in</button>
             </div>
         </div>
+        <material-toast event="login:failed" duration="4000" class="rounded">
+  <p><i class="mdi-alert-error"></i> ${message}</p>
+</material-toast>
     </div>
 </template>
