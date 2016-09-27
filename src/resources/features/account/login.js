@@ -15,6 +15,7 @@ export class Login {
     this.lock = authService.getAuth0Lock();
     authService.authenticateViaAuth0(this.lock,
         function(authResult, profile) {
+          self.redirecting = true;
           self.userService.signIn(authResult.accessToken)
                 .then(authResponse => {
                   self.toast.info('Welcome to the Coolector!');

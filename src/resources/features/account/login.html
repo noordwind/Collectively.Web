@@ -5,11 +5,13 @@
                 <h3>Coolector</h3>
                 <img src="assets/images/noordwind.png" />
                 <div class="clear"></div>
-                <button click.delegate="login()" class="btn btn-large waves-effect waves-light"><i class="material-icons left">input</i>Sign in</button>
+                <button click.delegate="login()" class="btn btn-large waves-effect waves-light" if.bind="!redirecting"><i class="material-icons left" >input</i>Sign in</button>
+                <div if.bind="redirecting">
+                    <md-progress md-type="circular"></md-progress>
+                    <div class="clear"></div>
+                    <h4>Logging in...</h3>
+                </div>
             </div>
         </div>
-        <material-toast event="login:failed" duration="4000" class="rounded">
-  <p><i class="mdi-alert-error"></i> ${message}</p>
-</material-toast>
     </div>
 </template>
