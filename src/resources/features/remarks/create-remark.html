@@ -1,0 +1,37 @@
+<template>
+    <h2>Create remark</h2>
+    <form submit.delegate="sendRemark()">
+        <div class="row">
+            <div class="file-field input-field col s12">
+                <div class="btn">
+                    <span>Photo</span>
+                    <input type="file" class="btn" capture="camera" accept="image/*" id="file" name="file" files.bind="files"/>
+                </div>
+                <div class="file-path-wrapper">
+                    <input class="file-path validate" type="text">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <i class="material-icons prefix">mode_edit</i>
+                <textarea id="description" class="materialize-textarea" value.bind="remark.description"></textarea>
+                <label for="description">Description</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <i class="material-icons">my_location</i>
+                <span>${location.latitude}; ${location.longitude}</span>
+            </div>
+        </div>
+        <div class="row">
+             <div class="col s12">
+                <button class="btn waves-effect waves-light right" type="submit">Send
+                    <i class="material-icons right">send</i>
+                </button>
+            </div>
+        </div>
+    </form>
+  </div>
+</template>

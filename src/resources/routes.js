@@ -31,5 +31,15 @@ export default [
         reqLogin: true,
         icon: "view_list"
     }
+  },
+  {
+    route:    'remarks/create',
+    moduleId: `${modulePrefix}/remarks/create-remark`,
+    name:     'create-remark',
+    title:    'Create remark',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
   }
 ]
