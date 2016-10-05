@@ -33,6 +33,16 @@ export default [
     }
   },
   {
+    route:    'remarks/:id',
+    moduleId: `${modulePrefix}/remarks/remark`,
+    name:     'remark',
+    title:    'Remark',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
+  },
+  {
     route:    'remarks/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name:     'create-remark',

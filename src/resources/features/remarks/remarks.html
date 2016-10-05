@@ -1,7 +1,14 @@
 <template>
-    <h2>Remarks</h2>
+    <require from="resources/features/map/map"></require>
+    <h4>Remarks</h4>
+    <div class="section">
+        <map remarks.bind="remarks"></map>
+    </div>
     <div class="row">
-        <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+        <div class="col s12">
+            <button class="btn" click.delegate="browse()"><i class="material-icons left">replay</i>Refresh</button>
+        </div>
+        <div class="fixed-action-btn">
             <a class="btn btn-floating btn-large waves-effect" route-href="route: create-remark"><i class="large material-icons">add</i></a>
         </div>
     </div>
