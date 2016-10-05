@@ -1,37 +1,40 @@
 <template>
-    <h2>Create remark</h2>
-    <form submit.delegate="sendRemark()">
-        <div class="row">
-            <div class="file-field input-field col s12">
-                <div class="btn">
-                    <span>Photo</span>
-                    <input type="file" class="btn" capture="camera" accept="image/*" id="file" name="file" files.bind="files"/>
+    <h4>Create remark</h4>
+    </div>
+    <div class="section">
+        <form submit.delegate="sendRemark()">
+            <div class="row">
+                <div class="file-field input-field col s12">
+                    <div class="btn">
+                        <span>Photo</span>
+                        <input type="file" class="btn" capture="camera" accept="image/*" id="file" name="file" files.bind="files"/>
+                    </div>
+                    <div class="file-path-wrapper">
+                        <input class="file-path validate" type="text">
+                    </div>
                 </div>
-                <div class="file-path-wrapper">
-                    <input class="file-path validate" type="text">
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <i class="material-icons prefix">mode_edit</i>
+                    <textarea id="description" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
+                    <label for="description">Optional description</label>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="input-field col s12">
-                <i class="material-icons prefix">mode_edit</i>
-                <textarea id="description" class="materialize-textarea" value.bind="remark.description"></textarea>
-                <label for="description">Description</label>
+            <div class="row">
+                <div class="col s12">
+                    <i class="material-icons">my_location</i>
+                    <span>${location.latitude}; ${location.longitude}</span>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <i class="material-icons">my_location</i>
-                <span>${location.latitude}; ${location.longitude}</span>
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light right" type="submit" disabled.bind="isSending">Send
+                        <i class="material-icons right">send</i>
+                    </button>
+                </div>
             </div>
-        </div>
-        <div class="row">
-             <div class="col s12">
-                <button class="btn waves-effect waves-light right" type="submit">Send
-                    <i class="material-icons right">send</i>
-                </button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
   </div>
 </template>

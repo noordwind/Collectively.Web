@@ -2,9 +2,16 @@ $primary-color: #E40521;
 $primary-color-light: #FF1F3B;
 $primary-color-strong: #970214;
 $secondary-color: #009720;
+$light-color: #FFEBEE;
 
-body{
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+}
 
+main {
+    flex: 1 0 auto;
 }
 
 h1,h2,h3,h4{
@@ -42,3 +49,12 @@ nav{
 .spinner-layer {
    border-color: $primary-color;  
 }
+
+.progress {
+   background-color: $light-color; 
+   .indeterminate {
+     background-color: $primary-color;  
+   }
+}
+
+

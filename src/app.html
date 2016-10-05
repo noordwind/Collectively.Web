@@ -7,4 +7,7 @@
             <router-view></router-view>
         </div>
     </main>
+    <footer>
+        <md-progress md-value.bind="null" if.bind="loaderActive"></md-progress>
+    </footer>
 </template>
