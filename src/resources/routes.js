@@ -41,5 +41,16 @@ export default [
     settings: {
         reqLogin: true
     }
+  },
+  {
+    route:    'profile',
+    moduleId: `${modulePrefix}/account/profile`,
+    name:     'profile',
+    title:    'My profile',
+    nav:      'true',
+    settings: {
+        reqLogin: true,
+        icon: "account_box"
+    }
   }
 ]
