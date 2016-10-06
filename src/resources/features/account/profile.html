@@ -1,11 +1,13 @@
 <template>
     <h4>Profile</h4>
     <div class="row">
-        <div class="input-field left col s3">
+        <div class="input-field left col s12">
             <md-input md-value.bind="username" md-disabled.bind="!usernameEditEnabled"/>
             <label for="nickname">Name</label>           
         </div>
-        <div class="input-field col s1">
+    </div>
+    <div class="row">
+        <div class="input-field col s12">
             <button md-button if.bind="!usernameEditEnabled" click.trigger="enableUsernameEdit()">
                 <i class="material-icons">mode_edit</i>
             </button>          

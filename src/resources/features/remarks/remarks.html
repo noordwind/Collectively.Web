@@ -1,12 +1,24 @@
 <template>
     <require from="resources/features/map/map"></require>
-    <h4>Remarks</h4>
-    <div class="section">
+    <div class="row">
+        <div class="col s6">
+            <h4>Remarks</h4>
+        </div>
+        <div class="col s6">
+            <div class="section">
+                <div class="col s6">
+                    <button class="btn btn-floating waves-effect" click.delegate="browse()"><i class="material-icons left">loop</i></button>
+                </div>
+                <div class="col s6">
+                    <a route-href="route: filter-remarks" class="btn btn-floating waves-effect" click.delegate=""><i class="material-icons left">search</i></a>
+                </div>
+            </div>
+        </div>
+    </div>
         <map remarks.bind="remarks"></map>
     </div>
     <div class="row">
         <div class="col s12">
-            <button class="btn" click.delegate="browse()"><i class="material-icons left">replay</i>Refresh</button>
         </div>
         <div class="fixed-action-btn">
             <a class="btn btn-floating btn-large waves-effect" route-href="route: create-remark"><i class="large material-icons">add</i></a>

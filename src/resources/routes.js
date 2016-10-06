@@ -53,6 +53,16 @@ export default [
     }
   },
   {
+    route:    'remarks/filter',
+    moduleId: `${modulePrefix}/remarks/filter-remarks`,
+    name:     'filter-remarks',
+    title:    'Filter remarks',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
+  },
+  {
     route:    'profile',
     moduleId: `${modulePrefix}/account/profile`,
     name:     'profile',
