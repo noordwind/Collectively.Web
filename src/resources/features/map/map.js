@@ -29,7 +29,9 @@ export class Map {
         newValue.forEach(remark => {
             let position = {lat: remark.location.latitude, lng: remark.location.longitude};
             let url = this.router.generate('remark', {id: remark.id});
-            var content = `<a href="${url}">Details</a></br>${remark.description}`;
+            let description = remark.description && remark.description.length > 15 ? 
+                              `${remark.description.substring(0,15)}...` : remark.description;
+            var content = `<a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
             let infowindow = new google.maps.InfoWindow({
                 content: content
             });

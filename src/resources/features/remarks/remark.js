@@ -17,9 +17,6 @@ export class Remark {
     async activate(params, routeConfig){
         let id = params.id;
         let remark = await this.remarkService.getRemark(id);
-        // let photo = await this.remarkService.getPhoto(id);
-        // console.log(photo);
-
         this.author = remark.author;
         this.category = remark.category;
         this.description = remark.description;
