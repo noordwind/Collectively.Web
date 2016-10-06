@@ -12,10 +12,8 @@ export class Profile {
         this.usernameEditEnabled = false;
     }
 
-    async activate(){
-        let json = this.authService.profile;
-        let profile = JSON.parse(json);
-        let userProfile = await this.userService.getUser(profile.user_id);
+    async activate(){        
+        let userProfile = await this.userService.getAccount();
         this.username = userProfile.name;
     }
 

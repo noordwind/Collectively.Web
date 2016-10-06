@@ -1,3 +1,29 @@
 <template>
     <h4>Remark</h4>
+    <div class="section">
+        <div class="col s12">
+            <img src.bind="imageSource"/>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <label>Author</label>
+                <p textcontent.one-way="author.name"/>
+            </div>
+            <div class="col s12">
+                <label>Category</label>
+                <p textcontent.one-way="category.name"/>
+            </div>
+            <div class="col s12">
+                <label>Description</label>              
+                <p textcontent.one-way="description"/>
+            </div>
+            <div class="col s12">
+                <label>Location</label>
+                <p>${location.latitude}; ${location.longitude}</p>
+            </div>
+        </div>
+    </div>
 </template>
