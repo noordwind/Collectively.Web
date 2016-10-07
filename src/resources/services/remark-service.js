@@ -5,8 +5,8 @@ export default class RemarkService extends ApiBaseService {
         return await this.post('remarks', remark);
     }
 
-    async browse(){
-        return await this.get('remarks');
+    async browse(query){
+        return await this.get('remarks', query);
     }
 
     async getRemark(id){

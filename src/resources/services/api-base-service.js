@@ -16,7 +16,6 @@ export default class ApiBaseService {
               .withBaseUrl(environment.apiUrl)
               .withDefaults({
                   headers: {
-                      'content-type':     'application/json',
                       'Accept':           'application/json',
                       'X-Requested-With': 'Fetch'
                   }
@@ -25,18 +24,24 @@ export default class ApiBaseService {
       });
     }
 
-    async get(path) {
-        const response = await this.http.fetch(path, {headers: this.getHeaders()});
+    async get(path, params={}) {
+        let pathWithQuery = path;
+        if (Object.keys(params).length > 0) {
+            pathWithQuery = `${path}?${$.param(params)}`;
+        }
+        const response = await this.http.fetch(pathWithQuery, {headers: this.getHeaders()});
 
         return response.json();
     }
 
     async post(path, params) {
         let self = this;
+        var headers = this.getHeaders();
+        headers['Content-Type'] = 'application/json';
         const response = await this.http.fetch(path, {
             method: 'post',
             body:   json(params),
-            headers: this.getHeaders()
+            headers: headers
         });
         if(response.status >= 400) {
             self.toast.error("There was an error while executing the request.");
@@ -52,24 +57,26 @@ export default class ApiBaseService {
               if (!this.baseCorsResponseHeaderNames.includes(name)) {
                 headers[name] = value;
             }
-    }
-
-    return new Promise((resolve, reject) => {
-        if (Object.keys(headers).length > 0) {
-            resolve(headers);
-        } else {
-            reject(Error("Response 201 didn't contain any resource-related headers."));
         }
-    });
-    }
+
+        return new Promise((resolve, reject) => {
+            if (Object.keys(headers).length > 0) {
+                resolve(headers);
+            } else {
+                reject(Error("Response 201 didn't contain any resource-related headers."));
+            }
+        });
+        }
   }
 
   async put(path, params){
         let self = this;
+        var headers = this.getHeaders();
+        headers['Content-Type'] = 'application/json';
         const response = await this.http.fetch(path, {
             method:     'put',
             body:   json(params),
-            headers: this.getHeaders()
+            headers: headers
         });
 
         if(response.status >= 400) {

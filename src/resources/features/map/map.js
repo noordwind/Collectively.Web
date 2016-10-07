@@ -27,7 +27,9 @@ export class Map {
 
     remarksChanged(newValue){
         newValue.forEach(remark => {
-            let position = {lat: remark.location.latitude, lng: remark.location.longitude};
+            let longitude = remark.location.coordinates[0];
+            let latitude = remark.location.coordinates[1];
+            let position = {lng: longitude, lat: latitude};
             let url = this.router.generate('remark', {id: remark.id});
             let description = remark.description && remark.description.length > 15 ? 
                               `${remark.description.substring(0,15)}...` : remark.description;
