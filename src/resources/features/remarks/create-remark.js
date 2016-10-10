@@ -19,11 +19,18 @@ export class CreateRemark {
     }
 
     async activate(){
+        this.categories = await this.remarkService.getCategories();
+        this.setCategory(this.categories[0]);
         let location = await this.locationService.getLocation(location => {
             this.location = location.coords;
             this.remark.latitude = location.coords.latitude;
             this.remark.longitude = location.coords.longitude;
         });
+    }
+
+    setCategory(category){
+        this.category = category;
+        this.remark.categoryId = category.id;
     }
 
     async sendRemark(){
