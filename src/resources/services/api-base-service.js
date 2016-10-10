@@ -104,6 +104,41 @@ export default class ApiBaseService {
         }        
     }
 
+    async delete(path, params){
+        let self = this;
+        var headers = this.getHeaders();
+        headers['Content-Type'] = 'application/json';
+        const response = await this.http.fetch(path, {
+            method:     'delete',
+            body:   json(params),
+            headers: headers
+        });
+
+        if(response.status >= 400) {
+            self.toast.error("There was an error while executing the request.");
+        }
+        if(response.status === 200) {
+          return response;
+        }
+        if (response.status !== 201) {
+            return response.json();
+        } else {
+            const headers = {};
+            for (let [name, value] of response.headers) {
+              if (!this.baseCorsResponseHeaderNames.includes(name)) {
+                headers[name] = value;
+                }
+            }
+            return new Promise((resolve, reject) => {
+                if (Object.keys(headers).length > 0) {
+                    resolve(headers);
+                } else {
+                    reject(Error("Response 201 didn't contain any resource-related headers."));
+                }
+            });
+        }        
+    }
+
   getHeaders(){
     return {"Authorization": `Bearer ${this.authService.idToken}`};
   }
