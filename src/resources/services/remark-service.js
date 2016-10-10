@@ -9,6 +9,10 @@ export default class RemarkService extends ApiBaseService {
         return await this.get('remarks', query);
     }
 
+    async getCategories(){
+        return await this.get('remarks/categories');
+    }
+
     async getRemark(id){
         return await this.get(`remarks/${id}`);
     }
