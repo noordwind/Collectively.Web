@@ -21,11 +21,12 @@ export class Remarks {
             radius: this.radius
         };
         this.remarks = [];
+        this.mapLoadedSubscription = null;
     }
 
     async activate(){
-        this.loader.display();
-        await this.eventAggregator.subscribe('map:loaded', async response => {
+        this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', async response => {
+            this.loader.display();
             this.toast.info("Fetching the remarks...");
             this.locationService.getLocation(async location => {
                 this.location = location.coords;
@@ -35,7 +36,11 @@ export class Remarks {
                 this.loader.hide();
                 this.toast.info("Remarks have been fetched.");
             });
-        })
+        });
+    }
+
+    detached() {
+        this.mapLoadedSubscription.dispose();
     }
 
     async browse(){
