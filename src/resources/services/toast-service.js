@@ -8,31 +8,31 @@ export default class ToastService {
     this.defaultTime = 4000;
   }
 
-  log(message) {
-    this._display(message);
+  async log(message) {
+    await this._display(message);
   }
 
-  info(message) {
-    this._display(message, 'blue');
+  async info(message) {
+    await this._display(message, 'blue');
   }
 
-  error(message) {
-    this._display(message, 'red');
+  async error(message) {
+    await this._display(message, 'red');
   }
 
-  warn(message) {
-    this._display(message, 'yellow');
+  async warn(message) {
+    await this._display(message, 'yellow');
   }
 
-  success(message) {
-    this._display(message, 'green');
+  async success(message) {
+    await this._display(message, 'green');
   }
 
-  _display(message, color, time) {
+  async _display(message, color, time) {
     if (typeof time === 'undefined') {
       time = this.defaultTime;
     }
 
-    this.toast.show(message, time, color);
+    await this.toast.show(message, time, color);
   }
 }

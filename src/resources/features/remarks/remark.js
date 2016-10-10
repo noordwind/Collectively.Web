@@ -3,17 +3,25 @@ import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
+import AuthService from 'resources/services/auth-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import environment from '../../../environment';
 
-@inject(Router, LocationService, RemarkService, ToastService, EventAggregator)
+@inject(Router, LocationService, RemarkService, ToastService, AuthService, EventAggregator)
 export class Remark {
-    constructor(router, locationService, remarkService, toastService, eventAggregator) {
+    constructor(router, locationService, remarkService, toastService, authService, eventAggregator) {
         this.router = router;
         this.locationService = locationService;
         this.remarkService = remarkService;
         this.toast = toastService;
+        this.authService = authService;
         this.eventAggregator = eventAggregator;
+    }
+
+    get canDelete(){
+        let profile = JSON.parse(this.authService.profile);
+
+        return profile.user_id === this.author.userId;
     }
 
     async activate(params, routeConfig){
@@ -27,6 +35,14 @@ export class Remark {
     }
 
     async delete(){
+        if(this.canDelete == false)
+        {
+            await this.toast.error("I'm sorry. You are not allowed to delete remark!")
+            return;    
+        }
+
         await this.remarkService.deleteRemark(this.id);
+        await this.toast.success('Delete request was sent, please wait...');
+        this.router.navigate("remarks");
     }
 }
