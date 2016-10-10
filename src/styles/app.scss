@@ -50,6 +50,14 @@ nav{
    border-color: $primary-color;  
 }
 
+input[type=range]+.thumb{
+    background-color: $primary-color;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: $primary-color;
+}
+
 .progress {
    background-color: $light-color; 
    .indeterminate {

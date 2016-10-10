@@ -1,23 +1,26 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
-import RemarkService from 'resources/services/remark-service';
+import FiltersService from 'resources/services/filters-service';
 import ToastService from 'resources/services/toast-service';
-import LoaderService from 'resources/services/loader-service';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService)
+@inject(Router, LocationService, FiltersService, ToastService)
 export class FilterRemarks {
-    constructor(router, locationService, remarkService, toast, loader) {
+    constructor(router, locationService, filtersService, toast) {
         this.router = router;
         this.locationService = locationService;
-        this.remarkService = remarkService;
+        this.filtersService = filtersService;
         this.toast = toast;
-        this.loader = loader;
+        this.filters = this.filtersService.filters;
     }
 
-    async activate(){
+    resetFilters(){
+        this.filters = this.filtersService.defaultFilters;
+        this.filtersService.filters = this.filters;
     }
 
-    async filterRemarks(){
+    filterRemarks(){
+        this.filtersService.filters = this.filters;
+        this.router.navigate('remarks');
     }
 }

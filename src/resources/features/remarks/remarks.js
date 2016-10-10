@@ -2,16 +2,18 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
+import FiltersService from 'resources/services/filters-service';
 import LoaderService from 'resources/services/loader-service';
 import ToastService from 'resources/services/toast-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, RemarkService, LoaderService, ToastService, EventAggregator)
+@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService, EventAggregator)
 export class Remarks {
-    constructor(router, locationService, remarkService, loader, toast, eventAggregator) {
+    constructor(router, locationService, remarkService, filtersService, loader, toast, eventAggregator) {
         this.router = router;
         this.locationService = locationService;
         this.remarkService = remarkService;
+        this.filtersService = filtersService;
         this.loader = loader;
         this.toast = toast;
         this.eventAggregator = eventAggregator;
@@ -22,6 +24,7 @@ export class Remarks {
         };
         this.remarks = [];
         this.mapLoadedSubscription = null;
+        this.filters = this.filtersService.filters;
     }
 
     async activate(){
@@ -44,6 +47,8 @@ export class Remarks {
     }
 
     async browse(){
+        this.query.results = this.filters.results;
+        this.query.radius = this.filters.radius;
         this.remarks = await this.remarkService.browse(this.query);
     }
 }
