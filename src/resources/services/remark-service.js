@@ -20,4 +20,8 @@ export default class RemarkService extends ApiBaseService {
     async getPhoto(id){
         return await this.get(`remarks/${id}/photo`);
     }
+
+    async deleteRemark(id){
+        return await this.delete('remarks', {remarkId : id});
+    }
 }
