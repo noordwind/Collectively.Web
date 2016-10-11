@@ -30,14 +30,14 @@ export class Remarks {
     async activate(){
         this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', async response => {
             this.loader.display();
-            this.toast.info("Fetching the remarks...");
+            await this.toast.info("Fetching the remarks...");
             this.locationService.getLocation(async location => {
                 this.location = location.coords;
                 this.query.longitude = this.location.longitude;
                 this.query.latitude = this.location.latitude;
                 await this.browse();
                 this.loader.hide();
-                this.toast.info("Remarks have been fetched.");
+                await this.toast.success("Remarks have been fetched.");
             });
         });
     }
