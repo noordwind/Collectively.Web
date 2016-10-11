@@ -30,10 +30,11 @@ export class Map {
             let longitude = remark.location.coordinates[0];
             let latitude = remark.location.coordinates[1];
             let position = {lng: longitude, lat: latitude};
+            let category = remark.category.name;
             let url = this.router.generate('remark', {id: remark.id});
             let description = remark.description && remark.description.length > 15 ? 
                               `${remark.description.substring(0,15)}...` : remark.description;
-            var content = `<a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
+            var content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
             let infowindow = new google.maps.InfoWindow({
                 content: content
             });

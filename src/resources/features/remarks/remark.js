@@ -16,6 +16,7 @@ export class Remark {
         this.toast = toastService;
         this.authService = authService;
         this.eventAggregator = eventAggregator;
+        this.isDeleting = false;
     }
 
     get canDelete(){
@@ -40,9 +41,10 @@ export class Remark {
             await this.toast.error("I'm sorry. You are not allowed to delete remark!")
             return;    
         }
-
+        this.isDeleting = true;
         await this.remarkService.deleteRemark(this.id);
         await this.toast.success('Delete request was sent, please wait...');
+        this.isDeleting = false;
         this.router.navigate("remarks");
     }
 }
