@@ -72,5 +72,15 @@ export default [
         reqLogin: true,
         icon: "account_box"
     }
+  },
+  {
+    route:    'users/:name/remarks',
+    moduleId: `${modulePrefix}/remarks/user-remarks`,
+    name:     'user-remarks',
+    title:    'Remarks',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
   }
 ]

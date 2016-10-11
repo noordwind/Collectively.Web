@@ -9,6 +9,10 @@ export default class UserService extends ApiBaseService {
         return await this.get(`account`);
     }
 
+    async getAccountByName(name){
+        return await this.get(`${name}/account`);
+    }
+
     async changeUsername(name){
         return await this.put('account/username', { name });
     }
