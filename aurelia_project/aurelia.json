@@ -149,6 +149,11 @@
             "main": "fetch"
           },
           {
+            "name": "moment",
+            "path": "../node_modules/moment",
+            "main": "moment"
+          },
+          {
           "name": "aurelia-materialize-bridge",
           "path": "../node_modules/aurelia-materialize-bridge/dist/amd",
           "main": "index",

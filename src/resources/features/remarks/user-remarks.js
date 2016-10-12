@@ -22,17 +22,17 @@ export class UserRemarks {
     async activate(params) {
         let name = params.name;
         let user = await this.userService.getAccountByName(name);
+        this.user = user;
         this.query.authorId = user.userId;
         await this.browse();
     }
 
     async browse(){
         let remarks = await this.remarkService.browse(this.query);
-        remarks.forEach(function(element) {
-            element.url = this.router.generate("remark", {id : element.id});
+        remarks.forEach(function(remark) {
+            remark.description = "aaaaaaaaa reeeeeeeee bbbbbbbbbbbb cccccccccc";
+            remark.url = this.router.generate("remark", {id : remark.id});
         }, this);
-
         this.remarks = remarks;
-        console.log(this.remarks);
     }
 }

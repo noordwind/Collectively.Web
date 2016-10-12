@@ -10,7 +10,6 @@ export class Home {
     }
 
     async activate(){
-        let user = await this.userService.getAccount();
-        this.userRemarksUrl = this.router.generate("user-remarks", {name : user.name});
+        this.user = await this.userService.getAccount();
     }
 }

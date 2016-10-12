@@ -8,12 +8,17 @@
     </div>
     <div class="row">
         <div class="input-field col s12">
-            <button md-button if.bind="!usernameEditEnabled" click.trigger="enableUsernameEdit()">
-                <i class="material-icons">mode_edit</i>
+            <button class="btn waves-effect waves-light btn-large" md-button if.bind="!usernameEditEnabled" click.trigger="enableUsernameEdit()">
+                <i class="material-icons left">mode_edit</i> Edit my name
             </button>          
-            <button md-button if.bind="usernameEditEnabled" click.trigger="saveUsername()">
-                <i class="material-icons">save</i>
+            <button class="btn waves-effect waves-light btn-large" md-button if.bind="usernameEditEnabled" click.trigger="saveUsername()">
+                <i class="material-icons left">save</i> Save name
             </button>
         </div>
+    </div>
+    <div class="section">
+        <a route-href="route: user-remarks; params.bind: {name : username}" class="btn waves-effect waves-light btn-large">
+            <i class="material-icons left">view_list</i>List remarks
+        </a>
     </div>
 </template>

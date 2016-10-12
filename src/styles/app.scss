@@ -3,6 +3,7 @@ $primary-color-light: #FF1F3B;
 $primary-color-strong: #970214;
 $secondary-color: #009720;
 $light-color: #FFEBEE;
+$mobile-width: 992px;
 
 body {
     display: flex;
@@ -20,6 +21,10 @@ h1,h2,h3,h4{
 
 nav{
     background-color: $primary-color
+}
+
+i.primary-color{
+    color: $primary-color
 }
 
 .side-nav a {
@@ -66,7 +71,22 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 #map {
-    height: 400px;
+    height: 500px;
     width: 100%;
 }
 
+md-collection-item.collection-item:not(.active):hover {
+    background-color: $light-color;
+}
+
+@media screen and (max-width: $mobile-width) {
+    .btn:not(.btn-floating) {
+        width: 100%;
+    }
+}
+
+@media screen and (max-height: 700px) {
+    #map {
+        height: 300px;
+    }
+}
