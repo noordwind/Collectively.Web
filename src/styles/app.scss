@@ -75,7 +75,7 @@ input[type=range]::-webkit-slider-thumb {
     width: 100%;
 }
 
-md-collection-item.collection-item:not(.active):hover {
+.collection-item:not(.active):hover {
     background-color: $light-color;
 }
 

@@ -30,7 +30,6 @@ export class UserRemarks {
     async browse(){
         let remarks = await this.remarkService.browse(this.query);
         remarks.forEach(function(remark) {
-            remark.description = "aaaaaaaaa reeeeeeeee bbbbbbbbbbbb cccccccccc";
             remark.url = this.router.generate("remark", {id : remark.id});
         }, this);
         this.remarks = remarks;

@@ -21,7 +21,7 @@ export default class ApiBaseService {
                   }
               });
         this.baseCorsResponseHeaderNames = ['cache-control', 'content-type'];
-      });
+      })
     }
 
     async get(path, params={}) {
@@ -59,13 +59,13 @@ export default class ApiBaseService {
             }
         }
 
-        return new Promise((resolve, reject) => {
-            if (Object.keys(headers).length > 0) {
-                resolve(headers);
-            } else {
-                reject(Error("Response 201 didn't contain any resource-related headers."));
-            }
-        });
+            return new Promise((resolve, reject) => {
+                if (Object.keys(headers).length > 0) {
+                    resolve(headers);
+                } else {
+                    reject(Error("Response 201 didn't contain any resource-related headers."));
+                }
+            });
         }
   }
 
@@ -107,10 +107,8 @@ export default class ApiBaseService {
     async delete(path, params){
         let self = this;
         var headers = this.getHeaders();
-        headers['Content-Type'] = 'application/json';
         const response = await this.http.fetch(path, {
             method:     'delete',
-            body:   json(params),
             headers: headers
         });
 

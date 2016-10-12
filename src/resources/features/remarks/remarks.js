@@ -9,18 +9,23 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService, EventAggregator)
 export class Remarks {
-    constructor(router, locationService, remarkService, filtersService, loader, toast, eventAggregator) {
+    constructor(router, location, remarkService, filtersService, loader, toast, eventAggregator) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = location;
         this.remarkService = remarkService;
         this.filtersService = filtersService;
         this.loader = loader;
         this.toast = toast;
         this.eventAggregator = eventAggregator;
         this.radius = 1000;
-        this.location = {};
+
+        //Temporary workaround, issue with API number formats.
+        var longitude = Math.round(this.location.current.longitude);
+        var latitude = Math.round(this.location.current.latitude);
         this.query = {
-            radius: this.radius
+            radius: this.radius,
+            longitude: longitude,
+            latitude: latitude
         };
         this.remarks = [];
         this.mapLoadedSubscription = null;
@@ -31,14 +36,9 @@ export class Remarks {
         this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', async response => {
             this.loader.display();
             await this.toast.info("Fetching the remarks...");
-            this.locationService.getLocation(async location => {
-                this.location = location.coords;
-                this.query.longitude = this.location.longitude;
-                this.query.latitude = this.location.latitude;
-                await this.browse();
-                this.loader.hide();
-                await this.toast.success("Remarks have been fetched.");
-            });
+            await this.browse();
+            this.loader.hide();
+            await this.toast.success("Remarks have been fetched.");
         });
     }
 

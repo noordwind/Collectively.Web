@@ -7,9 +7,9 @@ import LoaderService from 'resources/services/loader-service';
 
 @inject(Router, LocationService, RemarkService, ToastService, LoaderService)
 export class CreateRemark {
-    constructor(router, locationService, remarkService, toast, loader) {
+    constructor(router, location, remarkService, toast, loader) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = location;
         this.remarkService = remarkService;
         this.toast = toast;
         this.loader = loader;
@@ -21,11 +21,8 @@ export class CreateRemark {
     async activate(){
         this.categories = await this.remarkService.getCategories();
         this.setCategory(this.categories[0]);
-        let location = await this.locationService.getLocation(location => {
-            this.location = location.coords;
-            this.remark.latitude = location.coords.latitude;
-            this.remark.longitude = location.coords.longitude;
-        });
+        this.remark.latitude = this.location.current.latitude;
+        this.remark.longitude = this.location.current.longitude;
     }
 
     setCategory(category){

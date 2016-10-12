@@ -22,6 +22,6 @@ export default class RemarkService extends ApiBaseService {
     }
 
     async deleteRemark(id){
-        return await this.delete('remarks', {remarkId : id});
+        return await this.delete(`remarks/${id}`);
     }
 }
