@@ -17,10 +17,13 @@ export class Home {
         this.eventAggregator = eventAggregator;
     }
 
+    async activate(){
+        this.user = await this.userService.getAccount();
+    }
+
     async attached(){
         var hasLocation = this.location.current !== null;
         if(hasLocation){
-            await this.loadUser();
             return;
         }
         this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded', async response => {
@@ -29,15 +32,10 @@ export class Home {
         });
         this.loader.display();
         await this.toast.info("Getting the current location...");
-        await this.loadUser();
     }
 
-    async loadUser(){
-        this.user = await this.userService.getAccount();
-    }
-
-    detached(){
-        if(this.locationLoadedSubscription === null)
+    async detached(){
+        if(this.locationLoadedSubscription === null || typeof this.locationLoadedSubscription === 'undefined')
             return;
 
         this.locationLoadedSubscription.dispose();

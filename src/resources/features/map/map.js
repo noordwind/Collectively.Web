@@ -17,7 +17,6 @@ export class Map {
     }
 
     attached() {
-        console.log("a");
         this.position = {lat: this.location.current.latitude, lng: this.location.current.longitude};
         this.map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,

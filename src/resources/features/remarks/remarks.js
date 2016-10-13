@@ -27,7 +27,7 @@ export class Remarks {
         this.mapLoadedSubscription = null;
     }
 
-    async activate(){
+    async attached(){
         this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', async response => {
             this.loader.display();
             await this.toast.info("Fetching the remarks...");

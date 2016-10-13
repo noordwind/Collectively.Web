@@ -66,7 +66,7 @@ export default [
     route:    'profile',
     moduleId: `${modulePrefix}/account/profile`,
     name:     'profile',
-    title:    'My profile',
+    title:    'My account',
     nav:      'true',
     settings: {
         reqLogin: true,
