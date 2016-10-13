@@ -17,16 +17,14 @@ export class Remarks {
         this.loader = loader;
         this.toast = toast;
         this.eventAggregator = eventAggregator;
-        this.radius = 1000;
-
+        this.filters = this.filtersService.filters;
         this.query = {
-            radius: this.radius,
+            radius: this.filters.radius,
             longitude: this.location.current.longitude,
             latitude: this.location.current.latitude
         };
         this.remarks = [];
         this.mapLoadedSubscription = null;
-        this.filters = this.filtersService.filters;
     }
 
     async activate(){
