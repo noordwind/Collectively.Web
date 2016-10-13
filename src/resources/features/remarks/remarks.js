@@ -19,13 +19,10 @@ export class Remarks {
         this.eventAggregator = eventAggregator;
         this.radius = 1000;
 
-        //Temporary workaround, issue with API number formats.
-        var longitude = Math.round(this.location.current.longitude);
-        var latitude = Math.round(this.location.current.latitude);
         this.query = {
             radius: this.radius,
-            longitude: longitude,
-            latitude: latitude
+            longitude: this.location.current.longitude,
+            latitude: this.location.current.latitude
         };
         this.remarks = [];
         this.mapLoadedSubscription = null;
