@@ -10,7 +10,7 @@ export default class FiltersService{
 
     get defaultFilters(){
         return {
-                radius: 1000,
+                radius: 200,
                 results: 100
             };
     }

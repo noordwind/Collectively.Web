@@ -1,8 +1,14 @@
+import {inject} from 'aurelia-framework';
 import ApiBaseService from 'resources/services/api-base-service';
 import environment from '../../environment';
+import {EventAggregator} from 'aurelia-event-aggregator';
 
+
+@inject(EventAggregator)
 export default class LocationService {
-    constructor(){
+    constructor(eventAggregator){
+        this.eventAggregator = eventAggregator;
+        this.locationLoadedSubscription = null;
         var self = this;
         this.getLocation(function(location){
             self.current = {
@@ -10,6 +16,7 @@ export default class LocationService {
                 latitude: location.coords.latitude,
                 accuracy: location.coords.accuracy
             };
+            self.eventAggregator.publish('location:loaded');
         });
     }
 
