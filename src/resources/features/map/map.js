@@ -1,28 +1,30 @@
 import {inject, bindable} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
+import FiltersService from 'resources/services/filters-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, EventAggregator)
+@inject(Router, LocationService, FiltersService, EventAggregator, )
 export class Map {
     @bindable remarks = [];
 
-    constructor(router, locationService, eventAggregator) {
+    constructor(router, location, filters, eventAggregator) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = location;
+        this.filters = filters;
         this.eventAggregator = eventAggregator;
         this.map = null;
     }
 
     attached() {
-        let location = this.locationService.getLocation(location => {
-            let position = {lat: location.coords.latitude, lng: location.coords.longitude};
-            this.map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: position
-            });
-            this.eventAggregator.publish('map:loaded');
+        console.log("a");
+        this.position = {lat: this.location.current.latitude, lng: this.location.current.longitude};
+        this.map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: this.position
         });
+        this.drawRadius();
+        this.eventAggregator.publish('map:loaded');
     }
 
     remarksChanged(newValue){
@@ -46,6 +48,19 @@ export class Map {
             marker.addListener('click', function() {
                 infowindow.open(map, marker);
             });
+        });
+    }
+
+    drawRadius(){
+        var circle = new google.maps.Circle({
+            strokeColor: '#E40521',
+            strokeOpacity: 0.8,
+            strokeWeight: 2,
+            fillColor: '#FF1F3B',
+            fillOpacity: 0.3,
+            map: this.map,
+            center: this.position,
+            radius: parseFloat(this.filters.filters.radius)
         });
     }
 }
