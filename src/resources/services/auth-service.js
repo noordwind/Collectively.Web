@@ -7,11 +7,21 @@ export default class AuthService {
     }
 
     get idToken() {
-        return localStorage.getItem(this.environment.idTokenStorageKey);
+        let tokenObject = JSON.parse(localStorage.getItem(this.environment.idTokenStorageKey));
+        if(tokenObject && new Date(tokenObject.expires) > new Date())
+            return tokenObject.token;
+
+        return null;
     }
 
     set idToken(newToken) {
-        localStorage.setItem(this.environment.idTokenStorageKey, newToken);
+        let expireDate = new Date();
+        expireDate.setSeconds(expireDate.getSeconds() + this.environment.auth0.jwtExpiration);
+        let tokenObject = {
+            "token":newToken, 
+            "expires":expireDate
+        };
+        localStorage.setItem(this.environment.idTokenStorageKey, JSON.stringify(tokenObject));
     }
 
     removeIdToken() {
