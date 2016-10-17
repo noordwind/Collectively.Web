@@ -15,6 +15,7 @@ export class Map {
     this.eventAggregator = eventAggregator;
     this.map = null;
     this.radius = null;
+    this.defaultRemarkMarkerColor = '9F6807';
   }
 
   attached() {
@@ -48,12 +49,25 @@ export class Map {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
     let category = remark.category.name;
-    let color = remark.resolved ? '009720' : 'E40521';
+    let color = this.getRemarMarkerkColor(remark);
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
     this.drawMarker(longitude, latitude, 'Details', content, color);
+  }
+
+  getRemarMarkerkColor(remark) {
+    if (remark.resolved) {
+      return '009720';
+    }
+
+    switch (remark.category.name) {
+    case 'accidents': return 'FBF514';
+    case 'damages': return 'E40521';
+    case 'litter': return '9F6807';
+    default: return this.defaultRemarkMarkerColor;
+    }
   }
 
   drawMarker(longitude, latitude, title, content, color) {
@@ -75,10 +89,10 @@ export class Map {
 
   drawRadius() {
     this.radius = new google.maps.Circle({
-      strokeColor: '#E40521',
+      strokeColor: '#308AF1',
       strokeOpacity: 0.8,
       strokeWeight: 2,
-      fillColor: '#FF1F3B',
+      fillColor: '#308AF1',
       fillOpacity: 0.3,
       map: this.map,
       center: this.position,
