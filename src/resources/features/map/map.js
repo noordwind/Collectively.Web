@@ -8,58 +8,81 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 export class Map {
     @bindable remarks = [];
 
-    constructor(router, location, filters, eventAggregator) {
-        this.router = router;
-        this.location = location;
-        this.filters = filters;
-        this.eventAggregator = eventAggregator;
-        this.map = null;
-    }
+  constructor(router, location, filters, eventAggregator) {
+    this.router = router;
+    this.location = location;
+    this.filters = filters;
+    this.eventAggregator = eventAggregator;
+    this.map = null;
+    this.radius = null;
+  }
 
-    attached() {
-        this.position = {lat: this.location.current.latitude, lng: this.location.current.longitude};
-        this.map = new google.maps.Map(document.getElementById('map'), {
-            zoom: 15,
-            center: this.position
-        });
-        this.drawRadius();
-        this.eventAggregator.publish('map:loaded');
-    }
+  attached() {
+    let longitude = this.location.current.longitude;
+    let latitude = this.location.current.latitude;
+    this.position = {lat: latitude, lng: longitude};
+    this.drawMap();
+    this.drawUserMarker();
+    this.drawRadius();
+    this.eventAggregator.publish('map:loaded');
+  }
 
-    remarksChanged(newValue){
-        newValue.forEach(remark => {
-            let longitude = remark.location.coordinates[0];
-            let latitude = remark.location.coordinates[1];
-            let position = {lng: longitude, lat: latitude};
-            let category = remark.category.name;
-            let url = this.router.generate('remark', {id: remark.id});
-            let description = remark.description && remark.description.length > 15 ? 
-                              `${remark.description.substring(0,15)}...` : remark.description;
-            var content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
-            let infowindow = new google.maps.InfoWindow({
-                content: content
-            });
-            let marker = new google.maps.Marker({
-                position: position,
-                title: "Details",
-                map: this.map
-            });
-            marker.addListener('click', function() {
-                infowindow.open(map, marker);
-            });
-        });
-    }
+  remarksChanged(newValue) {
+    newValue.forEach(remark => this.drawRemarkMarker(remark));
+  }
 
-    drawRadius(){
-        var circle = new google.maps.Circle({
-            strokeColor: '#E40521',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#FF1F3B',
-            fillOpacity: 0.3,
-            map: this.map,
-            center: this.position,
-            radius: parseFloat(this.filters.filters.radius)
-        });
-    }
+  drawMap() {
+    this.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 15,
+      center: this.position
+    });
+  }
+
+  drawUserMarker() {
+    let latitude = this.position.lat;
+    let longitude = this.position.lng;
+    this.drawMarker(longitude, latitude, 'User', 'Hey, you are here!', 'FFEBEE');
+  }
+
+  drawRemarkMarker(remark) {
+    let longitude = remark.location.coordinates[0];
+    let latitude = remark.location.coordinates[1];
+    let category = remark.category.name;
+    let color = remark.resolved ? '009720' : 'E40521';
+    let url = this.router.generate('remark', {id: remark.id});
+    let description = remark.description ? remark.description : '';
+    description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
+    let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
+    this.drawMarker(longitude, latitude, 'Details', content, color);
+  }
+
+  drawMarker(longitude, latitude, title, content, color) {
+    let icon = new google.maps.MarkerImage(`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`);
+    let position = {lng: longitude, lat: latitude};
+    let infowindow = new google.maps.InfoWindow({
+      content: content
+    });
+    let marker = new google.maps.Marker({
+      position: position,
+      title: title,
+      map: this.map,
+      icon: icon
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+  }
+
+  drawRadius() {
+    this.radius = new google.maps.Circle({
+      strokeColor: '#E40521',
+      strokeOpacity: 0.8,
+      strokeWeight: 2,
+      fillColor: '#FF1F3B',
+      fillOpacity: 0.3,
+      map: this.map,
+      center: this.position,
+      radius: parseFloat(this.filters.filters.radius)
+    });
+  }
 }
