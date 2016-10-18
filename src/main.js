@@ -13,7 +13,18 @@ export function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature('resources')
-    .plugin('aurelia-materialize-bridge', b => b.useAll());
+    .plugin('aurelia-materialize-bridge', bridge => {
+      bridge.useAutoComplete()
+            .useButton()
+            .useCheckbox()
+            .useFile()
+            .useInput()
+            .useModal()
+            .useProgress()
+            .useRadio()
+            .useRange()
+            .useSelect();
+    });
 
   if (environment.debug) {
     aurelia.use.developmentLogging();
