@@ -41,6 +41,7 @@ export class Remark {
         this.location = this.remark.location;
         this.imageSource = `${environment.apiUrl}remarks/${this.id}/photo`;
         this.resolveUrl = this.router.generate("resolve-remark", {id : this.remark.id});
+        this.state = this.remark.resolved ? "resolved" : "new";
     }
 
     async delete(){
