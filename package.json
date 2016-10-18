@@ -11,7 +11,7 @@
     "aurelia-animator-css": "^1.0.0",
     "aurelia-bootstrapper": "^1.0.0",
     "aurelia-fetch-client": "^1.0.0",
-    "aurelia-materialize-bridge": "^0.17.0",
+    "aurelia-materialize-bridge": "^0.17.1",
     "aurelia-validation": "^0.12.5",
     "bluebird": "^3.4.1"
   },
