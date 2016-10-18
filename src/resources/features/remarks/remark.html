@@ -26,6 +26,15 @@
             </div>
         </div>
     </div>
+    <div if.bind="canResolve">
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <a href.bind="resolveUrl" class="btn waves-effect waves-light btn-large">Resolve</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <div if.bind="canDelete">
         <div class="divider"></div>
         <div class="section">

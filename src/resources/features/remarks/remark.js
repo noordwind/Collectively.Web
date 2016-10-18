@@ -18,6 +18,7 @@ export class Remark {
         this.loader = loader;
         this.authService = authService;
         this.eventAggregator = eventAggregator;
+        this.remark = {};
         this.isDeleting = false;
     }
 
@@ -27,14 +28,19 @@ export class Remark {
         return profile.user_id === this.author.userId;
     }
 
+    get canResolve(){
+        return this.remark.resolved == false;
+    }
+
     async activate(params, routeConfig){
         this.id = params.id;
-        let remark = await this.remarkService.getRemark(this.id);
-        this.author = remark.author;
-        this.category = remark.category;
-        this.description = remark.description;
-        this.location = remark.location;
+        this.remark = await this.remarkService.getRemark(this.id);
+        this.author = this.remark.author;
+        this.category = this.remark.category;
+        this.description = this.remark.description;
+        this.location = this.remark.location;
         this.imageSource = `${environment.apiUrl}remarks/${this.id}/photo`;
+        this.resolveUrl = this.router.generate("resolve-remark", {id : this.remark.id});
     }
 
     async delete(){
