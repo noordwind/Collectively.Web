@@ -6,13 +6,21 @@
     <div class="section">
         <md-collection>
             <md-collection-item class="avatar" repeat.for="remark of remarks">
-                <img src="../../../assets/images/icon_info.png" alt="" class="circle" />
-                <span class="title">${remark.category.name}</span></p>
-                <p>${remark.description | truncate}<br>
-                   ${remark.createdAt | dateFormat}
-                </p>
-                <div class="secondary-content">
-                    <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
+                <div class="row">
+                    <div class="col s3">
+                        <img src="../../../assets/images/icon_info.png" alt="" class="circle responsive-img" />
+                    </div>
+                    <div class="col s8">
+                        <span class="title">${remark.category.name}</span></p>
+                        <p>${remark.description | truncate}<br>
+                            ${remark.createdAt | dateFormat}
+                        </p>
+                    </div>
+                    <div class="col s1">
+                        <div class="secondary-content">
+                            <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
+                        </div>
+                    </div>
                 </div>
             </md-collection-item>
         </md-collection>
