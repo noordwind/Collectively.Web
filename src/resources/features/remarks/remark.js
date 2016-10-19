@@ -20,6 +20,7 @@ export class Remark {
         this.eventAggregator = eventAggregator;
         this.remark = {};
         this.isDeleting = false;
+        this.isInRange = false;
     }
 
     get canDelete(){
@@ -29,7 +30,7 @@ export class Remark {
     }
 
     get canResolve(){
-        return this.remark.resolved == false;
+        return this.remark.resolved == false && this.isInRange;
     }
 
     async activate(params, routeConfig){
@@ -42,6 +43,10 @@ export class Remark {
         this.imageSource = `${environment.apiUrl}remarks/${this.id}/photo`;
         this.resolveUrl = this.router.generate("resolve-remark", {id : this.remark.id});
         this.state = this.remark.resolved ? "resolved" : "new";
+        this.isInRange = this.locationService.isInRange({
+            "latitude" : this.location.coordinates[1], 
+            "longitude" : this.location.coordinates[0]
+        });
     }
 
     async delete(){
