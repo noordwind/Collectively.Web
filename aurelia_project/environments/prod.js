@@ -2,7 +2,7 @@ export default {
   debug: false,
   testing: false,
   title: 'Coolector',
-  apiUrl: 'https://coolector.tk:5000/',
+  apiUrl: 'https://coolector.tk:8080/',
   idTokenStorageKey: 'idToken',
   accessTokenStorageKey: 'accessToken',
   profileStorageKey: 'profile',
