@@ -10,4 +10,4 @@ RUN ["npm", "rebuild", "node-sass"]
 
 EXPOSE 9000/tcp
  
-ENTRYPOINT ["start.sh", $APP_ENV]
+ENTRYPOINT ["./start.sh", $APP_ENV]
