@@ -2,7 +2,7 @@ export default {
   debug: true,
   testing: false,
   title: 'Coolector [Stage]',
-  apiUrl: 'https://coolector-stage.tk:8080/',
+  apiUrl: 'https://coolector-stage.tk/api/',
   idTokenStorageKey: 'idToken',
   accessTokenStorageKey: 'accessToken',
   profileStorageKey: 'profile',
