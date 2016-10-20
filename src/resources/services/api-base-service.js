@@ -15,6 +15,7 @@ export default class ApiBaseService {
             config
               .withBaseUrl(environment.apiUrl)
               .withDefaults({
+                  mode: 'no-cors',
                   headers: {
                       'Accept':           'application/json',
                       'X-Requested-With': 'Fetch'
