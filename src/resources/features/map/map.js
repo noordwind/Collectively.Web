@@ -71,7 +71,7 @@ export class Map {
   }
 
   drawMarker(longitude, latitude, title, content, color) {
-    let icon = new google.maps.MarkerImage(`http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`);
+    let icon = new google.maps.MarkerImage(`https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`);
     let position = {lng: longitude, lat: latitude};
     let infowindow = new google.maps.InfoWindow({
       content: content
