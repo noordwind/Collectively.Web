@@ -26,7 +26,7 @@ export class Remark {
     get canDelete(){
         let profile = JSON.parse(this.authService.profile);
 
-        return profile.user_id === this.author.userId;
+        return profile.user_id === this.remark.author.userId;
     }
 
     get canResolve(){
@@ -35,17 +35,16 @@ export class Remark {
 
     async activate(params, routeConfig){
         this.id = params.id;
-        this.remark = await this.remarkService.getRemark(this.id);
-        this.author = this.remark.author;
-        this.category = this.remark.category;
-        this.description = this.remark.description;
-        this.location = this.remark.location;
-        this.imageSource = `${environment.apiUrl}remarks/${this.id}/photo`;
-        this.resolveUrl = this.router.generate("resolve-remark", {id : this.remark.id});
-        this.state = this.remark.resolved ? "resolved" : "new";
+        let remark = await this.remarkService.getRemark(this.id);
+        console.log(remark);
+        this.remark = remark;
+        this.mediumPhoto = this.remark.photos.find(x => x.size === 'medium');
+        this.bigPhoto = this.remark.photos.find(x => x.size === 'big');
+        this.resolveUrl = this.router.generate("resolve-remark", {id : remark.id});
+        this.state = remark.resolved ? "resolved" : "new";
         this.isInRange = this.locationService.isInRange({
-            "latitude" : this.location.coordinates[1], 
-            "longitude" : this.location.coordinates[0]
+            latitude : remark.location.coordinates[1], 
+            longitude : remark.location.coordinates[0]
         });
     }
 
