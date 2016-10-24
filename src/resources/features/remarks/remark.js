@@ -36,7 +36,6 @@ export class Remark {
     async activate(params, routeConfig){
         this.id = params.id;
         let remark = await this.remarkService.getRemark(this.id);
-        console.log(remark);
         this.remark = remark;
         this.mediumPhoto = this.remark.photos.find(x => x.size === 'medium');
         this.bigPhoto = this.remark.photos.find(x => x.size === 'big');
