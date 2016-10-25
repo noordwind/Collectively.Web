@@ -6,4 +6,3 @@ scripts/materialize-bundle.js
 .idea
 .DS_STORE
 .vscode
-aurelia_project/environments/local.js
