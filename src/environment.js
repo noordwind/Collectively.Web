@@ -1,7 +1,7 @@
 export default {
   debug: true,
   testing: true,
-  title: 'Coolector [Dev]',
+  title: 'Coolector [Local]',
   apiUrl: 'http://localhost:5000/',
   idTokenStorageKey: 'idToken',
   accessTokenStorageKey: 'accessToken',
