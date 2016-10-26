@@ -37,9 +37,11 @@ export class Remark {
         this.id = params.id;
         let remark = await this.remarkService.getRemark(this.id);
         this.remark = remark;
-        this.mediumPhoto = this.remark.photos.find(x => x.size === 'medium');
-        this.bigPhoto = this.remark.photos.find(x => x.size === 'big');
+        this.mediumPhoto = remark.photos.find(x => x.size === 'medium');
+        this.bigPhoto = remark.photos.find(x => x.size === 'big');
         this.resolveUrl = this.router.generate("resolve-remark", {id : remark.id});
+        this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata ==='resolved');
+        this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata ==='resolved');
         this.state = remark.resolved ? "resolved" : "new";
         this.isInRange = this.locationService.isInRange({
             latitude : remark.location.coordinates[1], 
