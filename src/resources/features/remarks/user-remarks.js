@@ -30,7 +30,8 @@ export class UserRemarks {
     async browse(){
         let remarks = await this.remarkService.browse(this.query);
         remarks.forEach(function(remark) {
-            remark.url = this.router.generate("remark", {id : remark.id});
+            remark.url = this.router.generate('remark', {id : remark.id});
+            remark.smallPhoto = remark.photos.find(x => x.size === 'small');
         }, this);
         this.remarks = remarks;
     }

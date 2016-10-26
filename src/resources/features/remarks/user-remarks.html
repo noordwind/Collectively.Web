@@ -8,7 +8,7 @@
             <md-collection-item class="avatar" repeat.for="remark of remarks">
                 <div class="row">
                     <div class="col s3">
-                        <img src="../../../assets/images/icon_info.png" alt="" class="circle responsive-img" />
+                        <a href.bind="remark.url"><img src.bind="remark.smallPhoto.url" alt="" class="responsive-img" /></a>
                     </div>
                     <div class="col s8">
                         <span class="title">${remark.category.name}</span></p>
