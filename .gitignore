@@ -3,6 +3,7 @@ scripts/app-bundle.js
 scripts/app-bundle.js.map
 scripts/vendor-bundle.js
 scripts/materialize-bundle.js
+src/environment.js
 .idea
 .DS_STORE
 .vscode

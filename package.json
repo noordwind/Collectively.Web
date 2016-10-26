@@ -13,7 +13,8 @@
     "aurelia-fetch-client": "^1.0.0",
     "aurelia-materialize-bridge": "^0.17.1",
     "aurelia-validation": "^0.12.5",
-    "bluebird": "^3.4.1"
+    "bluebird": "^3.4.1",
+    "pushstate-server": "^2.1.0"
   },
   "peerDependencies": {},
   "devDependencies": {
