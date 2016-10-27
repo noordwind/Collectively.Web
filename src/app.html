@@ -2,6 +2,7 @@
     <require from="materialize-css/css/materialize.css"></require>
     <require from="styles/app.css"></require>
     <require from="resources/features/nav/nav-bar"></require>
+    <md-progress id="loader" md-value.bind="null" if.bind="loaderActive"></md-progress>
     <nav-bar router.bind="router" if.bind="!router.currentInstruction.config.settings.hideNavbar"></nav-bar>
     <main>
         <div class="container">
@@ -9,6 +10,5 @@
         </div>
     </main>
     <footer>
-        <md-progress md-value.bind="null" if.bind="loaderActive"></md-progress>
     </footer>
 </template>

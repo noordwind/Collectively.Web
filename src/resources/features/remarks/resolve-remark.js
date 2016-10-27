@@ -19,7 +19,8 @@ export class ResolveRemark {
         this.isSending = false;
     }
 
-    async activate(params){
+    async activate(params) {
+        this.location.startUpdating();
         let remarkId = params.id;
         this.remark = await this.remarkService.getRemark(remarkId);        
         this.command.remarkId = remarkId;

@@ -20,6 +20,7 @@ export class UserRemarks {
     }
 
     async activate(params) {
+        this.location.startUpdating();
         let name = params.name;
         let user = await this.userService.getAccountByName(name);
         this.user = user;

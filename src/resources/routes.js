@@ -22,6 +22,15 @@ export default [
     }
   },
   {
+    route:      'location',
+    moduleId:   `${modulePrefix}/home/location`,
+    name:       'location',
+    title:      'location',
+    settings: {
+      reqLogin: true
+    }
+  },
+  {
     route:    'remarks',
     moduleId: `${modulePrefix}/remarks/remarks`,
     name:     'remarks',

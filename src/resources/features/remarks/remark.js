@@ -30,10 +30,11 @@ export class Remark {
     }
 
     get canResolve(){
-        return this.remark.resolved == false && this.isInRange;
+        return this.remark.resolved === false && this.isInRange;
     }
 
-    async activate(params, routeConfig){
+    async activate(params, routeConfig) {
+        this.location.startUpdating();
         this.id = params.id;
         let remark = await this.remarkService.getRemark(this.id);
         this.remark = remark;
@@ -49,18 +50,17 @@ export class Remark {
         });
     }
 
-    async delete(){
-        if(this.canDelete == false)
-        {
-            await this.toast.error("I'm sorry. You are not allowed to delete remark!")
+    async delete() {
+        if (this.canDelete === false) {
+            await this.toast.error('I\'m sorry. You are not allowed to delete a remark!');
             return;    
         }
         this.loader.display();
         this.isDeleting = true;
         await this.remarkService.deleteRemark(this.id);
-        await this.toast.info('Delete request was sent, please wait...');
+        await this.toast.info('Delete request has been sent, please wait...');
         this.isDeleting = false;
         this.loader.hide();
-        this.router.navigate("remarks");
+        this.router.navigate('remarks');
     }
 }

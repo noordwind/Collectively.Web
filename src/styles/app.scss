@@ -2,7 +2,8 @@ $primary-color: #E40521;
 $primary-color-light: #FF1F3B;
 $primary-color-strong: #970214;
 $secondary-color: #009720;
-$light-color: #FFEBEE;
+$primary-light-color: #FFEBEE;
+$secondary-light-color: #FF1F3B;
 $mobile-width: 992px;
 
 body {
@@ -64,9 +65,9 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .progress {
-   background-color: $light-color; 
+   background-color: $primary-light-color; 
    .indeterminate {
-     background-color: $primary-color;  
+     background-color: $secondary-light-color;  
    }
 }
 
@@ -76,7 +77,7 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 .collection-item:not(.active):hover {
-    background-color: $light-color;
+    background-color: $primary-light-color;
 }
 
 @media screen and (max-width: $mobile-width) {
@@ -89,4 +90,10 @@ input[type=range]::-webkit-slider-thumb {
     #map {
         height: 300px;
     }
+}
+
+#loader {
+    position: absolute;
+    top: -6px;
+    width: 100%;
 }
