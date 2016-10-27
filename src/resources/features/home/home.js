@@ -18,26 +18,7 @@ export class Home {
     }
 
     async activate(){
+        this.location.startUpdating();
         this.user = await this.userService.getAccount();
-    }
-
-    async attached(){
-        var hasLocation = this.location.current !== null;
-        if(hasLocation){
-            return;
-        }
-        this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded', async response => {
-            this.loader.hide();
-            await this.toast.success("Location has been loaded.");
-        });
-        this.loader.display();
-        await this.toast.info("Getting the current location...");
-    }
-
-    async detached(){
-        if(this.locationLoadedSubscription === null || typeof this.locationLoadedSubscription === 'undefined')
-            return;
-
-        this.locationLoadedSubscription.dispose();
     }
 }

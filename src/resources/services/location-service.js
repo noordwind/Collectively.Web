@@ -1,34 +1,49 @@
 import {inject} from 'aurelia-framework';
-import ApiBaseService from 'resources/services/api-base-service';
 import environment from '../../environment';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 
 @inject(EventAggregator)
 export default class LocationService {
-    constructor(eventAggregator){
+    constructor(eventAggregator) {
         this.allowedDistance = 15.0;
         this.eventAggregator = eventAggregator;
-        this.locationLoadedSubscription = null;
-        var self = this;
-        this.getLocation(function(location){
-            self.current = {
-                longitude: location.coords.longitude,
-                latitude: location.coords.latitude,
-                accuracy: location.coords.accuracy
-            };
-            self.eventAggregator.publish('location:loaded');
-        });
+        this.isUpdating = false;
     }
 
-    getLocation(next, err){
-        if (navigator.geolocation){
-            navigator.geolocation.getCurrentPosition(next);
-            
+  async getLocation(next, err, skipError) {
+    let self = this;
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(location) {
+        self.current = {
+          longitude: location.coords.longitude,
+          latitude: location.coords.latitude,
+          accuracy: location.coords.accuracy
+        };
+        self.eventAggregator.publish('location:loaded');
+        if (typeof next !== 'undefined') {
+          next(location);
+        }
+        return;
+      }, function(error) {
+        if (typeof err !== 'undefined') {
+            err(error);
             return;
         }
-        err();
+        if(skipError) {
+            return;
+        }
+        if (error.code === 1) {
+           self.eventAggregator.publish('location:error');
+        }
+      });
+      return;
     }
+    if(skipError) {
+        return;
+    }
+    self.eventAggregator.publish('location:error');
+  }
 
     get current() {
         return JSON.parse(localStorage.getItem(environment.locationStorageKey));
@@ -38,13 +53,25 @@ export default class LocationService {
         localStorage.setItem(environment.locationStorageKey, JSON.stringify(newLocation));
     }
 
-    isInRange(target){
+    get exists() {
+        let location = this.current;
+
+        return location !== null &&
+                typeof location !== 'undefined' &&
+                Object.keys(location).length !== 0 && location.constructor === Object;
+    }
+
+    clear() {
+        this.current = null;
+    }
+
+    isInRange(target) {
         let distanceInMeters = this.calculateDistance(this.current, target) * 1000;
 
         return distanceInMeters <= this.allowedDistance;
     }
 
-    calculateDistance(source, target){
+    calculateDistance(source, target) {
         let distanceToRadians = Math.PI / 180.0;
         let EarthRadius = 6378.1370;
 
@@ -61,5 +88,25 @@ export default class LocationService {
         let distanceInKilometers = EarthRadius * c;
 
         return distanceInKilometers;
+    }
+
+    startUpdating() {
+        if(this.isUpdating) {
+            return;
+        }
+
+        this.isUpdating = true;
+        this._updateLocationTask();
+    }
+
+    _updateLocationTask() {
+        if(!this.isUpdating) {
+            return;
+        }
+
+        setTimeout(_ => {
+            this.getLocation();
+            this._updateLocationTask();
+        }, 3000);
     }
 }

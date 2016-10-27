@@ -23,7 +23,7 @@ export class App {
         config.options.pushState = true;
     }
 
-    activate(){
+    activate() {
         this.eventAggregator.subscribe('loader:display', response => {
             this.loaderActive = true;
         });

@@ -27,13 +27,18 @@ export class Remarks {
         this.mapLoadedSubscription = null;
     }
 
-    async attached(){
-        this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', async response => {
-            this.loader.display();
-            await this.toast.info("Fetching the remarks...");
-            await this.browse();
-            this.loader.hide();
-            await this.toast.success("Remarks have been fetched.");
+    async activate() {
+        this.location.startUpdating();
+    }
+
+    async attached() {
+        this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded', 
+            async response => {
+                this.loader.display();
+                await this.toast.info("Fetching the remarks...");
+                await this.browse();
+                await this.toast.success("Remarks have been fetched.");
+                this.loader.hide();
         });
     }
 

@@ -8,18 +8,22 @@ import ToastService from 'resources/services/toast-service';
 export class FilterRemarks {
     constructor(router, locationService, filtersService, toast) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = locationService;
         this.filtersService = filtersService;
         this.toast = toast;
         this.filters = this.filtersService.filters;
     }
 
-    resetFilters(){
+    async activate() {
+        this.location.startUpdating();
+    }
+
+    resetFilters() {
         this.filters = this.filtersService.defaultFilters;
         this.filtersService.filters = this.filters;
     }
 
-    filterRemarks(){
+    filterRemarks() {
         this.filtersService.filters = this.filters;
         this.router.navigate('remarks');
     }
