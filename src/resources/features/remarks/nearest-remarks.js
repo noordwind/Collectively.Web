@@ -17,6 +17,7 @@ export class NearestRemarks {
         this.filtersService = filtersService;
         this.filters = this.filtersService.filters;
         this.query = {
+            results : this.filters.results,
             radius: this.filters.radius,
             longitude: this.location.current.longitude,
             latitude: this.location.current.latitude,
