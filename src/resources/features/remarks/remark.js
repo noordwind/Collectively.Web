@@ -10,9 +10,9 @@ import environment from '../../../environment';
 
 @inject(Router, LocationService, RemarkService, ToastService, LoaderService, AuthService, EventAggregator)
 export class Remark {
-    constructor(router, locationService, remarkService, toastService, loader, authService, eventAggregator) {
+    constructor(router, location, remarkService, toastService, loader, authService, eventAggregator) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = location;
         this.remarkService = remarkService;
         this.toast = toastService;
         this.loader = loader;
@@ -23,13 +23,13 @@ export class Remark {
         this.isInRange = false;
     }
 
-    get canDelete(){
+    get canDelete() {
         let profile = JSON.parse(this.authService.profile);
 
         return profile.user_id === this.remark.author.userId;
     }
 
-    get canResolve(){
+    get canResolve() {
         return this.remark.resolved === false && this.isInRange;
     }
 
@@ -40,12 +40,12 @@ export class Remark {
         this.remark = remark;
         this.mediumPhoto = remark.photos.find(x => x.size === 'medium');
         this.bigPhoto = remark.photos.find(x => x.size === 'big');
-        this.resolveUrl = this.router.generate("resolve-remark", {id : remark.id});
-        this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata ==='resolved');
-        this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata ==='resolved');
-        this.state = remark.resolved ? "resolved" : "new";
-        this.isInRange = this.locationService.isInRange({
-            latitude : remark.location.coordinates[1], 
+        this.resolveUrl = this.router.generate('resolve-remark', {id: remark.id});
+        this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
+        this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
+        this.state = remark.resolved ? 'resolved' : 'new';
+        this.isInRange = this.location.isInRange({
+            latitude : remark.location.coordinates[1],
             longitude : remark.location.coordinates[0]
         });
     }
