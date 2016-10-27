@@ -25,6 +25,6 @@ export class FilterRemarks {
 
     filterRemarks() {
         this.filtersService.filters = this.filters;
-        this.router.navigate('remarks');
+        this.router.navigateBack();
     }
 }

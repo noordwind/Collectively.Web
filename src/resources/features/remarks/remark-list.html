@@ -1,6 +1,7 @@
 <template>
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="../../converters/truncateValueConverter"></require>
+    <require from="../../converters/distanceFormatValueConverter"></require>
     <div class="section">
         <md-collection>
             <md-collection-item class="avatar" repeat.for="remark of remarks">
@@ -13,6 +14,7 @@
                         <p>${remark.description | truncate}<br>
                             ${remark.createdAt | dateFormat}
                         </p>
+                        <p if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</p>
                     </div>
                     <div class="col s1">
                         <div class="secondary-content">

@@ -1,0 +1,14 @@
+<template>
+    <require from="resources/features/remarks/remark-list"></require>
+    <div class="row">
+        <div class="col s6">
+            <h4>Nearest remarks [${remarks.length}]</h4>
+        </div>
+        <div class="col s6 right-align">
+            <div class="section">
+                <a route-href="route: filter-remarks" class="btn btn-floating waves-effect" click.delegate=""><i class="material-icons left">search</i></a>
+            </div>
+        </div>        
+    </div>
+    <remark-list remarks.bind="remarks"></remark-list>
+</template>

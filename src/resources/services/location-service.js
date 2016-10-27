@@ -66,12 +66,13 @@ export default class LocationService {
     }
 
     isInRange(target) {
-        let distanceInMeters = this.calculateDistance(this.current, target) * 1000;
+        let distanceInMeters = this.calculateDistance(target);
 
         return distanceInMeters <= this.allowedDistance;
     }
 
-    calculateDistance(source, target) {
+    calculateDistance(target) {
+        let source = this.current;
         let distanceToRadians = Math.PI / 180.0;
         let EarthRadius = 6378.1370;
 
@@ -85,9 +86,9 @@ export default class LocationService {
                 Math.sin(longitudeDifferenceInRadians/2) * Math.sin(longitudeDifferenceInRadians/2);
         let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 
-        let distanceInKilometers = EarthRadius * c;
+        let distanceInMeters = EarthRadius * c * 1000;
 
-        return distanceInKilometers;
+        return distanceInMeters;
     }
 
     startUpdating() {

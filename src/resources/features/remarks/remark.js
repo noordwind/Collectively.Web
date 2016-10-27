@@ -12,7 +12,7 @@ import environment from '../../../environment';
 export class Remark {
     constructor(router, locationService, remarkService, toastService, loader, authService, eventAggregator) {
         this.router = router;
-        this.locationService = locationService;
+        this.location = locationService;
         this.remarkService = remarkService;
         this.toast = toastService;
         this.loader = loader;
@@ -44,7 +44,7 @@ export class Remark {
         this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata ==='resolved');
         this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata ==='resolved');
         this.state = remark.resolved ? "resolved" : "new";
-        this.isInRange = this.locationService.isInRange({
+        this.isInRange = this.location.isInRange({
             latitude : remark.location.coordinates[1], 
             longitude : remark.location.coordinates[0]
         });
