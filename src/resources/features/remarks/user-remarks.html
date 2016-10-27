@@ -1,28 +1,6 @@
 <template>
-    <require from="../../converters/dateFormatValueConverter"></require>
-    <require from="../../converters/truncateValueConverter"></require>
+    <require from="resources/features/remarks/remark-list"></require>
     <h4>User remarks [${remarks.length}]</h4>
     <p>${user.name}</p>
-    <div class="section">
-        <md-collection>
-            <md-collection-item class="avatar" repeat.for="remark of remarks">
-                <div class="row">
-                    <div class="col s3">
-                        <a href.bind="remark.url"><img src.bind="remark.smallPhoto.url" alt="" class="responsive-img" /></a>
-                    </div>
-                    <div class="col s8">
-                        <span class="title">${remark.category.name}</span></p>
-                        <p>${remark.description | truncate}<br>
-                            ${remark.createdAt | dateFormat}
-                        </p>
-                    </div>
-                    <div class="col s1">
-                        <div class="secondary-content">
-                            <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
-                        </div>
-                    </div>
-                </div>
-            </md-collection-item>
-        </md-collection>
-    </div>
+    <remark-list remarks.bind="remarks"></remark-list>
 </template>
