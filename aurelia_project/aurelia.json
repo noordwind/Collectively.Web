@@ -75,7 +75,7 @@
     },
     "options": {
       "minify": "stage & prod",
-      "sourcemaps": "dev & stage & local"
+      "sourcemaps": "dev & stage & local & docker"
     },
     "bundles": [
       {
@@ -131,7 +131,7 @@
             "name": "aurelia-testing",
             "path": "../node_modules/aurelia-testing/dist/amd",
             "main": "aurelia-testing",
-            "env": "dev & local"
+            "env": "dev & local & docker"
           },
           {
             "name": "aurelia-fetch-client",

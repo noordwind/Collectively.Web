@@ -3,7 +3,7 @@ FROM node
 COPY . /app
 WORKDIR /app
 
-ENV APP_ENV docker
+ENV APP_ENV local
 
 RUN npm install
 RUN npm rebuild node-sass
