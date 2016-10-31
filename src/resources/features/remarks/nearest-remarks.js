@@ -21,7 +21,8 @@ export class NearestRemarks {
             radius: this.filters.radius,
             longitude: this.location.current.longitude,
             latitude: this.location.current.latitude,
-            nearest: true
+            nearest: true,
+            categories: encodeURI(this.filters.categories)
         };
     }
 
