@@ -13,6 +13,7 @@ export default class LocationService {
 
   async getLocation(next, err, skipError) {
     let self = this;
+    skipError = skipError || this.exists;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(function(location) {
         self.current = {
