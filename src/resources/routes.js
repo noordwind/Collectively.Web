@@ -1,17 +1,17 @@
 const modulePrefix = 'resources/features';
 
 export default [
-  {
-    route:    '',
-    moduleId: `${modulePrefix}/home/home`,
-    name:     'home',
-    title:    'Home',
-    nav:      true,
-    settings: {
-        reqLogin: true,
-        icon:     "dashboard"
-    }
-  },
+  // {
+  //   route:    '',
+  //   moduleId: `${modulePrefix}/home/home`,
+  //   name:     'home',
+  //   title:    'Home',
+  //   nav:      true,
+  //   settings: {
+  //       reqLogin: true,
+  //       icon:     "dashboard"
+  //   }
+  // },
   {
     route:      'login',
     moduleId:   `${modulePrefix}/account/login`,
@@ -31,7 +31,7 @@ export default [
     }
   },
   {
-    route:    'remarks',
+    route:    '',
     moduleId: `${modulePrefix}/remarks/remarks`,
     name:     'remarks',
     title:    'Remarks',

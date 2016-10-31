@@ -45,7 +45,7 @@ export class CreateRemark {
     this.remarkService.sendRemark(this.remark)
     .then(response => {
       this.toast.success('Your remark has been sent.');
-      this.router.navigate('remarks');
+      this.router.navigate('');
     }, err => {
       this.toast.error('There was an error, please try again.');
       this.isSending = false;

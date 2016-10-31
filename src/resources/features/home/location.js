@@ -7,28 +7,27 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, LocationService, LoaderService, ToastService, EventAggregator)
 export class Location {
-    constructor(router, location, loader, toast, eventAggregator) {
-        this.router = router;
-        this.location = location;
-        this.loader = loader;
-        this.toast = toast;
-        this.eventAggregator = eventAggregator;
-    }
+  constructor(router, location, loader, toast, eventAggregator) {
+    this.router = router;
+    this.location = location;
+    this.loader = loader;
+    this.toast = toast;
+    this.eventAggregator = eventAggregator;
+  }
 
-    async attached() {
-        if(this.location.exists) {
-            this.router.navigate('');
-            return;
-        }
-        this.loader.display();
-        await this.toast.info('Fetching the current location...');
-        await this.location.getLocation(async x => {
-            await this.toast.success('Location has been loaded.');
-            this.loader.hide();
-            this.router.navigate('');
-        }, async error => {
-           this.eventAggregator.publish('location:error'); 
-        }
-        , true);
+  async attached() {
+    if (this.location.exists) {
+      this.router.navigate('');
+      return;
     }
+    this.loader.display();
+    await this.toast.info('Fetching the current location...');
+    await this.location.getLocation(async x => {
+      await this.toast.success('Location has been loaded.');
+      this.loader.hide();
+      this.router.navigate('');
+    }, async error => {
+      this.eventAggregator.publish('location:error');
+    }, true);
+  }
 }
