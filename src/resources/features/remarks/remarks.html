@@ -21,7 +21,14 @@
         <div class="col s12">
         </div>
         <div class="fixed-action-btn">
-            <a class="btn btn-floating btn-large waves-effect" route-href="route: create-remark"><i class="large material-icons">add</i></a>
+            <div class="btn btn-floating btn-large waves-effect" click.delegate="displayCamera()">
+                <i class="large material-icons">add</i>
+            </div>
         </div>
+        <input class="hide" id="file" name="file" type="file" capture="camera" accept="image/*" files.bind="files"/>
+    </div>
+    <div class="row">
+        <require from="resources/features/images/image-resizer"></require>
+        <image-resizer image.bind="image" resized.bind="resized"></image-resizer>
     </div>
 </template>

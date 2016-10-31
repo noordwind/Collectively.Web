@@ -4,63 +4,52 @@ import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import FileStore from 'resources/services/file-store';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService)
+@inject(Router, LocationService, RemarkService, ToastService, LoaderService, FileStore)
 export class CreateRemark {
-    constructor(router, location, remarkService, toast, loader) {
-        this.router = router;
-        this.location = location;
-        this.remarkService = remarkService;
-        this.toast = toast;
-        this.loader = loader;
-        this.files = [];
-        this.remark = {};
-        this.isSending = false;
-    }
+  constructor(router, location, remarkService, toast, loader, fileStore) {
+    this.router = router;
+    this.location = location;
+    this.remarkService = remarkService;
+    this.toast = toast;
+    this.loader = loader;
+    this.fileStore = fileStore;
+    if (fileStore.current === null) {
+      router.navigate('remarks');
 
-    async activate(){
-        this.categories = await this.remarkService.getCategories();
-        this.setCategory(this.categories[0]);
-        this.remark.latitude = this.location.current.latitude;
-        this.remark.longitude = this.location.current.longitude;
+      return;
     }
+    this.remark = {
+      photo: fileStore.current
+    };
+    this.isSending = false;
+  }
 
-    setCategory(category){
-        this.category = category;
-        this.remark.categoryId = category.id;
-    }
+  async activate() {
+    this.categories = await this.remarkService.getCategories();
+    this.setCategory(this.categories[0]);
+    this.remark.latitude = this.location.current.latitude;
+    this.remark.longitude = this.location.current.longitude;
+  }
 
-    async sendRemark(){
-        let self = this;
-        var file = this.files[0];
-        if(typeof file === "undefined"){
-            self.toast.error("Please select a photo.");
-            return;
-        }
+  setCategory(category) {
+    this.category = category;
+    this.remark.categoryId = category.id;
+  }
 
-        let reader = new FileReader();
-        reader.onload = () => {
-            self.remark.photo = {
-                base64: reader.result,
-                name: file.name,
-                contentType: file.type
-            };
-            if(file.type.indexOf("image") < 0){
-                self.toast.error("Selected photo is invalid.");
-                return;
-            }
-            self.isSending = true;
-            self.loader.display();
-            self.remarkService.sendRemark(self.remark)
-                .then(response => {
-                    self.toast.success("Your remark has been sent.");
-                    self.router.navigate('remarks');
-                }, err => {
-                    self.toast.error("There was an error, please try again.");
-                    self.isSending = false;
-                    self.loader.hide();
-                });
-        };
-        reader.readAsDataURL(file);
-    }
+  async sendRemark() {
+    this.isSending = true;
+    this.loader.display();
+    await this.toast.info('Sending your remark...');
+    this.remarkService.sendRemark(this.remark)
+    .then(response => {
+      this.toast.success('Your remark has been sent.');
+      this.router.navigate('remarks');
+    }, err => {
+      this.toast.error('There was an error, please try again.');
+      this.isSending = false;
+      this.loader.hide();
+    });
+  }
 }

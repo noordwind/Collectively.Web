@@ -4,14 +4,8 @@
     <div class="section">
         <form submit.delegate="sendRemark()">
             <div class="row">
-                <div class="file-field input-field col s12">
-                    <div class="btn">
-                        <span>Photo</span>
-                        <input type="file" class="btn" capture="camera" accept="image/*" id="file" name="file" files.bind="files"/>
-                    </div>
-                    <div class="file-path-wrapper">
-                        <input class="file-path validate" type="text">
-                    </div>
+                <div class="col s12">
+                    <img class="responsive-img" src.bind="remark.photo.base64" />
                 </div>
             </div>
             <div class="row">
