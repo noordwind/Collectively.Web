@@ -29,7 +29,8 @@ export class Remarks {
     this.query = {
       radius: this.filters.radius,
       longitude: this.location.current.longitude,
-      latitude: this.location.current.latitude
+      latitude: this.location.current.latitude,
+      categories: encodeURI(this.filters.categories)
     };
     this.remarks = [];
     this.mapLoadedSubscription = null;

@@ -7,42 +7,43 @@ import RemarkService from 'resources/services/remark-service';
 
 @inject(Router, LocationService, FiltersService, ToastService, RemarkService)
 export class FilterRemarks {
-    constructor(router, locationService, filtersService, toast, remarkService) {
-        this.router = router;
-        this.location = locationService;
-        this.filtersService = filtersService;
-        this.toast = toast;
-        this.remarkService = remarkService;
-        this.filters = this.filtersService.filters;
-    }
+  constructor(router, locationService, filtersService, toast, remarkService) {
+    this.router = router;
+    this.location = locationService;
+    this.filtersService = filtersService;
+    this.toast = toast;
+    this.remarkService = remarkService;
+    this.filters = this.filtersService.filters;
+  }
 
-    async activate() {
-        let self = this;
-        self.location.startUpdating();
-        let categories = await self.remarkService.getCategories();
-        categories.forEach(function(category){
-            if(self.filters.categories === null || typeof(self.filters.categories) === "undefined"){
-                category.checked = true;
-            } else {
-                category.checked = self.filters.categories.indexOf(category.name) !== -1;
-            }
-        });
-        self.categories = categories;
-    }
+  async activate() {
+    let self = this;
+    self.location.startUpdating();
+    let categories = await self.remarkService.getCategories();
+    categories.forEach(function(category) {
+      if (typeof(self.filters.categories) === 'undefined' || self.filters.categories.length === 0) {
+        category.checked = true;
+      } else {
+        category.checked = self.filters.categories.indexOf(category.name) !== -1;
+      }
+    });
+    self.categories = categories;
+  }
 
-    resetFilters() {
-        this.filters = this.filtersService.defaultFilters;
-        this.filtersService.filters = this.filters;
-    }
+  resetFilters() {
+    this.categories.forEach(c => c.checked = true);
+    this.filters = this.filtersService.defaultFilters;
+    this.filtersService.filters = this.filters;
+  }
 
-    filterRemarks() {
-        this.filters.categories = this.selectedCategories;
-        this.filtersService.filters = this.filters;
-        this.router.navigateBack();
-    }
+  filterRemarks() {
+    this.filters.categories = this.selectedCategories;
+    this.filtersService.filters = this.filters;
+    this.router.navigateBack();
+  }
 
-    get selectedCategories(){
-        return $.grep(this.categories, c => c.checked)
+  get selectedCategories() {
+    return $.grep(this.categories, c => c.checked)
             .map(c => c.name);
-    }
+  }
 }
