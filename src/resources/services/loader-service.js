@@ -7,11 +7,11 @@ export default class LoaderService {
     this.eventAggregator = eventAggregator;
   }
 
-  display(){
+  display() {
     this.eventAggregator.publish('loader:display');
   }
 
-  hide(){
+  hide() {
     this.eventAggregator.publish('loader:hide');
   }
 }

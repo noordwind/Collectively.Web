@@ -9,10 +9,10 @@ import UserService from 'resources/services/user-service';
 import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService, 
+@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService,
 UserService, FileStore, EventAggregator)
 export class Remarks {
-  constructor(router, location, remarkService, filtersService, loader, toast, 
+  constructor(router, location, remarkService, filtersService, loader, toast,
   userService, fileStore, eventAggregator) {
     self = this;
     this.router = router;
@@ -49,9 +49,9 @@ export class Remarks {
     this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded',
             async response => {
               this.loader.display();
-              await this.toast.info('Fetching the remarks...');
+              this.toast.info('Fetching the remarks...');
               await this.browse();
-              await this.toast.success('Remarks have been fetched.');
+              this.toast.success('Remarks have been fetched.');
               this.loader.hide();
             });
   }

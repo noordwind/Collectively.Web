@@ -1,97 +1,99 @@
 import {inject} from 'aurelia-framework';
+import StorageService from 'resources/services/storage-service';
 import environment from '../../environment';
 
+@inject(StorageService)
 export default class AuthService {
-    constructor() {
-        this.environment = environment;
+  constructor(storageService) {
+    this.storageService = storageService;
+    this.environment = environment;
+  }
+
+  get idToken() {
+    let tokenObject = this.storageService.read(this.environment.idTokenStorageKey);
+    if (tokenObject && new Date(tokenObject.expires) > new Date()) {
+      return tokenObject.token;
     }
 
-    get idToken() {
-        let tokenObject = JSON.parse(localStorage.getItem(this.environment.idTokenStorageKey));
-        if(tokenObject && new Date(tokenObject.expires) > new Date())
-            return tokenObject.token;
+    return null;
+  }
 
-        return null;
-    }
+  set idToken(newToken) {
+    let expireDate = new Date();
+    expireDate.setSeconds(expireDate.getSeconds() + this.environment.auth0.jwtExpiration);
+    let tokenObject = {
+      'token': newToken,
+      'expires': expireDate
+    };
+    this.storageService.write(this.environment.idTokenStorageKey, tokenObject);
+  }
 
-    set idToken(newToken) {
-        let expireDate = new Date();
-        expireDate.setSeconds(expireDate.getSeconds() + this.environment.auth0.jwtExpiration);
-        let tokenObject = {
-            "token":newToken, 
-            "expires":expireDate
-        };
-        localStorage.setItem(this.environment.idTokenStorageKey, JSON.stringify(tokenObject));
-    }
+  removeIdToken() {
+    this.storageService.delete(this.environment.idTokenStorageKey);
+  }
 
-    removeIdToken() {
-        localStorage.removeItem(this.environment.idTokenStorageKey);
-    }
+  get accessToken() {
+    return this.storageService.read(this.environment.accessTokenStorageKey);
+  }
 
-    get accessToken() {
-        return localStorage.getItem(this.environment.accessTokenStorageKey);
-    }
+  set accessToken(newToken) {
+    this.storageService.write(this.environment.accessTokenStorageKey, newToken);
+  }
 
-    set accessToken(newToken) {
-        localStorage.setItem(this.environment.accessTokenStorageKey, newToken);
-    }
+  removeAccessToken() {
+    this.storageService.delete(this.environment.accessTokenStorageKey);
+  }
 
-    removeAccessToken() {
-        localStorage.removeItem(this.environment.accessTokenStorageKey);
-    }
+  get isLoggedIn() {
+    return !!this.idToken;
+  }
 
-    get isLoggedIn() {
-        return !!this.idToken;
-    }
+  get profile() {
+    return this.storageService.read(this.environment.profileStorageKey);
+  }
 
-    get profile() {
-        return localStorage.getItem(this.environment.profileStorageKey);
-    }
+  set profile(newProfile) {
+    this.storageService.write(this.environment.profileStorageKey, newProfile);
+  }
 
-    set profile(newProfile) {
-        localStorage.setItem(this.environment.profileStorageKey, newProfile);
-    }
+  removeProfile() {
+    this.storageService.delete(this.environment.profileStorageKey);
+  }
 
-    removeProfile() {
-        localStorage.removeItem(this.environment.profileStorageKey);
-    }
-
-    authorizeRequest(request) {
-        if (this.idToken && request.headers.append) {
+  authorizeRequest(request) {
+    if (this.idToken && request.headers.append) {
             //console.log("Authorizing request " + request.url + " using token " + this.idToken);
             //request.headers.append("Authorization", `Bearer ${this.idToken}`);
             //console.log(request.headers);
-        }
-
-        return request;
     }
 
-    getAuth0Lock() {
-        return new Auth0Lock(this.environment.auth0.token, this.environment.auth0.domain);
-    }
+    return request;
+  }
 
-    authenticateViaAuth0(lock, next) {
-        var self = this;
-        lock.on("authenticated",
+  getAuth0Lock() {
+    return new Auth0Lock(this.environment.auth0.token, this.environment.auth0.domain);
+  }
+
+  authenticateViaAuth0(lock, next) {
+    let self = this;
+    lock.on('authenticated',
             (authResult) => {
-                lock.getProfile(authResult.idToken,
+              lock.getProfile(authResult.idToken,
                     (error, profile) => {
-                        if (error) {
+                      if (error) {
                             // Handle error
-                            return;
-                        }
-
-                        self.idToken = authResult.idToken;
-                        self.accessToken = authResult.accessToken;
-                        self.profile = JSON.stringify(profile);
-                        next(authResult,profile);
+                        return;
+                      }
+                      self.storageService.deleteAll();
+                      self.idToken = authResult.idToken;
+                      self.accessToken = authResult.accessToken;
+                      self.profile = JSON.stringify(profile);
+                      next(authResult, profile);
                     });
             });
-    }
+  }
 
-    logout () {
-        this.removeIdToken();
-        this.removeAccessToken();
-        this.removeProfile();
-    }
+  logout() {
+    this.storageService.deleteAll();
+  }
 }

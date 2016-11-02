@@ -1,31 +1,41 @@
 import ApiBaseService from 'resources/services/api-base-service';
 
 export default class RemarkService extends ApiBaseService {
-    async sendRemark(remark){
-        return await this.post('remarks', remark);
-    }
+  async sendRemark(remark) {
+    return await this.post('remarks', remark);
+  }
 
-    async browse(query){
-        return await this.get('remarks', query);
-    }
+  async browse(query) {
+    //Building custom key with fixed lat & lng, so it works properly for minimal location updates.
+    let path = 'remarks';
+    let latitude = query.latitude;
+    let longitude = query.longitude;
+    query.latitude = parseFloat(latitude.toFixed(5));
+    query.longitude = parseFloat(longitude.toFixed(5));
+    let cacheKey = this.buildPathWithQuery(path, query);
+    query.latitude = latitude;
+    query.longitude = longitude;
 
-    async getCategories(){
-        return await this.get('remarks/categories');
-    }
+    return await this.get(path, query, true, cacheKey);
+  }
 
-    async getRemark(id){
-        return await this.get(`remarks/${id}`);
-    }
+  async getCategories() {
+    return await this.get('remarks/categories');
+  }
 
-    async getPhoto(id){
-        return await this.get(`remarks/${id}/photo`);
-    }
+  async getRemark(id) {
+    return await this.get(`remarks/${id}`);
+  }
 
-    async resolveRemark(command){
-        return await this.put('remarks', command);
-    }
+  async getPhoto(id) {
+    return await this.get(`remarks/${id}/photo`);
+  }
 
-    async deleteRemark(id){
-        return await this.delete(`remarks/${id}`);
-    }
+  async resolveRemark(command) {
+    return await this.put('remarks', command);
+  }
+
+  async deleteRemark(id) {
+    return await this.delete(`remarks/${id}`);
+  }
 }

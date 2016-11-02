@@ -5,11 +5,11 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(EventAggregator)
 export default class LocationService {
-    constructor(eventAggregator) {
-        this.allowedDistance = 15.0;
-        this.eventAggregator = eventAggregator;
-        this.isUpdating = false;
-    }
+  constructor(eventAggregator) {
+    this.allowedDistance = 15.0;
+    this.eventAggregator = eventAggregator;
+    this.isUpdating = false;
+  }
 
   async getLocation(next, err, skipError) {
     let self = this;
@@ -28,87 +28,87 @@ export default class LocationService {
         return;
       }, function(error) {
         if (typeof err !== 'undefined') {
-            err(error);
-            return;
+          err(error);
+          return;
         }
-        if(skipError) {
-            return;
+        if (skipError) {
+          return;
         }
         if (error.code === 1) {
-           self.eventAggregator.publish('location:error');
+          self.eventAggregator.publish('location:error');
         }
       });
       return;
     }
-    if(skipError) {
-        return;
+    if (skipError) {
+      return;
     }
     self.eventAggregator.publish('location:error');
   }
 
-    get current() {
-        return JSON.parse(localStorage.getItem(environment.locationStorageKey));
-    }
+  get current() {
+    return JSON.parse(localStorage.getItem(environment.locationStorageKey));
+  }
 
-    set current(newLocation) {
-        localStorage.setItem(environment.locationStorageKey, JSON.stringify(newLocation));
-    }
+  set current(newLocation) {
+    localStorage.setItem(environment.locationStorageKey, JSON.stringify(newLocation));
+  }
 
-    get exists() {
-        let location = this.current;
+  get exists() {
+    let location = this.current;
 
-        return location !== null &&
+    return location !== null &&
                 typeof location !== 'undefined' &&
                 Object.keys(location).length !== 0 && location.constructor === Object;
-    }
+  }
 
-    clear() {
-        this.current = null;
-    }
+  clear() {
+    this.current = null;
+  }
 
-    isInRange(target) {
-        let distanceInMeters = this.calculateDistance(target);
+  isInRange(target) {
+    let distanceInMeters = this.calculateDistance(target);
 
-        return distanceInMeters <= this.allowedDistance;
-    }
+    return distanceInMeters <= this.allowedDistance;
+  }
 
-    calculateDistance(target) {
-        let source = this.current;
-        let distanceToRadians = Math.PI / 180.0;
-        let EarthRadius = 6378.1370;
+  calculateDistance(target) {
+    let source = this.current;
+    let distanceToRadians = Math.PI / 180.0;
+    let EarthRadius = 6378.1370;
 
-        let sourceLatitudeInRadians = source.latitude * distanceToRadians;
-        let targetLatitudeInRadians = target.latitude * distanceToRadians;
-        let latitudeDifferenceInRadians = (target.latitude - source.latitude) * distanceToRadians;
-        let longitudeDifferenceInRadians = (target.longitude - source.longitude) * distanceToRadians;;
+    let sourceLatitudeInRadians = source.latitude * distanceToRadians;
+    let targetLatitudeInRadians = target.latitude * distanceToRadians;
+    let latitudeDifferenceInRadians = (target.latitude - source.latitude) * distanceToRadians;
+    let longitudeDifferenceInRadians = (target.longitude - source.longitude) * distanceToRadians; 
 
-        let a = Math.sin(latitudeDifferenceInRadians/2) * Math.sin(latitudeDifferenceInRadians/2) +
+    let a = Math.sin(latitudeDifferenceInRadians / 2) * Math.sin(latitudeDifferenceInRadians / 2) +
                 Math.cos(sourceLatitudeInRadians) * Math.cos(targetLatitudeInRadians) *
-                Math.sin(longitudeDifferenceInRadians/2) * Math.sin(longitudeDifferenceInRadians/2);
-        let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+                Math.sin(longitudeDifferenceInRadians / 2) * Math.sin(longitudeDifferenceInRadians / 2);
+    let c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
-        let distanceInMeters = EarthRadius * c * 1000;
+    let distanceInMeters = EarthRadius * c * 1000;
 
-        return distanceInMeters;
+    return distanceInMeters;
+  }
+
+  startUpdating() {
+    if (this.isUpdating) {
+      return;
     }
 
-    startUpdating() {
-        if(this.isUpdating) {
-            return;
-        }
+    this.isUpdating = true;
+    this._updateLocationTask();
+  }
 
-        this.isUpdating = true;
-        this._updateLocationTask();
+  _updateLocationTask() {
+    if (!this.isUpdating) {
+      return;
     }
 
-    _updateLocationTask() {
-        if(!this.isUpdating) {
-            return;
-        }
-
-        setTimeout(_ => {
-            this.getLocation();
-            this._updateLocationTask();
-        }, 3000);
-    }
+    setTimeout(_ => {
+      this.getLocation();
+      this._updateLocationTask();
+    }, 3000);
+  }
 }
