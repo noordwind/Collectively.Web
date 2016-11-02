@@ -49,6 +49,19 @@ export default class StorageService {
     return firstKey;
   }
 
+  hasKey(exactKey) {
+    let exists = false;
+    this.iterateThroughKeys(key => {
+      const match = key === exactKey;
+      if (match) {
+        exists = true;
+        return;
+      }
+    });
+
+    return exists;
+  }
+
   deleteMatchingKeys(regexp) {
     this.iterateThroughKeys(key => {
       const match = key.match(regexp);

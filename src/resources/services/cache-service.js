@@ -23,6 +23,10 @@ export default class CacheService {
     return this.storageService.getFirstKey(regexp);
   }
 
+  hasKey(key) {
+    return this.storageService.hasKey(key);
+  }
+
   invalidate(keySuffix) {
     this.storageService.delete(this.key(keySuffix));
   }
