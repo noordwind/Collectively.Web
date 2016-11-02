@@ -5,23 +5,15 @@
     <div class="section">
         <ul class="collection">
             <li class="collection-item avatar" repeat.for="remark of remarks">
-                <div class="row">
-                    <div class="col s3">
-                        <a href.bind="remark.url"><img src.bind="remark.smallPhoto.url" alt="" class="responsive-img" /></a>
-                    </div>
-                    <div class="col s8">
-                        <span class="title">${remark.category.name}</span>
-                        <span if.bind="remark.resolved" class="new badge static" data-badge-caption="resolved"></span>
-                        <p>${remark.description | truncate}<br>
+                <a href.bind="remark.url"><img class="circle" src.bind="remark.smallPhoto.url" alt=""/></a>
+                <span class="title">${remark.category.name}</span>
+                <span if.bind="remark.resolved" class="new badge static" data-badge-caption="resolved"></span>
+                <p>${remark.description | truncate}<br>
                             ${remark.createdAt | dateFormat}
-                        </p>
-                        <p if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</p>
-                    </div>
-                    <div class="col s1">
-                        <div class="secondary-content">
-                            <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
-                        </div>
-                    </div>
+                </p>
+                <p if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</p>
+                <div class="secondary-content">
+                    <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
                 </div>
             </li>
         </ul>
