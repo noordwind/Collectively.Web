@@ -8,13 +8,18 @@ export default class RemarkService extends ApiBaseService {
   async browse(query) {
     //Building custom key with fixed lat & lng, so it works properly for minimal location updates.
     let path = 'remarks';
-    let latitude = query.latitude;
-    let longitude = query.longitude;
-    query.latitude = parseFloat(latitude.toFixed(5));
-    query.longitude = parseFloat(longitude.toFixed(5));
-    let cacheKey = this.buildPathWithQuery(path, query);
-    query.latitude = latitude;
-    query.longitude = longitude;
+    let cacheKey = '';
+    if (query.latitude && query.longitude) {
+      let latitude = query.latitude;
+      let longitude = query.longitude;
+      query.latitude = parseFloat(latitude.toFixed(5));
+      query.longitude = parseFloat(longitude.toFixed(5));
+      cacheKey = this.buildPathWithQuery(path, query);
+      query.latitude = latitude;
+      query.longitude = longitude;
+    } else {
+      this.buildPathWithQuery(path, query);
+    }
     this.cacheService.invalidateMatchingKeys(/^cache\/api\/remarks.*/);
 
     return await this.get(path, query, true, cacheKey);

@@ -8,10 +8,10 @@
                 <a href.bind="remark.url"><img class="circle" src.bind="remark.smallPhoto.url" alt=""/></a>
                 <span class="title">${remark.category.name}</span>
                 <span if.bind="remark.resolved" class="new badge static" data-badge-caption="resolved"></span>
-                <p>${remark.description | truncate}<br>
-                            ${remark.createdAt | dateFormat}
-                </p>
+                <p>${remark.description | truncate}</p>
                 <p if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</p>
+                <p>${remark.author.name | truncate}</p>               
+                <p>${remark.createdAt | dateFormat}</p>
                 <div class="secondary-content">
                     <a href.bind="remark.url"><i class="material-icons primary-color">send</i></a>
                 </div>

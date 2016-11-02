@@ -5,10 +5,10 @@ import {Router} from 'aurelia-router';
 export class RemarkList {
     @bindable remarks = [];
 
-    constructor(router){
-        this.router = router;
-    }
+  constructor(router) {
+    this.router = router;
+  }
 
-    async activate() {
-    }
+  async activate() {
+  }
 }
