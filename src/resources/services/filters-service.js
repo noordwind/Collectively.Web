@@ -12,7 +12,8 @@ export default class FiltersService {
     return {
       radius: 200,
       results: 100,
-      categories: []
+      categories: [],
+      state: 'active'
     };
   }
 

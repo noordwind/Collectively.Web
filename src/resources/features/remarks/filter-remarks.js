@@ -17,17 +17,9 @@ export class FilterRemarks {
   }
 
   async activate() {
-    let self = this;
-    self.location.startUpdating();
-    let categories = await self.remarkService.getCategories();
-    categories.forEach(function(category) {
-      if (typeof(self.filters.categories) === 'undefined' || self.filters.categories.length === 0) {
-        category.checked = true;
-      } else {
-        category.checked = self.filters.categories.indexOf(category.name) !== -1;
-      }
-    });
-    self.categories = categories;
+    this.location.startUpdating();
+    await this.setupCategoriesFilter();
+    this.setupStateFilter();
   }
 
   resetFilters() {
@@ -45,5 +37,22 @@ export class FilterRemarks {
   get selectedCategories() {
     return $.grep(this.categories, c => c.checked)
             .map(c => c.name);
+  }
+
+  async setupCategoriesFilter() {
+    let self = this;
+    let categories = await this.remarkService.getCategories();
+    categories.forEach(c => {
+      if (typeof(self.filters.categories) === 'undefined' || self.filters.categories.length === 0) {
+        c.checked = true;
+      } else {
+        c.checked = self.filters.categories.indexOf(c.name) !== -1;
+      }
+    });
+    self.categories = categories;
+  }
+
+  setupStateFilter() {
+    this.states = ['active', 'resolved', 'all'];
   }
 }

@@ -30,7 +30,8 @@ export class Remarks {
       radius: this.filters.radius,
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
-      categories: encodeURI(this.filters.categories)
+      categories: encodeURI(this.filters.categories),
+      state: this.filters.state
     };
     this.remarks = [];
     this.mapLoadedSubscription = null;

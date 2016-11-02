@@ -13,6 +13,12 @@
         </div>
     </div>
     <div class="row">
+        <p>State</p>
+        <div repeat.for="state of states" class="col s6">
+            <md-radio md-name="state" md-model.bind="state" md-checked.bind="filters.state">${state}</md-radio>
+        </div>
+    </div>
+    <div class="row">
         <p class="col s12">Categories</p>
         <div repeat.for="category of categories" class="col s6">
             <md-checkbox md-checked.bind="category.checked" md-filled-in="true" value.bind="category.id">${category.name}</md-checkbox>
