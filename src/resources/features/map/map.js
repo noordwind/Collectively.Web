@@ -16,9 +16,10 @@ export class Map {
     this.map = null;
     this.radius = null;
     this.defaultRemarkMarkerColor = '9F6807';
+    this.userMarker = null;
   }
 
-  attached() {
+  async attached() {
     let longitude = this.location.current.longitude;
     let latitude = this.location.current.latitude;
     this.position = {lat: latitude, lng: longitude};
@@ -26,10 +27,28 @@ export class Map {
     this.drawUserMarker();
     this.drawRadius();
     this.eventAggregator.publish('map:loaded');
+    this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded',
+        async response => this.locationUpdated(response));
+  }
+
+  detached() {
+    this.locationLoadedSubscription.dispose();
   }
 
   remarksChanged(newValue) {
     newValue.forEach(remark => this.drawRemarkMarker(remark));
+  }
+
+  locationUpdated(location) {
+    let lng = location.coords.longitude;
+    let lat = location.coords.latitude;
+    if (this.position.lng === lng && this.position.lat === lat) {
+
+      return;
+    }
+
+    this.position = { lat, lng };
+    this.drawUserMarker();
   }
 
   drawMap() {
@@ -40,9 +59,21 @@ export class Map {
   }
 
   drawUserMarker() {
-    let latitude = this.position.lat;
-    let longitude = this.position.lng;
-    this.drawMarker(longitude, latitude, 'User', 'Hey, you are here!', 'FFEBEE');
+    let lat = this.position.lat;
+    let lng = this.position.lng;
+    if (this.userMarker === null) {
+      this.userMarker = this.drawMarker(lng, lat, 'User', 'Hey, you are here!', 'FFEBEE');
+
+      return;
+    }
+
+    this.moveMarker(this.userMarker, lat, lng);
+  }
+
+  moveMarker(marker, lat, lng) {
+    let position = new google.maps.LatLng(lat, lng);
+    marker.setPosition(position);
+    this.map.panTo(position);
   }
 
   drawRemarkMarker(remark) {
@@ -85,6 +116,8 @@ export class Map {
     marker.addListener('click', function() {
       infowindow.open(map, marker);
     });
+
+    return marker;
   }
 
   drawRadius() {

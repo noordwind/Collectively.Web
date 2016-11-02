@@ -21,7 +21,7 @@ export default class LocationService {
           latitude: location.coords.latitude,
           accuracy: location.coords.accuracy
         };
-        self.eventAggregator.publish('location:loaded');
+        self.eventAggregator.publish('location:loaded', location);
         if (typeof next !== 'undefined') {
           next(location);
         }
