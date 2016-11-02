@@ -20,7 +20,11 @@ export default class CacheService {
   }
 
   invalidateAll() {
-    this.storageService.deleteMatchingKeys(/^cache.*/);
+    this.invalidateMatchingKeys(/^cache.*/);
+  }
+
+  invalidateMatchingKeys(keySuffix) {
+    this.storageService.deleteMatchingKeys(keySuffix);
   }
 
   async fetch(key, next) {

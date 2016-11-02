@@ -41,7 +41,7 @@ export class CreateRemark {
   async sendRemark() {
     this.isSending = true;
     this.loader.display();
-    await this.toast.info('Sending your remark...');
+    this.toast.info('Sending your remark...');
     this.remarkService.sendRemark(this.remark)
     .then(response => {
       this.toast.success('Your remark has been sent.');
