@@ -16,7 +16,7 @@ export class CreateRemark {
     this.loader = loader;
     this.fileStore = fileStore;
     if (fileStore.current === null) {
-      router.navigate('remarks');
+      router.navigate('');
 
       return;
     }
