@@ -23,10 +23,38 @@ export default class StorageService {
     localStorage.removeItem(key);
   }
 
-  deleteMatchingKeys(regexp) {
-    this.iterateThroughKeys((key) => {
+  readFirst(regexp) {
+    let value = null;
+    this.iterateThroughKeys(key => {
       const match = key.match(regexp);
-      if (match) this.delete(match[0]);
+      if (match) {
+        value = this.read(match[0]);
+        return;
+      }
+    });
+
+    return value;
+  }
+
+  getFirstKey(regexp) {
+    let firstKey = null;
+    this.iterateThroughKeys(key => {
+      const match = key.match(regexp);
+      if (match) {
+        firstKey = match[0];
+        return;
+      }
+    });
+
+    return firstKey;
+  }
+
+  deleteMatchingKeys(regexp) {
+    this.iterateThroughKeys(key => {
+      const match = key.match(regexp);
+      if (match) {
+        this.delete(match[0]);
+      }
     });
   }
 
@@ -34,9 +62,9 @@ export default class StorageService {
     this.deleteMatchingKeys(/.*/);
   }
 
-  iterateThroughKeys(fn) {
+  iterateThroughKeys(next) {
     for (let key in localStorage) {
-      fn(key);
+      next(key);
     }
   }
 }

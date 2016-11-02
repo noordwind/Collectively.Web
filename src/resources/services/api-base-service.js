@@ -30,7 +30,6 @@ export default class ApiBaseService {
       this.cacheInvalidate(pathWithQuery);
     }
     cacheKey = cacheKey !== null ? cacheKey : pathWithQuery;
-    console.log(cacheKey);
     return await this.cacheFetch(cacheKey, async () => {
       let httpResponse = await this.http.fetch(pathWithQuery, {headers: this.getHeaders()});
 
@@ -43,7 +42,7 @@ export default class ApiBaseService {
     if (Object.keys(params).length > 0) {
       pathWithQuery = `${path}?${$.param(params)}`;
     }
-    
+
     return pathWithQuery;
   }
 

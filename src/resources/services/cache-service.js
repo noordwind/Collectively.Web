@@ -15,6 +15,14 @@ export default class CacheService {
     return this.storageService.read(this.key(keySuffix));
   }
 
+  readFirst(regexp) {
+    return this.storageService.readFirst(regexp);
+  }
+
+  getFirstKey(regexp) {
+    return this.storageService.getFirstKey(regexp);
+  }
+
   invalidate(keySuffix) {
     this.storageService.delete(this.key(keySuffix));
   }

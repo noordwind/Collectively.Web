@@ -79,11 +79,13 @@ export class Remarks {
   }
 
   async navigateToCreateRemark(base64Image) {
+    this.loader.display();
     let reader = new FileReader();
     let file = self.image;
     reader.onload = async () => {
       if (file.type.indexOf('image') < 0) {
         await self.toast.error('Selected photo is invalid.');
+        this.loader.hide();
 
         return;
       }

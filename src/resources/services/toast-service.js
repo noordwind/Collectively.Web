@@ -5,27 +5,27 @@ import { MdToastService } from 'aurelia-materialize-bridge';
 export default class ToastService {
   constructor(toast) {
     this.toast = toast;
-    this.defaultTime = 4000;
+    this.defaultTime = 4090;
   }
 
-  async log(message) {
+  async log(message, time = 4000) {
     await this._display(message);
   }
 
-  async info(message) {
-    await this._display(message, 'blue');
+  async info(message, time = 4000) {
+    await this._display(message, 'blue', time);
   }
 
-  async error(message) {
-    await this._display(message, 'red');
+  async error(message, time = 4000) {
+    await this._display(message, 'red', time);
   }
 
-  async warn(message) {
-    await this._display(message, 'yellow');
+  async warn(message, time = 4000) {
+    await this._display(message, 'yellow', time);
   }
 
-  async success(message) {
-    await this._display(message, 'green');
+  async success(message, time = 4000) {
+    await this._display(message, 'green', time);
   }
 
   async _display(message, color, time) {

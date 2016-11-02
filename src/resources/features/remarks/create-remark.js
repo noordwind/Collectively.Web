@@ -42,9 +42,10 @@ export class CreateRemark {
     this.isSending = true;
     this.loader.display();
     this.toast.info('Sending your remark...');
-    this.remarkService.sendRemark(this.remark)
-    .then(response => {
-      this.toast.success('Your remark has been sent.');
+    this.remarkService.sendRemark(this.remark, 8000)
+    .then(async response => {
+      await this.toast.success('Your remark has been sent.');
+      this.loader.hide();
       this.router.navigate('');
     }, err => {
       this.toast.error('There was an error, please try again.');
