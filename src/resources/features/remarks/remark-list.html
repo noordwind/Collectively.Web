@@ -3,14 +3,15 @@
     <require from="../../converters/truncateValueConverter"></require>
     <require from="../../converters/distanceFormatValueConverter"></require>
     <div class="section">
-        <md-collection>
-            <md-collection-item class="avatar" repeat.for="remark of remarks">
+        <ul class="collection">
+            <li class="collection-item avatar" repeat.for="remark of remarks">
                 <div class="row">
                     <div class="col s3">
                         <a href.bind="remark.url"><img src.bind="remark.smallPhoto.url" alt="" class="responsive-img" /></a>
                     </div>
                     <div class="col s8">
-                        <span class="title">${remark.category.name}</span></p>
+                        <span class="title">${remark.category.name}</span>
+                        <span if.bind="remark.resolved" class="new badge static" data-badge-caption="resolved"></span>
                         <p>${remark.description | truncate}<br>
                             ${remark.createdAt | dateFormat}
                         </p>
@@ -22,7 +23,7 @@
                         </div>
                     </div>
                 </div>
-            </md-collection-item>
-        </md-collection>
+            </li>
+        </ul>
     </div>
 </template>

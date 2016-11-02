@@ -80,6 +80,10 @@ input[type=range]::-webkit-slider-thumb {
     background-color: $primary-light-color;
 }
 
+.static {
+    position: static !important;
+}
+
 @media screen and (max-width: $mobile-width) {
     .btn:not(.btn-floating) {
         width: 100%;
