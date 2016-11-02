@@ -9,10 +9,10 @@ import UserService from 'resources/services/user-service';
 import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService, 
+@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService,
 UserService, FileStore, EventAggregator)
 export class Remarks {
-  constructor(router, location, remarkService, filtersService, loader, toast, 
+  constructor(router, location, remarkService, filtersService, loader, toast,
   userService, fileStore, eventAggregator) {
     self = this;
     this.router = router;
@@ -30,7 +30,8 @@ export class Remarks {
       radius: this.filters.radius,
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
-      categories: encodeURI(this.filters.categories)
+      categories: encodeURI(this.filters.categories),
+      state: this.filters.state
     };
     this.remarks = [];
     this.mapLoadedSubscription = null;
