@@ -4,7 +4,7 @@ export default class RemarkService extends ApiBaseService {
 
   async sendRemark(remark) {
     this.cacheService.invalidateMatchingKeys(this.remarksRegexp);
-    
+
     return await this.post('remarks', remark);
   }
 
@@ -12,8 +12,8 @@ export default class RemarkService extends ApiBaseService {
     //Building custom key with fixed lat & lng, so it works properly for minimal location updates.
     let path = 'remarks';
     let oldCacheKey = this.cacheService.getFirstKey(this.remarksRegexp);
-    let latitude = query.latitude;
-    let longitude = query.longitude;
+    let latitude = query.latitude || 0;
+    let longitude = query.longitude || 0;
     query.latitude = parseFloat(latitude.toFixed(5));
     query.longitude = parseFloat(longitude.toFixed(5));
     let newCacheKey = this.buildPathWithQuery(path, query);
