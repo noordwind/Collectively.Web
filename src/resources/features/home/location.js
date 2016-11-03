@@ -21,9 +21,9 @@ export class Location {
       return;
     }
     this.loader.display();
-    await this.toast.info('Fetching the current location...');
+    this.toast.info('Fetching the current location...');
     await this.location.getLocation(async x => {
-      await this.toast.success('Location has been loaded.');
+      this.toast.success('Location has been loaded.');
       this.loader.hide();
       this.router.navigate('');
     }, async error => {
