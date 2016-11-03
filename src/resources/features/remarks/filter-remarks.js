@@ -20,6 +20,7 @@ export class FilterRemarks {
     this.location.startUpdating();
     await this.setupCategoriesFilter();
     this.setupStateFilter();
+    this.setupTypeFilter();
   }
 
   resetFilters() {
@@ -54,5 +55,9 @@ export class FilterRemarks {
 
   setupStateFilter() {
     this.states = ['active', 'resolved', 'all'];
+  }
+
+  setupTypeFilter() {
+    this.types = ['all', 'nearby', 'mine'];
   }
 }

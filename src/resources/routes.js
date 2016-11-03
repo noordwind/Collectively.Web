@@ -82,7 +82,7 @@ export default [
     }
   },
   {
-    route:    'remarks/filter',
+    route:    'filters',
     moduleId: `${modulePrefix}/remarks/filter-remarks`,
     name:     'filter-remarks',
     title:    'Filter remarks',

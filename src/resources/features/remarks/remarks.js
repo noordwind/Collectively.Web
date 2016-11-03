@@ -35,7 +35,6 @@ export class Remarks {
     };
     this.remarks = [];
     this.mapLoadedSubscription = null;
-    this.mapEnabled = true;
   }
 
   async activate() {
@@ -48,6 +47,9 @@ export class Remarks {
     $('#file').change(async () => {
       this.image = this.files[0];
     });
+    if (!this.mapEnabled) {
+      await this.browse();
+    }
     this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded',
             async response => {
               this.loader.display();
@@ -63,6 +65,13 @@ export class Remarks {
   async browse() {
     this.query.results = this.filters.results;
     this.query.radius = this.filters.radius;
+    this.query.nearest = false;
+    this.query.authorId = '';
+    switch (this.filters.type) {
+    case 'nearby': this.query.nearest = true; break;
+    case 'mine': this.query.authorId = this.user.userId; break;
+    default: break;
+    }
     this.remarks = await this.remarkService.browse(this.query);
     this.remarks.forEach(function(remark) {
       remark.url = this.router.generate('remark', {id: remark.id});
@@ -105,5 +114,18 @@ export class Remarks {
       this.router.navigate('remarks/create');
     };
     reader.readAsDataURL(file);
+  }
+
+  get mapEnabled() {
+    return this.filters.mapEnabled;
+  }
+
+  set mapEnabled(value) {
+    this.filters.mapEnabled = value;
+    this._updateFilters();
+  }
+
+  _updateFilters() {
+    this.filtersService.filters = this.filters;
   }
 }

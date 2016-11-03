@@ -17,7 +17,9 @@ export default class FiltersService {
       radius: 200,
       results: 100,
       categories: [],
-      state: 'active'
+      type: 'all',
+      state: 'active',
+      mapEnabled: true
     };
   }
 
