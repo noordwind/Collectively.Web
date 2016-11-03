@@ -42,11 +42,6 @@ export class Map {
   locationUpdated(location) {
     let lng = location.coords.longitude;
     let lat = location.coords.latitude;
-    if (this.position.lng === lng && this.position.lat === lat) {
-
-      return;
-    }
-
     this.position = { lat, lng };
     this.drawUserMarker();
   }
@@ -61,12 +56,10 @@ export class Map {
   drawUserMarker() {
     let lat = this.position.lat;
     let lng = this.position.lng;
-    if (this.userMarker === null) {
-      this.userMarker = this.drawMarker(lng, lat, 'User', 'Hey, you are here!', 'FFEBEE');
-
-      return;
+    if (this.userMarker !== null) {
+      this.userMarker.setMap(null);
     }
-
+    this.userMarker = this.drawMarker(lng, lat, 'User', 'Hey, you are here!', 'FFEBEE');
     this.moveMarker(this.userMarker, lat, lng);
   }
 

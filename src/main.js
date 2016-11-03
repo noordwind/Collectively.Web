@@ -24,7 +24,8 @@ export function configure(aurelia) {
             .useProgress()
             .useRadio()
             .useRange()
-            .useSelect();
+            .useSelect()
+            .useSwitch();
     });
 
   if (environment.debug) {

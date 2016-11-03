@@ -35,6 +35,7 @@ export class Remarks {
     };
     this.remarks = [];
     this.mapLoadedSubscription = null;
+    this.mapEnabled = true;
   }
 
   async activate() {
@@ -50,9 +51,7 @@ export class Remarks {
     this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded',
             async response => {
               this.loader.display();
-              this.toast.info('Fetching the remarks...');
               await this.browse();
-              this.toast.success('Remarks have been fetched.');
               this.loader.hide();
             });
   }
@@ -65,6 +64,14 @@ export class Remarks {
     this.query.results = this.filters.results;
     this.query.radius = this.filters.radius;
     this.remarks = await this.remarkService.browse(this.query);
+    this.remarks.forEach(function(remark) {
+      remark.url = this.router.generate('remark', {id: remark.id});
+      remark.smallPhoto = remark.photos.find(x => x.size === 'small');
+      remark.distance = this.location.calculateDistance({
+        latitude: remark.location.coordinates[1],
+        longitude: remark.location.coordinates[0]
+      });
+    }, this);
   }
 
   displayCamera() {
