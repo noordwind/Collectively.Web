@@ -19,6 +19,8 @@ export class NavBar {
       closeOnClick: true
     });
 
+    console.log(this.router);
+
     this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
             async response => {
               this.logout();
@@ -33,6 +35,14 @@ export class NavBar {
   logout() {
     this.authService.logout();
     this.router.navigate('login');
+  }
+
+  back() {
+    this.router.navigateBack();
+  }
+
+  get canGoBack() {
+    return !(this.router.history.previousLocation === this.router.history.root);
   }
 
   get navigation() {

@@ -1,6 +1,9 @@
 <template>
     <nav role="navigation" class="ft-nav">
         <div class="container">
+            <a if.bind="canGoBack" click.delegate="back()" class="left hide-on-large-only">
+                <i class="material-icons">arrow_back</i>
+            </a>
             <a href="/" class="brand-logo">Coolector</a>
             <a href="#" data-activates="nav-mobile" class="button-collapse right">
                 <i class="material-icons">menu</i>
