@@ -12,5 +12,9 @@ export default {
     token: 'eYnnpDd1k61vxXQCbFwWtX45yX3PxFDA',
     domain: 'noordwind-dev.eu.auth0.com',
     jwtExpiration: 36000
+  },
+  feature: {
+    resolveRemarkPhotoRequired: false,
+    resolveRemarkLocationRequired: false
   }
 };

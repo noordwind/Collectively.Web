@@ -6,10 +6,11 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import Environment from '../../../environment';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService, AuthService, EventAggregator)
+@inject(Router, LocationService, RemarkService, ToastService, LoaderService, AuthService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, location, remarkService, toastService, loader, authService, eventAggregator) {
+  constructor(router, location, remarkService, toastService, loader, authService, eventAggregator, environment) {
     this.router = router;
     this.location = location;
     this.remarkService = remarkService;
@@ -17,6 +18,7 @@ export class Remark {
     this.loader = loader;
     this.authService = authService;
     this.eventAggregator = eventAggregator;
+    this.feature = environment.feature;
     this.remark = {};
     this.isDeleting = false;
     this.isSending = false;
@@ -30,7 +32,7 @@ export class Remark {
   }
 
   get canResolve() {
-    return this.remark.resolved === false && this.isInRange;
+    return this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
   async activate(params, routeConfig) {

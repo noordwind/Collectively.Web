@@ -32,11 +32,7 @@ export default class RemarkService extends ApiBaseService {
   }
 
   async getRemark(id) {
-    return await this.get(`remarks/${id}`);
-  }
-
-  async getPhoto(id) {
-    return await this.get(`remarks/${id}/photo`);
+    return await this.get(`remarks/${id}`, {}, false);
   }
 
   async resolveRemark(command) {
