@@ -19,8 +19,6 @@ export class NavBar {
       closeOnClick: true
     });
 
-    console.log(this.router);
-
     this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
             async response => {
               this.logout();
