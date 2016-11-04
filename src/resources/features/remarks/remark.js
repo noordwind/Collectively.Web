@@ -40,7 +40,6 @@ export class Remark {
     this.remark = remark;
     this.mediumPhoto = remark.photos.find(x => x.size === 'medium');
     this.bigPhoto = remark.photos.find(x => x.size === 'big');
-    this.resolveUrl = this.router.generate('resolve-remark', {id: remark.id});
     this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
     this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
     this.state = remark.resolved ? 'resolved' : 'new';
