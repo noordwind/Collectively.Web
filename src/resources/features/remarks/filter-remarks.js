@@ -58,6 +58,6 @@ export class FilterRemarks {
   }
 
   setupTypeFilter() {
-    this.types = ['all', 'nearby', 'mine'];
+    this.types = ['all', 'mine'];
   }
 }

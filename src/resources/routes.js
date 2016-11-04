@@ -42,16 +42,6 @@ export default [
     }
   },
   {
-    route:    'remarks/near',
-    moduleId: `${modulePrefix}/remarks/nearest-remarks`,
-    name:     'nearest-remarks',
-    title:    'Remarks',
-    nav:      false,
-    settings: {
-        reqLogin: true,
-    }
-  },
-  {
     route:    'remarks/:id',
     moduleId: `${modulePrefix}/remarks/remark`,
     name:     'remark',

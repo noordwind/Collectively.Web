@@ -65,12 +65,9 @@ export class Remarks {
   async browse() {
     this.query.results = this.filters.results;
     this.query.radius = this.filters.radius;
-    this.query.nearest = false;
     this.query.authorId = '';
-    switch (this.filters.type) {
-    case 'nearby': this.query.nearest = true; break;
-    case 'mine': this.query.authorId = this.user.userId; break;
-    default: break;
+    if (this.filters.type === 'mine') {
+      this.query.authorId = this.user.userId;
     }
     this.remarks = await this.remarkService.browse(this.query);
     this.remarks.forEach(function(remark) {
