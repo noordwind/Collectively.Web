@@ -52,16 +52,6 @@ export default [
     }
   },
   {
-    route:    'remarks/:id/resolve',
-    moduleId: `${modulePrefix}/remarks/resolve-remark`,
-    name:     'resolve-remark',
-    title:    'Resolve remark',
-    nav:      false,
-    settings: {
-        reqLogin: true
-    }
-  },
-  {
     route:    'remarks/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name:     'create-remark',

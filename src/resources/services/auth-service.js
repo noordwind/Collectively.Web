@@ -87,7 +87,7 @@ export default class AuthService {
                       self.storageService.deleteAll();
                       self.idToken = authResult.idToken;
                       self.accessToken = authResult.accessToken;
-                      self.profile = JSON.stringify(profile);
+                      self.profile = profile;
                       next(authResult, profile);
                     });
             });

@@ -19,6 +19,7 @@ export class Remark {
     this.eventAggregator = eventAggregator;
     this.remark = {};
     this.isDeleting = false;
+    this.isSending = false;
     this.isInRange = false;
   }
 
@@ -60,6 +61,26 @@ export class Remark {
     await this.toast.info('Delete request has been sent, please wait...');
     this.isDeleting = false;
     this.loader.hide();
-    this.router.navigate('remarks');
+    this.router.navigate('');
+  }
+
+  async resolve() {
+    let self = this;
+    let command = {
+      remarkId: self.remark.id,
+      latitude: this.location.current.latitude,
+      longitude: this.location.current.longitude
+    };
+    self.isSending = true;
+    self.loader.display();
+    self.remarkService.resolveRemark(command)
+      .then(response => {
+        self.toast.success('Your request is being processed.');
+        self.router.navigate('');
+      }, err => {
+        self.toast.error('There was an error, please try again.');
+        self.isSending = false;
+        self.loader.hide();
+      });
   }
 }
