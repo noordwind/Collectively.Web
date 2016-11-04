@@ -35,7 +35,7 @@ export class CreateRemark {
 
   setCategory(category) {
     this.category = category;
-    this.remark.categoryId = category.id;
+    this.remark.category = category.name;
   }
 
   async sendRemark() {
