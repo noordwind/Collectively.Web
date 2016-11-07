@@ -14,8 +14,8 @@ export default class FiltersService {
 
   get defaultFilters() {
     return {
-      radius: 200,
-      results: 100,
+      radius: 1000,
+      results: 100000,
       categories: [],
       type: 'all',
       state: 'active',

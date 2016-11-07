@@ -72,7 +72,6 @@ export class Remarks {
     this.remarks = await this.remarkService.browse(this.query);
     this.remarks.forEach(function(remark) {
       remark.url = this.router.generate('remark', {id: remark.id});
-      remark.smallPhoto = remark.photos.find(x => x.size === 'small');
       remark.distance = this.location.calculateDistance({
         latitude: remark.location.coordinates[1],
         longitude: remark.location.coordinates[0]

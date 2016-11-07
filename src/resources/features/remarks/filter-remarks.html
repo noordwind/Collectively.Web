@@ -1,18 +1,6 @@
 <template>
     <h4>Filter remarks</h4>
     <div class="row">
-        <div class="col s12">
-            <md-range md-value.bind="filters.radius" md-min="100" md-max="10000" md-step="100"></md-range>
-            Radius: ${filters.radius} m
-        </div>
-    </div>
-    <div class="row">
-        <div class="col s12">
-            <md-range md-value.bind="filters.results" md-min="10" md-max="1000" md-step="10"></md-range>
-            Display results: ${filters.results} 
-        </div>
-    </div>
-    <div class="row">
         <p class="col s12">Type</p>
         <div repeat.for="type of types" class="col s6">
             <md-radio md-name="type" md-model.bind="type" md-checked.bind="filters.type">${type}</md-radio>

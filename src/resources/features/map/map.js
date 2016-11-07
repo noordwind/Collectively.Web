@@ -51,6 +51,7 @@ export class Map {
   drawMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: this.filters.map.zoomLevel,
+      minZoom: 10,
       center: this.position
     });
 
@@ -101,7 +102,7 @@ export class Map {
   drawRemarkMarker(remark) {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
-    let category = remark.category.name;
+    let category = remark.category;
     let color = this.getRemarMarkerkColor(remark);
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
@@ -115,7 +116,7 @@ export class Map {
       return '009720';
     }
 
-    switch (remark.category.name) {
+    switch (remark.category) {
     case 'accidents': return 'FBF514';
     case 'damages': return 'E40521';
     case 'litter': return '9F6807';
