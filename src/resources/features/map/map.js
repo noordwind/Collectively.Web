@@ -51,7 +51,7 @@ export class Map {
   drawMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: this.filters.map.zoomLevel,
-      minZoom: 10,
+      minZoom: 8,
       center: this.position
     });
 
@@ -78,7 +78,7 @@ export class Map {
       this.filters.radius = radius;
       this._updateFilters();
       if (this.radiusChanged !== null) {
-        this.radiusChanged(radius);
+        this.radiusChanged(radius, center);
       }
     });
   }

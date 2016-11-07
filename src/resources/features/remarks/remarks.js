@@ -112,8 +112,10 @@ export class Remarks {
     reader.readAsDataURL(file);
   }
 
-  async radiusChanged(radius) {
+  async radiusChanged(radius, center) {
     self.filters.radius = radius;
+    self.query.longitude = center.lng();
+    self.query.latitude = center.lat();
     await self.browse();
   }
 
