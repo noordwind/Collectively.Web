@@ -113,12 +113,17 @@ export class Remarks {
     reader.readAsDataURL(file);
   }
 
+  async radiusChanged(radius) {
+    self.filters.radius = radius;
+    await self.browse();
+  }
+
   get mapEnabled() {
-    return this.filters.mapEnabled;
+    return this.filters.map.enabled;
   }
 
   set mapEnabled(value) {
-    this.filters.mapEnabled = value;
+    this.filters.map.enabled = value;
     this._updateFilters();
   }
 

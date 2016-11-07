@@ -7,11 +7,13 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 @inject(Router, LocationService, FiltersService, EventAggregator, )
 export class Map {
     @bindable remarks = [];
+    @bindable radiusChanged = null;
 
-  constructor(router, location, filters, eventAggregator) {
+  constructor(router, location, filtersService, eventAggregator) {
     this.router = router;
     this.location = location;
-    this.filters = filters;
+    this.filtersService = filtersService;
+    this.filters = this.filtersService.filters;
     this.eventAggregator = eventAggregator;
     this.map = null;
     this.radius = null;
@@ -25,7 +27,7 @@ export class Map {
     this.position = {lat: latitude, lng: longitude};
     this.drawMap();
     this.drawUserMarker();
-    this.drawRadius();
+    // this.drawRadius();
     this.eventAggregator.publish('map:loaded');
     this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded',
         async response => this.locationUpdated(response));
@@ -48,8 +50,35 @@ export class Map {
 
   drawMap() {
     this.map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 15,
+      zoom: this.filters.map.zoomLevel,
       center: this.position
+    });
+
+    this.map.addListener('zoom_changed', () => {
+      this.filters.map.zoomLevel = this.map.getZoom();
+      this._updateFilters();
+    });
+
+    this.map.addListener('bounds_changed', () => {
+      let bounds = this.map.getBounds();
+      let center = bounds.getCenter();
+      let ne = bounds.getNorthEast();
+      let r = 6378.41;
+      let lat1 = center.lat() / 57.2958;
+      let lon1 = center.lng() / 57.2958;
+      let lat2 = ne.lat() / 57.2958;
+      let lon2 = ne.lng() / 57.2958;
+      let dis = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
+      let radius = dis * 1000;
+      // if (this.radius !== null) {
+      //   this.radius.setMap(null);
+      // }
+      // this.drawRadius();
+      this.filters.radius = radius;
+      this._updateFilters();
+      if (this.radiusChanged !== null) {
+        this.radiusChanged(radius);
+      }
     });
   }
 
@@ -66,7 +95,7 @@ export class Map {
   moveMarker(marker, lat, lng) {
     let position = new google.maps.LatLng(lat, lng);
     marker.setPosition(position);
-    this.map.panTo(position);
+    // this.map.panTo(position);
   }
 
   drawRemarkMarker(remark) {
@@ -122,7 +151,11 @@ export class Map {
       fillOpacity: 0.3,
       map: this.map,
       center: this.position,
-      radius: parseFloat(this.filters.filters.radius)
+      radius: parseFloat(this.filters.radius)
     });
+  }
+
+  _updateFilters() {
+    this.filtersService.filters = this.filters;
   }
 }

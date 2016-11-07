@@ -19,7 +19,10 @@ export default class FiltersService {
       categories: [],
       type: 'all',
       state: 'active',
-      mapEnabled: true
+      map: {
+        enabled: true,
+        zoomLevel: 15
+      }
     };
   }
 

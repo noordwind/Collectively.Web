@@ -18,7 +18,7 @@ export default class RemarkService extends ApiBaseService {
     let newCacheKey = this.buildPathWithQuery(path, query);
     let hasKey = this.cacheService.hasKey(`cache/api/${newCacheKey}`);
     if (!hasKey) {
-      this.cacheService.invalidate(this.remarksRegexp);
+      this.cacheService.invalidateMatchingKeys(this.remarksRegexp);
     }
 
     query.latitude = latitude;
