@@ -26,7 +26,8 @@ export function configure(aurelia) {
             .useRange()
             .useSelect()
             .useSwitch();
-    });
+    })
+    .plugin('aurelia-ui-virtualization');
 
   if (environment.debug) {
     aurelia.use.developmentLogging();

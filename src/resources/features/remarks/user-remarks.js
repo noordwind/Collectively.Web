@@ -17,6 +17,7 @@ export class UserRemarks {
     this.eventAggregator = eventAggregator;
     this.query = {
       authorId: '',
+      page: 1,
       results: 10
     };
   }
@@ -27,14 +28,25 @@ export class UserRemarks {
     let user = await this.userService.getAccountByName(name);
     this.user = user;
     this.query.authorId = user.userId;
-    await this.browse();
+    this.remarks = await this.browse();
   }
 
   async browse() {
     let remarks = await this.remarkService.browse(this.query);
     remarks.forEach(function(remark) {
       remark.url = this.router.generate('remark', {id: remark.id});
+      remark.distance = this.location.calculateDistance({
+        latitude: remark.location.coordinates[1],
+        longitude: remark.location.coordinates[0]
+      });
     }, this);
-    this.remarks = remarks;
+
+    return remarks;
+  }
+
+  async loadMore() {
+    this.query.page += 1;
+    let remarks = await this.browse();
+    remarks.forEach(x => this.remarks.push(x));
   }
 }

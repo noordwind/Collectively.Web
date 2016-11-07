@@ -2,5 +2,5 @@
     <require from="resources/features/remarks/remark-list"></require>
     <h4>User remarks [${remarks.length}]</h4>
     <p>${user.name}</p>
-    <remark-list remarks.bind="remarks"></remark-list>
+    <remark-list remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
 </template>
