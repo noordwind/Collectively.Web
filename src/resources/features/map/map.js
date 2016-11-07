@@ -63,22 +63,22 @@ export class Map {
     this.map.addListener('bounds_changed', () => {
       let bounds = this.map.getBounds();
       let center = bounds.getCenter();
-      let ne = bounds.getNorthEast();
-      let r = 6378.41;
-      let lat1 = center.lat() / 57.2958;
-      let lon1 = center.lng() / 57.2958;
-      let lat2 = ne.lat() / 57.2958;
-      let lon2 = ne.lng() / 57.2958;
-      let dis = r * Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon2 - lon1));
-      let radius = dis * 1000;
+      let northEast = bounds.getNorthEast();
+      let earthRadius = 6378000.41;
+      let centerLat = center.lat() / 57.2958;
+      let centerLng = center.lng() / 57.2958;
+      let northEastLat = northEast.lat() / 57.2958;
+      let northEastLng = northEast.lng() / 57.2958;
+      let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
+                         Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
       // if (this.radius !== null) {
       //   this.radius.setMap(null);
       // }
       // this.drawRadius();
-      this.filters.radius = radius;
+      this.filters.radius = radiusMeters;
       this._updateFilters();
       if (this.radiusChanged !== null) {
-        this.radiusChanged(radius, center);
+        this.radiusChanged(radiusMeters, center);
       }
     });
   }
