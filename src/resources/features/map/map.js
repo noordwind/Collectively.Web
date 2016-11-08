@@ -57,30 +57,31 @@ export class Map {
 
     this.map.addListener('zoom_changed', () => {
       this.filters.map.zoomLevel = this.map.getZoom();
-      this._updateFilters();
+      this._recalculateRadius();
     });
 
-    this.map.addListener('bounds_changed', () => {
-      let bounds = this.map.getBounds();
-      let center = bounds.getCenter();
-      let northEast = bounds.getNorthEast();
-      let earthRadius = 6378000.41;
-      let centerLat = center.lat() / 57.2958;
-      let centerLng = center.lng() / 57.2958;
-      let northEastLat = northEast.lat() / 57.2958;
-      let northEastLng = northEast.lng() / 57.2958;
-      let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
-                         Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
-      // if (this.radius !== null) {
-      //   this.radius.setMap(null);
-      // }
-      // this.drawRadius();
-      this.filters.radius = radiusMeters;
-      this._updateFilters();
-      if (this.radiusChanged !== null) {
-        this.radiusChanged(radiusMeters, center);
-      }
+    this.map.addListener('dragend', () => {
+      this._recalculateRadius();
     });
+  }
+
+  _recalculateRadius() {
+    let bounds = this.map.getBounds();
+    let center = bounds.getCenter();
+    let northEast = bounds.getNorthEast();
+    let earthRadius = 6378000.41;
+    let centerLat = center.lat() / 57.2958;
+    let centerLng = center.lng() / 57.2958;
+    let northEastLat = northEast.lat() / 57.2958;
+    let northEastLng = northEast.lng() / 57.2958;
+    let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
+                         Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
+
+    this.filters.radius = radiusMeters;
+    this._updateFilters();
+    if (this.radiusChanged !== null) {
+      this.radiusChanged(radiusMeters, center);
+    }
   }
 
   drawUserMarker() {
