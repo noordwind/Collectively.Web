@@ -31,6 +31,7 @@ export class CreateRemark {
     this.setCategory(this.categories[0]);
     this.remark.latitude = this.location.current.latitude;
     this.remark.longitude = this.location.current.longitude;
+    this.remark.address = this.location.current.address;
   }
 
   setCategory(category) {

@@ -4,7 +4,7 @@ import LocationService from 'resources/services/location-service';
 import FiltersService from 'resources/services/filters-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, FiltersService, EventAggregator, )
+@inject(Router, LocationService, FiltersService, EventAggregator)
 export class Map {
     @bindable remarks = [];
     @bindable radiusChanged = null;
@@ -30,7 +30,7 @@ export class Map {
     // this.drawRadius();
     this.eventAggregator.publish('map:loaded');
     this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded',
-        async response => this.locationUpdated(response));
+        async response => await this.locationUpdated(response));
   }
 
   detached() {
@@ -41,7 +41,7 @@ export class Map {
     newValue.forEach(remark => this.drawRemarkMarker(remark));
   }
 
-  locationUpdated(location) {
+  async locationUpdated(location) {
     let lng = location.coords.longitude;
     let lat = location.coords.latitude;
     this.position = { lat, lng };

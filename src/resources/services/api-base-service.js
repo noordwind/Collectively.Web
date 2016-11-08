@@ -16,8 +16,8 @@ export default class ApiBaseService {
       config.withBaseUrl(environment.apiUrl)
               .withDefaults({
                 headers: {
-                  'Accept': 'application/json',
-                  'X-Requested-With': 'Fetch'
+                  'Accept': 'application/json'
+                  // 'X-Requested-With': 'Fetch'
                 }
               });
       this.baseCorsResponseHeaderNames = ['cache-control', 'content-type'];

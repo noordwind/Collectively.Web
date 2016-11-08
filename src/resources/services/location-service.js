@@ -1,12 +1,14 @@
 import {inject} from 'aurelia-framework';
 import environment from '../../environment';
+import {HttpClient, json} from 'aurelia-fetch-client';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 
-@inject(EventAggregator)
+@inject(HttpClient, EventAggregator)
 export default class LocationService {
-  constructor(eventAggregator) {
+  constructor(httpClient, eventAggregator) {
     this.allowedDistance = 15.0;
+    this.httpClient = httpClient;
     this.eventAggregator = eventAggregator;
     this.isUpdating = false;
   }
@@ -15,11 +17,15 @@ export default class LocationService {
     let self = this;
     skipError = skipError || this.exists;
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(function(location) {
+      navigator.geolocation.getCurrentPosition(async location => {
+        let latitude = location.coords.latitude;
+        let longitude = location.coords.longitude;
+        let address = await this.getAddress(latitude, longitude);
         self.current = {
-          longitude: location.coords.longitude,
-          latitude: location.coords.latitude,
-          accuracy: location.coords.accuracy
+          longitude: longitude,
+          latitude: latitude,
+          accuracy: location.coords.accuracy,
+          address: address
         };
         self.eventAggregator.publish('location:loaded', location);
         if (typeof next !== 'undefined') {
@@ -44,6 +50,16 @@ export default class LocationService {
       return;
     }
     self.eventAggregator.publish('location:error');
+  }
+
+  async getAddress(latitude, longitude) {
+    let response = await this.httpClient.fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}`);
+    let addressComponents = await response.json();
+    if (addressComponents.results.length === 0) {
+      return '';
+    }
+
+    return addressComponents.results[0].formatted_address;
   }
 
   get current() {
