@@ -19,6 +19,10 @@ export default class FiltersService {
       categories: [],
       type: 'all',
       state: 'active',
+      center: {
+        latitude: 0,
+        longitude: 0
+      },
       map: {
         enabled: true,
         zoomLevel: 15

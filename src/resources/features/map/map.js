@@ -22,8 +22,15 @@ export class Map {
   }
 
   async attached() {
-    let longitude = this.location.current.longitude;
-    let latitude = this.location.current.latitude;
+    let latitude = this.filters.center.latitude;
+    let longitude = this.filters.center.longitude;
+    let userLatitude = this.location.current.latitude;
+    let userLongitude = this.location.current.longitude;
+    if (latitude === 0 && longitude === 0) {
+      latitude = userLatitude;
+      longitude = userLongitude;
+    }
+    this.userPosition = {lat: userLatitude, lng: userLongitude};
     this.position = {lat: latitude, lng: longitude};
     this.drawMap();
     this.drawUserMarker();
@@ -44,7 +51,7 @@ export class Map {
   async locationUpdated(location) {
     let lng = location.coords.longitude;
     let lat = location.coords.latitude;
-    this.position = { lat, lng };
+    this.userPosition = { lat, lng };
     this.drawUserMarker();
   }
 
@@ -62,6 +69,15 @@ export class Map {
 
     this.map.addListener('dragend', () => {
       this._recalculateRadius();
+    });
+
+    this.map.addListener('center_changed', () => {
+      let center = this.map.getCenter();
+      let latitude = center.lat();
+      let longitude = center.lng();
+      this.filters.center.latitude = latitude;
+      this.filters.center.longitude = longitude;
+      this._updateFilters();
     });
   }
 
@@ -85,8 +101,8 @@ export class Map {
   }
 
   drawUserMarker() {
-    let lat = this.position.lat;
-    let lng = this.position.lng;
+    let lat = this.userPosition.lat;
+    let lng = this.userPosition.lng;
     if (this.userMarker !== null) {
       this.userMarker.setMap(null);
     }
