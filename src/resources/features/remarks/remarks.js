@@ -77,6 +77,15 @@ export class Remarks {
         longitude: remark.location.coordinates[0]
       });
     }, this);
+    this.remarks.sort((x, y) => {
+      if (x.distance < y.distance) {
+        return -1;
+      }
+      if (x.distance > y.distance) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   displayCamera() {
