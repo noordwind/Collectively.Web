@@ -61,6 +61,9 @@ export default class ApiBaseService {
     if (response.status === 200) {
       return response;
     }
+    if (response.status === 202) {
+      return response;
+    }
     if (response.status !== 201) {
       return response.json();
     }
@@ -96,6 +99,9 @@ export default class ApiBaseService {
     if (response.status === 200) {
       return response;
     }
+    if (response.status === 202) {
+      return response;
+    }
     if (response.status !== 201) {
       return response.json();
     }
@@ -126,6 +132,9 @@ export default class ApiBaseService {
       self.toast.error('There was an error while executing the request.');
     }
     if (response.status === 200) {
+      return response;
+    }
+    if (response.status === 202) {
       return response;
     }
     if (response.status !== 201) {
