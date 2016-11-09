@@ -1,25 +1,28 @@
-import {inject} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import { inject } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 import UserService from 'resources/services/user-service';
 import RemarkService from 'resources/services/remark-service';
 import LocationService from 'resources/services/location-service';
 import ToastService from 'resources/services/toast-service';
-import {EventAggregator} from 'aurelia-event-aggregator';
+import FiltersService from 'resources/services/filters-service';
+import { EventAggregator } from 'aurelia-event-aggregator';
 
-@inject(Router, UserService, RemarkService, LocationService, ToastService, EventAggregator)
+@inject(Router, UserService, RemarkService, LocationService, ToastService, FiltersService, EventAggregator)
 export class UserRemarks {
-  constructor(router, userService, remarkService, location, toastService, eventAggregator) {
+  constructor(router, userService, remarkService, location, toastService, filterService, eventAggregator) {
     this.router = router;
     this.userService = userService;
     this.remarkService = remarkService;
     this.location = location;
     this.toastService = toastService;
+    this.filters = filterService.filters;
     this.eventAggregator = eventAggregator;
     this.query = {
       authorId: '',
       page: 1,
-      results: 10
+      results: 25
     };
+    this.loading = false;
   }
 
   async activate(params) {
@@ -33,8 +36,8 @@ export class UserRemarks {
 
   async browse() {
     let remarks = await this.remarkService.browse(this.query);
-    remarks.forEach(function(remark) {
-      remark.url = this.router.generate('remark', {id: remark.id});
+    remarks.forEach(remark => {
+      remark.url = this.router.generate('remark', { id: remark.id });
       remark.distance = this.location.calculateDistance({
         latitude: remark.location.coordinates[1],
         longitude: remark.location.coordinates[0]
@@ -45,8 +48,15 @@ export class UserRemarks {
   }
 
   async loadMore() {
-    this.query.page += 1;
-    let remarks = await this.browse();
-    remarks.forEach(x => this.remarks.push(x));
+    if (this.remarks.length < this.query.results * this.query.page) {
+      return;
+    }
+    if (this.loading === false) {
+      this.loading = true;
+      this.query.page += 1;
+      let remarks = await this.browse();
+      remarks.forEach(x => this.remarks.push(x));
+      this.loading = false;
+    }
   }
 }

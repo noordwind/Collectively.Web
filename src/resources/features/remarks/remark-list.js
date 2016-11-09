@@ -1,10 +1,11 @@
-import {inject, bindable} from 'aurelia-framework';
-import {Router} from 'aurelia-router';
+import { inject, bindable } from 'aurelia-framework';
+import { Router } from 'aurelia-router';
 
 @inject(Router)
 export class RemarkList {
-    @bindable remarks = [];
-    @bindable loadMore = null;
+  @bindable remarks = [];
+  @bindable loadMore = null;
+  @bindable refresh = null;
 
   constructor(router) {
     this.router = router;
@@ -14,8 +15,12 @@ export class RemarkList {
   }
 
   getMore(scrollContext) {
-    if (this.loadMore !== null) {
+    if (scrollContext.isAtBottom && this.loadMore !== null) {
       this.loadMore();
+    }
+
+    if (scrollContext.isAtTop && this.refresh !== null) {
+      this.refresh();
     }
   }
 }
