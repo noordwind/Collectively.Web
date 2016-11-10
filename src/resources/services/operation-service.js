@@ -10,15 +10,15 @@ export default class OperationService {
   async execute(fn) {
     let response = await fn();
     if (response.status !== 202) {
-      return 'error';
+      return false;
     }
-    let endpoint = response.headers.get('x-operation');
-    if (!endpoint) {
-      return 'error';
+    let operationEndpoint = response.headers.get('x-operation');
+    if (!operationEndpoint) {
+      return false;
     }
 
     return new Promise(async (resolve, reject) => {
-      await this.fetchOperationState(endpoint, x => resolve(x));
+      await this.fetchOperationState(operationEndpoint, x => resolve(x));
     });
   }
 
