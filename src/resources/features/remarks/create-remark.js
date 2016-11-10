@@ -2,16 +2,18 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
+import OperationService from 'resources/services/operation-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import FileStore from 'resources/services/file-store';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService, FileStore)
+@inject(Router, LocationService, RemarkService, OperationService, ToastService, LoaderService, FileStore)
 export class CreateRemark {
-  constructor(router, location, remarkService, toast, loader, fileStore) {
+  constructor(router, location, remarkService, operationService, toast, loader, fileStore) {
     this.router = router;
     this.location = location;
     this.remarkService = remarkService;
+    this.operationService = operationService;
     this.toast = toast;
     this.loader = loader;
     this.fileStore = fileStore;
@@ -42,16 +44,18 @@ export class CreateRemark {
   async sendRemark() {
     this.isSending = true;
     this.loader.display();
-    this.toast.info('Sending your remark...');
-    this.remarkService.sendRemark(this.remark, 8000)
-    .then(async response => {
-      await this.toast.success('Your remark has been sent.');
+    this.toast.info('Your remark is being processed...');
+    let success = await this.operationService.execute(async () => await this.remarkService.sendRemark(this.remark));
+    if (success) {
+      this.toast.success('Your remark has been sent.');
       this.loader.hide();
       this.router.navigate('');
-    }, err => {
-      this.toast.error('There was an error, please try again.');
-      this.isSending = false;
-      this.loader.hide();
-    });
+
+      return;
+    }
+
+    this.toast.error('There was an error, please try again.');
+    this.isSending = false;
+    this.loader.hide();
   }
 }

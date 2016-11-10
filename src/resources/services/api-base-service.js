@@ -61,7 +61,7 @@ export default class ApiBaseService {
     if (response.status === 200) {
       return response;
     }
-    if (response.status === 202) {
+    if (response.status === 202 || response.status === 204) {
       return response;
     }
     if (response.status !== 201) {
