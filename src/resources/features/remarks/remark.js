@@ -58,30 +58,41 @@ export class Remark {
     }
     this.loader.display();
     this.isDeleting = true;
-    await this.remarkService.deleteRemark(this.id);
-    await this.toast.info('Delete request has been sent, please wait...');
+    this.toast.info('Removing remark, please wait...');
+    let remarkRemoved = await this.remarkService.deleteRemark(this.id);
+    if (remarkRemoved) {
+      this.toast.success('Remark has been removed.');
+      this.loader.hide();
+      this.router.navigate('');
+
+      return;
+    }
+
     this.isDeleting = false;
+    this.toast.error('There was an error, please try again.');
     this.loader.hide();
-    this.router.navigate('');
   }
 
   async resolve() {
-    let self = this;
     let command = {
-      remarkId: self.remark.id,
+      remarkId: this.remark.id,
       latitude: this.location.current.latitude,
       longitude: this.location.current.longitude
     };
-    self.isSending = true;
-    self.loader.display();
-    self.remarkService.resolveRemark(command)
-      .then(response => {
-        self.toast.success('Your request is being processed.');
-        self.router.navigate('');
-      }, err => {
-        self.toast.error('There was an error, please try again.');
-        self.isSending = false;
-        self.loader.hide();
-      });
+    this.isSending = true;
+    this.loader.display();
+    this.toast.info('Resolving remark, please wait...');
+    let remarkResolved = await this.remarkService.resolveRemark(command);
+    if (remarkResolved) {
+      this.toast.success('Remark has been resolved.');
+      this.loader.hide();
+      this.router.navigate('');
+
+      return;
+    }
+
+    this.toast.error('There was an error, please try again.');
+    this.isSending = false;
+    this.loader.hide();
   }
 }

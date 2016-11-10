@@ -2,18 +2,16 @@ import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
-import OperationService from 'resources/services/operation-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import FileStore from 'resources/services/file-store';
 
-@inject(Router, LocationService, RemarkService, OperationService, ToastService, LoaderService, FileStore)
+@inject(Router, LocationService, RemarkService, ToastService, LoaderService, FileStore)
 export class CreateRemark {
-  constructor(router, location, remarkService, operationService, toast, loader, fileStore) {
+  constructor(router, location, remarkService, toast, loader, fileStore) {
     this.router = router;
     this.location = location;
     this.remarkService = remarkService;
-    this.operationService = operationService;
     this.toast = toast;
     this.loader = loader;
     this.fileStore = fileStore;
@@ -44,9 +42,9 @@ export class CreateRemark {
   async sendRemark() {
     this.isSending = true;
     this.loader.display();
-    this.toast.info('Your remark is being processed...');
-    let success = await this.operationService.execute(async () => await this.remarkService.sendRemark(this.remark));
-    if (success) {
+    this.toast.info('Processing remark, please wait...');
+    let remarkCreated = await this.remarkService.sendRemark(this.remark);
+    if (remarkCreated) {
       this.toast.success('Your remark has been sent.');
       this.loader.hide();
       this.router.navigate('');
