@@ -27,6 +27,7 @@ export function configure(aurelia) {
             .useSelect()
             .useSwitch();
     })
+    .plugin('aurelia-validation')
     .plugin('aurelia-ui-virtualization');
 
   if (environment.debug) {

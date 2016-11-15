@@ -83,6 +83,16 @@ export default [
     }
   },
   {
+    route:    'profile/username',
+    moduleId: `${modulePrefix}/account/set-username`,
+    name:     'username',
+    title:    'Set username',
+    nav:      'false',
+    settings: {
+        reqLogin: true
+    }
+  },
+  {
     route:    'users/:name/remarks',
     moduleId: `${modulePrefix}/remarks/user-remarks`,
     name:     'user-remarks',
