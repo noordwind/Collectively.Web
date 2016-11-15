@@ -17,8 +17,8 @@ export default class UserService extends ApiBaseService {
     return await this.post('sign-in', { accessToken });
   }
 
-  async getAccount() {
-    return await this.get('account');
+  async getAccount(cache = true) {
+    return await this.get('account', {}, cache);
   }
 
   async getAccountByName(name) {

@@ -17,7 +17,16 @@
     </form>
     <div if.bind="!displayForm" class="row">
       <section>
-        <p>Your username is already set.</p>
+        <div class="row">
+          <p>Your username is already set.</p>
+        </div>
+        <div class="row">
+            <div class="col s12">
+              <a route-href="route: remarks">
+                <button class="btn waves-effect waves-light" type="submit">Return to home screen</button>
+              </a>
+            </div>
+        </div>
       </section>
     </div>
   </div>

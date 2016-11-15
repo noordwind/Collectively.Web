@@ -73,6 +73,7 @@ export class SetUsername {
     let nameChanged = await this.userService.changeUsername(this.username);
     if (nameChanged) {
       this.toast.success('Your name is updated.');
+      await this.userService.getAccount(false);
       this.loader.hide();
       this.router.navigateToRoute('remarks');
       return;

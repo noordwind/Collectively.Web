@@ -15,17 +15,19 @@ export default class AuthorizeStep {
       if (!this.authService.isLoggedIn) {
         return next.cancel(new Redirect('login'));
       }
-    }
-    if (this.authService.isLoggedIn) {
-      let account = await this.userService.getAccount();
-      if (account.name) {
-        console.log('has username');
-        return next();
+
+      if (this.authService.isLoggedIn) {
+        let account = await this.userService.getAccount();
+        if (account.name) {
+          return next();
+        }
+        if (navigationInstruction.fragment === '/profile/username') {
+          return next();
+        }
+        return next.cancel(new Redirect('profile/username'));
       }
-
-      console.log('username is missing');
     }
-
+    
     return next();
   }
 }
