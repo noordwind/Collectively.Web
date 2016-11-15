@@ -84,6 +84,15 @@ input[type=range]::-webkit-slider-thumb {
     position: static !important;
 }
 
+.md-input-validation {
+    left: 0;
+    color: #f44336;
+    font-size: 0.8rem;
+    transition: opacity .2s ease-out;
+    margin-top: -4px;
+    margin-bottom: 0;
+}
+
 @media screen and (max-width: $mobile-width) {
     .btn:not(.btn-floating) {
         width: 100%;

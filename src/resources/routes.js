@@ -87,7 +87,7 @@ export default [
     moduleId: `${modulePrefix}/account/set-username`,
     name:     'username',
     title:    'Set username',
-    nav:      'false',
+    nav:      false,
     settings: {
         reqLogin: true
     }
