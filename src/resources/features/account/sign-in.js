@@ -13,75 +13,59 @@ import LoaderService from 'resources/services/loader-service';
   UserService,
   ToastService,
   LoaderService)
-export class SetUsername {
-  controller = null;
-  username = '';
-  sending = false;
-
+export class SignIn {
   constructor(router, controllerFactory, userService, toast, loader) {
     this.router = router;
     this.userService = userService;
-    this.account = {};
+    this.account = {
+      email: '',
+      password: '',
+      provider: 'coolector'
+    };
     this.toast = toast;
     this.loader = loader;
+    this.sending = false;
     this.controller = controllerFactory.createForCurrentScope();
     this.controller.validateTrigger = validateTrigger.blur;
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
 
-    ValidationRules.customRule(
-      'username',
-      async (value, obj) => await this.validateUsername(value), 'This name is already used!'
-    );
-
     ValidationRules
-      .ensure('username')
+      .ensure('email')
         .required()
-          .withMessage('Username is required!')
+          .withMessage('Email is required!')
+        .email()
+          .withMessage('Email is invalid!')
+        .maxLength(100)
+      .ensure('password')
+        .required()
+          .withMessage('Password is required!')
         .minLength(4)
-        .satisfiesRule('username')
-      .on(this);
-  }
-
-  async activate() {
-    this.account = await this.userService.getAccount();
-    this.username = this.account.name;
-  }
-
-  get displayForm() {
-    return this.account.name ? false : true;
-  }
-
-  async validateUsername(name) {
-    if (!name) {
-      return true;
-    }
-    let result = await this.userService.isNameAvailable(name);
-
-    return result.isAvailable;
+        .maxLength(100)
+      .on(this.account);
   }
 
   async submit() {
-    this.loader.display();
-    this.sending = true;
     let errors = await this.controller.validate();
     if (errors.length > 0) {
       this.sending = false;
       return;
     }
 
-    this.toast.info('Processing remark, please wait...');
-    let nameChanged = await this.userService.changeUsername(this.username);
-    if (nameChanged.success) {
-      this.toast.success('Your name is updated.');
-      await this.userService.getAccount(false);
+    this.loader.display();
+    this.sending = true;
+    this.toast.info('Signing in, please wait...');
+    let response = await this.userService.signIn(this.account);
+    console.log(response);
+    if (response.sessionId && response.token && response.key) {
+      console.log("ok");
       this.loader.hide();
-      this.router.navigateToRoute('remarks');
+      // this.router.navigateToRoute('remarks');
+
       return;
     }
 
-    this.toast.error(nameChanged.message);
     this.sending = false;
     this.loader.hide();
+    this.toast.error('Invalid credentials.');
   }
-
 }

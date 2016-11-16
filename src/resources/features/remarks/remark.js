@@ -60,7 +60,7 @@ export class Remark {
     this.isDeleting = true;
     this.toast.info('Removing remark, please wait...');
     let remarkRemoved = await this.remarkService.deleteRemark(this.id);
-    if (remarkRemoved) {
+    if (remarkRemoved.success) {
       this.toast.success('Remark has been removed.');
       this.loader.hide();
       this.router.navigate('');
@@ -69,7 +69,7 @@ export class Remark {
     }
 
     this.isDeleting = false;
-    this.toast.error('There was an error, please try again.');
+    this.toast.error(remarkRemoved.message);
     this.loader.hide();
   }
 
@@ -83,7 +83,7 @@ export class Remark {
     this.loader.display();
     this.toast.info('Resolving remark, please wait...');
     let remarkResolved = await this.remarkService.resolveRemark(command);
-    if (remarkResolved) {
+    if (remarkResolved.success) {
       this.toast.success('Remark has been resolved.');
       this.loader.hide();
       this.router.navigate('');
@@ -91,7 +91,7 @@ export class Remark {
       return;
     }
 
-    this.toast.error('There was an error, please try again.');
+    this.toast.error(remarkResolved.message);
     this.isSending = false;
     this.loader.hide();
   }

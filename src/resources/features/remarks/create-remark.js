@@ -44,7 +44,7 @@ export class CreateRemark {
     this.loader.display();
     this.toast.info('Processing remark, please wait...');
     let remarkCreated = await this.remarkService.sendRemark(this.remark);
-    if (remarkCreated) {
+    if (remarkCreated.success) {
       this.toast.success('Your remark has been sent.');
       this.loader.hide();
       this.router.navigate('');
@@ -52,7 +52,7 @@ export class CreateRemark {
       return;
     }
 
-    this.toast.error('There was an error, please try again.');
+    this.toast.error(remarkCreated.message);
     this.isSending = false;
     this.loader.hide();
   }

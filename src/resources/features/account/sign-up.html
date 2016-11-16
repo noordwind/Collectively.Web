@@ -1,0 +1,35 @@
+<template>
+  <h4>Sign up for Coolector</h4>
+  <div class="row">
+    <form submit.delegate="submit()" class="col s12">
+      <div class="row">
+        <md-input class="col s12"
+          md-label="Username" 
+          md-value.bind="account.name & validate"
+          md-validate="true">
+        </md-input>
+      </div>
+      <div class="row">
+        <md-input class="col s12"
+          md-label="Email" 
+          md-type="email"
+          md-value.bind="account.email & validate"
+          md-validate="true">
+        </md-input>
+      </div>
+      <div class="row">
+        <md-input class="col s12"
+          md-label="Password" 
+          md-type="password"
+          md-value.bind="account.password & validate"
+          md-validate="true">
+        </md-input>
+      </div>
+      <div class="row">
+        <div class="input-field">
+          <button md-button disabled.bind="sending" class="btn waves-effect waves-light" type="submit">Sign up</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</template>

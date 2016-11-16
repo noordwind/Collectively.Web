@@ -47,7 +47,6 @@ export default class ApiBaseService {
   }
 
   async post(path, params) {
-    let self = this;
     let headers = this.getHeaders();
     headers['Content-Type'] = 'application/json';
     const response = await this.http.fetch(path, {
@@ -56,10 +55,10 @@ export default class ApiBaseService {
       headers: headers
     });
     if (response.status >= 400) {
-      self.toast.error('There was an error while executing the request.');
+      return response;
     }
     if (response.status === 200) {
-      return response;
+      return response.json();
     }
     if (response.status === 202 || response.status === 204) {
       return response;
@@ -84,7 +83,6 @@ export default class ApiBaseService {
   }
 
   async put(path, params) {
-    let self = this;
     let headers = this.getHeaders();
     headers['Content-Type'] = 'application/json';
     const response = await this.http.fetch(path, {
@@ -94,10 +92,10 @@ export default class ApiBaseService {
     });
 
     if (response.status >= 400) {
-      self.toast.error('There was an error while executing the request.');
+      return response;
     }
     if (response.status === 200) {
-      return response;
+      return response.json();
     }
     if (response.status === 202) {
       return response;
@@ -121,7 +119,6 @@ export default class ApiBaseService {
   }
 
   async delete(path, params) {
-    let self = this;
     let headers = this.getHeaders();
     let response = await this.http.fetch(path, {
       method: 'delete',
@@ -129,10 +126,10 @@ export default class ApiBaseService {
     });
 
     if (response.status >= 400) {
-      self.toast.error('There was an error while executing the request.');
+      return response;
     }
     if (response.status === 200) {
-      return response;
+      return response.json();
     }
     if (response.status === 202) {
       return response;

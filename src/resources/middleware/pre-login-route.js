@@ -1,6 +1,6 @@
 export default class PreLoginRoute{
     run(routingContext, next) {
-        let skipRoutes = ['login'];
+        let skipRoutes = ['sign-in'];
         if (skipRoutes.indexOf(routingContext.config.route) === -1) {
             this.route = routingContext.config.route;
         }

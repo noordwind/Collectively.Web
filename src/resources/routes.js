@@ -22,6 +22,24 @@ export default [
     }
   },
   {
+    route:      'sign-in',
+    moduleId:   `${modulePrefix}/account/sign-in`,
+    name:       'sign-in',
+    title:      'Sign in',
+    settings: {
+      hideNavbar: true
+    }
+  },
+  {
+    route:      'sign-up',
+    moduleId:   `${modulePrefix}/account/sign-up`,
+    name:       'sign-up',
+    title:      'Sign up',
+    settings: {
+      hideNavbar: true
+    }
+  },
+  {
     route:      'location',
     moduleId:   `${modulePrefix}/home/location`,
     name:       'location',

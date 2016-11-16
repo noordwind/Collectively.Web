@@ -13,8 +13,13 @@ export default class UserService extends ApiBaseService {
     this.operationService = operationService;
   }
 
-  async signIn(accessToken) {
-    return await this.post('sign-in', { accessToken });
+  async signIn(account) {
+    return await this.post('sign-in', account);
+  }
+
+  async signUp(account) {
+    return await this.operationService.execute(async ()
+      => await this.post('sign-up', account));
   }
 
   async getAccount(cache = true) {

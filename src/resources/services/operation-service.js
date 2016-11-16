@@ -10,11 +10,11 @@ export default class OperationService {
   async execute(fn) {
     let response = await fn();
     if (response.status !== 202) {
-      return false;
+      return ({success: true, message: 'There was an error, please try again.'});
     }
     let operationEndpoint = response.headers.get('x-operation');
     if (!operationEndpoint) {
-      return false;
+      return ({success: true, message: 'Operation has not been found.'});
     }
 
     return new Promise(async (resolve, reject) => {
@@ -36,12 +36,12 @@ export default class OperationService {
         return;
       }
       if (operation.state === 'completed') {
-        next(true);
+        next({success: true, message: operation.message});
 
         return;
       }
       if (operation.state === 'rejected') {
-        next(false);
+        next({success: false, message: operation.message});
 
         return;
       }
