@@ -25,7 +25,7 @@ export default class OperationService {
   async fetchOperationState(endpoint, next) {
     let operation = await this.getOperation(endpoint);
     await setTimeout(async () => {
-      if (operation.status === 404) {
+      if (operation.statusCode === 404) {
         await this.fetchOperationState(endpoint, next);
 
         return;
