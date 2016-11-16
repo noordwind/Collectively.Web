@@ -18,7 +18,7 @@ export default class AuthorizeStep {
 
       if (this.authService.isLoggedIn) {
         let account = await this.userService.getAccount();
-        if (account.name) {
+        if (account.state !== 'incomplete') {
           return next();
         }
         if (navigationInstruction.fragment === '/profile/username') {
@@ -27,7 +27,7 @@ export default class AuthorizeStep {
         return next.cancel(new Redirect('profile/username'));
       }
     }
-    
+
     return next();
   }
 }
