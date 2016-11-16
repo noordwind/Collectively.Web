@@ -153,7 +153,7 @@ export default class ApiBaseService {
   }
 
   getHeaders() {
-    return {'Authorization': `Bearer ${this.authService.idToken}`};
+    return {'Authorization': `Bearer ${this.authService.token}`};
   }
 
   cacheKey(keySuffix) {

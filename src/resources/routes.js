@@ -13,10 +13,10 @@ export default [
   //   }
   // },
   {
-    route:      'login',
-    moduleId:   `${modulePrefix}/account/login`,
-    name:       'login',
-    title:      'Login',
+    route:      'start',
+    moduleId:   `${modulePrefix}/home/start`,
+    name:       'start',
+    title:      'Start',
     settings: {
       hideNavbar: true
     }

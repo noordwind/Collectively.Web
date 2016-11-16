@@ -4,18 +4,17 @@ import { ValidationControllerFactory,
   ValidationRules,
   validateTrigger  } from 'aurelia-validation';
 import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
+import AuthService from '../../services/auth-service';
 import UserService from '../../services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
-@inject(Router,
-  ValidationControllerFactory,
-  UserService,
-  ToastService,
-  LoaderService)
+@inject(Router, ValidationControllerFactory, AuthService,
+  UserService, ToastService, LoaderService)
 export class SignIn {
-  constructor(router, controllerFactory, userService, toast, loader) {
+  constructor(router, controllerFactory, authService, userService, toast, loader) {
     this.router = router;
+    this.authService = authService;
     this.userService = userService;
     this.account = {
       email: '',
@@ -54,12 +53,16 @@ export class SignIn {
     this.loader.display();
     this.sending = true;
     this.toast.info('Signing in, please wait...');
-    let response = await this.userService.signIn(this.account);
-    console.log(response);
-    if (response.sessionId && response.token && response.key) {
-      console.log("ok");
+    let session = await this.userService.signIn(this.account);
+    if (session.sessionId && session.token && session.key) {
+      this.authService.session = {
+        sessionId: session.sessionId,
+        token: session.token,
+        expiry: session.expiry,
+        key: session.key
+      };
       this.loader.hide();
-      // this.router.navigateToRoute('remarks');
+      this.router.navigateToRoute('remarks');
 
       return;
     }

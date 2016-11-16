@@ -13,7 +13,7 @@ export default class AuthorizeStep {
   async run(navigationInstruction, next) {
     if (navigationInstruction.getAllInstructions().some(i => i.config.settings && i.config.settings.reqLogin)) {
       if (!this.authService.isLoggedIn) {
-        return next.cancel(new Redirect('sign-in'));
+        return next.cancel(new Redirect('start'));
       }
 
       if (this.authService.isLoggedIn) {
