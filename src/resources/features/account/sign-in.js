@@ -62,7 +62,7 @@ export class SignIn {
         key: session.key
       };
       this.loader.hide();
-      this.router.navigateToRoute('remarks');
+      this.router.navigate('/');
 
       return;
     }
