@@ -1,7 +1,7 @@
 <template>
   <h4>Please set your username</h4>
   <div class="row">
-    <form submit.delegate="submit()" if.bind="displayForm" class="col s12">
+    <form submit.delegate="submit()" class="col s12">
       <div class="row">
         <md-input class="col s12"
           md-label="Username" 
@@ -15,19 +15,5 @@
         </div>
       </div>
     </form>
-    <div if.bind="!displayForm" class="row">
-      <section>
-        <div class="row">
-          <p>Your username is already set.</p>
-        </div>
-        <div class="row">
-            <div class="col s12">
-              <a route-href="route: remarks">
-                <button class="btn waves-effect waves-light" type="submit">Return to home screen</button>
-              </a>
-            </div>
-        </div>
-      </section>
-    </div>
   </div>
 </template>

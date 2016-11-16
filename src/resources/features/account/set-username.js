@@ -1,5 +1,5 @@
 import { inject } from 'aurelia-framework';
-import { Router } from 'aurelia-router';
+import { Router, Redirect } from 'aurelia-router';
 import { ValidationControllerFactory,
   ValidationRules,
   validateTrigger  } from 'aurelia-validation';
@@ -42,13 +42,16 @@ export class SetUsername {
       .on(this);
   }
 
-  async activate() {
+  async canActivate(params, routeConfig, $navigationInstruction) {
     this.account = await this.userService.getAccount();
-    this.username = this.account.name;
+    if (this.account.name) {
+      return new Redirect('');
+    }
+    return true;
   }
 
-  get displayForm() {
-    return this.account.name ? false : true;
+  async activate() {
+    this.username = this.account.name;
   }
 
   async validateUsername(name) {
@@ -69,7 +72,7 @@ export class SetUsername {
       return;
     }
 
-    this.toast.info('Processing remark, please wait...');
+    this.toast.info('Changing username, please wait...');
     let nameChanged = await this.userService.changeUsername(this.username);
     if (nameChanged) {
       this.toast.success('Your name is updated.');

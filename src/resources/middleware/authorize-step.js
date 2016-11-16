@@ -27,7 +27,7 @@ export default class AuthorizeStep {
         return next.cancel(new Redirect('profile/username'));
       }
     }
-    
+
     return next();
   }
 }
