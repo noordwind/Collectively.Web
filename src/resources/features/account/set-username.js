@@ -44,14 +44,13 @@ export class SetUsername {
 
   async canActivate(params, routeConfig, $navigationInstruction) {
     this.account = await this.userService.getAccount();
-    if (this.account.name) {
+    if (this.account.state !== 'incomplete') {
       return new Redirect('');
     }
     return true;
   }
 
-  async activate() {
-    this.username = this.account.name;
+  activate() {
   }
 
   async validateUsername(name) {
@@ -64,14 +63,12 @@ export class SetUsername {
   }
 
   async submit() {
-    this.loader.display();
-    this.sending = true;
     let errors = await this.controller.validate();
     if (errors.length > 0) {
-      this.sending = false;
       return;
     }
-
+    this.loader.display();
+    this.sending = true;
     this.toast.info('Changing username, please wait...');
     let nameChanged = await this.userService.changeUsername(this.username);
     if (nameChanged) {
@@ -83,7 +80,7 @@ export class SetUsername {
     }
 
     this.toast.error('There was an error, please try again.');
-    this.isSending = false;
+    this.sending = false;
     this.loader.hide();
   }
 
