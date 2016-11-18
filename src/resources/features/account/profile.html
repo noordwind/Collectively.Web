@@ -2,18 +2,8 @@
     <h4>Profile</h4>
     <div class="row">
         <div class="input-field left col s12">
-            <md-input md-value.bind="username" md-disabled.bind="!usernameEditEnabled"/>
-            <label for="nickname">Name</label>           
-        </div>
-    </div>
-    <div class="row">
-        <div class="input-field col s12">
-            <button class="btn waves-effect waves-light btn-large" md-button if.bind="!usernameEditEnabled" click.trigger="enableUsernameEdit()">
-                <i class="material-icons left">mode_edit</i> Edit my name
-            </button>          
-            <button class="btn waves-effect waves-light btn-large" md-button if.bind="usernameEditEnabled" click.trigger="saveUsername()">
-                <i class="material-icons left">save</i> Save my name
-            </button>
+            <p id=nickname>${username}</p>
+            <label class="active" for="nickname">Name</label>           
         </div>
     </div>
     <div class="section">

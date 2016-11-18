@@ -9,20 +9,10 @@ export class Profile {
     this.authService = authService;
     this.userService = userService;
     this.router = router;
-    this.usernameEditEnabled = false;
   }
 
   async activate() {
     let userProfile = await this.userService.getAccount();
     this.username = userProfile.name;
-  }
-
-  async enableUsernameEdit() {
-    this.usernameEditEnabled = true;
-  }
-
-  async saveUsername() {
-    this.usernameEditEnabled = false;
-    await this.userService.changeUsername(this.username);
   }
 }
