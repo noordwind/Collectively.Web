@@ -4,19 +4,19 @@ import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
-import AuthService from 'resources/services/auth-service';
+import UserService from 'resources/services/user-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import Environment from '../../../environment';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService, AuthService, EventAggregator, Environment)
+@inject(Router, LocationService, RemarkService, ToastService, LoaderService, UserService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, location, remarkService, toastService, loader, authService, eventAggregator, environment) {
+  constructor(router, location, remarkService, toastService, loader, userService, eventAggregator, environment) {
     this.router = router;
     this.location = location;
     this.remarkService = remarkService;
     this.toast = toastService;
     this.loader = loader;
-    this.authService = authService;
+    this.userService = userService;
     this.eventAggregator = eventAggregator;
     this.feature = environment.feature;
     this.remark = {};
@@ -26,9 +26,7 @@ export class Remark {
   }
 
   get canDelete() {
-    let profile = this.authService.profile;
-
-    return profile.user_id === this.remark.author.userId;
+    return this.account.userId === this.remark.author.userId;
   }
 
   get canResolve() {
@@ -38,6 +36,7 @@ export class Remark {
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
+    this.account = await this.userService.getAccount();
     let remark = await this.remarkService.getRemark(this.id);
     this.remark = remark;
     this.mediumPhoto = remark.photos.find(x => x.size === 'medium');
