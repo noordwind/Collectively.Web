@@ -15,7 +15,6 @@ export default class AuthorizeStep {
       if (!this.authService.isLoggedIn) {
         return next.cancel(new Redirect('start'));
       }
-
       if (this.authService.isLoggedIn) {
         let account = await this.userService.getAccount();
         if (account.state !== 'incomplete') {

@@ -59,10 +59,11 @@ export class SignIn {
         sessionId: session.sessionId,
         token: session.token,
         expiry: session.expiry,
-        key: session.key
+        key: session.key,
+        provider: 'coolector'
       };
       this.loader.hide();
-      this.router.navigate('/');
+      this.router.navigatToRoute('start');
 
       return;
     }

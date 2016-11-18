@@ -9,5 +9,8 @@ export default {
   feature: {
     resolveRemarkPhotoRequired: false,
     resolveRemarkLocationRequired: false
+  },
+  facebook: {
+    appId: '1827532267461737'
   }
 };
