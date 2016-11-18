@@ -1,28 +1,28 @@
 <template>
-  <h4>Sign in to Coolector</h4>
   <div class="row">
-    <form submit.delegate="submit()" class="col s12">
-      <div class="row">
-        <md-input class="col s12"
-          md-label="Email" 
-          md-type="email"
-          md-value.bind="account.email & validate"
-          md-validate="true">
-        </md-input>
+    <h4>Sign in to Coolector</h4>
+  </div>  
+  <form submit.delegate="submit()" class="col s12">
+    <div class="row">
+      <md-input class="col s12"
+        md-label="Email" 
+        md-type="email"
+        md-value.bind="account.email & validate"
+        md-validate="true">
+      </md-input>
+    </div>
+    <div class="row">
+      <md-input class="col s12"
+        md-label="Password" 
+        md-type="password"
+        md-value.bind="account.password & validate"
+        md-validate="true">
+      </md-input>
+    </div>
+    <div class="row">
+      <div class="input-field col s12">
+        <button md-button disabled.bind="sending" class="btn waves-effect waves-light" type="submit">Sign in</button>
       </div>
-      <div class="row">
-        <md-input class="col s12"
-          md-label="Password" 
-          md-type="password"
-          md-value.bind="account.password & validate"
-          md-validate="true">
-        </md-input>
-      </div>
-      <div class="row">
-        <div class="input-field">
-          <button md-button disabled.bind="sending" class="btn waves-effect waves-light" type="submit">Sign in</button>
-        </div>
-      </div>
-    </form>
-  </div>
+    </div>
+  </form>
 </template>
