@@ -93,6 +93,10 @@ input[type=range]::-webkit-slider-thumb {
     margin-bottom: 0;
 }
 
+.back-btn {
+    width: 40px;
+}
+
 @media screen and (max-width: $mobile-width) {
     .btn:not(.btn-floating) {
         width: 100%;

@@ -40,7 +40,8 @@ export class NavBar {
   }
 
   get canGoBack() {
-    return !(this.router.history.previousLocation === this.router.history.root);
+    let routes = [ '/location', '/remarks' ];
+    return !(routes.includes(this.router.history.previousLocation));
   }
 
   get navigation() {
