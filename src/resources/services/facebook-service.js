@@ -2,16 +2,22 @@ import {inject} from 'aurelia-framework';
 import ScriptLoadingService from 'resources/services/script-loading-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
+import ApiBaseService from 'resources/services/api-base-service';
+import OperationService from 'resources/services/operation-service';
 import ToastService from 'resources/services/toast-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import environment from '../../environment';
 
-@inject(ScriptLoadingService, AuthService, UserService, ToastService, EventAggregator)
+@inject(ScriptLoadingService, AuthService, UserService, ApiBaseService,
+ OperationService, ToastService, EventAggregator)
 export default class FacebookService {
-  constructor(scriptLoadingService, authService, userService, toast, eventAggregator) {
+  constructor(scriptLoadingService, authService, userService,
+  apiBaseService, operationService, toast, eventAggregator) {
     this.scriptLoadingService = scriptLoadingService;
     this.authService = authService;
     this.userService = userService;
+    this.apiBaseService = apiBaseService;
+    this.operationService = operationService;
     this.toast = toast;
     this.eventAggregator = eventAggregator;
   }
@@ -33,7 +39,7 @@ export default class FacebookService {
   }
 
   login(next) {
-    FB.login((response) => this.loginCallback(response, next), {scope: 'email'});
+    FB.login((response) => this.loginCallback(response, next), {scope: 'email, publish_actions'});
 
     return false;
   }
@@ -65,5 +71,14 @@ export default class FacebookService {
       this.toast.error('Please sign in to Facebook.');
     }
     err();
+  }
+
+  async postOnWall(message) {
+    let request = {
+      accessToken: this.authService.session.externalAccessToken,
+      message: message };
+
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post('social/facebook/wall', request));
   }
 }

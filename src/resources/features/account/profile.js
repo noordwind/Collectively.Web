@@ -1,18 +1,28 @@
 import {inject} from 'aurelia-framework';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
+import FacebookService from 'resources/services/facebook-service';
 import {Router} from 'aurelia-router';
 
-@inject(AuthService, UserService, Router)
+@inject(AuthService, UserService, FacebookService, Router)
 export class Profile {
-  constructor(authService, userService, router) {
+  constructor(authService, userService, facebookService, router) {
     this.authService = authService;
     this.userService = userService;
+    this.facebookService = facebookService;
     this.router = router;
+    this.sending = false;
   }
 
   async activate() {
     let userProfile = await this.userService.getAccount();
     this.username = userProfile.name;
+  }
+
+  async postOnFacebookWall() {
+    this.sending = true;
+    let messagePostedOnFacebookWall = await this.facebookService.postOnWall('Hello from Coolector.');
+    console.log(messagePostedOnFacebookWall);
+    this.sending = false;
   }
 }

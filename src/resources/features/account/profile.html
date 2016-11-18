@@ -10,5 +10,9 @@
         <a route-href="route: user-remarks; params.bind: {name : username}" class="btn waves-effect waves-light btn-large">
             <i class="material-icons left">view_list</i>List remarks
         </a>
+     <div class="input-field col s12">
+        <button md-button disabled.bind="sending" class="btn waves-effect waves-light btn-large" click.delegate="postOnFacebookWall()">
+            <i class="material-icons left">queue</i>Post on Facebook wall</button>
+      </div>
     </div>
 </template>
