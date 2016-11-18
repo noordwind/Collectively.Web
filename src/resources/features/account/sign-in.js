@@ -63,7 +63,7 @@ export class SignIn {
         provider: 'coolector'
       };
       this.loader.hide();
-      this.router.navigatToRoute('start');
+      this.router.navigateToRoute('remarks');
 
       return;
     }

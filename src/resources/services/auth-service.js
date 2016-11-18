@@ -14,7 +14,7 @@ export default class AuthService {
       return this.session.token;
     }
 
-    return null;
+    return '';
   }
 
   get session() {

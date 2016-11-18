@@ -13,7 +13,7 @@ export default [
   //   }
   // },
   {
-    route:      'start',
+    route:      '',
     moduleId:   `${modulePrefix}/home/start`,
     name:       'start',
     title:      'Start',
@@ -49,7 +49,7 @@ export default [
     }
   },
   {
-    route:    '',
+    route:    'remarks',
     moduleId: `${modulePrefix}/remarks/remarks`,
     name:     'remarks',
     title:    'Remarks',

@@ -13,7 +13,7 @@ export default class AuthorizeStep {
   async run(navigationInstruction, next) {
     if (navigationInstruction.getAllInstructions().some(i => i.config.settings && i.config.settings.reqLogin)) {
       if (!this.authService.isLoggedIn) {
-        return next.cancel(new Redirect('start'));
+        return next.cancel(new Redirect(''));
       }
       if (this.authService.isLoggedIn) {
         let account = await this.userService.getAccount();
@@ -22,6 +22,9 @@ export default class AuthorizeStep {
         }
         if (navigationInstruction.fragment === '/profile/username') {
           return next();
+        }
+        if (account.state === 'active' && navigationInstruction.fragment === '/') {
+          return next.cancel(new Redirect('remarks'));
         }
         return next.cancel(new Redirect('profile/username'));
       }
