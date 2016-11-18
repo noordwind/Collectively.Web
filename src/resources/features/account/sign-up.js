@@ -33,7 +33,7 @@ export class SignUp {
           .withMessage('Username is required!')
         .minLength(2)
         .maxLength(50)
-        // .matches(/^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+(?<![_.-])$/)
+        .matches(/^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+[a-zA-Z0-9]$/)
       .ensure('email')
         .required()
           .withMessage('Email is required!')
