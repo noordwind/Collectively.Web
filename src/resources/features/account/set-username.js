@@ -75,7 +75,7 @@ export class SetUsername {
       this.toast.success('Your name is updated.');
       await this.userService.getAccount(false);
       this.loader.hide();
-      this.router.navigateToRoute('remarks');
+      this.router.navigateToRoute('location');
       return;
     }
 

@@ -32,7 +32,7 @@ export class NavBar {
 
   logout() {
     this.authService.logout();
-    this.router.navigate('start');
+    this.router.navigateToRoute('start');
   }
 
   back() {

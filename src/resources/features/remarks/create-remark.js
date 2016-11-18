@@ -47,7 +47,7 @@ export class CreateRemark {
     if (remarkCreated.success) {
       this.toast.success('Your remark has been sent.');
       this.loader.hide();
-      this.router.navigate('');
+      this.router.navigateToRoute('remarks');
 
       return;
     }

@@ -19,7 +19,7 @@ export class Start {
     this.loader.display();
     this.facebookService.login(() => {
       this.loader.hide();
-      this.router.navigateToRoute('remarks');
+      this.router.navigateToRoute('location');
 
       return;
     }, () => {

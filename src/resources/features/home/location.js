@@ -17,7 +17,7 @@ export class Location {
 
   async attached() {
     if (this.location.exists) {
-      this.router.navigate('');
+      this.router.navigateToRoute('remarks');
       return;
     }
     this.loader.display();
@@ -25,7 +25,7 @@ export class Location {
     await this.location.getLocation(async x => {
       this.toast.success('Location has been loaded.');
       this.loader.hide();
-      this.router.navigate('');
+      this.router.navigateToRoute('remarks');
     }, async error => {
       this.eventAggregator.publish('location:error');
     }, true);

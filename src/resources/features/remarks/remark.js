@@ -62,7 +62,7 @@ export class Remark {
     if (remarkRemoved.success) {
       this.toast.success('Remark has been removed.');
       this.loader.hide();
-      this.router.navigate('');
+      this.router.navigateToRoute('remarks');
 
       return;
     }
@@ -85,7 +85,7 @@ export class Remark {
     if (remarkResolved.success) {
       this.toast.success('Remark has been resolved.');
       this.loader.hide();
-      this.router.navigate('');
+      this.router.navigateToRoute('remarks');
 
       return;
     }
