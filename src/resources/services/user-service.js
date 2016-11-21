@@ -27,7 +27,7 @@ export default class UserService extends ApiBaseService {
   }
 
   async getAccountByName(name) {
-    return await this.get(`${name}/account`);
+    return await this.get(`users/${name}`);
   }
 
   async isNameAvailable(name) {
