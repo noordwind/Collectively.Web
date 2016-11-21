@@ -40,6 +40,11 @@ export default class OperationService {
 
         return;
       }
+      if (operation.state === 'completed') {
+        next({success: false, message: operation.message});
+
+        return;
+      }
       if (operation.state === 'rejected') {
         next({success: false, message: operation.message});
 
