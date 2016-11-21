@@ -35,13 +35,8 @@ export default class OperationService {
 
         return;
       }
-      if (operation.success) {
-        next({success: true, message: operation.message});
-
-        return;
-      }
       if (operation.state === 'completed') {
-        next({success: false, message: operation.message});
+        next({success: operation.success, message: operation.message});
 
         return;
       }
