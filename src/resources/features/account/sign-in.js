@@ -54,9 +54,10 @@ export class SignIn {
     this.sending = true;
     this.toast.info('Signing in, please wait...');
     let session = await this.userService.signIn(this.account);
-    if (session.sessionId && session.token && session.key) {
+    if (typeof session !== 'undefined' && session.token !== '') {
       this.authService.session = {
         sessionId: session.sessionId,
+        sessionKey: session.sessionKey,
         token: session.token,
         expiry: session.expiry,
         key: session.key,

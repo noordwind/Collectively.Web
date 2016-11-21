@@ -51,12 +51,12 @@ export default class FacebookService {
         provider: 'facebook',
         accessToken: accessToken
       });
-      if (session.sessionId && session.token && session.key) {
+      if (typeof session !== 'undefined' && session.token !== '') {
         this.authService.session = {
           sessionId: session.sessionId,
+          sessionKey: session.sessionKey,
           token: session.token,
           expiry: session.expiry,
-          key: session.key,
           provider: 'facebook',
           externalAccessToken: accessToken
         };
