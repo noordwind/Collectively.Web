@@ -3,6 +3,7 @@ export default {
   testing: true,
   title: 'Coolector [Docker]',
   apiUrl: 'http://api:5000/',
+  signalRUrl: '',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

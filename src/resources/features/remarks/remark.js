@@ -5,24 +5,30 @@ import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import UserService from 'resources/services/user-service';
+import SignalRService from 'resources/services/signalr-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import Environment from '../../../environment';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService, UserService, EventAggregator, Environment)
+@inject(Router, LocationService, RemarkService,
+ToastService, LoaderService, UserService,
+SignalRService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, location, remarkService, toastService, loader, userService, eventAggregator, environment) {
+  constructor(router, location, remarkService, toastService, loader, userService, signalR, eventAggregator, environment) {
     this.router = router;
     this.location = location;
     this.remarkService = remarkService;
     this.toast = toastService;
     this.loader = loader;
     this.userService = userService;
+    this.signalR = signalR;
     this.eventAggregator = eventAggregator;
     this.feature = environment.feature;
     this.remark = {};
     this.isDeleting = false;
     this.isSending = false;
     this.isInRange = false;
+
+    this.signalR.initialize();
   }
 
   get canDelete() {
