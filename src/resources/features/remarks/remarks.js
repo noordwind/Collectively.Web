@@ -6,14 +6,16 @@ import FiltersService from 'resources/services/filters-service';
 import LoaderService from 'resources/services/loader-service';
 import ToastService from 'resources/services/toast-service';
 import UserService from 'resources/services/user-service';
+import SignalRService from 'resources/services/signalr-service';
 import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, RemarkService, FiltersService, LoaderService, ToastService,
-UserService, FileStore, EventAggregator)
+@inject(Router, LocationService, RemarkService,
+FiltersService, LoaderService, ToastService,
+UserService, SignalRService, FileStore, EventAggregator)
 export class Remarks {
   constructor(router, location, remarkService, filtersService, loader, toast,
-  userService, fileStore, eventAggregator) {
+  userService, signalRService, fileStore, eventAggregator) {
     self = this;
     this.router = router;
     this.location = location;
@@ -22,6 +24,7 @@ export class Remarks {
     this.loader = loader;
     this.toast = toast;
     this.userService = userService;
+    this.signalR = signalRService;
     this.fileStore = fileStore;
     this.eventAggregator = eventAggregator;
     this.files = [];
@@ -36,6 +39,7 @@ export class Remarks {
     this.remarks = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
+    this.signalR.initialize();
   }
 
   async activate(params) {

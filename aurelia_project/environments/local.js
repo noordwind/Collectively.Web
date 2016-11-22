@@ -3,6 +3,7 @@ export default {
   testing: true,
   title: 'Coolector [Local]',
   apiUrl: 'http://localhost:5000/',
+  signalRUrl: 'http://localhost:15000/',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
