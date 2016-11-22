@@ -3,7 +3,7 @@ export default {
   testing: false,
   title: 'Coolector',
   apiUrl: 'https://coolector.tk/api/',
-  signalRUrl: '',
+  signalRUrl: 'https://coolector.tk/signalr/',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

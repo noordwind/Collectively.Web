@@ -31,7 +31,6 @@ export class Remark {
     this.isDeleting = false;
     this.isSending = false;
     this.isInRange = false;
-
     this.signalR.initialize();
   }
 
