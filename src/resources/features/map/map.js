@@ -8,6 +8,7 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 export class Map {
     @bindable remarks = [];
     @bindable radiusChanged = null;
+    @bindable center = null;
 
   constructor(router, location, filtersService, eventAggregator) {
     this.router = router;
@@ -19,6 +20,7 @@ export class Map {
     this.radius = null;
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
+    this.centerInitialized = false;
   }
 
   async attached() {
@@ -46,6 +48,21 @@ export class Map {
 
   remarksChanged(newValue) {
     newValue.forEach(remark => this.drawRemarkMarker(remark));
+  }
+
+  centerChanged(newValue) {
+    if (this.centerInitialized) {
+      return;
+    }
+    if (this.map === null) {
+      return;
+    }
+    if (typeof newValue === 'undefined' || newValue === null) {
+      return;
+    }
+    this.position = {lat: newValue.latitude, lng: newValue.longitude};
+    this.map.setCenter(this.position);
+    this.centerInitialized = true;
   }
 
   async locationUpdated(location) {
@@ -129,6 +146,9 @@ export class Map {
   }
 
   getRemarMarkerkColor(remark) {
+    if (remark.selected) {
+      return '3399FF';
+    }
     if (remark.resolved) {
       return '009720';
     }

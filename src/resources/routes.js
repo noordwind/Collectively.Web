@@ -60,6 +60,16 @@ export default [
     }
   },
   {
+    route:    'remarks/:id/display',
+    moduleId: `${modulePrefix}/remarks/remarks`,
+    name:     'display-remark',
+    title:    'Display remark',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
+  },
+  {
     route:    'remarks/:id',
     moduleId: `${modulePrefix}/remarks/remark`,
     name:     'remark',

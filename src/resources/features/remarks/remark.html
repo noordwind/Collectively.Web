@@ -17,7 +17,7 @@
             </div>
             <div class="col s12">
                 <label>Location</label>
-                <p>${remark.location.address}</p>
+                <p click.delegate="display()">${remark.location.address}</p>
             </div>
             <div class="col s12">
                 <label>Description</label>              
@@ -47,6 +47,15 @@
                     <label>Resolved at</label>
                     <p>${remark.resolvedAt | dateFormat}</p>
                 </div>                
+            </div>
+        </div>
+    </div>
+    <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
+                    Display on map
+                </button>
             </div>
         </div>
     </div>

@@ -34,12 +34,14 @@ export class Remarks {
       state: this.filters.state
     };
     this.remarks = [];
+    this.selectedRemark = null;
     this.mapLoadedSubscription = null;
   }
 
-  async activate() {
+  async activate(params) {
     this.location.startUpdating();
     this.user = await this.userService.getAccount();
+    this.selectedRemarkId = params.id;
   }
 
   async attached() {
@@ -70,13 +72,7 @@ export class Remarks {
       this.query.authorId = this.user.userId;
     }
     this.remarks = await this.remarkService.browse(this.query);
-    this.remarks.forEach(function(remark) {
-      remark.url = this.router.generate('remark', {id: remark.id});
-      remark.distance = this.location.calculateDistance({
-        latitude: remark.location.coordinates[1],
-        longitude: remark.location.coordinates[0]
-      });
-    }, this);
+    this.remarks.forEach(remark => this.processRemark(remark), this);
     this.remarks.sort((x, y) => {
       if (x.distance < y.distance) {
         return -1;
@@ -86,6 +82,26 @@ export class Remarks {
       }
       return 0;
     });
+  }
+
+  processRemark(remark) {
+    remark.url = this.router.generate('remark', {id: remark.id});
+    remark.selected = remark.id === this.selectedRemarkId;
+    let latitude = remark.location.coordinates[1];
+    let longitude = remark.location.coordinates[0];
+    remark.distance = this.location.calculateDistance({
+      latitude: latitude,
+      longitude: longitude
+    });
+
+    if (!remark.selected) {
+      return remark;
+    }
+
+    this.filters.center = {latitude, longitude};
+    this._updateFilters();
+
+    return remark;
   }
 
   displayCamera() {

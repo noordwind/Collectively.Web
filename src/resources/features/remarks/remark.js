@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
+import FiltersService from 'resources/services/filters-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
@@ -8,11 +9,13 @@ import UserService from 'resources/services/user-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import Environment from '../../../environment';
 
-@inject(Router, LocationService, RemarkService, ToastService, LoaderService, UserService, EventAggregator, Environment)
+@inject(Router, LocationService, FiltersService, RemarkService, ToastService, LoaderService, UserService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, location, remarkService, toastService, loader, userService, eventAggregator, environment) {
+  constructor(router, location, filtersService, remarkService, toastService, loader, userService, eventAggregator, environment) {
     this.router = router;
     this.location = location;
+    this.filtersService = filtersService;
+    this.filters = this.filtersService.filters;
     this.remarkService = remarkService;
     this.toast = toastService;
     this.loader = loader;
@@ -44,10 +47,19 @@ export class Remark {
     this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
     this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
     this.state = remark.resolved ? 'resolved' : 'new';
+    this.latitude = remark.location.coordinates[1];
+    this.longitude = remark.location.coordinates[0];
     this.isInRange = this.location.isInRange({
-      latitude: remark.location.coordinates[1],
-      longitude: remark.location.coordinates[0]
+      latitude: this.latitude,
+      longitude: this.longitude
     });
+  }
+
+  display() {
+    this.filters.center.latitude = this.latitude;
+    this.filters.center.longitude = this.longitude;
+    this.filtersService.filters = this.filters;
+    this.router.navigateToRoute('display-remark', {id: this.id});
   }
 
   async delete() {

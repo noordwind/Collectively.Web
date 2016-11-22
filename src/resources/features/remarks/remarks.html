@@ -18,7 +18,7 @@
     </div>
     <div class="row" if.bind="mapEnabled">
         <div class="col s12">
-            <map remarks.bind="remarks" radius-changed.bind="radiusChanged"></map>
+            <map remarks.bind="remarks" center.bind="filters.center" radius-changed.bind="radiusChanged"></map>
         </div>
     </div>
     <div>
