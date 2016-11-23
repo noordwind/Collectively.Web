@@ -1,5 +1,4 @@
 import {inject} from 'aurelia-framework';
-import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import { ValidationControllerFactory,
   ValidationRules,
@@ -9,11 +8,10 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import {Router} from 'aurelia-router';
 
-@inject(AuthService, UserService, ToastService,
+@inject(UserService, ToastService,
 LoaderService, ValidationControllerFactory, Router)
-export class ChangePassword {
-  constructor(authService, userService, toast, loader, controllerFactory, router) {
-    this.authService = authService;
+export class ResetPassword {
+  constructor(userService, toast, loader, controllerFactory, router) {
     this.userService = userService;
     this.toast = toast;
     this.loader = loader;
@@ -22,34 +20,16 @@ export class ChangePassword {
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
     this.router = router;
     this.sending = false;
-    this.currentPassword = '';
-    this.newPassword = '';
+    this.email = '';
 
     ValidationRules
-      .ensure('currentPassword')
+      .ensure('email')
         .required()
-          .withMessage('Current password is required!')
-        .minLength(4)
-        .maxLength(100)
-      .ensure('newPassword')
-        .required()
-          .withMessage('New password is required!')
-        .minLength(4)
+          .withMessage('Email is required!')
+        .email()
+          .withMessage('Email is invalid!')
         .maxLength(100)
       .on(this);
-  }
-
-  canActivate() {
-    if (this.authService.provider === 'coolector') {
-      return true;
-    }
-
-    return new Redirect('');
-  }
-
-  async activate() {
-    let userProfile = await this.userService.getAccount();
-    this.username = userProfile.name;
   }
 
   async submit() {
@@ -62,19 +42,18 @@ export class ChangePassword {
 
     this.loader.display();
     this.sending = true;
-    this.toast.info('Changing your password, please wait...');
-    let passwordChanged = await this.userService.changePassword(
-      this.currentPassword, this.newPassword);
-    if (passwordChanged.success) {
-      this.toast.success('Your password has been changed.');
+    this.toast.info('Initiating password reset, please wait...');
+    let passwordResetInitiated = await this.userService.resetPassword(this.email);
+    if (passwordResetInitiated.success) {
+      this.toast.success('Please check your email box for further instructions.');
       this.loader.hide();
-      this.router.navigateToRoute('profile');
+      this.router.navigateToRoute('sign-in');
 
       return;
     }
 
     this.sending = false;
     this.loader.hide();
-    this.toast.error(passwordChanged.message);
+    this.toast.error(passwordResetInitiated.message);
   }
 }
