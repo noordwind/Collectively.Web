@@ -1,6 +1,7 @@
 import environment from '../../environment';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import * as retry from 'retry';
 
 @inject(EventAggregator)
 export default class SignalRService {
@@ -24,7 +25,29 @@ export default class SignalRService {
     this.connection.on('RemarkDeleted', (message) => {
       this.eventAggregator.publish('remark:deleted', message);
     });
+    this.connection.connectionClosed = e => {
+      if (e) {
+        console.log('Connection closed with error: ' + e);
+      }
+      else {
+        console.log('SignalR connection lost');
+        this.connect();
+      }
+    };
+    this.connect();
+  }
 
-    this.connection.start();
+  connect() {
+    let operation = retry.operation({
+      retries: 20,
+      factor: 2,
+      minTimeout: 1000,
+      maxTimeout: 5000
+    });
+    operation.attempt(currentAttempt => {
+      console.log(`Connecting to SignalR, attempt:${currentAttempt}`);
+      this.connection.start()
+        .catch(err => operation.retry(err));
+    });
   }
 }

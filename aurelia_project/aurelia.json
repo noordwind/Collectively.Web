@@ -157,7 +157,12 @@
             "name": "aurelia-ui-virtualization",
             "path": "../node_modules/aurelia-ui-virtualization/dist/amd",
             "main": "aurelia-ui-virtualization"
-          }   
+          },
+          {
+            "name": "retry",
+            "path": "../node_modules/retry/lib",
+            "main": "retry"
+          }
         ]
       },
       {

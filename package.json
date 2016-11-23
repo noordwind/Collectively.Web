@@ -15,7 +15,8 @@
     "aurelia-ui-virtualization": "^1.0.0-beta.3.0.1",
     "aurelia-validation": "^0.13.1",
     "bluebird": "^3.4.1",
-    "pushstate-server": "^2.1.0"
+    "pushstate-server": "^2.1.0",
+    "retry": "^0.10.0"
   },
   "peerDependencies": {},
   "devDependencies": {
