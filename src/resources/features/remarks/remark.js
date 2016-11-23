@@ -61,6 +61,37 @@ export class Remark {
     });
   }
 
+  async attached() {
+    this.remarkResolvedSubscription = await this.eventAggregator
+      .subscribe('remark:resolved', async message => {
+        if (this.id !== message.remarkId) {
+          return;
+        }
+        this.state = 'resolved';
+        this.remark.resolved = true;
+        this.remark.resolver = {
+          name: message.resolver,
+          userId: message.resolverId
+        };
+        this.remark.resolvedAt = message.resolvedAt;
+      });
+    this.remarkDeletedSubscription = await this.eventAggregator
+      .subscribe('remark:deleted', async message => {
+        if (this.id !== message.remarkId) {
+          return;
+        }
+        if (this.account.userId !== this.remark.author.userId) {
+          this.toast.info('Remark has been removed by the author');
+          this.router.navigateToRoute('remarks');
+        }
+      });
+  }
+
+  detached() {
+    this.remarkResolvedSubscription.dispose();
+    this.remarkDeletedSubscription.dispose();
+  }
+
   display() {
     this.filters.center.latitude = this.latitude;
     this.filters.center.longitude = this.longitude;
