@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import ApiBaseService from 'resources/services/api-base-service';
+import * as retry from 'retry';
 
 @inject(ApiBaseService)
 export default class OperationService {
@@ -16,36 +17,37 @@ export default class OperationService {
     if (!operationEndpoint) {
       return ({success: true, message: 'Operation has not been found.'});
     }
+    let retryOperation = retry.operation({
+      retries: 10,
+      minTimeout: 1000
+    });
 
     return new Promise(async (resolve, reject) => {
-      await this.fetchOperationState(operationEndpoint, x => resolve(x));
+      retryOperation.attempt(async currentAttempt => {
+        let operation = await this.fetchOperationState(operationEndpoint);
+        if (operation.completed === false) {
+          retryOperation.retry('Operation is not completed');
+        } else {
+          resolve(operation);
+        }
+      });
     });
   }
 
   async fetchOperationState(endpoint, next) {
     let operation = await this.getOperation(endpoint);
-    await setTimeout(async () => {
-      if (operation.statusCode === 404) {
-        await this.fetchOperationState(endpoint, next);
-
-        return;
-      }
-      if (operation.state === 'created') {
-        await this.fetchOperationState(endpoint, next);
-
-        return;
-      }
-      if (operation.state === 'completed') {
-        next({success: operation.success, message: operation.message});
-
-        return;
-      }
-      if (operation.state === 'rejected') {
-        next({success: false, message: operation.message});
-
-        return;
-      }
-    }, 1000);
+    if (operation.statusCode === 404) {
+      return {completed: false};
+    }
+    if (operation.state === 'created') {
+      return {completed: false};
+    }
+    if (operation.state === 'completed') {
+      return {success: operation.success, message: operation.message, completed: true};
+    }
+    if (operation.state === 'rejected') {
+      return {success: false, message: operation.message, completed: true};
+    }
   }
 
   async getOperation(endpoint) {
