@@ -64,6 +64,7 @@ export class Remark {
   display() {
     this.filters.center.latitude = this.latitude;
     this.filters.center.longitude = this.longitude;
+    this.filters.map.enabled = true;
     this.filtersService.filters = this.filters;
     this.router.navigateToRoute('display-remark', {id: this.id});
   }

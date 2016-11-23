@@ -121,6 +121,16 @@ export default [
     }
   },
   {
+    route:    'profile/password',
+    moduleId: `${modulePrefix}/account/change-password`,
+    name:     'change-password',
+    title:    'Change password',
+    nav:      false,
+    settings: {
+        reqLogin: true
+    }
+  },
+  {
     route:    'users/:name/remarks',
     moduleId: `${modulePrefix}/remarks/user-remarks`,
     name:     'user-remarks',

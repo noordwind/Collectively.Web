@@ -25,4 +25,8 @@ export class Profile {
     console.log(messagePostedOnFacebookWall);
     this.sending = false;
   }
+
+  get isCoolectorAccount() {
+    return this.authService.provider === 'coolector';
+  }
 }

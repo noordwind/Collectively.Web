@@ -33,6 +33,10 @@ export default class AuthService {
     return this.session && !!this.session.token;
   }
 
+  get provider() {
+    return this.isLoggedIn ? this.session.provider : '';
+  }
+
   logout() {
     this.storageService.deleteAll();
   }

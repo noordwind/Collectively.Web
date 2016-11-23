@@ -103,6 +103,7 @@ export class Remarks {
     }
 
     this.filters.center = {latitude, longitude};
+    this.filters.map.enabled = true;
     this._updateFilters();
 
     return remark;
