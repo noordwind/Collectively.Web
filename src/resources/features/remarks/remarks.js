@@ -56,16 +56,51 @@ export class Remarks {
     if (!this.mapEnabled) {
       await this.browse();
     }
-    this.mapLoadedSubscription = await this.eventAggregator.subscribe('map:loaded',
-            async response => {
-              this.loader.display();
-              await this.browse();
-              this.loader.hide();
-            });
+    this.mapLoadedSubscription = await this.eventAggregator
+      .subscribe('map:loaded', async response => {
+        this.loader.display();
+        await this.browse();
+        this.loader.hide();
+      });
+    this.remarkCreatedSubscription = await this.eventAggregator
+      .subscribe('remark:created', async message => {
+        if (this.location.isInRange(message.location, this.filters.radius === false)) {
+          return;
+        }
+        let remark = this.processRemark(message);
+        this.remarks.push(remark);
+        this.sortRemarks();
+      });
+    this.remarkResolvedSubscription = await this.eventAggregator
+      .subscribe('remark:resolved', async message => {
+        let index = this.remarks.findIndex(r => r.id === message.remarkId);
+        if (index < 0) {
+          return;
+        }
+        let remark = this.remarks[index];
+        remark.resolved = true;
+        remark.resolver = {
+          name: message.resolver,
+          userId: message.resolverId
+        };
+        remark.resolvedAt = message.resolvedAt;
+        this.remarks[index] = remark;
+      });
+    this.remarkDeletedSubscription = await this.eventAggregator
+      .subscribe('remark:deleted', async message => {
+        let index = this.remarks.findIndex(r => r.id === message.remarkId);
+        if (index < 0) {
+          return;
+        }
+        this.remarks.splice(index, 1);
+      });
   }
 
   detached() {
     this.mapLoadedSubscription.dispose();
+    this.remarkCreatedSubscription.dispose();
+    this.remarkResolvedSubscription.dispose();
+    this.remarkDeletedSubscription.dispose();
   }
 
   async browse() {
@@ -77,6 +112,10 @@ export class Remarks {
     }
     this.remarks = await this.remarkService.browse(this.query);
     this.remarks.forEach(remark => this.processRemark(remark), this);
+    this.sortRemarks();
+  }
+
+  sortRemarks() {
     this.remarks.sort((x, y) => {
       if (x.distance < y.distance) {
         return -1;
