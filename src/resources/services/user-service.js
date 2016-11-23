@@ -43,4 +43,9 @@ export default class UserService extends ApiBaseService {
     return await this.operationService.execute(async ()
       => await this.put('account/password', { currentPassword, newPassword }));
   }
+
+  async resetPassword(email) {
+    return await this.operationService.execute(async ()
+      => await this.put('reset-password', { email }));
+  }
 }

@@ -31,6 +31,15 @@ export default [
     }
   },
   {
+    route:    'reset-password',
+    moduleId: `${modulePrefix}/account/reset-password`,
+    name:     'reset-password',
+    title:    'Reset password',
+    settings: {
+      hideNavbar: true
+    }
+  },
+  {
     route:      'sign-up',
     moduleId:   `${modulePrefix}/account/sign-up`,
     name:       'sign-up',
