@@ -74,7 +74,9 @@ export class Remark {
           userId: message.resolverId
         };
         this.remark.resolvedAt = message.resolvedAt;
-        this.toast.success('Remark has been resolved.');
+        if (this.account.userId !== this.remark.resolver.userId) {
+          this.toast.success('Remark has been resolved.');
+        }
       });
     this.remarkDeletedSubscription = await this.eventAggregator
       .subscribe('remark:deleted', async message => {
