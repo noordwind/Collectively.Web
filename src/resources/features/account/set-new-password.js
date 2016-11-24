@@ -10,7 +10,7 @@ import {Router} from 'aurelia-router';
 
 @inject(UserService, ToastService,
 LoaderService, ValidationControllerFactory, Router)
-export class ResetPassword {
+export class SetNewPassword {
   constructor(userService, toast, loader, controllerFactory, router) {
     this.userService = userService;
     this.toast = toast;
@@ -20,16 +20,23 @@ export class ResetPassword {
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
     this.router = router;
     this.sending = false;
-    this.email = '';
+    this.password = '';
 
     ValidationRules
-      .ensure('email')
+      .ensure('password')
         .required()
-          .withMessage('Email is required!')
-        .email()
-          .withMessage('Email is invalid!')
+          .withMessage('Password is required!')
+        .minLength(4)
         .maxLength(100)
       .on(this);
+  }
+
+  async activate(params) {
+    this.email = params.email;
+    this.token = params.token;
+    if (!this.email || !this.token) {
+      return new Redirect('');
+    }
   }
 
   async submit() {
@@ -42,10 +49,19 @@ export class ResetPassword {
 
     this.loader.display();
     this.sending = true;
-    await this.userService.resetPassword(this.email);
-    this.toast.info("If the provided email was correct, we've sent you a message with further instructions.");
+    this.toast.info('Setting new password, please wait...');
+    let newPasswordSet = await this.userService.setNewPassword(
+      this.email, this.token, this.password);
+    if (newPasswordSet.success) {
+      this.toast.success('New password has been set.');
+      this.loader.hide();
+      this.router.navigateToRoute('sign-in');
+
+      return;
+    }
+
     this.sending = false;
     this.loader.hide();
-    this.router.navigateToRoute('sign-in');
+    this.toast.error(newPasswordSet.message);
   }
 }

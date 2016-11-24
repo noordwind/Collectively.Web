@@ -40,6 +40,15 @@ export default [
     }
   },
   {
+    route:    'set-new-password',
+    moduleId: `${modulePrefix}/account/set-new-password`,
+    name:     'set-new-password',
+    title:    'Set new password',
+    settings: {
+      hideNavbar: true
+    }
+  },
+  {
     route:      'sign-up',
     moduleId:   `${modulePrefix}/account/sign-up`,
     name:       'sign-up',
