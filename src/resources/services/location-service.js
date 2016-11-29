@@ -82,10 +82,11 @@ export default class LocationService {
     this.current = null;
   }
 
-  isInRange(target) {
+  isInRange(target, maxDistance) {
+    maxDistance = maxDistance || this.allowedDistance;
     let distanceInMeters = this.calculateDistance(target);
 
-    return distanceInMeters <= this.allowedDistance;
+    return distanceInMeters <= maxDistance;
   }
 
   calculateDistance(target) {

@@ -64,7 +64,11 @@ export class Remarks {
       });
     this.remarkCreatedSubscription = await this.eventAggregator
       .subscribe('remark:created', async message => {
-        if (this.location.isInRange(message.location, this.filters.radius === false)) {
+        let location = {
+          latitude: message.location.coordinates[1],
+          longitude: message.location.coordinates[0]
+        };
+        if (this.location.isInRange(location, this.filters.radius) === false) {
           return;
         }
         let remark = this.processRemark(message);
