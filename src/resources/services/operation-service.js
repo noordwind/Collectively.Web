@@ -43,10 +43,10 @@ export default class OperationService {
       return {completed: false};
     }
     if (operation.state === 'completed') {
-      return {success: operation.success, message: operation.message, completed: true};
+      return {success: operation.success, code: operation.code, message: operation.message, completed: true};
     }
     if (operation.state === 'rejected') {
-      return {success: false, message: operation.message, completed: true};
+      return {success: false, code: operation.code, message: operation.message, completed: true};
     }
   }
 

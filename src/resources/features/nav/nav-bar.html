@@ -12,13 +12,13 @@
                 <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
                     <a class="waves-effect" href.bind="route.href">
                         <i class="material-icons left">${route.settings.icon}</i>
-                        <span>${route.title}</span>
+                        <span t="${route.settings.translationKey}"></span>
                     </a>
                 </li>
                 <li if.bind="authService.isLoggedIn">
                     <a class="waves-effect"  href="#" click.delegate="logout()">
                         <i class="material-icons left">power_settings_new</i>
-                        <span>Logout</span>
+                        <span t="${'route.logout'}"></span>
                     </a>
                 </li>
             </ul>

@@ -1,7 +1,37 @@
 {
   "account":{
+    "change_password": "Change password",
+    "changing_your_password": "Changing your password, please wait...",
+    "current_password": "Current password",
+    "current_password_is_required": "Current password is required.",
+    "current_password_is_invalid": "Current password is invalid.",
+    "new_password": "New password",
+    "new_password_is_required": "Current password is required.",
+    "new_password_is_invalid": "Current password is invalid.",
+    "password_changed": "Your password has been changed.",
     "sign_in": "Sign in",
     "sign_in_via_facebook": "Sign in via Facebook",
     "sign_up": "Sign up"
+  },
+  "code": {
+    "error": "There was an error, please try again."
+  },
+  "route": {
+    "change_password": "Change password",
+    "create_remark": "Create remark",
+    "filter_remarks": "Filter remarks",
+    "location": "Location",
+    "logout": "Sign off",
+    "profile": "Profile",
+    "remark": "Remark",
+    "remark_display": "Display remark",
+    "remarks": "Remarks",
+    "reset_password": "Reset password",
+    "set_new_password": "Set new password",
+    "set_username": "Set username",
+    "sign_in": "Sign in",
+    "sign_up": "Sign up",
+    "start": "Start",
+    "user_remarks": "User remarks"
   }
 }

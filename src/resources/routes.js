@@ -18,7 +18,8 @@ export default [
     name:       'start',
     title:      'Start',
     settings: {
-      hideNavbar: true
+      hideNavbar: true,
+      translationKey: 'route.start'
     }
   },
   {
@@ -27,7 +28,8 @@ export default [
     name:       'sign-in',
     title:      'Sign in',
     settings: {
-      hideNavbar: true
+      hideNavbar: true,
+      translationKey: 'route.sign_in'
     }
   },
   {
@@ -36,7 +38,8 @@ export default [
     name:     'reset-password',
     title:    'Reset password',
     settings: {
-      hideNavbar: true
+      hideNavbar: true,
+      translationKey: 'route.reset_password'
     }
   },
   {
@@ -45,7 +48,8 @@ export default [
     name:     'set-new-password',
     title:    'Set new password',
     settings: {
-      hideNavbar: true
+      hideNavbar: true,
+      translationKey: 'route.set_new_password'
     }
   },
   {
@@ -54,7 +58,8 @@ export default [
     name:       'sign-up',
     title:      'Sign up',
     settings: {
-      hideNavbar: true
+      hideNavbar: true,
+      translationKey: 'route.sign_up'
     }
   },
   {
@@ -63,7 +68,8 @@ export default [
     name:       'location',
     title:      'location',
     settings: {
-      reqLogin: true
+      reqLogin: true,
+      translationKey: 'route.location'
     }
   },
   {
@@ -74,7 +80,8 @@ export default [
     nav:      true,
     settings: {
         reqLogin: true,
-        icon: "view_list"
+        icon: "view_list",
+        translationKey: 'route.remarks'
     }
   },
   {
@@ -84,7 +91,8 @@ export default [
     title:    'Display remark',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.remark_display'
     }
   },
   {
@@ -94,7 +102,8 @@ export default [
     title:    'Remark',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.remark'
     }
   },
   {
@@ -104,7 +113,8 @@ export default [
     title:    'Create remark',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.create_remark'
     }
   },
   {
@@ -114,7 +124,8 @@ export default [
     title:    'Filter remarks',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.filter_remarks'
     }
   },
   {
@@ -125,7 +136,8 @@ export default [
     nav:      'true',
     settings: {
         reqLogin: true,
-        icon: "account_box"
+        icon: "account_box",
+        translationKey: 'route.profile'
     }
   },
   {
@@ -135,7 +147,8 @@ export default [
     title:    'Set username',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.set_username'
     }
   },
   {
@@ -145,7 +158,8 @@ export default [
     title:    'Change password',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.change_password'
     }
   },
   {
@@ -155,7 +169,8 @@ export default [
     title:    'Remarks',
     nav:      false,
     settings: {
-        reqLogin: true
+        reqLogin: true,
+        translationKey: 'route.user_remarks'
     }
   }
 ]
