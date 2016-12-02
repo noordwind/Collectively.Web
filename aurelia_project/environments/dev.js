@@ -7,6 +7,7 @@ export default {
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
+  defaultLanguage: 'en',
   feature: {
     resolveRemarkPhotoRequired: false,
     resolveRemarkLocationRequired: false

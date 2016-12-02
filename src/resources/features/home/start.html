@@ -6,17 +6,17 @@
             <div class="clear"></div>
             <div class="row">
                 <a route-href="route: sign-in" class="btn waves-effect waves-light btn-large">
-                    <i class="material-icons left">vpn_key</i>Sign in via email
+                    <i class="material-icons left">vpn_key</i>${'account.sign_in' | t}
                 </a>
             </div>
             <div class="row">
                 <button class="btn waves-effect waves-light btn-large" click.delegate="facebookSignIn()" disabled.bind="sending">
-                    <i class="material-icons left">vpn_key</i>Sign in via Facebook
+                    <i class="material-icons left">vpn_key</i>${'account.sign_in_via_facebook' | t}
                 </button>
             </div>
             <div class="row">
                 <a route-href="route: sign-up" class="btn waves-effect waves-light btn-large">
-                    <i class="material-icons left">perm_identity</i>Sign up
+                    <i class="material-icons left">perm_identity</i>${'account.sign_up' | t}
                 </a>
             </div>
         </div>

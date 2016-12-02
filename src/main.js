@@ -1,4 +1,6 @@
 require('node_modules/babel-polyfill/dist/polyfill.js');
+import XHR from 'i18next-xhr-backend';
+import LanguageDetectionService from 'resources/services/language-detection-service';
 import environment from './environment';
 
 //Configure Bluebird Promises.
@@ -28,7 +30,19 @@ export function configure(aurelia) {
             .useSwitch();
     })
     .plugin('aurelia-validation')
-    .plugin('aurelia-ui-virtualization');
+    .plugin('aurelia-ui-virtualization')
+    .plugin('aurelia-i18n', (instance) => {
+      instance.i18next.use(XHR);
+      instance.i18next.use(LanguageDetectionService);
+      instance.setup({
+        backend: {
+          loadPath: '/locales/{{lng}}/{{ns}}.json'
+        },
+        attributes: ['t', 'i18n'],
+        fallbackLng: environment.defaultLanguage,
+        debug: environment.debug
+      });
+    });
 
   if (environment.debug) {
     aurelia.use.developmentLogging();
