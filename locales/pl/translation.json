@@ -55,6 +55,20 @@
     "save": "Zapisz",
     "submit": "Wyślij"
   },
+  "dashboard": {
+    "browse_remarks": "Przeglądaj zgłoszenia",
+    "choose_action": "Wybierz opcję",
+    "edit_account": "Edycja konta",
+    "browse_user_remarks": "Pokaż moje zgłoszenia",
+    "nearest_remarks": "Najbliższe zgłoszenia",
+    "submit_remark": "Wyślij zgłoszenie"
+  },
+  "location": {
+    "fetching_location_message": "Ustalamy aktualną lokalizację...",
+    "fetching_location_title": "Trwa ustalanie Twojej lokalizacji, proszę czekać...",
+    "location": "Lokalizacja",
+    "location_loaded": "Lokalizacja została ustalona."
+  },
   "remark": {
     "post_on_facebook": "Dodaj post na Facebook"
   },

@@ -1,21 +1,21 @@
 <template>
-    <h4>Choose an action</h4>
+    <h4>${'home.choose_action' | t}</h4>
     <div class="section">
-        <a route-href="route: remarks" class="btn waves-effect waves-light btn-large"><i class="material-icons left">list</i>Browse remarks</a>
+        <a route-href="route: remarks" class="btn waves-effect waves-light btn-large"><i class="material-icons left">list</i>${'home.browse_remarks' | t}</a>
     </div>
     <div class="section">
-        <a route-href="route: nearest-remarks" class="btn waves-effect waves-light btn-large"><i class="material-icons left">list</i>Nearest remarks</a>
+        <a route-href="route: nearest-remarks" class="btn waves-effect waves-light btn-large"><i class="material-icons left">list</i>${'home.nearest_remarks' | t}</a>
     </div>
     <div class="section">
-        <a route-href="route: create-remark" class="btn waves-effect waves-light btn-large"><i class="material-icons left">note_add</i>Submit a remark</a>
+        <a route-href="route: create-remark" class="btn waves-effect waves-light btn-large"><i class="material-icons left">note_add</i>${'home.submit_remark' | t}</a>
     </div>
     <div class="divider"></div>
     <div class="section">
         <a route-href="route: user-remarks; params.bind: {name : user.name}" class="btn waves-effect waves-light btn-large">
-            <i class="material-icons left">view_list</i>List my remarks
+            <i class="material-icons left">view_list</i>${'home.browse_user_remarks' | t}
         </a>
     </div>
     <div class="section">
-        <a route-href="route: profile" class="btn waves-effect waves-light btn-large"><i class="material-icons left">perm_identity</i>Edit my account</a>
+        <a route-href="route: profile" class="btn waves-effect waves-light btn-large"><i class="material-icons left">perm_identity</i>${'home.edit_account' | t}</a>
     </div>
 </template>

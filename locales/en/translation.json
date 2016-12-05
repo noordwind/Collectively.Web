@@ -1,6 +1,8 @@
 {
   "account":{
+    "account_created": "Your account has been created.",
     "already_have_account": "Already have an account?",
+    "creating_account": "Creating your account, please wait...",
     "do_not_remember_password": "Don't remember your password?",
     "do_not_have_account": "Don't' have an account yet?",
     "name": "Name",
@@ -52,6 +54,20 @@
     "click_here": "Click here",
     "save": "Save",
     "submit": "Submit"
+  },
+  "dashboard": {
+    "browse_remarks": "Browse remarks",
+    "choose_action": "Choose an action",
+    "edit_account": "Edit my account",
+    "browse_user_remarks": "List my remarks",
+    "nearest_remarks": "Nearest remarks",
+    "submit_remark": "Submit a remark"
+  },
+  "location": {
+    "fetching_location_message": "Fetching the current location...",
+    "fetching_location_title": "Please wait while we're fetching your current location...",
+    "location": "Location",
+    "location_loaded": "Location has been loaded."
   },
   "remark": {
     "post_on_facebook": "Post on Facebook"

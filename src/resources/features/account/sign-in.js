@@ -59,7 +59,7 @@ export class SignIn {
 
     this.loader.display();
     this.sending = true;
-    this.toast.info('Signing in, please wait...');
+    this.toast.info(this.translationService.tr('account.signing_in'));
     let session = await this.userService.signIn(this.account);
     if (session.token) {
       this.authService.session = {
@@ -78,6 +78,6 @@ export class SignIn {
 
     this.sending = false;
     this.loader.hide();
-    this.toast.error('Invalid credentials.');
+    this.toast.error('account.invalid_credentials');
   }
 }
