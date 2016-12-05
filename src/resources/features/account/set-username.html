@@ -1,17 +1,17 @@
 <template>
-  <h4>Please set your username</h4>
+  <h4>${'account.set_your_name' | t}</h4>
   <div class="row">
     <form submit.delegate="submit()" class="col s12">
       <div class="row">
         <md-input class="col s12"
-          md-label="Username" 
+          md-label="${'account.name' | t}" 
           md-value.bind="username & validate"
           md-validate="true">
         </md-input>
       </div>
       <div class="row">
         <div class="input-field">
-          <button md-button disabled.bind="sending" class="btn waves-effect waves-light" type="submit">Submit</button>
+          <button md-button disabled.bind="sending" class="btn waves-effect waves-light" type="submit">${'common.save' | t}</button>
         </div>
       </div>
     </form>

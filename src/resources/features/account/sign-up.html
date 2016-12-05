@@ -1,18 +1,18 @@
 <template>
   <div class="row">  
-    <h4>Sign up for Coolector</h4>
+    <h4>${'account.sign_up_for_app' | t}</h4>
   </div>
   <form submit.delegate="submit()" class="col s12">
     <div class="row">
       <md-input class="col s12"
-        md-label="Username" 
+        md-label="${'account.name' | t}" 
         md-value.bind="account.name & validate"
         md-validate="true">
       </md-input>
     </div>
     <div class="row">
       <md-input class="col s12"
-        md-label="Email" 
+        md-label="${'account.email' | t}" 
         md-type="email"
         md-value.bind="account.email & validate"
         md-validate="true">
@@ -20,7 +20,7 @@
     </div>
     <div class="row">
       <md-input class="col s12"
-        md-label="Password" 
+        md-label="${'account.password' | t}" 
         md-type="password"
         md-value.bind="account.password & validate"
         md-validate="true">
@@ -28,13 +28,13 @@
     </div>
     <div class="row">
       <div class="input-field col s12">
-        <button md-button disabled.bind="sending" class="btn waves-effect waves-light btn-large" type="submit">Sign up</button>
+        <button md-button disabled.bind="sending" class="btn waves-effect waves-light btn-large" type="submit">${'account.sign_up' | t}</button>
       </div>
     </div>
   </form>
   <div class="section">
     <div class="col s12">
-      Already have an account? <a route-href="route: sign-in" >Click here</a> to sign in.
+        ${'account.already_have_account' | t} <a route-href="route: sign-in" >${'common.click_here' | t}</a> ${'account.to_sign_in' | t}
     </div>
   </div>
 </template>

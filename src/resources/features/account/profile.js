@@ -21,8 +21,7 @@ export class Profile {
 
   async postOnFacebookWall() {
     this.sending = true;
-    let messagePostedOnFacebookWall = await this.facebookService.postOnWall('Hello from Coolector.');
-    console.log(messagePostedOnFacebookWall);
+    await this.facebookService.postOnWall('Hello from Coolector.');
     this.sending = false;
   }
 

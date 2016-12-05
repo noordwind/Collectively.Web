@@ -1,5 +1,7 @@
 import { inject } from 'aurelia-framework';
 import { Router, Redirect } from 'aurelia-router';
+import {I18N} from 'aurelia-i18n';
+import TranslationService from 'resources/services/translation-service';
 import { ValidationControllerFactory,
   ValidationRules,
   validateTrigger  } from 'aurelia-validation';
@@ -8,7 +10,7 @@ import UserService from '../../services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
-@inject(Router,
+@inject(Router, I18N, TranslationService,
   ValidationControllerFactory,
   UserService,
   ToastService,
@@ -18,8 +20,10 @@ export class SetUsername {
   username = '';
   sending = false;
 
-  constructor(router, controllerFactory, userService, toast, loader) {
+  constructor(router, i18n, translationService, controllerFactory, userService, toast, loader) {
     this.router = router;
+    this.i18n = i18n;
+    this.translationService = translationService;
     this.userService = userService;
     this.account = {};
     this.toast = toast;
@@ -30,15 +34,17 @@ export class SetUsername {
 
     ValidationRules.customRule(
       'username',
-      async (value, obj) => await this.validateUsername(value), 'This name is already used!'
+      async (value, obj) => await this.validateUsername(value), this.translationService.tr('account.name_in_use')
     );
 
     ValidationRules
       .ensure('username')
         .required()
-          .withMessage('Username is required!')
+          .withMessage(this.translationService.tr('account.name_is_required'))
         .minLength(4)
+          .withMessage(this.translationService.tr('account.name_is_invalid'))
         .satisfiesRule('username')
+          .withMessage(this.translationService.tr('account.name_is_invalid'))
       .on(this);
   }
 
@@ -69,17 +75,18 @@ export class SetUsername {
     }
     this.loader.display();
     this.sending = true;
-    this.toast.info('Changing username, please wait...');
+    this.toast.info(this.translationService.tr('account.changing_your_name'));
     let nameChanged = await this.userService.changeUsername(this.username);
     if (nameChanged.success) {
-      this.toast.success('Your name is updated.');
+      this.toast.success(this.translationService.tr('account.name_changed'));
       await this.userService.getAccount(false);
       this.loader.hide();
       this.router.navigateToRoute('location');
+
       return;
     }
 
-    this.toast.error(nameChanged.message);
+    this.toast.error(this.translationService.trCode(nameChanged.code));
     this.sending = false;
     this.loader.hide();
   }

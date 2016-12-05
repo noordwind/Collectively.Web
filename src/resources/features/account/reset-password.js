@@ -1,4 +1,6 @@
 import {inject} from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
+import TranslationService from 'resources/services/translation-service';
 import UserService from 'resources/services/user-service';
 import { ValidationControllerFactory,
   ValidationRules,
@@ -8,10 +10,12 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import {Router} from 'aurelia-router';
 
-@inject(UserService, ToastService,
+@inject(I18N, TranslationService, UserService, ToastService,
 LoaderService, ValidationControllerFactory, Router)
 export class ResetPassword {
-  constructor(userService, toast, loader, controllerFactory, router) {
+  constructor(i18n, translationService, userService, toast, loader, controllerFactory, router) {
+    this.i18n = i18n;
+    this.translationService = translationService;
     this.userService = userService;
     this.toast = toast;
     this.loader = loader;
@@ -25,10 +29,11 @@ export class ResetPassword {
     ValidationRules
       .ensure('email')
         .required()
-          .withMessage('Email is required!')
+          .withMessage(this.translationService.tr('account.email_is_required'))
         .email()
-          .withMessage('Email is invalid!')
+          .withMessage(this.translationService.tr('account.email_is_invalid'))
         .maxLength(100)
+          .withMessage(this.translationService.tr('account.email_is_invalid'))
       .on(this);
   }
 
@@ -43,7 +48,7 @@ export class ResetPassword {
     this.loader.display();
     this.sending = true;
     await this.userService.resetPassword(this.email);
-    this.toast.info("If the provided email was correct, we've sent you a message with further instructions.");
+    this.toast.info(this.translationService.tr('account.reset_password_email_sent_message'));
     this.sending = false;
     this.loader.hide();
     this.router.navigateToRoute('sign-in');

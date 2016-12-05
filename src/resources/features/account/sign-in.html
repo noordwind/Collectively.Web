@@ -1,11 +1,11 @@
 <template>
   <div class="row">
-    <h4>Sign in to Coolector</h4>
+    <h4>${'account.sign_in_to_app' | t}</h4>
   </div>  
   <form submit.delegate="submit()" class="col s12">
     <div class="row">
       <md-input class="col s12"
-        md-label="Email" 
+        md-label="${'account.email' | t}" 
         md-type="email"
         md-value.bind="account.email & validate"
         md-validate="true">
@@ -13,7 +13,7 @@
     </div>
     <div class="row">
       <md-input class="col s12"
-        md-label="Password" 
+        md-label="${'account.password' | t}" 
         md-type="password"
         md-value.bind="account.password & validate"
         md-validate="true">
@@ -26,11 +26,11 @@
     </div>
     <div class="section">
       <div class="col s12">
-        Don't remember your password? <a route-href="route: reset-password" >Click here</a> to reset it.
+        ${'account.do_not_remember_password' | t} <a route-href="route: reset-password" >${'common.click_here' | t}</a> ${'account.to_reset_password' | t}
       </div>
       <hr/>
       <div class="col s12">
-        Don't' have an account yet? <a route-href="route: sign-up" >Click here</a> to sign up.
+        ${'account.do_not_have_account' | t} <a route-href="route: sign-up" >${'common.click_here' | t}</a> ${'account.to_sign_up' | t}
       </div>
     </div>
   </form>

@@ -1,19 +1,23 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
+import { I18N } from 'aurelia-i18n';
+import TranslationService from 'resources/services/translation-service';
 import { ValidationControllerFactory,
   ValidationRules,
   validateTrigger  } from 'aurelia-validation';
 import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
-import AuthService from '../../services/auth-service';
-import UserService from '../../services/user-service';
+import AuthService from 'resources/services/auth-service';
+import UserService from 'resources/services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
-@inject(Router, ValidationControllerFactory, AuthService,
+@inject(Router, I18N, TranslationService, ValidationControllerFactory, AuthService,
   UserService, ToastService, LoaderService)
 export class SignIn {
-  constructor(router, controllerFactory, authService, userService, toast, loader) {
+  constructor(router, i18n, translationService, controllerFactory, authService, userService, toast, loader) {
     this.router = router;
+    this.i18n = i18n;
+    this.translationService = translationService;
     this.authService = authService;
     this.userService = userService;
     this.account = {
@@ -31,15 +35,18 @@ export class SignIn {
     ValidationRules
       .ensure('email')
         .required()
-          .withMessage('Email is required!')
+          .withMessage(this.translationService.tr('account.email_is_required'))
         .email()
-          .withMessage('Email is invalid!')
+          .withMessage(this.translationService.tr('account.email_is_invalid'))
         .maxLength(100)
+          .withMessage(this.translationService.tr('account.email_is_invalid'))
       .ensure('password')
         .required()
-          .withMessage('Password is required!')
+          .withMessage(this.translationService.tr('account.password_is_required'))
         .minLength(4)
+          .withMessage(this.translationService.tr('account.password_is_invalid'))
         .maxLength(100)
+          .withMessage(this.translationService.tr('account.password_is_invalid'))
       .on(this.account);
   }
 

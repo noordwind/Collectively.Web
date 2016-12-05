@@ -1,4 +1,6 @@
 import {inject} from 'aurelia-framework';
+import {I18N} from 'aurelia-i18n';
+import TranslationService from 'resources/services/translation-service';
 import UserService from 'resources/services/user-service';
 import { ValidationControllerFactory,
   ValidationRules,
@@ -8,10 +10,12 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import {Router} from 'aurelia-router';
 
-@inject(UserService, ToastService,
+@inject(I18N, TranslationService, UserService, ToastService,
 LoaderService, ValidationControllerFactory, Router)
 export class SetNewPassword {
-  constructor(userService, toast, loader, controllerFactory, router) {
+  constructor(i18n, translationService, userService, toast, loader, controllerFactory, router) {
+    this.i18n = i18n;
+    this.translationService = translationService;
     this.userService = userService;
     this.toast = toast;
     this.loader = loader;
@@ -25,9 +29,11 @@ export class SetNewPassword {
     ValidationRules
       .ensure('password')
         .required()
-          .withMessage('Password is required!')
+          .withMessage(this.translationService.tr('account.new_password_is_required'))
         .minLength(4)
+          .withMessage(this.translationService.tr('account.new_password_is_invalid'))
         .maxLength(100)
+          .withMessage(this.translationService.tr('account.new_password_is_invalid'))
       .on(this);
   }
 
@@ -49,11 +55,11 @@ export class SetNewPassword {
 
     this.loader.display();
     this.sending = true;
-    this.toast.info('Setting new password, please wait...');
+    this.toast.info(this.translationService.tr('account.setting_new_password'));
     let newPasswordSet = await this.userService.setNewPassword(
       this.email, this.token, this.password);
     if (newPasswordSet.success) {
-      this.toast.success('New password has been set.');
+      this.toast.success(this.translationService.tr('account.new_password_set'));
       this.loader.hide();
       this.router.navigateToRoute('sign-in');
 
@@ -62,6 +68,6 @@ export class SetNewPassword {
 
     this.sending = false;
     this.loader.hide();
-    this.toast.error(newPasswordSet.message);
+    this.toast.error(this.translationService.trCode(newPasswordSet.code));
   }
 }
