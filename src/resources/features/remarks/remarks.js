@@ -114,8 +114,9 @@ export class Remarks {
     if (this.filters.type === 'mine') {
       this.query.authorId = this.user.userId;
     }
-    this.remarks = await this.remarkService.browse(this.query);
-    this.remarks.forEach(remark => this.processRemark(remark), this);
+    let remarks = await this.remarkService.browse(this.query);
+    remarks.forEach(remark => this.processRemark(remark), this);
+    this.remarks = remarks;
     this.sortRemarks();
   }
 
