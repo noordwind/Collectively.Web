@@ -1,6 +1,6 @@
 <template>
     <require from="../../converters/dateFormatValueConverter"></require>
-    <h4>${'remark.details' | t} [${state}]</h4>
+    <h4>${'remark.details' | t} [${stateName}]</h4>
     <div class="section">
         <div class="col s12">
             <a href.bind="bigPhoto.url" target="_blank">
@@ -13,7 +13,7 @@
         <div class="row">
             <div class="col s12">
                 <label>${'remark.category' | t}</label>
-                <p textcontent.one-way="remark.category.name"/>
+                <p textcontent.one-way="remark.categoryName"/>
             </div>
             <div class="col s12">
                 <label>${'remark.location' | t}</label>
@@ -25,12 +25,12 @@
             </div>
             <div class="col s12">
                 <label>${'remark.author' | t}</label>
-                <p><a route-href="route: user-remarks; params.bind: {name : remark.author.name}">${remark.author.name}</a></p>
+                <p><a route-href="route: user-remarks; params.bind: {name : remark.author.name}" title="${'remark.browse_user_remarks' | t}">${remark.author.name}</a></p>
             </div>
         </div>
     </div>
     <div if.bind="remark.resolved">
-        <h4>Resolved</h4>
+        <h4>${'remark.resolved' | t}</h4>
         <div class="divider"></div>
         <div class="section">
             <div class="row">
@@ -40,11 +40,11 @@
                     </a>
                 </div>
                 <div class="col s12">
-                    <label>Resolver</label>
+                    <label>${'remark.resolved_by' | t}</label>
                     <p><a route-href="route: user-remarks; params.bind: {name : remark.resolver.name}">${remark.resolver.name}</a></p>
                 </div>
                 <div class="col s12">
-                    <label>Resolved at</label>
+                    <label>${'remark.resolved_at' | t}</label>
                     <p>${remark.resolvedAt | dateFormat}</p>
                 </div>                
             </div>
@@ -54,7 +54,7 @@
         <div class="row">
             <div class="col s12">
                 <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
-                    Display on map
+                    ${'remark.display' | t}
                 </button>
             </div>
         </div>
@@ -64,18 +64,18 @@
             <div class="row">
                 <div class="col s12">
                     <button md-modal-trigger href="#modal-resolve" disabled.bind="isSending" class="btn waves-effect waves-light btn-large">
-                        Resolve
+                        ${'remark.resolve' | t}
                     </button>
                 </div>
             </div>
         </div>
         <div id="modal-resolve" class="modal">
             <div class="modal-content">
-                <p>Do you really want to resolve this remark?</p>
+                <p>${'remark.resolve_question' | t}</p>
             </div>
             <div class="modal-footer">
-                <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">Yes</a>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">No</a>
+                <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
             </div>
         </div>
     </div>
@@ -85,18 +85,18 @@
             <div class="row">
                 <div class="col s12">
                     <button md-modal-trigger disabled.bind="isDeleting" href="#modal1" class="btn waves-effect waves-light btn-large">
-                        Delete
+                        ${'common.delete' | t}
                     </button>
                 </div>
             </div>
         </div>
         <div id="modal1" class="modal">
             <div class="modal-content">
-                <p>Do you really want to delete the remark?</p>
+                <p>${'remark.delete_question' | t}</p>
             </div>
             <div class="modal-footer">
-                <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">Yes</a>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">No</a>
+                <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
             </div>
         </div>
     </div>
