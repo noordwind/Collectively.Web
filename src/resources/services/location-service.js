@@ -1,14 +1,17 @@
 import {inject} from 'aurelia-framework';
 import environment from '../../environment';
-import {HttpClient, json} from 'aurelia-fetch-client';
+import {HttpClient} from 'aurelia-fetch-client';
+import StorageService from 'resources/services/storage-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 
-@inject(HttpClient, EventAggregator)
+@inject(HttpClient, StorageService, EventAggregator)
 export default class LocationService {
-  constructor(httpClient, eventAggregator) {
+  constructor(httpClient, storageService, eventAggregator) {
     this.allowedDistance = 15.0;
     this.httpClient = httpClient;
+    this.storageService = storageService;
+    this.environment = environment;
     this.eventAggregator = eventAggregator;
     this.isUpdating = false;
   }
@@ -63,11 +66,11 @@ export default class LocationService {
   }
 
   get current() {
-    return JSON.parse(localStorage.getItem(environment.locationStorageKey));
+    return this.storageService.read(this.environment.locationStorageKey);
   }
 
   set current(newLocation) {
-    localStorage.setItem(environment.locationStorageKey, JSON.stringify(newLocation));
+    this.storageService.write(this.environment.locationStorageKey, newLocation);
   }
 
   get exists() {
@@ -80,6 +83,7 @@ export default class LocationService {
 
   clear() {
     this.current = null;
+    this.storageService.delete(this.environment.locationStorageKey);
   }
 
   isInRange(target, maxDistance) {
@@ -97,7 +101,7 @@ export default class LocationService {
     let sourceLatitudeInRadians = source.latitude * distanceToRadians;
     let targetLatitudeInRadians = target.latitude * distanceToRadians;
     let latitudeDifferenceInRadians = (target.latitude - source.latitude) * distanceToRadians;
-    let longitudeDifferenceInRadians = (target.longitude - source.longitude) * distanceToRadians; 
+    let longitudeDifferenceInRadians = (target.longitude - source.longitude) * distanceToRadians;
 
     let a = Math.sin(latitudeDifferenceInRadians / 2) * Math.sin(latitudeDifferenceInRadians / 2) +
                 Math.cos(sourceLatitudeInRadians) * Math.cos(targetLatitudeInRadians) *
@@ -116,6 +120,10 @@ export default class LocationService {
 
     this.isUpdating = true;
     this._updateLocationTask();
+  }
+
+  stopUpdating() {
+    this.isUpdating = false;
   }
 
   _updateLocationTask() {

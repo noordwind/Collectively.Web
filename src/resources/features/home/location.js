@@ -19,12 +19,8 @@ export class Location {
     this.eventAggregator = eventAggregator;
   }
 
-  async attached() {
-    if (this.location.exists) {
-      this.router.navigateToRoute('remarks');
-
-      return;
-    }
+  async activate() {
+    this.location.clear();
     this.loader.display();
     this.toast.info(this.translationService.tr('location.fetching_location_message'));
     await this.location.getLocation(async x => {

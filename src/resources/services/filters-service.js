@@ -35,7 +35,13 @@ export default class FiltersService {
   }
 
   get filters() {
-    return this.storageService.read(this.environment.filtersStorageKey);
+    let filters = this.storageService.read(this.environment.filtersStorageKey);
+    if (filters !== null) {
+      return filters;
+    }
+    this.storageService.write(this.environment.filtersStorageKey, this.defaultFilters);
+
+    return this.defaultFilters;
   }
 
   set filters(newFilters) {

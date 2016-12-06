@@ -20,10 +20,10 @@ export class NavBar {
     });
 
     this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
-            async response => {
-              this.logout();
-              await this.toast.error('Location is required to run this app.');
-            });
+      async response => {
+        this.logout();
+        await this.toast.error('Location is required to run this app.');
+      });
   }
 
   detached() {
