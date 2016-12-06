@@ -1,5 +1,5 @@
 <template>
-    <h4>Create remark</h4>
+    <h4>${'remark.create' | t}</h4>
     </div>
     <div class="section">
         <form submit.delegate="sendRemark()">
@@ -10,9 +10,9 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <a md-button md-dropdown="activates: category">${category.name}</a>
+                    <a md-button md-dropdown="activates: category">${category.translatedName}</a>
                     <ul id="category" >
-                        <li repeat.for="category of categories"><a click.trigger="setCategory(category)">${category.name}</a></li>
+                        <li repeat.for="category of categories"><a click.trigger="setCategory(category)">${category.translatedName}</a></li>
                     </ul>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                 <div class="input-field col s12">
                     <i class="material-icons prefix">mode_edit</i>
                     <textarea id="description" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
-                    <label for="description">Optional description</label>
+                    <label for="description">${'remark.description' | t}</label>
                 </div>
             </div>
             <div class="row">
@@ -31,7 +31,7 @@
             </div>
             <div class="row">
                 <div class="col s12">
-                    <button class="btn waves-effect waves-light" type="submit" disabled.bind="isSending">Send
+                    <button class="btn waves-effect waves-light" type="submit" disabled.bind="isSending">${'common.submit' | t}
                         <i class="material-icons right">send</i>
                     </button>
                 </div>

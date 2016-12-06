@@ -16,7 +16,7 @@
     "email_is_required": "Email jest wymagany.",
     "email_is_invalid": "Email jest niepoprawny.",
     "invalid_credentials": "Niepoprawne dane logowania",
-    "list_remarks": "Lista zgłoszeń",
+    "list_remarks": "Moje zgłoszenia",
     "name_in_use": "Wybrana nazwa jest już zajęta.",
     "name_is_required": "Nazwa jest wymagana.",
     "name_is_invalid": "Nazwa jest niepoprawna.",
@@ -52,6 +52,8 @@
   },
   "common": {
     "click_here": "Kliknij tutaj",
+    "list": "Lista",
+    "map": "Mapa",
     "save": "Zapisz",
     "submit": "Wyślij"
   },
@@ -70,7 +72,24 @@
     "location_loaded": "Lokalizacja została ustalona."
   },
   "remark": {
-    "post_on_facebook": "Dodaj post na Facebook"
+    "author": "Autor",
+    "category": "Kategoria",
+    "category_litter": "Zanieczyszczenie",
+    "category_damages": "Uszkodzenie",
+    "category_accidents": "Wypadek",
+    "create": "Nowe zgłoszenie",
+    "details": "Zgłoszenie",
+    "description": "Opis (opcjonalny)",
+    "filter": "Filtruj zgłoszenia",
+    "location": "Lokalizacja",
+    "post_on_facebook": "Dodaj post na Facebook",
+    "processed": "Twoje zgłoszenie zostało wysłane.",
+    "processing": "Przetwarzamy zgłoszenie, proszę czekać...",
+    "remarks": "Zgłoszenia",
+    "state_new": "Nowe",
+    "state_resolved": "Rozwiązane",
+    "state_deleted": "Usunięte",
+    "user_remarks": "Zgłoszenia użytkownika:"
   },
   "route": {
     "change_password": "Zmiana hasła",

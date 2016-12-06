@@ -16,7 +16,7 @@
     "email_is_required": "Email is required.",
     "email_is_invalid": "Email is invalid.",
     "invalid_credentials": "Invalid credentials",
-    "list_remarks": "List remarks",
+    "list_remarks": "My remarks",
     "name_in_use": "Name is already in use.",
     "name_is_required": "Name is required.",
     "name_is_invalid": "Name is invalid.",
@@ -52,6 +52,8 @@
   },
   "common": {
     "click_here": "Click here",
+    "list": "List",
+    "map": "Map",
     "save": "Save",
     "submit": "Submit"
   },
@@ -70,7 +72,24 @@
     "location_loaded": "Location has been loaded."
   },
   "remark": {
-    "post_on_facebook": "Post on Facebook"
+    "author": "Author",
+    "category": "Category",
+    "category_litter": "Litter",
+    "category_damages": "Damages",
+    "category_accidents": "Accidents",
+    "create": "Create a remark",
+    "details": "Remark",
+    "description": "Description (optional)",
+    "filter": "Filter remarks",
+    "location": "Location",
+    "post_on_facebook": "Post on Facebook",
+    "processed": "Your remark has been sent.",
+    "processing": "Processing a remark, please wait...",
+    "remarks": "Remarks",
+    "state_new": "New",
+    "state_resolved": "Resolved",
+    "state_deleted": "Deleted",
+    "user_remarks": "User remarks:"
   },
   "route": {
     "change_password": "Change password",
