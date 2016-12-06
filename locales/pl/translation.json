@@ -73,7 +73,7 @@
     "operation_not_found": "Operacja nie została znaleziona.",
     "remark_not_found": "Zgłoszenie nie zostało znalezione.",
     "session_not_found": "Sesja nie została znaleziona.",
-    "text_too_long": "Wprowadzony tekst jest zbyt długi.",
+    "text_too_long": "Tekst jest zbyt długi.",
     "user_id_in_use": "Identyfikator użytkownika jest w użyciu.",
     "user_not_allowed_to_delete_remark" : "Użytkownik nie może usunąć wybranego zgłoszenia.",
     "user_not_found": "Użytkownik nie został znaleziony."
@@ -141,6 +141,7 @@
     "state_new": "nowe",
     "state_resolved": "rozwiązane",
     "state_deleted": "usunięte",
+    "type": "Typ",
     "user_remarks": "Zgłoszenia użytkownika:"
   },
   "route": {
