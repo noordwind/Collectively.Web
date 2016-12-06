@@ -83,6 +83,7 @@
     "apply": "Apply",
     "click_here": "Click here",
     "delete": "Delete",
+    "details": "Details",
     "list": "List",
     "no": "No",
     "map": "Map",
@@ -90,7 +91,9 @@
     "reset": "Reset",
     "save": "Save",
     "submit": "Submit",
-    "yes": "Yes"
+    "user": "User",
+    "yes": "Yes",
+    "you_are_here": "Hey, you are here!"
   },
   "dashboard": {
     "browse_remarks": "Browse remarks",

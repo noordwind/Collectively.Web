@@ -83,6 +83,7 @@
     "apply": "Zatwierdź",
     "click_here": "Kliknij tutaj",
     "delete": "Usuń",
+    "details": "Szczegóły",
     "list": "Lista",
     "no": "Nie",
     "map": "Mapa",
@@ -90,7 +91,8 @@
     "reset": "Resetuj",
     "save": "Zapisz",
     "submit": "Wyślij",
-    "yes": "Tak"
+    "yes": "Tak",
+    "you_are_here": "Hej, jesteś tutaj!"
   },
   "dashboard": {
     "browse_remarks": "Przeglądaj zgłoszenia",

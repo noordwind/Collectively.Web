@@ -6,7 +6,7 @@
         <li class="collection-item avatar" virtual-repeat.for="remark of remarks" infinite-scroll-next.call="getMore($scrollContext)">            
             <a href.bind="remark.url"><img class="circle" src.bind="remark.smallPhotoUrl" alt=""/></a>
             <span class="title">${remark.categoryName} [<span if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</span>]</span>
-            <span if.bind="remark.resolved" class="new badge static" data-badge-caption="resolved"></span>
+            <span if.bind="remark.resolved" class="new badge static" data-badge-caption="${'remark.state_resolved' | t}"></span>
             <p>${remark.location.address}</p>
             <p>${remark.description | truncate}</p>
             <p>${remark.author.name | truncate}</p>               

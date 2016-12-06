@@ -1,17 +1,19 @@
 import {inject, bindable} from 'aurelia-framework';
+import TranslationService from 'resources/services/translation-service';
 import {Router} from 'aurelia-router';
 import LocationService from 'resources/services/location-service';
 import FiltersService from 'resources/services/filters-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, FiltersService, EventAggregator)
+@inject(Router, TranslationService, LocationService, FiltersService, EventAggregator)
 export class Map {
     @bindable remarks = [];
     @bindable radiusChanged = null;
     @bindable center = null;
 
-  constructor(router, location, filtersService, eventAggregator) {
+  constructor(router, translationService, location, filtersService, eventAggregator) {
     this.router = router;
+    this.translationService = translationService;
     this.location = location;
     this.filtersService = filtersService;
     this.filters = this.filtersService.filters;
@@ -123,7 +125,9 @@ export class Map {
     if (this.userMarker !== null) {
       this.userMarker.setMap(null);
     }
-    this.userMarker = this.drawMarker(lng, lat, 'User', 'Hey, you are here!', 'FFEBEE');
+    let title = this.translationService.tr('common.user');
+    let content = this.translationService.tr('common.you_are_here');
+    this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
     this.moveMarker(this.userMarker, lat, lng);
   }
 
@@ -136,13 +140,14 @@ export class Map {
   drawRemarkMarker(remark) {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
-    let category = remark.category;
+    let category = this.translationService.tr(`remark.category_${remark.category}`);
     let color = this.getRemarMarkerkColor(remark);
+    let detailsText = this.translationService.tr('common.details');
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
-    let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">Details</a><br/>${description}`;
-    this.drawMarker(longitude, latitude, 'Details', content, color);
+    let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
+    this.drawMarker(longitude, latitude, detailsText, content, color);
   }
 
   getRemarMarkerkColor(remark) {

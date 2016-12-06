@@ -1,176 +1,165 @@
 const modulePrefix = 'resources/features';
 
 export default [
-  // {
-  //   route:    '',
-  //   moduleId: `${modulePrefix}/home/home`,
-  //   name:     'home',
-  //   title:    'Home',
-  //   nav:      true,
-  //   settings: {
-  //       reqLogin: true,
-  //       icon:     "dashboard"
-  //   }
-  // },
   {
-    route:      '',
-    moduleId:   `${modulePrefix}/home/start`,
-    name:       'start',
-    title:      'Start',
+    route: '',
+    moduleId: `${modulePrefix}/home/start`,
+    name: 'start',
+    title: 'Start',
     settings: {
       hideNavbar: true,
       translationKey: 'route.start'
     }
   },
   {
-    route:      'sign-in',
-    moduleId:   `${modulePrefix}/account/sign-in`,
-    name:       'sign-in',
-    title:      'Sign in',
+    route: 'sign-in',
+    moduleId: `${modulePrefix}/account/sign-in`,
+    name: 'sign-in',
+    title: 'Sign in',
     settings: {
       hideNavbar: true,
       translationKey: 'route.sign_in'
     }
   },
   {
-    route:    'reset-password',
+    route: 'reset-password',
     moduleId: `${modulePrefix}/account/reset-password`,
-    name:     'reset-password',
-    title:    'Reset password',
+    name: 'reset-password',
+    title: 'Reset password',
     settings: {
       hideNavbar: true,
       translationKey: 'route.reset_password'
     }
   },
   {
-    route:    'set-new-password',
+    route: 'set-new-password',
     moduleId: `${modulePrefix}/account/set-new-password`,
-    name:     'set-new-password',
-    title:    'Set new password',
+    name: 'set-new-password',
+    title: 'Set new password',
     settings: {
       hideNavbar: true,
       translationKey: 'route.set_new_password'
     }
   },
   {
-    route:      'sign-up',
-    moduleId:   `${modulePrefix}/account/sign-up`,
-    name:       'sign-up',
-    title:      'Sign up',
+    route: 'sign-up',
+    moduleId: `${modulePrefix}/account/sign-up`,
+    name: 'sign-up',
+    title: 'Sign up',
     settings: {
       hideNavbar: true,
       translationKey: 'route.sign_up'
     }
   },
   {
-    route:      'location',
-    moduleId:   `${modulePrefix}/home/location`,
-    name:       'location',
-    title:      'location',
+    route: 'location',
+    moduleId: `${modulePrefix}/home/location`,
+    name: 'location',
+    title: 'location',
     settings: {
       reqLogin: true,
       translationKey: 'route.location'
     }
   },
   {
-    route:    'remarks',
+    route: 'remarks',
     moduleId: `${modulePrefix}/remarks/remarks`,
-    name:     'remarks',
-    title:    'Remarks',
-    nav:      true,
+    name: 'remarks',
+    title: 'Remarks',
+    nav: true,
     settings: {
-        reqLogin: true,
-        icon: "view_list",
-        translationKey: 'route.remarks'
+      reqLogin: true,
+      icon: 'view_list',
+      translationKey: 'route.remarks'
     }
   },
   {
-    route:    'remarks/:id/display',
+    route: 'remarks/:id/display',
     moduleId: `${modulePrefix}/remarks/remarks`,
-    name:     'display-remark',
-    title:    'Display remark',
-    nav:      false,
+    name: 'display-remark',
+    title: 'Display remark',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.remark_display'
+      reqLogin: true,
+      translationKey: 'route.remark_display'
     }
   },
   {
-    route:    'remarks/:id',
+    route: 'remarks/:id',
     moduleId: `${modulePrefix}/remarks/remark`,
-    name:     'remark',
-    title:    'Remark',
-    nav:      false,
+    name: 'remark',
+    title: 'Remark',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.remark'
+      reqLogin: true,
+      translationKey: 'route.remark'
     }
   },
   {
-    route:    'remarks/create',
+    route: 'remarks/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
-    name:     'create-remark',
-    title:    'Create remark',
-    nav:      false,
+    name: 'create-remark',
+    title: 'Create remark',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.create_remark'
+      reqLogin: true,
+      translationKey: 'route.create_remark'
     }
   },
   {
-    route:    'filters',
+    route: 'filters',
     moduleId: `${modulePrefix}/remarks/filter-remarks`,
-    name:     'filter-remarks',
-    title:    'Filter remarks',
-    nav:      false,
+    name: 'filter-remarks',
+    title: 'Filter remarks',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.filter_remarks'
+      reqLogin: true,
+      translationKey: 'route.filter_remarks'
     }
   },
   {
-    route:    'profile',
+    route: 'profile',
     moduleId: `${modulePrefix}/account/profile`,
-    name:     'profile',
-    title:    'My account',
-    nav:      'true',
+    name: 'profile',
+    title: 'My account',
+    nav: 'true',
     settings: {
-        reqLogin: true,
-        icon: "account_box",
-        translationKey: 'route.profile'
+      reqLogin: true,
+      icon: 'account_box',
+      translationKey: 'route.profile'
     }
   },
   {
-    route:    'profile/username',
+    route: 'profile/username',
     moduleId: `${modulePrefix}/account/set-username`,
-    name:     'username',
-    title:    'Set username',
-    nav:      false,
+    name: 'username',
+    title: 'Set username',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.set_username'
+      reqLogin: true,
+      translationKey: 'route.set_username'
     }
   },
   {
-    route:    'profile/password',
+    route: 'profile/password',
     moduleId: `${modulePrefix}/account/change-password`,
-    name:     'change-password',
-    title:    'Change password',
-    nav:      false,
+    name: 'change-password',
+    title: 'Change password',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.change_password'
+      reqLogin: true,
+      translationKey: 'route.change_password'
     }
   },
   {
-    route:    'users/:name/remarks',
+    route: 'users/:name/remarks',
     moduleId: `${modulePrefix}/remarks/user-remarks`,
-    name:     'user-remarks',
-    title:    'Remarks',
-    nav:      false,
+    name: 'user-remarks',
+    title: 'Remarks',
+    nav: false,
     settings: {
-        reqLogin: true,
-        translationKey: 'route.user_remarks'
+      reqLogin: true,
+      translationKey: 'route.user_remarks'
     }
   }
-]
+];
