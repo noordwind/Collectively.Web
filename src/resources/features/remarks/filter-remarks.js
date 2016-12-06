@@ -1,14 +1,19 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import {I18N} from 'aurelia-i18n';
+import TranslationService from 'resources/services/translation-service';
 import LocationService from 'resources/services/location-service';
 import FiltersService from 'resources/services/filters-service';
 import ToastService from 'resources/services/toast-service';
 import RemarkService from 'resources/services/remark-service';
 
-@inject(Router, LocationService, FiltersService, ToastService, RemarkService)
+@inject(Router, I18N, TranslationService,
+ LocationService, FiltersService, ToastService, RemarkService)
 export class FilterRemarks {
-  constructor(router, locationService, filtersService, toast, remarkService) {
+  constructor(router, i18n, translationService, locationService, filtersService, toast, remarkService) {
     this.router = router;
+    this.i18n = i18n;
+    this.translationService = translationService;
     this.location = locationService;
     this.filtersService = filtersService;
     this.toast = toast;
@@ -49,15 +54,21 @@ export class FilterRemarks {
       } else {
         c.checked = self.filters.categories.indexOf(c.name) !== -1;
       }
+      c.translatedName = this.translationService.tr(`remark.category_${c.name}`);
     });
     self.categories = categories;
   }
 
   setupStateFilter() {
-    this.states = ['active', 'resolved', 'all'];
+    this.states = [ {name: this.translationService.trCapitalized('remark.state_active'), value: 'active'},
+     {name: this.translationService.trCapitalized('remark.state_resolved'), value: 'resolved'},
+     {name: this.translationService.trCapitalized('common.all'), value: 'all'}
+     ];
   }
 
   setupTypeFilter() {
-    this.types = ['all', 'mine'];
+    this.types = [ {name: this.translationService.trCapitalized('common.all'), value: 'all'},
+     {name: this.translationService.trCapitalized('common.mine'), value: 'mine'}
+     ];
   }
 }
