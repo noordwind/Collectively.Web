@@ -19,6 +19,10 @@ export default class FiltersService {
       categories: [],
       type: 'all',
       state: 'active',
+      defaultCenter: {
+        latitude: 0,
+        longitude: 0
+      },
       center: {
         latitude: 0,
         longitude: 0

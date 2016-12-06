@@ -72,6 +72,8 @@ export class Map {
     let lat = location.coords.latitude;
     this.userPosition = { lat, lng };
     this.drawUserMarker();
+    this.filters.defaultCenter = {latitude: lat, longitude: lng};
+    this._updateFilters();
   }
 
   drawMap() {

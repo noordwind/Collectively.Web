@@ -31,12 +31,18 @@ export class FilterRemarks {
   resetFilters() {
     this.categories.forEach(c => c.checked = true);
     this.filters = this.filtersService.defaultFilters;
-    this.filtersService.filters = this.filters;
+    this._updateFilters();
   }
 
   filterRemarks() {
     this.filters.categories = this.selectedCategories;
-    this.filtersService.filters = this.filters;
+    this._updateFilters();
+    this.router.navigateBack();
+  }
+
+  resetPosition() {
+    this.filters.center = this.filters.defaultCenter;
+    this._updateFilters();
     this.router.navigateBack();
   }
 
@@ -70,5 +76,9 @@ export class FilterRemarks {
     this.types = [ {name: this.translationService.trCapitalized('common.all'), value: 'all'},
      {name: this.translationService.trCapitalized('common.mine'), value: 'mine'}
      ];
+  }
+
+  _updateFilters() {
+    this.filtersService.filters = this.filters;
   }
 }

@@ -64,11 +64,11 @@ export default class FacebookService {
 
         return;
       }
-      this.toast.error('There was an error, please try again.');
+      this.toast.error(this.toast.error(this.translationService.trCode('error')));
     } else if (response.status === 'not_authorized') {
-      this.toast.error('Please allow Coolector app to access your Facebook account.');
+      this.toast.error(this.translationService.trCode('facebook_no_access'));
     } else {
-      this.toast.error('Please sign in to Facebook.');
+      this.toast.error(this.translationService.trCode('facebook_not_signed_in'));
     }
     err();
   }
