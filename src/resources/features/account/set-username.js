@@ -45,6 +45,8 @@ export class SetUsername {
           .withMessage(this.translationService.tr('account.name_is_invalid'))
         .satisfiesRule('username')
           .withMessage(this.translationService.tr('account.name_is_invalid'))
+        .matches(/^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+[a-zA-Z0-9]$/)
+          .withMessage(this.translationService.tr('account.name_is_invalid'))
       .on(this);
   }
 
