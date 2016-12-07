@@ -4,6 +4,7 @@ import environment from '../../environment';
 import CacheService from 'resources/services/cache-service';
 import AuthService from 'resources/services/auth-service';
 import ToastService from 'resources/services/toast-service';
+import LanguageDetectionService from 'resources/services/language-detection-service';
 
 @inject(HttpClient, CacheService, AuthService, ToastService)
 export default class ApiBaseService {
@@ -16,12 +17,15 @@ export default class ApiBaseService {
       config.withBaseUrl(environment.apiUrl)
               .withDefaults({
                 headers: {
-                  'Accept': 'application/json'
-                  // 'X-Requested-With': 'Fetch'
+                  'Accept': 'application/json',
+                  'Accept-Language': LanguageDetectionService.detect()
                 }
               });
-      this.baseCorsResponseHeaderNames = ['cache-control', 'content-type'];
     });
+
+    this.baseCorsResponseHeaderNames = ['cache-control', 'content-type'];
+    this.emptyBodyStatuses     = [201, 202];
+    this.emptyResponseStatuses = [204, 401];
   }
 
   async get(path, params = {}, cache = true, cacheKey = null) {
@@ -37,6 +41,28 @@ export default class ApiBaseService {
     });
   }
 
+  async post(path, body) {
+    return await this.send('post', path, body);
+  }
+
+  async put(path, body) {
+    return await this.send('put', path, body);
+  }
+
+  async delete(path) {
+    return await this.send('delete', path);
+  }
+
+  async send(method, path, body) {
+    const response = await this.http.fetch(path, {
+      method: method,
+      headers: this.getHeaders(),
+      body: json(body)
+    });
+
+    return this.handleResponse(response);
+  }
+
   buildPathWithQuery(path, params = {}) {
     let pathWithQuery = path;
     if (Object.keys(params).length > 0) {
@@ -46,114 +72,25 @@ export default class ApiBaseService {
     return pathWithQuery;
   }
 
-  async post(path, params) {
-    let headers = this.getHeaders();
-    headers['Content-Type'] = 'application/json';
-    const response = await this.http.fetch(path, {
-      method: 'post',
-      body: json(params),
-      headers: headers
-    });
-    if (response.status >= 400) {
-      return response;
+  handleResponse(response) {
+    if (this.emptyBodyStatuses.includes(response.status)) {
+      return this.exposeHeaders(response);
+    } else if (this.emptyResponseStatuses.includes(response.status)) {
+      return new Promise((resolve) => resolve({}));
     }
-    if (response.status === 200) {
-      return response.json();
-    }
-    if (response.status === 202 || response.status === 204) {
-      return response;
-    }
-    if (response.status !== 201) {
-      return response.json();
-    }
-    headers = {};
-    for (let [name, value] of response.headers) {
-      if (!this.baseCorsResponseHeaderNames.includes(name)) {
-        headers[name] = value;
-      }
 
-      return new Promise((resolve, reject) => {
-        if (Object.keys(headers).length > 0) {
-          resolve(headers);
-        } else {
-          reject(Error("Response 201 didn't contain any resource-related headers."));
-        }
-      });
-    }
+    return response.json();
   }
 
-  async put(path, params) {
-    let headers = this.getHeaders();
-    headers['Content-Type'] = 'application/json';
-    const response = await this.http.fetch(path, {
-      method: 'put',
-      body: json(params),
-      headers: headers
-    });
-
-    if (response.status >= 400) {
-      return response;
-    }
-    if (response.status === 200) {
-      return response.json();
-    }
-    if (response.status === 202) {
-      return response;
-    }
-    if (response.status !== 201) {
-      return response.json();
-    }
-    headers = {};
+  exposeHeaders(response) {
+    const headers = {};
     for (let [name, value] of response.headers) {
       if (!this.baseCorsResponseHeaderNames.includes(name)) {
         headers[name] = value;
       }
     }
-    return new Promise((resolve, reject) => {
-      if (Object.keys(headers).length > 0) {
-        resolve(headers);
-      } else {
-        reject(Error("Response 201 didn't contain any resource-related headers."));
-      }
-    });
-  }
 
-  async delete(path, params) {
-    let headers = this.getHeaders();
-    let response = await this.http.fetch(path, {
-      method: 'delete',
-      headers: headers
-    });
-
-    if (response.status >= 400) {
-      return response;
-    }
-    if (response.status === 200) {
-      return response.json();
-    }
-    if (response.status === 202) {
-      return response;
-    }
-    if (response.status !== 201) {
-      return response.json();
-    }
-    headers = {};
-    for (let [name, value] of response.headers) {
-      if (!this.baseCorsResponseHeaderNames.includes(name)) {
-        headers[name] = value;
-      }
-    }
-    return new Promise((resolve, reject) => {
-      if (Object.keys(headers).length > 0) {
-        resolve(headers);
-      } else {
-        reject(Error("Response 201 didn't contain any resource-related headers."));
-      }
-    });
-  }
-
-  getHeaders() {
-    return {'Authorization': `Bearer ${this.authService.token}`};
+    return new Promise((resolve) => resolve(headers));
   }
 
   cacheKey(keySuffix) {
@@ -166,5 +103,9 @@ export default class ApiBaseService {
 
   cacheInvalidate(keySuffix) {
     this.cacheService.invalidate(this.cacheKey(keySuffix));
+  }
+
+  getHeaders() {
+    return {'Authorization': `Bearer ${this.authService.token}`};
   }
 }

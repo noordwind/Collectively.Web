@@ -78,6 +78,6 @@ export class SignIn {
 
     this.sending = false;
     this.loader.hide();
-    this.toast.error('account.invalid_credentials');
+    this.toast.error(this.translationService.tr('account.invalid_credentials'));
   }
 }
