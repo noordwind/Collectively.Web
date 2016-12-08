@@ -59,6 +59,7 @@ Clone the repository and run the *start.sh* script:
 ```
 git clone https://github.com/noordwind/Coolector.Web
 cd Coolector.Web
+npm install
 ./start.sh
 ```
 
