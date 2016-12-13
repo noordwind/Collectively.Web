@@ -31,12 +31,12 @@ export default class UserService extends ApiBaseService {
   }
 
   async isNameAvailable(name) {
-    return await this.get(`${name}/available`, {}, false);
+    return await this.get(`account/names/${name}/available`, {}, false);
   }
 
   async changeUsername(name) {
     return await this.operationService.execute(async ()
-      => await this.put('account/username', { name }));
+      => await this.put('account/name', { name }));
   }
 
   async changePassword(currentPassword, newPassword) {
