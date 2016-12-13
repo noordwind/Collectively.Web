@@ -57,7 +57,7 @@ export default class ApiBaseService {
     const response = await this.http.fetch(path, {
       method: method,
       headers: this.getHeaders(),
-      body: json(body)
+      body: body ? json(body) : null
     });
 
     return this.handleResponse(response);
