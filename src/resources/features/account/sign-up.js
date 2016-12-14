@@ -70,6 +70,7 @@ export class SignUp {
     this.sending = true;
     this.toast.info(this.translationService.tr('account.creating_account'));
     let accountCreated = await this.userService.signUp(this.account);
+    console.log(accountCreated);
     if (accountCreated.success) {
       this.toast.success(this.translationService.tr('account.account_created'));
       this.loader.hide();
