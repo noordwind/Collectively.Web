@@ -36,7 +36,9 @@ export class Remarks {
       categories: encodeURI(this.filters.categories),
       state: this.filters.state
     };
+    this.page = 1;
     this.remarks = [];
+    this.mapRemarks = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
     this.signalR.initialize();
@@ -53,51 +55,11 @@ export class Remarks {
     $('#file').change(async () => {
       this.image = this.files[0];
     });
-    if (!this.mapEnabled) {
-      await this.browse();
-    }
-    this.mapLoadedSubscription = await this.eventAggregator
-      .subscribe('map:loaded', async response => {
-        this.loader.display();
-        await this.browse();
-        this.loader.hide();
-      });
-    this.remarkCreatedSubscription = await this.eventAggregator
-      .subscribe('remark:created', async message => {
-        let location = {
-          latitude: message.location.coordinates[1],
-          longitude: message.location.coordinates[0]
-        };
-        if (this.location.isInRange(location, this.filters.radius) === false) {
-          return;
-        }
-        let remark = this.processRemark(message);
-        this.remarks.push(remark);
-        this.sortRemarks();
-      });
-    this.remarkResolvedSubscription = await this.eventAggregator
-      .subscribe('remark:resolved', async message => {
-        let index = this.remarks.findIndex(r => r.id === message.remarkId);
-        if (index < 0) {
-          return;
-        }
-        let remark = this.remarks[index];
-        remark.resolved = true;
-        remark.resolver = {
-          name: message.resolver,
-          userId: message.resolverId
-        };
-        remark.resolvedAt = message.resolvedAt;
-        this.remarks[index] = remark;
-      });
-    this.remarkDeletedSubscription = await this.eventAggregator
-      .subscribe('remark:deleted', async message => {
-        let index = this.remarks.findIndex(r => r.id === message.remarkId);
-        if (index < 0) {
-          return;
-        }
-        this.remarks.splice(index, 1);
-      });
+    this.mapLoadedSubscription = await this.subscribeMapLoaded();
+    this.remarkCreatedSubscription = await this.subscribeRemarkCreated();
+    this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
+    this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
+    await this.browseForList(this.page);
   }
 
   detached() {
@@ -107,29 +69,36 @@ export class Remarks {
     this.remarkDeletedSubscription.dispose();
   }
 
-  async browse() {
+  async browseForMap() {
     this.query.results = this.filters.results;
     this.query.radius = this.filters.radius;
-    this.query.authorId = '';
-    if (this.filters.type === 'mine') {
-      this.query.authorId = this.user.userId;
-    }
-    let remarks = await this.remarkService.browse(this.query);
-    remarks.forEach(remark => this.processRemark(remark), this);
-    this.remarks = remarks;
-    this.sortRemarks();
+    self.mapRemarks = await this.browse(this.query);
   }
 
-  sortRemarks() {
-    this.remarks.sort((x, y) => {
-      if (x.distance < y.distance) {
-        return -1;
+  async browseForList(page, results) {
+    let query = this.query;
+    query.radius = 0;
+    query.page = page || 0;
+    query.results = results || 25;
+    let remarks = await this.browse(query);
+    remarks.forEach(remark => {
+      if (this.remarks.includes(remark)) {
+        return;
       }
-      if (x.distance > y.distance) {
-        return 1;
-      }
-      return 0;
-    });
+      this.remarks.push(remark);
+    }, this);
+  }
+
+  async browse(query) {
+    query.authorId = '';
+    if (this.filters.type === 'mine') {
+      query.authorId = this.user.userId;
+    }
+    let remarks = await this.remarkService.browse(query);
+    remarks.forEach(remark => this.processRemark(remark), this);
+    remarks = this.sortRemarks(remarks);
+
+    return remarks;
   }
 
   processRemark(remark) {
@@ -190,7 +159,7 @@ export class Remarks {
     self.filters.radius = radius;
     self.query.longitude = center.lng();
     self.query.latitude = center.lat();
-    await self.browse();
+    await self.browseForMap();
   }
 
   get mapEnabled() {
@@ -204,5 +173,113 @@ export class Remarks {
 
   _updateFilters() {
     this.filtersService.filters = this.filters;
+  }
+
+  async subscribeMapLoaded() {
+    return await self.eventAggregator
+      .subscribe('map:loaded', async response => {
+        self.loader.display();
+        await self.browseForMap();
+        self.loader.hide();
+      });
+  }
+
+  async subscribeRemarkCreated() {
+    return await self.eventAggregator
+      .subscribe('remark:created', async message => {
+        let location = {
+          latitude: message.location.coordinates[1],
+          longitude: message.location.coordinates[0]
+        };
+        let remark = self.processRemark(message);
+        if (self.location.isInRange(location, self.filters.radius)) {
+          self.mapRemarks = self.insertRemark(self.mapRemarks, remark);
+        }
+        let lastRemark = self.remarks.length > 0
+          ? self.remarks[self.remarks.length - 1]
+          : null;
+        if (lastRemark && self.location.isInRange(location, lastRemark.distance)) {
+          self.remarks = self.insertRemark(self.remarks, remark, true);
+        }
+      });
+  }
+
+  async subscribeRemarkResolved() {
+    return await self.eventAggregator
+      .subscribe('remark:resolved', async message => {
+        self.remarks = self.markAsResolved(self.remarks, message);
+        self.mapRemarks = self.markAsResolved(self.mapRemarks, message);
+      });
+  }
+
+  async subscribeRemarkDeleted() {
+    return await self.eventAggregator
+      .subscribe('remark:deleted', async message => {
+        self.remarks = self.removeRemark(self.remarks, message.remarkId);
+        self.mapRemarks = self.removeRemark(self.mapRemarks, message.remarkId);
+      });
+  }
+
+  sortRemarks(remarks) {
+    if (Array.isArray(remarks) === false) {
+      remarks = [];
+    }
+    return remarks.sort((x, y) => {
+      if (x.distance < y.distance) {
+        return -1;
+      }
+      if (x.distance > y.distance) {
+        return 1;
+      }
+      return 0;
+    });
+  }
+
+  insertRemark(remarks, remark, sort) {
+    if (Array.isArray(remarks) === false) {
+      remarks = [];
+    }
+    if (remarks.includes(remark)) {
+      return remarks;
+    }
+    remarks.push(remark);
+    sort = sort || false;
+    if (sort) {
+      remarks = self.sortRemarks(remarks);
+    }
+    return Array.from(remarks);
+  }
+
+  markAsResolved(remarks, message) {
+    if (Array.isArray(remarks) === false) {
+      return [];
+    }
+    let index = remarks.findIndex(r => r.id === message.remarkId);
+    if (index < 0) {
+      return remarks;
+    }
+    let remark = remarks[index];
+    remark.resolved = true;
+    remark.resolver = {
+      name: message.resolver,
+      userId: message.resolverId
+    };
+    remark.resolvedAt = message.resolvedAt;
+    remarks[index] = remark;
+
+    return Array.from(remarks);
+  }
+
+  removeRemark(remarks, remarkId) {
+    if (Array.isArray(remarks) === false) {
+      return [];
+    }
+    let index = remarks.findIndex(r => r.id === remarkId);
+    if (index < 0) {
+      return remarks;
+    }
+    remarks.splice(index, 1);
+
+    return Array.from(remarks);
   }
 }
