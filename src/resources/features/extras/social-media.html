@@ -1,0 +1,8 @@
+<template>
+    <div class="row" if.bind="displaySocialMedia">
+        <p class="col s12">${'common.publishOnSocialMedia' | t}</p>
+        <div repeat.for="service of services" class="col s6">
+            <md-checkbox md-checked.bind="service.publish" change.delegate="selectServices()" md-filled-in="true" value.bind="service.name">${service.name}</md-checkbox>
+        </div>
+    </div>
+</template>

@@ -72,13 +72,4 @@ export default class FacebookService {
     }
     err();
   }
-
-  async postOnWall(message) {
-    let request = {
-      accessToken: this.authService.session.externalAccessToken,
-      message: message };
-
-    return await this.operationService.execute(async ()
-      => await this.apiBaseService.post('social/facebook/wall', request));
-  }
 }
