@@ -24,7 +24,7 @@
     <div>
     <div class="row" if.bind="!mapEnabled">
         <div class="col s12">
-             <remark-list remarks.bind="remarks"></remark-list>
+             <remark-list remarks.bind="remarks" load-more.call="loadMore()" refresh.call="refreshList()"></remark-list>
         </div>
     </div>
     <div class="row">

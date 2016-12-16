@@ -16,7 +16,7 @@ export default class RemarkService {
       => await this.apiBaseService.post('remarks', remark));
   }
 
-  async browse(query) {
+  async browse(query, cache = true) {
     //Building custom key with fixed lat & lng, so it works properly for minimal location updates.
     let path = 'remarks';
     let latitude = query.latitude || 0;
@@ -32,7 +32,7 @@ export default class RemarkService {
     query.latitude = latitude;
     query.longitude = longitude;
 
-    return await this.apiBaseService.get(path, query, true, newCacheKey);
+    return await this.apiBaseService.get(path, query, cache, newCacheKey);
   }
 
   async getCategories() {

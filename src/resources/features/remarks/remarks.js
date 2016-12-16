@@ -37,11 +37,13 @@ export class Remarks {
       state: this.filters.state
     };
     this.page = 1;
+    this.results = 25;
     this.remarks = [];
     this.mapRemarks = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
     this.signalR.initialize();
+    this.loadingRemarks = false;
   }
 
   async activate(params) {
@@ -75,12 +77,15 @@ export class Remarks {
     self.mapRemarks = await this.browse(this.query);
   }
 
-  async browseForList(page, results) {
+  async browseForList(page, results, clear = false) {
     let query = this.query;
     query.radius = 0;
     query.page = page || 0;
     query.results = results || 25;
-    let remarks = await this.browse(query);
+    let remarks = await this.browse(query, !clear);
+    if (clear) {
+      this.remarks = [];
+    }
     remarks.forEach(remark => {
       if (this.remarks.includes(remark)) {
         return;
@@ -89,16 +94,42 @@ export class Remarks {
     }, this);
   }
 
-  async browse(query) {
+  async browse(query, cache = true) {
     query.authorId = '';
     if (this.filters.type === 'mine') {
       query.authorId = this.user.userId;
     }
-    let remarks = await this.remarkService.browse(query);
+    let remarks = await this.remarkService.browse(query, cache);
     remarks.forEach(remark => this.processRemark(remark), this);
     remarks = this.sortRemarks(remarks);
 
     return remarks;
+  }
+
+  async refreshList() {
+    if (this.loadingRemarks) {
+      return;
+    }
+    this.loadingRemarks = true;
+    this.page = 1;
+    await this.browseForList(this.page, this.results, true);
+    this.loader.hide();
+    this.loadingRemarks = false;
+  }
+
+  async loadMore() {
+    if (this.loadingRemarks) {
+      return;
+    }
+    if (this.page * this.results > this.remarks.length) {
+      return;
+    }
+    this.loadingRemarks = true;
+    this.loader.display();
+    this.page++;
+    await this.browseForList(this.page);
+    this.loader.hide();
+    this.loadingRemarks = false;
   }
 
   processRemark(remark) {

@@ -41,13 +41,13 @@ export class RemarkList {
   detached() {
     this.locationLoadedSubscription.dispose();
   }
-  
+
   remarksChanged(newValue) {
     newValue.forEach(remark => {
       remark.categoryName = this.translationService.tr(`remark.category_${remark.category}`);
     });
   }
-  
+
   getMore(scrollContext) {
     if (scrollContext.isAtBottom && this.loadMore !== null) {
       this.loadMore();
