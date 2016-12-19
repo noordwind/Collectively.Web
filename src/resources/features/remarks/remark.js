@@ -7,6 +7,7 @@ import FiltersService from 'resources/services/filters-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -14,10 +15,11 @@ import Environment from '../../../environment';
 
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
-ToastService, LoaderService, UserService,
+ToastService, LoaderService, AuthService, UserService,
 SignalRService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, i18n, translationService, location, filtersService, remarkService, toastService, loader, userService, signalR, eventAggregator, environment) {
+  constructor(router, i18n, translationService, location, filtersService, remarkService, 
+  toastService, loader, authService, userService, signalR, eventAggregator, environment) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -27,6 +29,7 @@ export class Remark {
     this.remarkService = remarkService;
     this.toast = toastService;
     this.loader = loader;
+    this.authService = authService;
     this.userService = userService;
     this.signalR = signalR;
     this.eventAggregator = eventAggregator;
@@ -39,17 +42,21 @@ export class Remark {
   }
 
   get canDelete() {
-    return this.account.userId === this.remark.author.userId;
+    return this.isAuthenticated && this.account.userId === this.remark.author.userId;
   }
 
   get canResolve() {
-    return this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
+    return this.isAuthenticated && this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
-    this.account = await this.userService.getAccount();
+    this.account = {userId: ''};
+    this.isAuthenticated = this.authService.isLoggedIn;
+    if (this.isAuthenticated) {
+      this.account = await this.userService.getAccount();
+    }
     let remark = await this.remarkService.getRemark(this.id);
     this.remark = remark;
     this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
@@ -120,8 +127,7 @@ export class Remark {
     this.toast.info(this.translationService.tr('remark.removing_remark'));
     let remarkRemoved = await this.remarkService.deleteRemark(this.id);
     if (remarkRemoved.success) {
-      this.toast.success(this.translationService.tr('remark.remark_removed')
-);
+      this.toast.success(this.translationService.tr('remark.remark_removed'));
       this.loader.hide();
       this.router.navigateToRoute('remarks');
 

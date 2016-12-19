@@ -5,7 +5,7 @@
                 <i class="material-icons back-btn">arrow_back</i>
             </a>
             <a route-href="route: remarks" class="brand-logo">Coolector</a>
-            <a href="#" data-activates="nav-mobile" class="button-collapse right">
+            <a href="#" data-activates="nav-mobile" class="button-collapse right" if.bind="authService.isLoggedIn">
                 <i class="material-icons">menu</i>
             </a>
             <ul class="right hide-on-med-and-down">

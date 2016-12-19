@@ -5,17 +5,18 @@ import RemarkService from 'resources/services/remark-service';
 import FiltersService from 'resources/services/filters-service';
 import LoaderService from 'resources/services/loader-service';
 import ToastService from 'resources/services/toast-service';
+import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
 import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, LocationService, RemarkService,
-FiltersService, LoaderService, ToastService,
+FiltersService, LoaderService, ToastService, AuthService,
 UserService, SignalRService, FileStore, EventAggregator)
 export class Remarks {
   constructor(router, location, remarkService, filtersService, loader, toast,
-  userService, signalRService, fileStore, eventAggregator) {
+  authService, userService, signalRService, fileStore, eventAggregator) {
     self = this;
     this.router = router;
     this.location = location;
@@ -23,6 +24,7 @@ export class Remarks {
     this.filtersService = filtersService;
     this.loader = loader;
     this.toast = toast;
+    this.authService = authService;
     this.userService = userService;
     this.signalR = signalRService;
     this.fileStore = fileStore;
@@ -48,7 +50,13 @@ export class Remarks {
 
   async activate(params) {
     this.location.startUpdating();
-    this.user = await this.userService.getAccount();
+    this.account = {userId: ''};
+    this.isAuthenticated = this.authService.isLoggedIn;
+    if (this.isAuthenticated) {
+      this.account = await this.userService.getAccount();
+    }
+    this.filtersEnabled = this.isAuthenticated;
+    this.createRemarkEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
   }
 
@@ -97,7 +105,7 @@ export class Remarks {
   async browse(query, cache = true) {
     query.authorId = '';
     if (this.filters.type === 'mine') {
-      query.authorId = this.user.userId;
+      query.authorId = this.account.userId;
     }
     let remarks = await this.remarkService.browse(query, cache);
     remarks.forEach(remark => this.processRemark(remark), this);

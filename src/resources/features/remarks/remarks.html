@@ -10,7 +10,7 @@
                 <div class="col s9">
                     <md-switch style="margin-top:10px" md-label-on="${'common.map' | t}" md-label-off="${'common.list' | t}" md-checked.bind="mapEnabled"></md-switch>
                 </div>
-                <div class="col s3">
+                <div class="col s3" if.bind="filtersEnabled">
                     <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating waves-effect"><i class="material-icons left">settings</i></a>
                 </div>
             </div>
@@ -27,7 +27,7 @@
              <remark-list remarks.bind="remarks" load-more.call="loadMore()" refresh.call="refreshList()"></remark-list>
         </div>
     </div>
-    <div class="row">
+    <div class="row" if.bind="createRemarkEnabled">
         <div class="col s12">
         </div>
         <div class="fixed-action-btn">

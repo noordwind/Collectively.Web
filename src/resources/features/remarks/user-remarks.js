@@ -28,9 +28,8 @@ export class UserRemarks {
   async activate(params) {
     this.location.startUpdating();
     let name = params.name;
-    let user = await this.userService.getAccountByName(name);
-    this.user = user;
-    this.query.authorId = user.userId;
+    this.user = await this.userService.getAccountByName(name);
+    this.query.authorId = this.user .userId;
     this.remarks = await this.browse();
   }
 

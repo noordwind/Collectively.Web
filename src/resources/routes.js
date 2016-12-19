@@ -80,7 +80,6 @@ export default [
     title: 'Display remark',
     nav: false,
     settings: {
-      reqLogin: true,
       translationKey: 'route.remark_display'
     }
   },
@@ -91,7 +90,6 @@ export default [
     title: 'Remark',
     nav: false,
     settings: {
-      reqLogin: true,
       translationKey: 'route.remark'
     }
   },
@@ -158,7 +156,6 @@ export default [
     title: 'Remarks',
     nav: false,
     settings: {
-      reqLogin: true,
       translationKey: 'route.user_remarks'
     }
   }
