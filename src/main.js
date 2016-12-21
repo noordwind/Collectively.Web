@@ -26,6 +26,7 @@ export function configure(aurelia) {
             .useRadio()
             .useRange()
             .useSelect()
+            .useSlider()
             .useSwitch();
     })
     .plugin('aurelia-validation')

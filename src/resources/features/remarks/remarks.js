@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
+import TranslationService from 'resources/services/translation-service';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import FiltersService from 'resources/services/filters-service';
@@ -11,14 +12,15 @@ import SignalRService from 'resources/services/signalr-service';
 import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-@inject(Router, LocationService, RemarkService,
+@inject(Router, TranslationService, LocationService, RemarkService,
 FiltersService, LoaderService, ToastService, AuthService,
 UserService, SignalRService, FileStore, EventAggregator)
 export class Remarks {
-  constructor(router, location, remarkService, filtersService, loader, toast,
+  constructor(router, translationService, location, remarkService, filtersService, loader, toast,
   authService, userService, signalRService, fileStore, eventAggregator) {
     self = this;
     this.router = router;
+    this.translationService = translationService;
     this.location = location;
     this.remarkService = remarkService;
     this.filtersService = filtersService;
@@ -178,7 +180,7 @@ export class Remarks {
     let file = self.image;
     reader.onload = async () => {
       if (file.type.indexOf('image') < 0) {
-        await self.toast.error('Selected photo is invalid.');
+        this.toast.error(this.translationService.trCode('invalid_file'));
         this.loader.hide();
 
         return;

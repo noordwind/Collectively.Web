@@ -18,8 +18,9 @@ LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
 SignalRService, EventAggregator, Environment)
 export class Remark {
-  constructor(router, i18n, translationService, location, filtersService, remarkService, 
+  constructor(router, i18n, translationService, location, filtersService, remarkService,
   toastService, loader, authService, userService, signalR, eventAggregator, environment) {
+    self = this;
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -49,6 +50,10 @@ export class Remark {
     return this.isAuthenticated && this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
+  get canAddPhotos() {
+    return this.isAuthenticated && this.account.userId === this.remark.author.userId && this.remark.photos.length < 15;
+  }
+
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
@@ -57,13 +62,18 @@ export class Remark {
     if (this.isAuthenticated) {
       this.account = await this.userService.getAccount();
     }
+    await this.loadRemark();
+  }
+
+  async loadRemark() {
     let remark = await this.remarkService.getRemark(this.id);
     this.remark = remark;
     this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
-    this.mediumPhoto = remark.photos.find(x => x.size === 'medium');
-    this.bigPhoto = remark.photos.find(x => x.size === 'big');
     this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
     this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
+    
+    //TODO: Map photos and group them by size.
+    this.photos = remark.photos.filter(x => x.size === 'medium');
     this.state = remark.resolved ? 'resolved' : 'new';
     this.stateName = this.translationService.tr(`remark.state_${this.state}`);
     this.latitude = remark.location.coordinates[1];
@@ -75,6 +85,10 @@ export class Remark {
   }
 
   async attached() {
+    this.fileInput = document.getElementById('new-image');
+    $('#new-image').change(async () => {
+      this.newImage = this.files[0];
+    });
     this.remarkResolvedSubscription = await this.eventAggregator
       .subscribe('remark:resolved', async message => {
         if (this.id !== message.remarkId) {
@@ -114,6 +128,10 @@ export class Remark {
     this.filters.map.enabled = true;
     this.filtersService.filters = this.filters;
     this.router.navigateToRoute('display-remark', {id: this.id});
+  }
+
+  displayCamera() {
+    this.fileInput.click();
   }
 
   async delete() {
@@ -160,5 +178,53 @@ export class Remark {
     this.toast.error(remarkResolved.message);
     this.isSending = false;
     this.loader.hide();
+  }
+
+  async newImageResized(base64) {
+    if (base64 === '') {
+      return;
+    }
+    await self.addPhotos(base64);
+  }
+
+  async addPhotos(base64Image) {
+    this.isSending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.adding_photo'));
+    let reader = new FileReader();
+    let file = this.newImage;
+    reader.onload = async () => {
+      if (file.type.indexOf('image') < 0) {
+        this.toast.error(this.translationService.trCode('invalid_file'));
+        this.loader.hide();
+        this.isSending = false;
+
+        return;
+      }
+      let photo = {
+        base64: base64Image,
+        name: file.name,
+        contentType: file.type
+      };
+
+      let photos = {
+        photos: [photo]
+      };
+
+      let addedPhotos = await this.remarkService.addPhotos(this.remark.id, photos);
+      if (addedPhotos.success) {
+        this.loader.hide();
+        this.isSending = false;
+        await this.toast.success(this.translationService.tr('remark.added_photo'));
+        location.reload();
+
+        return;
+      }
+
+      this.toast.error(addedPhotos.message);
+      this.isSending = false;
+      this.loader.hide();
+    };
+    reader.readAsDataURL(file);
   }
 }

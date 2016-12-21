@@ -1,6 +1,7 @@
 <template>
     <require from="resources/features/map/map"></require>
     <require from="resources/features/remarks/remark-list"></require>
+    <require from="resources/features/images/image-resizer"></require>
     <div class="row">
         <div class="col s5">
             <h4>${'remark.remarks' | t}</h4>
@@ -21,7 +22,6 @@
             <map remarks.two-way="mapRemarks" center.bind="filters.center" radius-changed.bind="radiusChanged"></map>
         </div>
     </div>
-    <div>
     <div class="row" if.bind="!mapEnabled">
         <div class="col s12">
              <remark-list remarks.bind="remarks" load-more.call="loadMore()" refresh.call="refreshList()"></remark-list>
@@ -38,7 +38,6 @@
         <input class="hide" id="file" name="file" type="file" capture="camera" accept="image/*" files.bind="files"/>
     </div>
     <div class="row">
-        <require from="resources/features/images/image-resizer"></require>
         <image-resizer image.bind="image" resized.bind="resized"></image-resizer>
     </div>
 </template>

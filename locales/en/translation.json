@@ -114,6 +114,9 @@
     "location_loaded": "Location has been loaded."
   },
   "remark": {
+    "add_photo": "Add photo",
+    "added_photo": "Photo has been added.",   
+    "adding_photo": "Adding photo, please wait...",
     "author": "Author",
     "browse_user_remarks": "Browse user remarks",
     "categories": "Categories",

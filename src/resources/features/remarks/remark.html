@@ -1,11 +1,16 @@
 <template>
     <require from="../../converters/dateFormatValueConverter"></require>
+    <require from="resources/features/images/image-resizer"></require>
     <h4>${'remark.details' | t} [${stateName}]</h4>
     <div class="section">
-        <div class="col s12">
-            <a href.bind="bigPhoto.url" target="_blank">
-                <img class="responsive-img" src.bind="mediumPhoto.url"/>
-            </a>
+        <div class="row">
+            <md-slider>
+                <li repeat.for="photo of photos">
+                    <a href.bind="photo.url" target="_blank">
+                        <img src.bind="photo.url" class="responsive-img"/>
+                    </a>
+                </li>
+            </md-slider>
         </div>
     </div>
     <div class="divider"></div>
@@ -17,7 +22,7 @@
             </div>
             <div class="col s12">
                 <label>${'remark.location' | t}</label>
-                <p click.delegate="display()">${remark.location.address}</p>
+                <p>${remark.location.address}</p>
             </div>
             <div class="col s12">
                 <label>${'remark.description' | t}</label>              
@@ -59,13 +64,28 @@
             </div>
         </div>
     </div>
+    <div if.bind="canAddPhotos">
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light btn-large" disabled.bind="isSending" click.delegate="displayCamera()">
+                        ${'remark.add_photo' | t}
+                    </button>
+                </div>
+            </div>
+            <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+            <div class="row">
+                <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
+            </div>
+        </div>
+    </div>    
     <div if.bind="canResolve">
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <button md-modal-trigger href="#modal-resolve" disabled.bind="isSending" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger href="#modal-resolve" disabled.bind="isSending" class="btn waves-effect waves-light btn-large">
                         ${'remark.resolve' | t}
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>
@@ -84,9 +104,9 @@
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <button md-modal-trigger disabled.bind="isDeleting" href="#modal1" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger disabled.bind="isDeleting" href="#modal1" class="btn waves-effect waves-light btn-large">
                         ${'common.delete' | t}
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

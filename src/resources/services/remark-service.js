@@ -35,6 +35,11 @@ export default class RemarkService {
     return await this.apiBaseService.get(path, query, cache, newCacheKey);
   }
 
+  async addPhotos(remarkId, photos) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/photos`, photos));
+  }
+
   async getCategories() {
     return await this.apiBaseService.get('remarks/categories');
   }

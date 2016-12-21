@@ -113,6 +113,9 @@
     "location_loaded": "Lokalizacja została ustalona."
   },
   "remark": {
+    "add_photo": "Dodaj zdjęcie",
+    "added_photo": "Zdjęcie zostało dodane.",
+    "adding_photo": "Dodajemy zdjęcie, proszę czekać...",
     "author": "Autor",
     "browse_user_remarks": "Przeglądaj zgłoszenia użytkownika",
     "categories": "Kategorie",
