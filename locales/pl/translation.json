@@ -170,5 +170,11 @@
     "sign_up": "Rejestracja",
     "start": "Start",
     "user_remarks": "Zgłoszenia użytkownika"
+  },
+  "statistics": {
+    "statistics": "Statystyki",
+    "remarks": "Zgłoszenia",
+    "top_reporters": "Najwięcej zgłoszonych",
+    "top_resolvers": "Najwięcej rozwiązanych"
   }
 }

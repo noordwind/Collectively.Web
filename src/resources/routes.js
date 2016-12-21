@@ -158,5 +158,17 @@ export default [
     settings: {
       translationKey: 'route.user_remarks'
     }
+  },
+  {
+    route: 'statistics',
+    moduleId: `${modulePrefix}/statistics/statistics`,
+    name: 'statistics',
+    title: 'Statistics',
+    nav: true,
+    settings: {
+      reqLogin: true,
+      icon: 'show_chart',
+      translationKey: 'statistics.statistics'
+    }
   }
 ];

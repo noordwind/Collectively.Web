@@ -1,0 +1,10 @@
+<template>
+  <require from="resources/features/statistics/statistics-list"></require>
+  <h4>${'statistics.statistics' | t}</h4>
+  <div class="divider"></div>
+  <div class="section">
+    <h4>${'statistics.remarks' | t}</h4>
+    <statistics-list items.bind="reporters" header="${'statistics.top_reporters' | t}"></statistics-list>
+    <statistics-list items.bind="resolvers" header="${'statistics.top_resolvers' | t}"></statistics-list>  
+  </div>
+</template>

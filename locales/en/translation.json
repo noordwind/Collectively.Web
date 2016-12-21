@@ -171,5 +171,11 @@
     "sign_up": "Sign up",
     "start": "Start",
     "user_remarks": "User remarks"
+  },
+  "statistics": {
+    "statistics": "Statistics",
+    "remarks": "Remarks",
+    "top_reporters": "Top reporters",
+    "top_resolvers": "Top resolvers"
   }
 }
