@@ -40,12 +40,6 @@ export class FilterRemarks {
     this.router.navigateBack();
   }
 
-  resetPosition() {
-    this.filters.center = this.filters.defaultCenter;
-    this._updateFilters();
-    this.router.navigateBack();
-  }
-
   get selectedCategories() {
     return $.grep(this.categories, c => c.checked)
             .map(c => c.name);

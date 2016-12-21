@@ -42,10 +42,16 @@ export class Map {
     this.eventAggregator.publish('map:loaded');
     this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded',
         async response => await this.locationUpdated(response));
+    this.resetCenterSubscription = await this.eventAggregator.subscribe('location:reset-center',
+      async response => {
+        this.position = {lat: response.latitude, lng: response.longitude};
+        await this.map.setCenter(this.position);
+      });
   }
 
   detached() {
     this.locationLoadedSubscription.dispose();
+    this.resetCenterSubscription.dispose();
   }
 
   remarksChanged(newValue) {
