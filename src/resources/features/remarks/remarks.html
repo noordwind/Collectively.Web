@@ -27,9 +27,14 @@
              <remark-list remarks.bind="remarks" load-more.call="loadMore()" refresh.call="refreshList()"></remark-list>
         </div>
     </div>
-    <div class="row" if.bind="createRemarkEnabled">
+    <div class="row" if.bind="resetPositionEnabled">
         <div class="col s12">
+            <button click.delegate="resetPosition()" class="btn waves-effect waves-light btn-large">
+                ${'common.reset_position' | t}
+            </button>
         </div>
+    </div>
+    <div class="row" if.bind="createRemarkEnabled">
         <div class="fixed-action-btn">
             <div class="btn btn-floating btn-large waves-effect"  title="${'remark.create' | t}" click.delegate="displayCamera()">
                 <i class="large material-icons">add</i>

@@ -59,6 +59,7 @@ export class Remarks {
     }
     this.filtersEnabled = this.isAuthenticated;
     this.createRemarkEnabled = this.isAuthenticated;
+    this.resetPositionEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
   }
 
@@ -210,6 +211,12 @@ export class Remarks {
   set mapEnabled(value) {
     this.filters.map.enabled = value;
     this._updateFilters();
+  }
+
+  resetPosition() {
+    this.filters.center = this.filters.defaultCenter;
+    this._updateFilters();
+    this.eventAggregator.publish('location:reset-center', this.filters.center)
   }
 
   _updateFilters() {
