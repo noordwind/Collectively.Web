@@ -35,6 +35,7 @@ export class Remark {
     this.signalR = signalR;
     this.eventAggregator = eventAggregator;
     this.feature = environment.feature;
+    this.remarkPhotosLimit = environment.constraints.remarkPhotosLimit * 3; //3 different sizes.
     this.remark = {};
     this.isDeleting = false;
     this.isSending = false;
@@ -51,7 +52,7 @@ export class Remark {
   }
 
   get canAddPhotos() {
-    return this.isAuthenticated && this.account.userId === this.remark.author.userId && this.remark.photos.length < 15;
+    return this.isAuthenticated && this.account.userId === this.remark.author.userId && this.remark.photos.length < this.remarkPhotosLimit;
   }
 
   async activate(params, routeConfig) {
@@ -81,7 +82,6 @@ export class Remark {
         big: bigPhotos[index].url
       };
     });
-    //TODO: Map photos and group them by size.
     this.state = remark.resolved ? 'resolved' : 'new';
     this.stateName = this.translationService.tr(`remark.state_${this.state}`);
     this.latitude = remark.location.coordinates[1];

@@ -8,6 +8,9 @@ export default {
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
   defaultLanguage: 'en',
+  constraints: {
+    remarkPhotosLimit: 5
+  },
   feature: {
     resolveRemarkPhotoRequired: false,
     resolveRemarkLocationRequired: false
