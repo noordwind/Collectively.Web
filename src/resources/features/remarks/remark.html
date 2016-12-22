@@ -6,8 +6,8 @@
         <div class="row">
             <md-slider>
                 <li repeat.for="photo of photos">
-                    <a href.bind="photo.url" target="_blank">
-                        <img src.bind="photo.url" class="responsive-img"/>
+                    <a href.bind="photo.big" target="_blank">
+                        <img src.bind="photo.medium" class="responsive-img"/>
                     </a>
                 </li>
             </md-slider>

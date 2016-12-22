@@ -71,9 +71,17 @@ export class Remark {
     this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
     this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
     this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
-    
+    let smallPhotos = remark.photos.filter(x => x.size === 'small');
+    let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
+    let bigPhotos = remark.photos.filter(x => x.size === 'big');
+    this.photos = smallPhotos.map((photo, index) => {
+      return {
+        small: photo.url,
+        medium: mediumPhotos[index].url,
+        big: bigPhotos[index].url
+      };
+    });
     //TODO: Map photos and group them by size.
-    this.photos = remark.photos.filter(x => x.size === 'medium');
     this.state = remark.resolved ? 'resolved' : 'new';
     this.stateName = this.translationService.tr(`remark.state_${this.state}`);
     this.latitude = remark.location.coordinates[1];
