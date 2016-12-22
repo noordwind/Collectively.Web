@@ -3,13 +3,21 @@
     <li class="collection-item header">
       <span><b>${header}</b></span>
     </li>
-    <div virtual-repeat.for="item of items">
-    <li class="collection-item" click.delegate="showItemDetails(item)">
-        <span>${item.name}</span>
-        <div class="secondary-content">
-            <span>${item.count}</span>
+    <li class="collection-item" virtual-repeat.for="item of items">
+        <a if.bind="item.url" href.bind="item.url">
+          <div>
+            <span>${item.name}</span>
+            <div class="secondary-content">
+                <span>${item.count}</span>
+            </div>
+          </div>
+        </a>
+        <div if.bind="!item.url">
+          <span>${item.name}</span>
+          <div class="secondary-content">
+              <span>${item.count}</span>
+          </div>
         </div>
     </li>
-    </div>
   </ul>
 </template>
