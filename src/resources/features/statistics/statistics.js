@@ -18,7 +18,9 @@ export class Statistics {
   async activate() {
     let reporters = await this.statisticsService.browseReporters(this.query);
     reporters.forEach(x => {
-      x.url = this.router.generate('user-remarks', {name: x.name});
+      if (x.name) {
+        x.url = this.router.generate('user-remarks', {name: x.name});
+      }
     });
     this.reporters = reporters;
     this.resolvers = await this.statisticsService.browseResolvers(this.query);

@@ -9,12 +9,12 @@ export default class StatisticsService {
 
   async browseReporters(query) {
     let path = 'statistics/reporters';
-    let result = await this.apiBaseService.get(path, query);
+    let result = await this.apiBaseService.get(path, query, false);
     return result;
   }
 
   async browseResolvers(query) {
     let path = 'statistics/resolvers';
-    return await this.apiBaseService.get(path, query);
+    return await this.apiBaseService.get(path, query, false);
   }
 }
