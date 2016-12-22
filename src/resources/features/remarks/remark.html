@@ -2,7 +2,7 @@
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="resources/features/images/image-resizer"></require>
     <h4>${'remark.details' | t} [${stateName}]</h4>
-    <div class="section">
+    <div class="section" if.bind="hasPhoto">
         <div class="row">
             <md-slider>
                 <li repeat.for="photo of photos">

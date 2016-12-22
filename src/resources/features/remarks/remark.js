@@ -90,6 +90,7 @@ export class Remark {
       latitude: this.latitude,
       longitude: this.longitude
     });
+    this.hasPhoto = remark.photos.length > 0;
   }
 
   async attached() {
