@@ -3,15 +3,19 @@ import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import RemarkService from 'resources/services/remark-service';
 import LocationService from 'resources/services/location-service';
+import StatisticsService from 'resources/services/statistics-service';
 import {Router} from 'aurelia-router';
 
-@inject(AuthService, UserService, RemarkService, LocationService, Router)
+@inject(AuthService, UserService, RemarkService,
+LocationService, StatisticsService, Router)
 export class Profile {
-  constructor(authService, userService, remarkService, locationService, router) {
+  constructor(authService, userService, remarkService,
+  locationService, statisticsService, router) {
     this.authService = authService;
     this.userService = userService;
     this.remarkService = remarkService;
     this.location = locationService;
+    this.statisticsService = statisticsService;
     this.router = router;
     this.sending = false;
     this.remarks = [];
@@ -27,15 +31,29 @@ export class Profile {
   }
 
   async attached() {
+    await this.fetchUser();
+    if (!this.user.name) {
+      return;
+    }
+    await this.fetchStatistics();
+    await this.fetchRemarks();
+  }
+
+  async fetchUser() {
     this.currentUser = await this.userService.getAccount();
     if (this.isCurrentUser) {
       this.user = this.currentUser;
     } else {
       this.user = await this.userService.getAccountByName(this.username);
     }
-    if (!this.user.name) {
-      return;
-    }
+  }
+
+  async fetchStatistics() {
+    this.statistics = await this.statisticsService.getUserStatistics(this.user.userId);
+    console.log(this.statistics);
+  }
+
+  async fetchRemarks() {
     let query = {
       authorId: this.user.userId,
       state: 'active',
