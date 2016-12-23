@@ -134,6 +134,6 @@ export default class LocationService {
     setTimeout(_ => {
       this.getLocation();
       this._updateLocationTask();
-    }, 3000);
+    }, 500);
   }
 }

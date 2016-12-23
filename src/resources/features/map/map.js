@@ -23,6 +23,7 @@ export class Map {
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
     this.centerInitialized = false;
+    this.mapDragged = false;
   }
 
   async attached() {
@@ -44,6 +45,7 @@ export class Map {
         async response => await this.locationUpdated(response));
     this.resetCenterSubscription = await this.eventAggregator.subscribe('location:reset-center',
       async response => {
+        this.mapDragged = false;
         this.position = {lat: response.latitude, lng: response.longitude};
         await this.map.setCenter(this.position);
       });
@@ -109,6 +111,7 @@ export class Map {
   }
 
   _recalculateRadius() {
+    this.mapDragged = true;
     let bounds = this.map.getBounds();
     let center = bounds.getCenter();
     let northEast = bounds.getNorthEast();
@@ -136,7 +139,9 @@ export class Map {
     let title = this.translationService.tr('common.user');
     let content = this.translationService.tr('common.you_are_here');
     this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
-    this.moveMarker(this.userMarker, lat, lng);
+    if (!this.mapDragged) {
+      this.moveMarker(this.userMarker, lat, lng);
+    }
   }
 
   moveMarker(marker, lat, lng) {
