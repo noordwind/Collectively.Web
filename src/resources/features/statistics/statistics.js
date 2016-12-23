@@ -16,19 +16,43 @@ export class Statistics {
   }
 
   async activate() {
-    let reporters = await this.statisticsService.browseReporters(this.query);
+    
+  }
+
+  async attached() {
+    await this.browseReporters();
+    await this.browseResolvers();
+  }
+
+  detached() {
+  }
+
+  async browseReporters() {
+    let reporters = await this.statisticsService.browseUserStatistics({
+      page: 1,
+      results: 10,
+      orderBy: 'reported'
+    });
     reporters.forEach(x => {
       if (x.name) {
+        x.count = x.reportedCount;
         x.url = this.router.generate('user-remarks', {name: x.name});
       }
     });
     this.reporters = reporters;
-    this.resolvers = await this.statisticsService.browseResolvers(this.query);
   }
 
-  async attached() {
-  }
-
-  detached() {
+  async browseResolvers() {
+    let resolvers = await this.statisticsService.browseUserStatistics({
+      page: 1,
+      results: 10,
+      orderBy: 'resolved'
+    });
+    resolvers.forEach(x => {
+      if (x.name) {
+        x.count = x.resolvedCount;
+      }
+    });
+    this.resolvers = resolvers;
   }
 }

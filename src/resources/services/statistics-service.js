@@ -5,16 +5,14 @@ import ApiBaseService from 'resources/services/api-base-service';
 export default class StatisticsService {
   constructor(apiBaseService) {
     this.apiBaseService = apiBaseService;
+    this.userStatistcsPath = 'statistics/users';
   }
 
-  async browseReporters(query) {
-    let path = 'statistics/reporters';
-    let result = await this.apiBaseService.get(path, query, false);
-    return result;
+  async browseUserStatistics(query) {
+    return await this.apiBaseService.get(this.userStatistcsPath, query, false);
   }
 
-  async browseResolvers(query) {
-    let path = 'statistics/resolvers';
-    return await this.apiBaseService.get(path, query, false);
+  async getUserStatistics(userId) {
+    return await this.apiBaseService.get(`${this.userStatistcsPath}/${userId}`, query, false);
   }
 }
