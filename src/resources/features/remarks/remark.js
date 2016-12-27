@@ -55,6 +55,10 @@ export class Remark {
     return this.isAuthenticated && this.account.userId === this.remark.author.userId && this.remark.photos.length < this.remarkPhotosLimit;
   }
 
+  get canDeletePhotos() {
+    return this.isAuthenticated && this.account.userId === this.remark.author.userId;
+  }
+
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
@@ -77,6 +81,7 @@ export class Remark {
     let bigPhotos = remark.photos.filter(x => x.size === 'big');
     this.photos = smallPhotos.map((photo, index) => {
       return {
+        groupId: photo.groupId,
         small: photo.url,
         medium: mediumPhotos[index].url,
         big: bigPhotos[index].url
@@ -162,7 +167,7 @@ export class Remark {
     }
 
     this.isDeleting = false;
-    this.toast.error(remarkRemoved.message);
+    this.toast.error(this.translationService.trCode(remarkRemoved.code));
     this.loader.hide();
   }
 
@@ -184,7 +189,7 @@ export class Remark {
       return;
     }
 
-    this.toast.error(remarkResolved.message);
+    this.toast.error(this.translationService.trCode(remarkResolved.code));
     this.isSending = false;
     this.loader.hide();
   }
@@ -230,10 +235,28 @@ export class Remark {
         return;
       }
 
-      this.toast.error(addedPhotos.message);
+      this.toast.error(this.translationService.trCode(addedPhotos.code));
       this.isSending = false;
       this.loader.hide();
     };
     reader.readAsDataURL(file);
+  }
+
+  async deletePhoto(photo) {
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.deleting_photo'));
+    let deletedPhotos = await this.remarkService.deletePhoto(this.remark.id, photo.groupId);
+    if (deletedPhotos.success) {
+      this.loader.hide();
+      this.isSending = false;
+      await this.toast.success(this.translationService.tr('remark.deleted_photo'));
+      location.reload();
+
+      return;
+    }
+
+    this.toast.error(this.translationService.trCode(deletedPhotos.code));
+    this.isSending = false;
+    this.loader.hide();
   }
 }

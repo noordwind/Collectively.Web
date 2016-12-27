@@ -6,6 +6,9 @@
         <div class="row">
             <md-slider>
                 <li repeat.for="photo of photos">
+                    <button if.bind="canDeletePhotos" title="${'common.delete' | t}" class="btn btn-img btn-floating waves-effect waves-light" disabled.bind="isSending" click.delegate="deletePhoto(photo)">
+                        <i class="material-icons">remove</i>
+                    </button>
                     <a href.bind="photo.big" target="_blank">
                         <img src.bind="photo.medium" class="responsive-img"/>
                     </a>
