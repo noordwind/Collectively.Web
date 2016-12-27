@@ -59,8 +59,11 @@ export class Remarks {
     }
     this.filtersEnabled = this.isAuthenticated;
     this.createRemarkEnabled = this.isAuthenticated;
-    this.resetPositionEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
+  }
+
+  get resetPositionEnabled() {
+    return this.isAuthenticated && this.mapEnabled;
   }
 
   async attached() {
