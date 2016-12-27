@@ -50,7 +50,6 @@ export class Profile {
 
   async fetchStatistics() {
     this.statistics = await this.statisticsService.getUserStatistics(this.user.userId);
-    console.log(this.statistics);
   }
 
   async fetchRemarks() {

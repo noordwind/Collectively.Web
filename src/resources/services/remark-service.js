@@ -11,6 +11,7 @@ export default class RemarkService {
 
   async sendRemark(remark) {
     this._clearRemarksCache();
+    this._clearUserStatisticsCache();
 
     return await this.operationService.execute(async ()
       => await this.apiBaseService.post('remarks', remark));
@@ -50,6 +51,7 @@ export default class RemarkService {
 
   async resolveRemark(command) {
     this._clearRemarksCache();
+    this._clearUserStatisticsCache();
 
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`remarks/${command.remarkId}/resolve`, command));
@@ -57,6 +59,7 @@ export default class RemarkService {
 
   async deleteRemark(id) {
     this._clearRemarksCache();
+    this._clearUserStatisticsCache();
 
     return await this.operationService.execute(async ()
       => await this.apiBaseService.delete(`remarks/${id}`));
@@ -66,7 +69,15 @@ export default class RemarkService {
     return /^cache\/api\/remarks.*/;
   }
 
+  get userStatisticsRegexp() {
+    return /^cache\/api\/statistics\/users.*/;
+  }
+
   _clearRemarksCache() {
     this.apiBaseService.cacheService.invalidateMatchingKeys(this.remarksRegexp);
+  }
+
+  _clearUserStatisticsCache() {
+    this.apiBaseService.cacheService.invalidateMatchingKeys(this.userStatisticsRegexp);
   }
 }

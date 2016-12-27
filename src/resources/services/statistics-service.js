@@ -13,6 +13,6 @@ export default class StatisticsService {
   }
 
   async getUserStatistics(userId) {
-    return await this.apiBaseService.get(`${this.userStatistcsPath}/${userId}`, {}, false);
+    return await this.apiBaseService.get(`${this.userStatistcsPath}/${userId}`);
   }
 }
