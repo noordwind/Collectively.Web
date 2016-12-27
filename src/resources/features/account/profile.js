@@ -25,8 +25,8 @@ export class Profile {
   }
 
   async activate(params) {
-    if (params.user) {
-      this.username = params.user;
+    if (params.name) {
+      this.username = params.name;
     }
   }
 

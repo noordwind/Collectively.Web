@@ -116,11 +116,12 @@ export default [
     }
   },
   {
-    route: 'profile',
+    route: 'profile/:name?',
     moduleId: `${modulePrefix}/account/profile`,
     name: 'profile',
     title: 'My account',
     nav: 'true',
+    href: '/profile',
     settings: {
       reqLogin: true,
       icon: 'account_box',
