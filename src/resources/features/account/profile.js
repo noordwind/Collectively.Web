@@ -49,7 +49,15 @@ export class Profile {
   }
 
   async fetchStatistics() {
-    this.statistics = await this.statisticsService.getUserStatistics(this.user.userId);
+    let statistics = await this.statisticsService.getUserStatistics(this.user.userId);
+    if (statistics.name) {
+      this.statistics = statistics;
+    } else {
+      this.statistics = {
+        reportedCount: 0,
+        resolvedCount: 0
+      };
+    }
   }
 
   async fetchRemarks() {
