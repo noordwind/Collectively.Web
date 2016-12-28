@@ -9,16 +9,14 @@ import ToastService from 'resources/services/toast-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
-import FileStore from 'resources/services/file-store';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, TranslationService, LocationService, RemarkService,
 FiltersService, LoaderService, ToastService, AuthService,
-UserService, SignalRService, FileStore, EventAggregator)
+UserService, SignalRService, EventAggregator)
 export class Remarks {
   constructor(router, translationService, location, remarkService, filtersService, loader, toast,
-  authService, userService, signalRService, fileStore, eventAggregator) {
-    self = this;
+  authService, userService, signalRService, eventAggregator) {
     this.router = router;
     this.translationService = translationService;
     this.location = location;
@@ -29,7 +27,6 @@ export class Remarks {
     this.authService = authService;
     this.userService = userService;
     this.signalR = signalRService;
-    this.fileStore = fileStore;
     this.eventAggregator = eventAggregator;
     this.files = [];
     this.filters = this.filtersService.filters;
@@ -88,7 +85,7 @@ export class Remarks {
   async browseForMap() {
     this.query.results = this.filters.results;
     this.query.radius = this.filters.radius;
-    self.mapRemarks = await this.browse(this.query);
+    this.mapRemarks = await this.browse(this.query);
   }
 
   async browseForList(page, results, clear = false) {
@@ -167,44 +164,15 @@ export class Remarks {
     return remark;
   }
 
-  displayCamera() {
-    this.fileInput.click();
-  }
-
-  async resized(base64) {
-    if (base64 === '') {
-      return;
-    }
-    await self.navigateToCreateRemark(base64);
-  }
-
-  async navigateToCreateRemark(base64Image) {
-    this.loader.display();
-    let reader = new FileReader();
-    let file = self.image;
-    reader.onload = async () => {
-      if (file.type.indexOf('image') < 0) {
-        this.toast.error(this.translationService.trCode('invalid_file'));
-        this.loader.hide();
-
-        return;
-      }
-      let photo = {
-        base64: base64Image,
-        name: file.name,
-        contentType: file.type
-      };
-      this.fileStore.current = photo;
-      this.router.navigate('remarks/create');
-    };
-    reader.readAsDataURL(file);
+  navigateToCreateRemark() {
+    this.router.navigate('remarks/create');
   }
 
   async radiusChanged(radius, center) {
-    self.filters.radius = radius;
-    self.query.longitude = center.lng();
-    self.query.latitude = center.lat();
-    await self.browseForMap();
+    this.filters.radius = radius;
+    this.query.longitude = center.lng();
+    this.query.latitude = center.lat();
+    await this.browseForMap();
   }
 
   get mapEnabled() {
@@ -227,47 +195,47 @@ export class Remarks {
   }
 
   async subscribeMapLoaded() {
-    return await self.eventAggregator
+    return await this.eventAggregator
       .subscribe('map:loaded', async response => {
-        self.loader.display();
-        await self.browseForMap();
-        self.loader.hide();
+        this.loader.display();
+        await this.browseForMap();
+        this.loader.hide();
       });
   }
 
   async subscribeRemarkCreated() {
-    return await self.eventAggregator
+    return await this.eventAggregator
       .subscribe('remark:created', async message => {
         let location = {
           latitude: message.location.coordinates[1],
           longitude: message.location.coordinates[0]
         };
-        let remark = self.processRemark(message);
-        if (self.location.isInRange(location, self.filters.radius)) {
-          self.mapRemarks = self.insertRemark(self.mapRemarks, remark);
+        let remark = this.processRemark(message);
+        if (this.location.isInRange(location, this.filters.radius)) {
+          this.mapRemarks = this.insertRemark(this.mapRemarks, remark);
         }
-        let lastRemark = self.remarks.length > 0
-          ? self.remarks[self.remarks.length - 1]
+        let lastRemark = this.remarks.length > 0
+          ? this.remarks[this.remarks.length - 1]
           : null;
-        if (lastRemark && self.location.isInRange(location, lastRemark.distance)) {
-          self.remarks = self.insertRemark(self.remarks, remark, true);
+        if (lastRemark && this.location.isInRange(location, lastRemark.distance)) {
+          this.remarks = this.insertRemark(this.remarks, remark, true);
         }
       });
   }
 
   async subscribeRemarkResolved() {
-    return await self.eventAggregator
+    return await this.eventAggregator
       .subscribe('remark:resolved', async message => {
-        self.remarks = self.markAsResolved(self.remarks, message);
-        self.mapRemarks = self.markAsResolved(self.mapRemarks, message);
+        this.remarks = this.markAsResolved(this.remarks, message);
+        this.mapRemarks = this.markAsResolved(this.mapRemarks, message);
       });
   }
 
   async subscribeRemarkDeleted() {
-    return await self.eventAggregator
+    return await this.eventAggregator
       .subscribe('remark:deleted', async message => {
-        self.remarks = self.removeRemark(self.remarks, message.remarkId);
-        self.mapRemarks = self.removeRemark(self.mapRemarks, message.remarkId);
+        this.remarks = this.removeRemark(this.remarks, message.remarkId);
+        this.mapRemarks = this.removeRemark(this.mapRemarks, message.remarkId);
       });
   }
 
@@ -296,7 +264,7 @@ export class Remarks {
     remarks.push(remark);
     sort = sort || false;
     if (sort) {
-      remarks = self.sortRemarks(remarks);
+      remarks = this.sortRemarks(remarks);
     }
     return Array.from(remarks);
   }

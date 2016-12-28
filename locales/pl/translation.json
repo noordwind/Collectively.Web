@@ -96,7 +96,9 @@
     "click_here": "Kliknij tutaj",
     "delete": "Usuń",
     "details": "Szczegóły",
+    "extras": "Dodatkowo",
     "list": "Lista",
+    "location": "Lokalizacja",
     "no": "Nie",
     "map": "Mapa",
     "mine": "Moje",
@@ -106,7 +108,8 @@
     "save": "Zapisz",
     "submit": "Wyślij",
     "yes": "Tak",
-    "you_are_here": "Hej, jesteś tutaj!"
+    "you_are_here": "Hej, jesteś tutaj!",
+    "what_happened": "Chcę zgłosić..."
   },
   "dashboard": {
     "browse_remarks": "Przeglądaj zgłoszenia",
@@ -189,5 +192,17 @@
     "remarks": "Zgłoszenia",
     "top_reporters": "Najwięcej zgłoszonych",
     "top_resolvers": "Najwięcej rozwiązanych"
+  },
+  "tags": {
+    "select_tags": "Tagi (opcjonalne)",
+    "junk": "śmieć",
+    "small": "mały",
+    "medium": "średni",
+    "big": "duży",
+    "crash": "wypadek",
+    "stink": "smród",
+    "dirty": "brudny",
+    "glass": "szkło",
+    "plastic": "plastik"
   }
 }

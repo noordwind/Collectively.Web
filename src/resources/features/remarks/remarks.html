@@ -1,7 +1,6 @@
 <template>
     <require from="resources/features/map/map"></require>
     <require from="resources/features/remarks/remark-list"></require>
-    <require from="resources/features/images/image-resizer"></require>
     <div class="row">
         <div class="col s5">
             <h4>${'remark.remarks' | t}</h4>
@@ -36,13 +35,9 @@
     </div>
     <div class="row" if.bind="createRemarkEnabled">
         <div class="fixed-action-btn">
-            <div class="btn btn-floating btn-large waves-effect"  title="${'remark.create' | t}" click.delegate="displayCamera()">
+            <a route-href="route: create-remark" itle="${'remark.create' | t}" class="btn btn-floating btn-large waves-effect">
                 <i class="large material-icons">add</i>
-            </div>
+            </a>
         </div>
-        <input class="hide" id="file" name="file" type="file" capture="camera" accept="image/*" files.bind="files"/>
-    </div>
-    <div class="row">
-        <image-resizer image.bind="image" resized.bind="resized"></image-resizer>
     </div>
 </template>

@@ -16,7 +16,7 @@ main {
     flex: 1 0 auto;
 }
 
-h1,h2,h3,h4,a{
+h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
@@ -123,4 +123,13 @@ li > a {
     position:absolute;
     top:5px;
     right:5px;
+}
+
+.tag {
+    cursor: pointer;
+}
+
+.tag-selected {
+    color: $primary-light-color;
+    background-color: $primary-color;
 }

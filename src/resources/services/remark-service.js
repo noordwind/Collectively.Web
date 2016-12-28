@@ -17,6 +17,11 @@ export default class RemarkService {
       => await this.apiBaseService.post('remarks', remark));
   }
 
+  //TODO: Fetch tags from the API.
+  async getTags() {
+    return ['junk', 'small', 'medium', 'big', 'crash', 'stink', 'dirty', 'glass', 'plastic'];
+  }
+
   async browse(query, cache = true) {
     //Building custom key with fixed lat & lng, so it works properly for minimal location updates.
     let path = 'remarks';
