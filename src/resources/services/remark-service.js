@@ -43,7 +43,7 @@ export default class RemarkService {
 
   async deletePhoto(remarkId, groupId) {
     return await this.operationService.execute(async ()
-      => await this.apiBaseService.delete(`remarks/${remarkId}/photos?groupId=${groupId}`));
+      => await this.apiBaseService.delete(`remarks/${remarkId}/photos/${groupId}`));
   }
 
   async getCategories() {
