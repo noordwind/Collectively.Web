@@ -144,7 +144,6 @@
     "deleting_photo": "Deleting photo, please wait...",
     "filter": "Filter remarks",
     "location": "Location",
-    "not_allowed_to_delete": "You are not allowed to delete a remark.",
     "post_on_facebook": "Post on Facebook",
     "processed": "Your remark has been sent.",
     "processing": "Processing a remark, please wait...",
@@ -165,6 +164,7 @@
     "state_resolved": "resolved",
     "state_deleted": "deleted",
     "type": "Type",
+    "user_not_allowed_to_modify_remark": "You are not allowed to modify a remark.",
     "user_remarks": "User remarks:"
   },
   "route": {

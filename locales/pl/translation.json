@@ -143,7 +143,6 @@
     "deleting_photo": "Usuwamy zdjęcie, proszę czekać...",   
     "filter": "Filtruj zgłoszenia",
     "location": "Lokalizacja",
-    "not_allowed_to_delete": "Nie możesz usunąć wybranego zgłoszenia.",
     "post_on_facebook": "Dodaj post na Facebook",
     "processed": "Twoje zgłoszenie zostało wysłane.",
     "processing": "Przetwarzamy zgłoszenie, proszę czekać...",
@@ -164,6 +163,7 @@
     "state_resolved": "rozwiązane",
     "state_deleted": "usunięte",
     "type": "Typ",
+    "user_not_allowed_to_modify_remark": "Nie możesz modyfikować wybranego zgłoszenia.",
     "user_remarks": "Zgłoszenia użytkownika:"
   },
   "route": {
