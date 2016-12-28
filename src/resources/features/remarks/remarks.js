@@ -275,7 +275,7 @@ export class Remarks {
 
   async subscribeRemarkPhotosAdded() {
     return await self.eventAggregator
-      .subscribe('remark:photosAdded', async message => {
+      .subscribe('remark:photoAdded', async message => {
         self.remarks = self.updatePhotos(self.remarks, message);
       });
   }

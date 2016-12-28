@@ -26,7 +26,7 @@ export default class SignalRService {
       this.eventAggregator.publish('remark:deleted', message);
     });
     this.connection.on('PhotosToRemarkAdded', (message) => {
-      this.eventAggregator.publish('remark:photosAdded', message);
+      this.eventAggregator.publish('remark:photoAdded', message);
     });
     this.connection.connectionClosed = e => {
       if (e) {
