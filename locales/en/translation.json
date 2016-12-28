@@ -137,6 +137,7 @@
     "create": "Create a remark",
     "details": "Remark",
     "delete_question": "Do you really want to delete the remark?",
+    "delete_photo_question": "Do you really want to delete the selected photo?",
     "display": "Display on map",
     "description": "Description (optional)",
     "deleted_photo": "Photo has been deleted.",   

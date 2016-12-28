@@ -6,9 +6,10 @@
         <div class="row">
             <md-slider>
                 <li repeat.for="photo of photos">
-                    <button if.bind="canDeletePhotos" title="${'common.delete' | t}" class="btn btn-img btn-floating waves-effect waves-light" disabled.bind="isSending" click.delegate="deletePhoto(photo)">
+                    <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
+                        disabled.bind="isSending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
                         <i class="material-icons">remove</i>
-                    </button>
+                    </a>
                     <a href.bind="photo.big" target="_blank">
                         <img src.bind="photo.medium" class="responsive-img"/>
                     </a>
@@ -107,18 +108,27 @@
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <a md-modal-trigger disabled.bind="isDeleting" href="#modal1" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger disabled.bind="isDeleting" href="#modal-delete" class="btn waves-effect waves-light btn-large">
                         ${'common.delete' | t}
                     </a>
                 </div>
             </div>
         </div>
-        <div id="modal1" class="modal">
+        <div id="modal-delete" class="modal">
             <div class="modal-content">
                 <p>${'remark.delete_question' | t}</p>
             </div>
             <div class="modal-footer">
                 <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+            </div>
+        </div>
+        <div id="modal-delete-photo" class="modal">
+            <div class="modal-content">
+                <p>${'remark.delete_photo_question' | t}</p>
+            </div>
+            <div class="modal-footer">
+                <a click.delegate="deletePhoto()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
                 <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
             </div>
         </div>

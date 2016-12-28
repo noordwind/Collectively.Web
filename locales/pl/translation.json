@@ -135,6 +135,7 @@
     "category_accidents": "Wypadek",
     "create": "Nowe zgłoszenie",
     "delete_question": "Czy na pewno chcesz usunąć wybrane zgłoszenie?",
+    "delete_photo_question": "Czy na pewno chcesz usunąć wybrane zdjęcie?",
     "display": "Pokaż na mapie",
     "details": "Zgłoszenie",
     "description": "Opis (opcjonalny)",

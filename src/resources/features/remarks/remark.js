@@ -40,6 +40,7 @@ export class Remark {
     this.isDeleting = false;
     this.isSending = false;
     this.isInRange = false;
+    this.photoToDelete = null;
     this.signalR.initialize();
   }
 
@@ -242,10 +243,20 @@ export class Remark {
     reader.readAsDataURL(file);
   }
 
-  async deletePhoto(photo) {
+  markPhotoToDelete(photo) {
+    this.photoToDelete = photo;
+  }
+
+  async deletePhoto() {
+    if (this.photoToDelete === null) {
+      return;
+    }
+
+    let groupId =  this.photoToDelete.groupId;
+    this.photoToDelete = null;
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.deleting_photo'));
-    let deletedPhotos = await this.remarkService.deletePhoto(this.remark.id, photo.groupId);
+    let deletedPhotos = await this.remarkService.deletePhoto(this.remark.id, groupId);
     if (deletedPhotos.success) {
       this.loader.hide();
       this.isSending = false;
