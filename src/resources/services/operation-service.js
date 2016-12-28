@@ -40,7 +40,13 @@ export default class OperationService {
       return {completed: false};
     }
 
-    return {success: operation.success, code: operation.code, message: operation.message, completed: true};
+    return {
+      completed: true,
+      success: operation.success,
+      code: operation.code,
+      message: operation.message,
+      resource: operation.resource
+    };
   }
 
   async getOperation(endpoint) {

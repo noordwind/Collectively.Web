@@ -96,7 +96,9 @@
     "click_here": "Click here",
     "delete": "Delete",
     "details": "Details",
+    "extras": "Extras",
     "list": "List",
+    "location": "Location",
     "no": "No",
     "map": "Map",
     "mine": "Mine",
@@ -107,7 +109,8 @@
     "submit": "Submit",
     "user": "User",
     "yes": "Yes",
-    "you_are_here": "Hey, you are here!"
+    "you_are_here": "Hey, you are here!",
+    "what_happened": "I'd like to report a..."
   },
   "dashboard": {
     "browse_remarks": "Browse remarks",
@@ -190,5 +193,17 @@
     "remarks": "Remarks",
     "top_reporters": "Top reporters",
     "top_resolvers": "Top resolvers"
+  },
+  "tags": {
+    "select_tags": "Tags (optional)",
+    "junk": "junk",
+    "small": "small",
+    "medium": "medium",
+    "big": "big",
+    "crash": "crash",
+    "stink": "stink",
+    "dirty": "dirty",
+    "glass": "glass",
+    "plastic": "plastic"
   }
 }

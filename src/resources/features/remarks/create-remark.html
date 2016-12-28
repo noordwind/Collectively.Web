@@ -5,12 +5,8 @@
     <div class="section">
         <form submit.delegate="sendRemark()">
             <div class="row">
-                <div class="col s12">
-                    <img class="responsive-img" src.bind="remark.photo.base64" />
-                </div>
-            </div>
-            <div class="row">
                 <div class="input-field col s12">
+                    <h5>${'common.what_happened' | t}</h5>
                     <a md-button md-dropdown="activates: category">${category.translatedName}</a>
                     <ul id="category" >
                         <li repeat.for="category of categories"><a click.trigger="setCategory(category)">${category.translatedName}</a></li>
@@ -19,17 +15,25 @@
             </div>
             <div class="row">
                 <div class="input-field col s12">
-                    <i class="material-icons prefix">mode_edit</i>
+                <h5>${'tags.select_tags' | t}</h5>
+                <md-chip md-close="false" repeat.for="tag of tags" click.delegate="toggleTag(tag)" class="tag ${tag.selected ? 'tag-selected' : ''}">
+                    ${tag.value}
+                </md-chip>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-field col s12">
+                    <h5>${'remark.description' | t}</h5>
                     <textarea id="description" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
-                    <label for="description">${'remark.description' | t}</label>
                 </div>
             </div>
             <div class="row">
                 <div class="col s12">
-                    <i class="material-icons">my_location</i>
+                    <h5>${'common.location' | t}</h5>
                     <span>${location.current.address}</span>
                 </div>
             </div>
+            <h5>${'common.extras' | t}</h5>
             <social-media model.bind="remark"></social-media>
             <div class="row">
                 <div class="col s12">

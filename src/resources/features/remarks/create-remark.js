@@ -6,12 +6,11 @@ import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
-import FileStore from 'resources/services/file-store';
 
 @inject(Router, I18N, TranslationService, LocationService,
-RemarkService, ToastService, LoaderService, FileStore)
+RemarkService, ToastService, LoaderService)
 export class CreateRemark {
-  constructor(router, i18n, translationService, location, remarkService, toast, loader, fileStore) {
+  constructor(router, i18n, translationService, location, remarkService, toast, loader) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -19,14 +18,8 @@ export class CreateRemark {
     this.remarkService = remarkService;
     this.toast = toast;
     this.loader = loader;
-    this.fileStore = fileStore;
-    if (fileStore.current === null) {
-      router.navigate('');
-
-      return;
-    }
     this.remark = {
-      photo: fileStore.current
+      tags: []
     };
     this.isSending = false;
   }
@@ -40,6 +33,14 @@ export class CreateRemark {
     this.remark.latitude = this.location.current.latitude;
     this.remark.longitude = this.location.current.longitude;
     this.remark.address = this.location.current.address;
+    let tags = await this.remarkService.getTags();
+    this.tags = tags.map(tag => {
+      return {
+        key: tag,
+        value: this.translationService.tr(`tags.${tag}`),
+        selected: false
+      };
+    });
   }
 
   setCategory(category) {
@@ -50,12 +51,18 @@ export class CreateRemark {
   async sendRemark() {
     this.isSending = true;
     this.loader.display();
+    this.tags.forEach(tag => {
+      if (tag.selected) {
+        this.remark.tags.push(tag.key);
+      }
+    });
     this.toast.info(this.translationService.tr('remark.processing'));
     let remarkCreated = await this.remarkService.sendRemark(this.remark);
     if (remarkCreated.success) {
       this.toast.success(this.translationService.tr('remark.processed'));
       this.loader.hide();
-      this.router.navigateToRoute('remarks');
+      let remarkId = remarkCreated.resource.split('/')[1];
+      this.router.navigateToRoute('remark', {id: remarkId});
 
       return;
     }
@@ -63,5 +70,9 @@ export class CreateRemark {
     this.toast.error(this.translationService.trCode(remarkCreated.code));
     this.isSending = false;
     this.loader.hide();
+  }
+
+  toggleTag(tag) {
+    tag.selected = !tag.selected;
   }
 }
