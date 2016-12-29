@@ -16,19 +16,19 @@ export default class SignalRService {
     }
 
     this.connection = new RpcConnection(`${environment.signalRUrl}remarks`, 'formatType=json&format=text');
-    this.connection.on('RemarkCreated', (message) => {
+    this.connection.on('remarkCreated', (message) => {
       this.eventAggregator.publish('remark:created', message);
     });
-    this.connection.on('RemarkResolved', (message) => {
+    this.connection.on('remarkResolved', (message) => {
       this.eventAggregator.publish('remark:resolved', message);
     });
-    this.connection.on('RemarkDeleted', (message) => {
+    this.connection.on('remarkDeleted', (message) => {
       this.eventAggregator.publish('remark:deleted', message);
     });
-    this.connection.on('PhotosToRemarkAdded', (message) => {
+    this.connection.on('photosToRemarkAdded', (message) => {
       this.eventAggregator.publish('remark:photoAdded', message);
     });
-    this.connection.on('PhotosFromRemarkRemoved', (message) => {
+    this.connection.on('photosFromRemarkRemoved', (message) => {
       this.eventAggregator.publish('remark:photoRemoved', message);
     });
     this.connection.connectionClosed = e => {
