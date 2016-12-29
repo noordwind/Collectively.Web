@@ -302,15 +302,7 @@ export class Remarks {
     if (Array.isArray(remarks) === false) {
       remarks = [];
     }
-    return remarks.sort((x, y) => {
-      if (x.distance < y.distance) {
-        return -1;
-      }
-      if (x.distance > y.distance) {
-        return 1;
-      }
-      return 0;
-    });
+    return remarks.sort((x, y) => Number(x.distance) - Number(y.distance));
   }
 
   insertRemark(remarks, remark, sort) {
