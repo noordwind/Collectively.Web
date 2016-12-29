@@ -73,6 +73,7 @@ export class Remarks {
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
     this.remarkPhotosAddedSubscription = await this.subscribeRemarkPhotosAdded();
+    this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
     await this.browseForList(this.page);
   }
 
@@ -82,6 +83,7 @@ export class Remarks {
     this.remarkResolvedSubscription.dispose();
     this.remarkDeletedSubscription.dispose();
     this.remarkPhotosAddedSubscription.dispose();
+    this.remarkPhotoRemovedSubscription.dispose();
   }
 
   async browseForMap() {
@@ -246,6 +248,33 @@ export class Remarks {
       .subscribe('remark:photoAdded', async message => {
         this.remarks = this.updatePhotos(this.remarks, message);
       });
+  }
+
+  async subscribeRemarkPhotoRemoved() {
+    return await this.eventAggregator
+      .subscribe('remark:photoRemoved', async message => {
+        this.remarks = this.removeAndUpdateRemarkPhoto(this.remarks, message);
+      });
+  }
+
+  removeAndUpdateRemarkPhoto(remarks, message) {
+    if (Array.isArray(remarks) === false) {
+      return [];
+    }
+    let index = remarks.findIndex(r => r.id === message.remarkId);
+    if (index < 0) {
+      return remarks;
+    }
+    let remark = remarks[index];
+    let photoUri = remark.smallPhotoUrl.split('/');
+    let photoName = photoUri[photoUri.length - 1];
+    if (Array.isArray(message.photos) && message.photos.includes(photoName)) {
+      remark.smallPhotoUrl = '';
+      remarks[index] = remark;
+      return Array.from(remarks);
+    }
+
+    return remarks;
   }
 
   updatePhotos(remarks, message) {
