@@ -36,8 +36,8 @@ export class CreateRemark {
     let tags = await this.remarkService.getTags();
     this.tags = tags.map(tag => {
       return {
-        key: tag,
-        value: this.translationService.tr(`tags.${tag}`),
+        key: tag.name,
+        value: this.translationService.tr(`tags.${tag.name}`),
         selected: false
       };
     });
