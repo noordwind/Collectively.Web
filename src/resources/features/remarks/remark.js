@@ -104,32 +104,8 @@ export class Remark {
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
     });
-    this.remarkResolvedSubscription = await this.eventAggregator
-      .subscribe('remark:resolved', async message => {
-        if (this.id !== message.remarkId) {
-          return;
-        }
-        this.state = 'resolved';
-        this.remark.resolved = true;
-        this.remark.resolver = {
-          name: message.resolver,
-          userId: message.resolverId
-        };
-        this.remark.resolvedAt = message.resolvedAt;
-        if (this.account.userId !== this.remark.resolver.userId) {
-          this.toast.success(this.translationService.tr('remark.remark_resolved'));
-        }
-      });
-    this.remarkDeletedSubscription = await this.eventAggregator
-      .subscribe('remark:deleted', async message => {
-        if (this.id !== message.remarkId) {
-          return;
-        }
-        if (this.account.userId !== this.remark.author.userId) {
-          this.toast.info(this.translationService.tr('remark.remark_removed_by_author'));
-          this.router.navigateToRoute('remarks');
-        }
-      });
+    this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
+    this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
   }
 
   detached() {
@@ -269,5 +245,37 @@ export class Remark {
     this.toast.error(this.translationService.trCode(deletedPhotos.code));
     this.isSending = false;
     this.loader.hide();
+  }
+
+  async subscribeRemarkResolved() {
+    return await this.eventAggregator
+      .subscribe('remark:resolved', async message => {
+        if (this.id !== message.remarkId) {
+          return;
+        }
+        this.state = 'resolved';
+        this.remark.resolved = true;
+        this.remark.resolver = {
+          name: message.resolver,
+          userId: message.resolverId
+        };
+        this.remark.resolvedAt = message.resolvedAt;
+        if (this.account.userId !== this.remark.resolver.userId) {
+          this.toast.success(this.translationService.tr('remark.remark_resolved'));
+        }
+      });
+  }
+
+  async subscribeRemarkDeleted() {
+    return await this.eventAggregator
+      .subscribe('remark:deleted', async message => {
+        if (this.id !== message.remarkId) {
+          return;
+        }
+        if (this.account.userId !== this.remark.author.userId) {
+          this.toast.info(this.translationService.tr('remark.remark_removed_by_author'));
+          this.router.navigateToRoute('remarks');
+        }
+      });
   }
 }
