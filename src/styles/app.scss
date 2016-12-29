@@ -97,10 +97,8 @@ input[type=range]::-webkit-slider-thumb {
     width: 40px;
 }
 
-@media screen and (max-width: $mobile-width) {
-    .btn:not(.btn-floating) {
-        width: 100%;
-    }
+.btn:not(.btn-floating) {
+    width: 100%;
 }
 
 @media screen and (max-height: 700px) {
