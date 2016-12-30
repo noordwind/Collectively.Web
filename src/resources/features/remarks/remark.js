@@ -97,6 +97,9 @@ export class Remark {
       longitude: this.longitude
     });
     this.hasPhoto = remark.photos.length > 0;
+    if (remark.tags === null) {
+      remark.tags = [];
+    }
     this.tags = remark.tags.map(tag => {
       return {
         key: tag,
