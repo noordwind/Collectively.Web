@@ -2,6 +2,7 @@
   "account":{
     "account_created": "Your account has been created.",
     "already_have_account": "Already have an account?",
+    "browse_user_profile": "Browse user profile",
     "creating_account": "Creating your account, please wait...",
     "do_not_remember_password": "Don't remember your password?",
     "do_not_have_account": "Don't' have an account yet?",
@@ -166,6 +167,7 @@
     "state_new": "new",
     "state_resolved": "resolved",
     "state_deleted": "deleted",
+    "tags": "Tags (optional)",
     "type": "Type",
     "user_not_allowed_to_modify_remark": "You are not allowed to modify a remark.",
     "user_remarks": "User remarks:"

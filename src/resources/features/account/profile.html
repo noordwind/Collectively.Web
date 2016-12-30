@@ -16,26 +16,22 @@
       </div>
       <div class="row">
         <div class="divider"></div>
-        <div class="section">
-          <h4 class="col s12">${'account.remarks' | t}</h4>
-          <remark-list if.bind="remarks.length > 0" remarks.bind="remarks"></remark-list>
-          <span class="col s12" if.bind="remarks.length === 0">${'account.no_active_remarks' | t}</span>
-          <div class="input-field col s12">
-            <a route-href="route: user-remarks; params.bind: {name : user.name}" class="btn waves-effect waves-light btn-large">
+          <h4 class="col s12">${'account.remarks' | t} [${remarks.length}]</h4>
+          <div class="section">
+            <remark-list if.bind="remarks.length > 0" remarks.bind="remarks"></remark-list>
+            <span class="col s12" if.bind="remarks.length === 0">${'account.no_active_remarks' | t}</span>
+            <a if.bind="remarks.length > 0" route-href="route: user-remarks; params.bind: {name : user.name}" class="btn waves-effect waves-light btn-large">
                 <i class="material-icons left">view_list</i>${'account.show_all' | t}
             </a>
-          </div>
-        </div>
+         </div>
       </div>
       <div class="row" if.bind="isCurrentUser && isCoolectorAccount">
         <div class="divider"></div>
         <h4 class="col s12">${'account.change_password' | t}</h4>
         <div class="section">
-          <div class="input-field col s12">
-                <a route-href="route: change-password" class="btn waves-effect waves-light btn-large">
-                    <i class="material-icons left">vpn_key</i>${'account.change_password' | t}
-                </a>
-            </div>
+            <a route-href="route: change-password" class="btn waves-effect waves-light btn-large">
+                <i class="material-icons left">vpn_key</i>${'account.change_password' | t}
+            </a>
         </div>
       </div>
     </div>

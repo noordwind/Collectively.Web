@@ -1,5 +1,6 @@
 import {inject} from 'aurelia-framework';
 import ScriptLoadingService from 'resources/services/script-loading-service';
+import TranslationService from 'resources/services/translation-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import ApiBaseService from 'resources/services/api-base-service';
@@ -8,12 +9,13 @@ import ToastService from 'resources/services/toast-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import environment from '../../environment';
 
-@inject(ScriptLoadingService, AuthService, UserService, ApiBaseService,
+@inject(ScriptLoadingService, TranslationService, AuthService, UserService, ApiBaseService,
  OperationService, ToastService, EventAggregator)
 export default class FacebookService {
-  constructor(scriptLoadingService, authService, userService,
+  constructor(scriptLoadingService, translationService, authService, userService,
   apiBaseService, operationService, toast, eventAggregator) {
     this.scriptLoadingService = scriptLoadingService;
+    this.translationService = translationService;
     this.authService = authService;
     this.userService = userService;
     this.apiBaseService = apiBaseService;

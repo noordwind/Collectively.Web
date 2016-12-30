@@ -8,17 +8,17 @@ import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, UserService, LocationService, LoaderService, ToastService, EventAggregator)
 export class Home {
-    constructor(router, userService, location, loader, toast, eventAggregator) {
-        this.router = router;
-        this.userService = userService;
-        this.location = location;
-        this.loader = loader;
-        this.toast = toast;
-        this.eventAggregator = eventAggregator;
-    }
+  constructor(router, userService, location, loader, toast, eventAggregator) {
+    this.router = router;
+    this.userService = userService;
+    this.location = location;
+    this.loader = loader;
+    this.toast = toast;
+    this.eventAggregator = eventAggregator;
+  }
 
-    async activate(){
-        this.location.startUpdating();
-        this.user = await this.userService.getAccount();
-    }
+  async activate() {
+    this.location.startUpdating();
+    this.user = await this.userService.getAccount();
+  }
 }

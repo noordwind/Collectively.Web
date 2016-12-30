@@ -97,6 +97,12 @@ export class Remark {
       longitude: this.longitude
     });
     this.hasPhoto = remark.photos.length > 0;
+    this.tags = remark.tags.map(tag => {
+      return {
+        key: tag,
+        value: this.translationService.tr(`tags.${tag}`)
+      };
+    });
   }
 
   async attached() {
