@@ -4,6 +4,22 @@
   <div class="divider"></div>
   <div class="section">
     <h4>${'statistics.remarks' | t}</h4>
+    <table class="highlight">
+      <tbody>
+        <tr>
+          <td>${'statistics.reported' | t}</td>
+          <td class="right-align">${general.reported}</td>
+        </tr>
+        <tr>
+          <td>${'statistics.resolved' | t}</td>
+          <td class="right-align">${general.resolved}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="divider"></div>
+  <div class="section">
+    <h4>${'statistics.users' | t}</h4>
     <statistics-list items.bind="reporters" header="${'statistics.top_reporters' | t}"></statistics-list>
     <statistics-list items.bind="resolvers" header="${'statistics.top_resolvers' | t}"></statistics-list>  
   </div>

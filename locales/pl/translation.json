@@ -190,10 +190,13 @@
     "user_remarks": "Zgłoszenia użytkownika"
   },
   "statistics": {
-    "statistics": "Statystyki",
     "remarks": "Zgłoszenia",
+    "reported": "Zgłoszone",
+    "resolved": "Rozwiązane",
+    "statistics": "Statystyki",
     "top_reporters": "Najwięcej zgłoszonych",
-    "top_resolvers": "Najwięcej rozwiązanych"
+    "top_resolvers": "Najwięcej rozwiązanych",
+    "users": "Użytkownicy"
   },
   "tags": {
     "select_tags": "Tagi (opcjonalne)",

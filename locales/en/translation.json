@@ -191,10 +191,13 @@
     "user_remarks": "User remarks"
   },
   "statistics": {
-    "statistics": "Statistics",
     "remarks": "Remarks",
+    "reported": "Reported",
+    "resolved": "Resolved",
+    "statistics": "Statistics",
     "top_reporters": "Top reporters",
-    "top_resolvers": "Top resolvers"
+    "top_resolvers": "Top resolvers",
+    "users": "Użytkownicy"
   },
   "tags": {
     "select_tags": "Tags (optional)",
