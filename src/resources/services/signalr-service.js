@@ -35,7 +35,7 @@ export default class SignalRService {
       this.eventAggregator.publish('remark:photoRemoved', message);
     });
     this.connection.on('operationUpdated', (message) => {
-      //TODO this.eventAggregator.publish();
+      this.eventAggregator.publish('operation:updated', message);
     });
     this.connection.on('disconnect', async (message) => {
       this.reconnect = false;
