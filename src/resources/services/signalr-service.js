@@ -2,12 +2,15 @@ import environment from '../../environment';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import * as retry from 'retry';
+import AuthService from 'resources/services/auth-service';
 
-@inject(EventAggregator)
+@inject(EventAggregator, AuthService)
 export default class SignalRService {
-  constructor(eventAggregator) {
+  constructor(eventAggregator, authService) {
     this.eventAggregator = eventAggregator;
+    this.authService = authService;
     this.connection = null;
+    this.reconnect = true;
   }
 
   initialize() {
@@ -15,7 +18,7 @@ export default class SignalRService {
       return;
     }
 
-    this.connection = new RpcConnection(`${environment.signalRUrl}remarks`, 'formatType=json&format=text');
+    this.connection = new RpcConnection(environment.signalRUrl, 'formatType=json&format=text');
     this.connection.on('remarkCreated', (message) => {
       this.eventAggregator.publish('remark:created', message);
     });
@@ -31,13 +34,21 @@ export default class SignalRService {
     this.connection.on('photosFromRemarkRemoved', (message) => {
       this.eventAggregator.publish('remark:photoRemoved', message);
     });
+    this.connection.on('operationUpdated', (message) => {
+      //TODO this.eventAggregator.publish();
+    });
+    this.connection.on('disconnect', async (message) => {
+      this.reconnect = false;
+      this.connection.stop();
+    });
     this.connection.connectionClosed = e => {
       if (e) {
         console.log('Connection closed with error: ' + e);
-      }
-      else {
+      } else {
         console.log('SignalR connection lost');
-        this.connect();
+        if (this.reconnect) {
+          this.connect();
+        }
       }
     };
     this.connect();
@@ -52,7 +63,12 @@ export default class SignalRService {
     });
     operation.attempt(currentAttempt => {
       console.log(`Connecting to SignalR, attempt:${currentAttempt}`);
-      this.connection.start()
+      let connection = this.connection;
+      let token = `Bearer ${this.authService.token}`;
+      connection.start()
+        .then(() => {
+          connection.invoke('Coolector.Services.SignalR.Hubs.CoolectorHub.InitializeAsync', token);
+        })
         .catch(err => operation.retry(err));
     });
   }

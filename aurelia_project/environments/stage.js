@@ -2,7 +2,7 @@ export default {
   debug: true,
   testing: false,
   title: 'Coolector [Stage]',
-  apiUrl: 'https://coolector-stage.tk/api/',
+  apiUrl: 'https://coolector-stage.tk/api/hub',
   signalRUrl: '',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
