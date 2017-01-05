@@ -44,6 +44,10 @@
                 <p textcontent.one-way="remark.description"/>
             </div>
             <div class="col s12">
+                <label>${'remark.rating' | t}</label>     
+                <p textcontent.one-way="rating"/>
+            </div>
+            <div class="col s12">
                 <label>${'remark.author' | t}</label>
                 <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
             </div>
@@ -70,6 +74,28 @@
             </div>
         </div>
     </div>
+    <div if.bind="canVote">
+        <div class="section">
+            <div class="row">
+                <div class="col s6">
+                    <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="isSending" click.delegate="deleteVote()">
+                        <i class="material-icons center">thumb_down</i>
+                    </button>
+                    <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="isSending" click.delegate="voteNegative()">
+                        <i class="material-icons center">thumb_down</i>
+                    </button>
+                </div>
+                <div class="col s6">
+                    <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="isSending" click.delegate="deleteVote()">
+                        <i class="material-icons center">thumb_up</i>
+                    </button>
+                    <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="isSending" click.delegate="votePositive()">
+                        <i class="material-icons center">thumb_up</i>
+                    </button>                    
+                </div>
+            </div>
+        </div>
+    </div> 
     <div class="section">
         <div class="row">
             <div class="col s12">
@@ -78,22 +104,7 @@
                 </button>
             </div>
         </div>
-    </div>
-    <div if.bind="canAddPhotos">
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <button class="btn waves-effect waves-light btn-large" disabled.bind="isSending" click.delegate="displayCamera()">
-                        ${'remark.add_photo' | t}
-                    </button>
-                </div>
-            </div>
-            <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
-            <div class="row">
-                <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
-            </div>
-        </div>
-    </div>    
+    </div>          
     <div if.bind="canResolve">
         <div class="section">
             <div class="row">
@@ -114,12 +125,27 @@
             </div>
         </div>
     </div>
+    <div if.bind="canAddPhotos">
+        <div class="section">
+            <div class="row">
+                <div class="col s12">
+                    <button class="btn waves-effect waves-light btn-large" disabled.bind="isSending" click.delegate="displayCamera()">
+                        ${'remark.add_photo' | t}
+                    </button>
+                </div>
+            </div>
+            <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+            <div class="row">
+                <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
+            </div>
+        </div>
+    </div>    
     <div if.bind="canDelete">
         <div class="divider"></div>
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <a md-modal-trigger disabled.bind="isDeleting" href="#modal-delete" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger disabled.bind="isSending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
                         ${'common.delete' | t}
                     </a>
                 </div>

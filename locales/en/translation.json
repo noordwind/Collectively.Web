@@ -89,7 +89,10 @@
     "text_too_long": "Text is too long.",
     "user_id_in_use": "User identifier is in use.",
     "user_not_allowed_to_delete_remark" : "User is not allowed to delete a remark.",
-    "user_not_found": "User has not been found."
+    "user_not_found": "User has not been found.",
+    "cannot_submit_vote": "Can not vote a remark.",
+    "cannot_delete_vote": "Can note delete a remark vote.",
+    "vote_already_submitted": "Remark was already voted."
   },
   "common": {
     "all": "All",
@@ -140,8 +143,10 @@
     "category_accidents": "Accidents",
     "create": "Create a remark",
     "details": "Remark",
-    "delete_question": "Do you really want to delete the remark?",
     "delete_photo_question": "Do you really want to delete the selected photo?",
+    "delete_question": "Do you really want to delete the remark?",
+    "delete_vote": "Delete rating",
+    "deleting_vote": "Deleting rating...",
     "display": "Display on map",
     "description": "Description (optional)",
     "deleted_photo": "Photo has been deleted.",   
@@ -151,9 +156,10 @@
     "post_on_facebook": "Post on Facebook",
     "processed": "Your remark has been sent.",
     "processing": "Processing a remark, please wait...",
+    "rating": "Rating",
     "remark_resolved": "Remark has been resolved.",
     "remark_removed": "Remark has been removed.",
-    "remark_removed_by_author": "Remark has been removed by the author.",
+    "remark_removed_by_author": "Remark was removed by the author.",
     "removing_remark": "Removing remark, please wait...",
     "remarks": "Remarks",
     "resolve": "Resolve",
@@ -167,10 +173,15 @@
     "state_new": "new",
     "state_resolved": "resolved",
     "state_deleted": "deleted",
+    "submitting_vote": "Submitting vote...",
     "tags": "Tags (optional)",
     "type": "Type",
     "user_not_allowed_to_modify_remark": "You are not allowed to modify a remark.",
-    "user_remarks": "User remarks:"
+    "user_remarks": "User remarks:",
+    "vote_deleted": "Rating has been deleted.",
+    "vote_negative": "Dislike",
+    "vote_positive": "Like",
+    "vote_submitted": "Remark has been rated."
   },
   "route": {
     "change_password": "Change password",

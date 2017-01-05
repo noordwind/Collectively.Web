@@ -20,11 +20,11 @@ h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
-nav{
+nav {
     background-color: $primary-color
 }
 
-i.primary-color{
+i.primary-color {
     color: $primary-color
 }
 
@@ -40,16 +40,20 @@ i.primary-color{
     background-color: $primary-color
 }
 
-.btn:hover{
+.btn:hover {
     background-color: $primary-color-light;
 }
 
-.btn:active{
+.btn:active {
     background-color: $primary-color-light;   
 }
 
-.btn:focus{
+.btn:focus {
     background-color: $primary-color-light;   
+}
+
+.btn-highlighted {
+    color: $primary-color-strong;
 }
 
 .spinner-layer {

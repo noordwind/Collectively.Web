@@ -89,7 +89,10 @@
     "text_too_long": "Tekst jest zbyt długi.",
     "user_id_in_use": "Identyfikator użytkownika jest w użyciu.",
     "user_not_allowed_to_delete_remark" : "Użytkownik nie może usunąć wybranego zgłoszenia.",
-    "user_not_found": "Użytkownik nie został znaleziony."
+    "user_not_found": "Użytkownik nie został znaleziony.",
+    "cannot_submit_vote": "Nie można ocenić zgłoszenia.",
+    "cannot_delete_vote": "Nie można usunąć oceny zgłoszenia.",
+    "vote_already_submitted": "Zgłoszenie zostało już ocenione."
   },
   "common": {
     "all": "Wszystkie",
@@ -138,8 +141,10 @@
     "category_damages": "Uszkodzenie",
     "category_accidents": "Wypadek",
     "create": "Nowe zgłoszenie",
-    "delete_question": "Czy na pewno chcesz usunąć wybrane zgłoszenie?",
     "delete_photo_question": "Czy na pewno chcesz usunąć wybrane zdjęcie?",
+    "delete_question": "Czy na pewno chcesz usunąć wybrane zgłoszenie?",
+    "delete_vote": "Usuń ocenę",
+    "deleting_vote": "Usuwamy ocenę..",
     "display": "Pokaż na mapie",
     "details": "Zgłoszenie",
     "description": "Opis (opcjonalny)",
@@ -150,6 +155,7 @@
     "post_on_facebook": "Dodaj post na Facebook",
     "processed": "Twoje zgłoszenie zostało wysłane.",
     "processing": "Przetwarzamy zgłoszenie, proszę czekać...",
+    "rating": "Ocena",
     "remark_resolved": "Zgłoszenie zostało rozwiązane.",
     "remark_removed": "Zgłoszenie zostało usunięte.",
     "remark_removed_by_author": "Zgłoszenie zostało usunięte przez autora.",
@@ -166,10 +172,15 @@
     "state_new": "nowe",
     "state_resolved": "rozwiązane",
     "state_deleted": "usunięte",
+    "submitting_vote": "Wysyłamy ocenę...",    
     "tags": "Tagi (opcjonalne)",
     "type": "Typ",
     "user_not_allowed_to_modify_remark": "Nie możesz modyfikować wybranego zgłoszenia.",
-    "user_remarks": "Zgłoszenia użytkownika:"
+    "user_remarks": "Zgłoszenia użytkownika:",
+    "vote_deleted": "Ocena została usunięta.",
+    "vote_negative": "Nie lubię tego",
+    "vote_positive": "Lubię to",
+    "vote_submitted": "Zgłoszenie zostało ocenione."
   },
   "route": {
     "change_password": "Zmiana hasła",

@@ -50,6 +50,16 @@ export default class RemarkService {
       => await this.apiBaseService.delete(`remarks/${remarkId}/photos/${groupId}`));
   }
 
+  async vote(remarkId, positive) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/votes`, { positive }));
+  }
+
+  async deleteVote(remarkId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete(`remarks/${remarkId}/votes`));
+  }
+
   async getCategories() {
     return await this.apiBaseService.get('remarks/categories');
   }

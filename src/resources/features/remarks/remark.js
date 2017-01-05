@@ -37,7 +37,6 @@ export class Remark {
     this.feature = environment.feature;
     this.remarkPhotosLimit = environment.constraints.remarkPhotosLimit * 3; //3 different sizes.
     this.remark = {};
-    this.isDeleting = false;
     this.isSending = false;
     this.isInRange = false;
     this.photoToDelete = null;
@@ -58,6 +57,30 @@ export class Remark {
 
   get canDeletePhotos() {
     return this.isAuthenticated && this.account.userId === this.remark.author.userId;
+  }
+
+  get canVoteNegatively() {
+    return this.canVote && (this.hasVotedPositively || !this.hasVoted);
+  }
+
+  get canVotePositively() {
+    return this.canVote && (this.hasVotedNegatively || !this.hasVoted);
+  }
+
+  get canVote() {
+    return this.isAuthenticated;
+  }
+
+  get hasVotedPositively() {
+    return this.hasVoted && this.vote.positive;
+  }
+
+  get hasVotedNegatively() {
+    return this.hasVoted && !this.vote.positive;
+  }
+
+  get hasVoted() {
+    return this.vote !== null && typeof this.vote !== 'undefined';
   }
 
   async activate(params, routeConfig) {
@@ -106,6 +129,8 @@ export class Remark {
         value: this.translationService.tr(`tags.${tag}`)
       };
     });
+    this.rating = remark.rating;
+    this.vote = remark.votes.find(x => x.userId === this.account.userId);
   }
 
   async attached() {
@@ -141,7 +166,7 @@ export class Remark {
       return;
     }
     this.loader.display();
-    this.isDeleting = true;
+    this.isSending = true;
     this.toast.info(this.translationService.tr('remark.removing_remark'));
     let remarkRemoved = await this.remarkService.deleteRemark(this.id);
     if (remarkRemoved.success) {
@@ -152,7 +177,7 @@ export class Remark {
       return;
     }
 
-    this.isDeleting = false;
+    this.isSending = false;
     this.toast.error(this.translationService.trCode(remarkRemoved.code));
     this.loader.hide();
   }
@@ -286,5 +311,81 @@ export class Remark {
           this.router.navigateToRoute('remarks');
         }
       });
+  }
+
+  async votePositive() {
+    this._vote(true);
+  }
+
+  async voteNegative() {
+    this._vote(false);
+  }
+
+  async _vote(positive) {
+    this.loader.display();
+    this.isSending = true;
+    this.toast.info(this.translationService.tr('remark.submitting_vote'));
+    let voteSubmitted = await this.remarkService.vote(this.id, positive);
+    if (voteSubmitted.success) {
+      this.toast.success(this.translationService.tr('remark.vote_submitted'));
+      this.loader.hide();
+      this.isSending = false;
+      this._changeVoteType(positive);
+
+      return;
+    }
+
+    this.isSending = false;
+    this.toast.error(this.translationService.trCode(voteSubmitted.code));
+    this.loader.hide();
+  }
+
+  async deleteVote() {
+    this.loader.display();
+    this.isSending = true;
+    this.toast.info(this.translationService.tr('remark.deleting_vote'));
+    let voteDeleted = await this.remarkService.deleteVote(this.id);
+    if (voteDeleted.success) {
+      this.toast.success(this.translationService.tr('remark.vote_deleted'));
+      this.loader.hide();
+      this.isSending = false;
+      let positive = !this.vote.positive;
+      this.vote = null;
+      this._updateRating(positive);
+
+      return;
+    }
+
+    this.isSending = false;
+    this.toast.error(this.translationService.trCode(voteDeleted.code));
+    this.loader.hide();
+  }
+
+  _changeVoteType(positive) {
+    this._updateRating(positive);
+    if (!this.hasVoted) {
+      this.vote = {
+        userId: this.account.userId
+      };
+    }
+    this.vote.positive = positive;
+  }
+
+  _updateRating(positive) {
+    if (!this.hasVoted) {
+      if (positive) {
+        this.rating++;
+      } else {
+        this.rating--;
+      }
+
+      return;
+    }
+
+    if (positive) {
+      this.rating += 2;
+    } else {
+      this.rating -= 2;
+    }
   }
 }
