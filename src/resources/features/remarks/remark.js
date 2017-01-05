@@ -130,6 +130,9 @@ export class Remark {
       };
     });
     this.rating = remark.rating;
+    if (remark.votes === null) {
+      remark.votes = [];
+    }
     this.vote = remark.votes.find(x => x.userId === this.account.userId);
   }
 
