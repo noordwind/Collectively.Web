@@ -22,6 +22,10 @@ export class Profile {
     this.username = '';
     this.user = null;
     this.currentUser = null;
+    this.statistics = {
+      reportedCount: 0,
+      resolvedCount: 0
+    };
   }
 
   async activate(params) {
@@ -52,11 +56,6 @@ export class Profile {
     let statistics = await this.statisticsService.getUserStatistics(this.user.userId);
     if (statistics.name) {
       this.statistics = statistics;
-    } else {
-      this.statistics = {
-        reportedCount: 0,
-        resolvedCount: 0
-      };
     }
   }
 
