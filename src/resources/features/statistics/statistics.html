@@ -1,6 +1,9 @@
 <template>
   <require from="resources/features/statistics/statistics-list"></require>
-  <h4>${'statistics.statistics' | t}</h4>
+  <require from="../../converters/string-capitalize-first-letter"></require>
+  <require from="../../converters/sortValueConverter"></require>
+
+  <h3>${'statistics.statistics' | t}</h3>
   <div class="divider"></div>
   <div class="section">
     <h4>${'statistics.remarks' | t}</h4>
@@ -13,6 +16,28 @@
         <tr>
           <td>${'statistics.resolved' | t}</td>
           <td class="right-align">${general.resolved}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h4>${'statistics.categories' | t}</h4>
+    <table class="highlight">
+      <tbody>
+        <tr repeat.for="category of categories | sort:{propertyName: 'count', direction: 'descending'}">
+          <td>${category.name}</td>
+          <td class="right-align">${category.count}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="section">
+    <h4>${'statistics.tags' | t}</h4>
+    <table class="highlight">
+      <tbody>
+        <tr repeat.for="tag of tags | sort:{propertyName: 'count', direction: 'descending'}">
+          <td>${tag.name | stringCapitalizeFirstLetter}</td>
+          <td class="right-align">${tag.count}</td>
         </tr>
       </tbody>
     </table>

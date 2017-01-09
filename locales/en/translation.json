@@ -202,10 +202,12 @@
     "user_remarks": "User remarks"
   },
   "statistics": {
+    "categories": "Categories",
     "remarks": "Remarks",
     "reported": "Reported",
     "resolved": "Resolved",
     "statistics": "Statistics",
+    "tags": "Tags",
     "top_reporters": "Top reporters",
     "top_resolvers": "Top resolvers",
     "users": "Użytkownicy"

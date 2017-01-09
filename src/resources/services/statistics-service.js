@@ -7,6 +7,8 @@ export default class StatisticsService {
     this.apiBaseService = apiBaseService;
     this.userStatistcsPath = 'statistics/users';
     this.remarkStatisticsPath = 'statistics/remarks';
+    this.categoriesStatisticsPath = 'statistics/categories';
+    this.tagStatisticsPath = 'statistics/tags';
   }
 
   async browseUserStatistics(query) {
@@ -19,5 +21,13 @@ export default class StatisticsService {
 
   async getUserStatistics(userId) {
     return await this.apiBaseService.get(`${this.userStatistcsPath}/${userId}`);
+  }
+
+  async browseCategoriesStatistics(query) {
+    return await this.apiBaseService.get(this.categoriesStatisticsPath, query);
+  }
+
+  async browseTagsStatistics(query) {
+    return await this.apiBaseService.get(this.tagStatisticsPath, query);
   }
 }

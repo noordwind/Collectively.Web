@@ -201,10 +201,12 @@
     "user_remarks": "Zgłoszenia użytkownika"
   },
   "statistics": {
+    "categories": "Kategorie",
     "remarks": "Zgłoszenia",
     "reported": "Zgłoszone",
     "resolved": "Rozwiązane",
     "statistics": "Statystyki",
+    "tags": "Tagi",
     "top_reporters": "Najwięcej zgłoszonych",
     "top_resolvers": "Najwięcej rozwiązanych",
     "users": "Użytkownicy"
