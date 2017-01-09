@@ -9,11 +9,4 @@ export class StatisticsList {
   constructor(router) {
     this.router = router;
   }
-
-  itemsChanged() {
-    if (Array.isArray(this.items) === false) {
-      return;
-    }
-    this.items = this.items.sort((x, y) => Number(y.count) - Number(x.count));
-  }
 }

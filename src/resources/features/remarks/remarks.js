@@ -116,7 +116,6 @@ export class Remarks {
     }
     let remarks = await this.remarkService.browse(query, cache);
     remarks.forEach(remark => this.processRemark(remark), this);
-    remarks = this.sortRemarks(remarks);
 
     return remarks;
   }
@@ -222,7 +221,7 @@ export class Remarks {
           ? this.remarks[this.remarks.length - 1]
           : null;
         if (lastRemark && this.location.isInRange(location, lastRemark.distance)) {
-          this.remarks = this.insertRemark(this.remarks, remark, true);
+          this.remarks = this.insertRemark(this.remarks, remark);
         }
       });
   }
@@ -298,14 +297,7 @@ export class Remarks {
     return Array.from(remarks);
   }
 
-  sortRemarks(remarks) {
-    if (Array.isArray(remarks) === false) {
-      remarks = [];
-    }
-    return remarks.sort((x, y) => Number(x.distance) - Number(y.distance));
-  }
-
-  insertRemark(remarks, remark, sort) {
+  insertRemark(remarks, remark) {
     if (Array.isArray(remarks) === false) {
       remarks = [];
     }
@@ -313,10 +305,7 @@ export class Remarks {
       return remarks;
     }
     remarks.push(remark);
-    sort = sort || false;
-    if (sort) {
-      remarks = this.sortRemarks(remarks);
-    }
+
     return Array.from(remarks);
   }
 

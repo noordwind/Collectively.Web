@@ -2,8 +2,11 @@
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="../../converters/truncateValueConverter"></require>
     <require from="../../converters/distanceFormatValueConverter"></require>
+    <require from="../../converters/sortValueConverter"></require>
     <ul class="collection">
-        <li class="collection-item avatar" virtual-repeat.for="remark of remarks" infinite-scroll-next.call="getMore($scrollContext)">            
+        <li class="collection-item avatar" 
+          virtual-repeat.for="remark of remarks | sort:{propertyName: 'distance', direction: 'ascending'}" 
+          infinite-scroll-next.call="getMore($scrollContext)">            
             <a href.bind="remark.url"><img if.bind="remark.hasPhoto" class="circle" src.bind="remark.smallPhotoUrl" alt=""/>
                 <span class="title">${remark.categoryName} [<span if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</span>]</span>
                 <span if.bind="remark.resolved" class="new badge static" data-badge-caption="${'remark.state_resolved' | t}"></span>

@@ -1,9 +1,10 @@
 <template>
+  <require from="../../converters/sortValueConverter"></require>
   <ul class="collection">
     <li class="collection-item header">
       <span><b>${header}</b></span>
     </li>
-    <li class="collection-item" virtual-repeat.for="item of items">
+    <li class="collection-item" virtual-repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
         <a if.bind="item.url" href.bind="item.url">
           <div>
             <span>${item.name}</span>
