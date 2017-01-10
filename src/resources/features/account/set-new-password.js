@@ -8,17 +8,20 @@ import { ValidationControllerFactory,
 import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import OperationService from 'resources/services/operation-service';
 import {Router} from 'aurelia-router';
 
 @inject(I18N, TranslationService, UserService, ToastService,
-LoaderService, ValidationControllerFactory, Router)
+LoaderService, ValidationControllerFactory, OperationService, Router)
 export class SetNewPassword {
-  constructor(i18n, translationService, userService, toast, loader, controllerFactory, router) {
+  constructor(i18n, translationService, userService, toast,
+    loader, controllerFactory, operationService, router) {
     this.i18n = i18n;
     this.translationService = translationService;
     this.userService = userService;
     this.toast = toast;
     this.loader = loader;
+    this.operationService = operationService;
     this.controller = controllerFactory.createForCurrentScope();
     this.controller.validateTrigger = validateTrigger.blur;
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
@@ -45,29 +48,37 @@ export class SetNewPassword {
     }
   }
 
+  attached() {
+    this.operationService.subscribe('set_new_password',
+      operation => this.handleNewPasswordSet(operation),
+      operation => this.handleSetNewPasswordRejected(operation));
+  }
+
+  detached() {
+    this.operationService.unsubscribeAll();
+  }
+
   async submit() {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
-      this.sending = false;
-
       return;
     }
 
     this.loader.display();
     this.sending = true;
     this.toast.info(this.translationService.tr('account.setting_new_password'));
-    let newPasswordSet = await this.userService.setNewPassword(
-      this.email, this.token, this.password);
-    if (newPasswordSet.success) {
-      this.toast.success(this.translationService.tr('account.new_password_set'));
-      this.loader.hide();
-      this.router.navigateToRoute('sign-in');
+    await this.userService.setNewPassword(this.email, this.token, this.password);
+  }
 
-      return;
-    }
+  handleNewPasswordSet(operation) {
+    this.toast.success(this.translationService.tr('account.new_password_set'));
+    this.loader.hide();
+    this.router.navigateToRoute('sign-in');
+  }
 
+  handleSetNewPasswordRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
-    this.toast.error(this.translationService.trCode(newPasswordSet.code));
   }
 }

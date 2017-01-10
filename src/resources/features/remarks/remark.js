@@ -10,16 +10,18 @@ import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
+import OperationService from 'resources/services/operation-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import Environment from '../../../environment';
 
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-SignalRService, EventAggregator, Environment)
+SignalRService, OperationService, EventAggregator, Environment)
 export class Remark {
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, signalR, eventAggregator, environment) {
+  toastService, loader, authService, userService, signalR, operationService,
+  eventAggregator, environment) {
     self = this;
     this.router = router;
     this.i18n = i18n;
@@ -33,13 +35,15 @@ export class Remark {
     this.authService = authService;
     this.userService = userService;
     this.signalR = signalR;
+    this.operationService = operationService;
     this.eventAggregator = eventAggregator;
     this.feature = environment.feature;
     this.remarkPhotosLimit = environment.constraints.remarkPhotosLimit * 3; //3 different sizes.
     this.remark = {};
-    this.isSending = false;
+    this.sending = false;
     this.isInRange = false;
     this.photoToDelete = null;
+    this.isPositiveVote = false;
     this.signalR.initialize();
   }
 
@@ -143,11 +147,36 @@ export class Remark {
     });
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
+
+    this.operationService.subscribe('resolve_remark',
+      operation => this.handleRemarkResolved(operation),
+      operation => this.handleResolveRemarkRejected(operation));
+
+    this.operationService.subscribe('delete_remark',
+      operation => this.handleRemarkDeleted(operation),
+      operation => this.handleDeleteRemarkRejected(operation));
+
+    this.operationService.subscribe('add_photos_to_remark',
+      async operation => await this.handlePhotosAddedToRemark(operation),
+      operation => this.handleAddPhotosToRemarkRejected(operation));
+
+    this.operationService.subscribe('remove_photos_from_remark',
+      async operation => await this.handlePhotosFromRemarkRemoved(operation),
+      operation => this.handleRemovePhotosFromRemarkRejected(operation));
+
+    this.operationService.subscribe('submit_remark_vote',
+      operation => this.handleRemarkVoteSubmitted(operation),
+      operation => this.handleSubmitRemarkVoteRejected(operation));
+
+    this.operationService.subscribe('delete_remark_vote',
+      operation => this.handleRemarkVoteDeleted(operation),
+      operation => this.handleDeleteRemarVoteRejected(operation));
   }
 
   detached() {
     this.remarkResolvedSubscription.dispose();
     this.remarkDeletedSubscription.dispose();
+    this.operationService.unsubscribeAll();
   }
 
   display() {
@@ -168,21 +197,7 @@ export class Remark {
 
       return;
     }
-    this.loader.display();
-    this.isSending = true;
-    this.toast.info(this.translationService.tr('remark.removing_remark'));
-    let remarkRemoved = await this.remarkService.deleteRemark(this.id);
-    if (remarkRemoved.success) {
-      this.toast.success(this.translationService.tr('remark.remark_removed'));
-      this.loader.hide();
-      this.router.navigateToRoute('remarks');
-
-      return;
-    }
-
-    this.isSending = false;
-    this.toast.error(this.translationService.trCode(remarkRemoved.code));
-    this.loader.hide();
+    await this.remarkService.deleteRemark(this.id);
   }
 
   async resolve() {
@@ -191,21 +206,10 @@ export class Remark {
       latitude: this.location.current.latitude,
       longitude: this.location.current.longitude
     };
-    this.isSending = true;
+    this.sending = true;
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.resolving_remark'));
-    let remarkResolved = await this.remarkService.resolveRemark(command);
-    if (remarkResolved.success) {
-      this.toast.success(this.translationService.tr('remark.remark_resolved'));
-      this.loader.hide();
-      this.router.navigateToRoute('remarks');
-
-      return;
-    }
-
-    this.toast.error(this.translationService.trCode(remarkResolved.code));
-    this.isSending = false;
-    this.loader.hide();
+    await this.remarkService.resolveRemark(command);
   }
 
   async newImageResized(base64) {
@@ -216,7 +220,7 @@ export class Remark {
   }
 
   async addPhotos(base64Image) {
-    this.isSending = true;
+    this.sending = true;
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.adding_photo'));
     let reader = new FileReader();
@@ -225,7 +229,7 @@ export class Remark {
       if (file.type.indexOf('image') < 0) {
         this.toast.error(this.translationService.trCode('invalid_file'));
         this.loader.hide();
-        this.isSending = false;
+        this.sending = false;
 
         return;
       }
@@ -239,19 +243,7 @@ export class Remark {
         photos: [photo]
       };
 
-      let addedPhotos = await this.remarkService.addPhotos(this.remark.id, photos);
-      if (addedPhotos.success) {
-        this.loader.hide();
-        this.isSending = false;
-        await this.toast.success(this.translationService.tr('remark.added_photo'));
-        location.reload();
-
-        return;
-      }
-
-      this.toast.error(this.translationService.trCode(addedPhotos.code));
-      this.isSending = false;
-      this.loader.hide();
+      await this.remarkService.addPhotos(this.remark.id, photos);
     };
     reader.readAsDataURL(file);
   }
@@ -269,19 +261,7 @@ export class Remark {
     this.photoToDelete = null;
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.deleting_photo'));
-    let deletedPhotos = await this.remarkService.deletePhoto(this.remark.id, groupId);
-    if (deletedPhotos.success) {
-      this.loader.hide();
-      this.isSending = false;
-      await this.toast.success(this.translationService.tr('remark.deleted_photo'));
-      location.reload();
-
-      return;
-    }
-
-    this.toast.error(this.translationService.trCode(deletedPhotos.code));
-    this.isSending = false;
-    this.loader.hide();
+    await this.remarkService.deletePhoto(this.remark.id, groupId);
   }
 
   async subscribeRemarkResolved() {
@@ -326,42 +306,17 @@ export class Remark {
 
   async _vote(positive) {
     this.loader.display();
-    this.isSending = true;
+    this.sending = true;
+    this.isPositiveVote = positive;
     this.toast.info(this.translationService.tr('remark.submitting_vote'));
-    let voteSubmitted = await this.remarkService.vote(this.id, positive);
-    if (voteSubmitted.success) {
-      this.toast.success(this.translationService.tr('remark.vote_submitted'));
-      this.loader.hide();
-      this.isSending = false;
-      this._changeVoteType(positive);
-
-      return;
-    }
-
-    this.isSending = false;
-    this.toast.error(this.translationService.trCode(voteSubmitted.code));
-    this.loader.hide();
+    await this.remarkService.vote(this.id, positive);
   }
 
   async deleteVote() {
     this.loader.display();
-    this.isSending = true;
+    this.sending = true;
     this.toast.info(this.translationService.tr('remark.deleting_vote'));
-    let voteDeleted = await this.remarkService.deleteVote(this.id);
-    if (voteDeleted.success) {
-      this.toast.success(this.translationService.tr('remark.vote_deleted'));
-      this.loader.hide();
-      this.isSending = false;
-      let positive = !this.vote.positive;
-      this.vote = null;
-      this._updateRating(positive);
-
-      return;
-    }
-
-    this.isSending = false;
-    this.toast.error(this.translationService.trCode(voteDeleted.code));
-    this.loader.hide();
+    await this.remarkService.deleteVote(this.id);
   }
 
   _changeVoteType(positive) {
@@ -390,5 +345,83 @@ export class Remark {
     } else {
       this.rating -= 2;
     }
+  }
+
+  handleRemarkResolved(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_resolved'));
+    this.loader.hide();
+    this.router.navigateToRoute('remarks');
+  }
+
+  handleResolveRemarkRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleRemarkDeleted(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_removed'));
+    this.loader.hide();
+    this.router.navigateToRoute('remarks');
+  }
+
+  handleDeleteRemarkRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  async handlePhotosAddedToRemark(operation) {
+    this.loader.hide();
+    this.sending = false;
+    await this.toast.success(this.translationService.tr('remark.added_photo'));
+    location.reload();
+  }
+
+  handleAddPhotosToRemarkRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  async handlePhotosFromRemarkRemoved(operation) {
+    this.loader.hide();
+    this.sending = false;
+    await this.toast.success(this.translationService.tr('remark.deleted_photo'));
+    location.reload();
+  }
+
+  handleRemovePhotosFromRemarkRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleRemarkVoteSubmitted(operation) {
+    this.toast.success(this.translationService.tr('remark.vote_submitted'));
+    this.loader.hide();
+    this.sending = false;
+    this._changeVoteType(this.isPositiveVote);
+  }
+
+  handleSubmitRemarkVoteRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleRemarkVoteDeleted(operation) {
+    this.toast.success(this.translationService.tr('remark.vote_deleted'));
+    this.loader.hide();
+    this.sending = false;
+    let positive = !this.vote.positive;
+    this.vote = null;
+    this._updateRating(positive);
+  }
+
+  handleDeleteRemarVoteRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
   }
 }

@@ -9,12 +9,14 @@ import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import TranslationService from 'resources/services/translation-service';
+import OperationService from 'resources/services/operation-service';
 import {Router} from 'aurelia-router';
 
 @inject(I18N, AuthService, UserService, ToastService, TranslationService,
-LoaderService, ValidationControllerFactory, Router)
+LoaderService, ValidationControllerFactory, OperationService, Router)
 export class ChangePassword {
-  constructor(i18n, authService, userService, toast, translationService, loader, controllerFactory, router) {
+  constructor(i18n, authService, userService, toast, translationService,
+    loader, controllerFactory, operationService, router) {
     this.i18n = i18n;
     this.language = i18n.i18next.language;
     this.authService = authService;
@@ -25,6 +27,7 @@ export class ChangePassword {
     this.controller = controllerFactory.createForCurrentScope();
     this.controller.validateTrigger = validateTrigger.blur;
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
+    this.operationService = operationService;
     this.router = router;
     this.sending = false;
     this.currentPassword = '';
@@ -61,29 +64,37 @@ export class ChangePassword {
     this.username = userProfile.name;
   }
 
+  attached() {
+    this.operationService.subscribe('change_password',
+      operation => this.handlePasswordChanged(operation),
+      operation => this.handleChangePasswordRejected(operation));
+  }
+
+  detached() {
+    this.operationService.unsubscribeAll();
+  }
+
   async submit() {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
-      this.sending = false;
-
       return;
     }
 
     this.loader.display();
     this.sending = true;
     this.toast.info(this.translationService.tr('account.changing_your_password'));
-    let passwordChanged = await this.userService.changePassword(
-      this.currentPassword, this.newPassword);
-    if (passwordChanged.success) {
-      this.toast.success(this.translationService.tr('account.password_changed'));
-      this.loader.hide();
-      this.router.navigateToRoute('profile');
+    await this.userService.changePassword(this.currentPassword, this.newPassword);
+  }
 
-      return;
-    }
+  handlePasswordChanged(operation) {
+    this.toast.success(this.translationService.tr('account.password_changed'));
+    this.loader.hide();
+    this.router.navigateToRoute('profile');
+  }
 
+  handleChangePasswordRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
-    this.toast.error(this.translationService.trCode(passwordChanged.code));
   }
 }

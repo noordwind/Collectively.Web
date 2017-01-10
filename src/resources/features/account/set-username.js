@@ -9,18 +9,17 @@ import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
 import UserService from '../../services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import OperationService from 'resources/services/operation-service';
 
-@inject(Router, I18N, TranslationService,
-  ValidationControllerFactory,
-  UserService,
-  ToastService,
-  LoaderService)
+@inject(Router, I18N, TranslationService, ValidationControllerFactory,
+  UserService, ToastService, LoaderService, OperationService)
 export class SetUsername {
   controller = null;
   username = '';
   sending = false;
 
-  constructor(router, i18n, translationService, controllerFactory, userService, toast, loader) {
+  constructor(router, i18n, translationService, controllerFactory, userService,
+    toast, loader, operationService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -28,6 +27,7 @@ export class SetUsername {
     this.account = {};
     this.toast = toast;
     this.loader = loader;
+    this.operationService = operationService;
     this.controller = controllerFactory.createForCurrentScope();
     this.controller.validateTrigger = validateTrigger.blur;
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
@@ -58,7 +58,14 @@ export class SetUsername {
     return true;
   }
 
-  activate() {
+  attached() {
+    this.operationService.subscribe('change_username',
+      async operation => await this.handleUsernameChanged(operation),
+      operation => this.handleChangeUsernameRejected(operation));
+  }
+
+  detached() {
+    this.operationService.unsubscribeAll();
   }
 
   async validateUsername(name) {
@@ -75,20 +82,22 @@ export class SetUsername {
     if (errors.length > 0) {
       return;
     }
+
     this.loader.display();
     this.sending = true;
     this.toast.info(this.translationService.tr('account.changing_your_name'));
-    let nameChanged = await this.userService.changeUsername(this.username);
-    if (nameChanged.success) {
-      this.toast.success(this.translationService.tr('account.name_changed'));
-      await this.userService.getAccount(false);
-      this.loader.hide();
-      this.router.navigateToRoute('location');
+    await this.userService.changeUsername(this.username);
+  }
 
-      return;
-    }
+  async handleUsernameChanged(operation) {
+    this.toast.success(this.translationService.tr('account.name_changed'));
+    await this.userService.getAccount(false);
+    this.loader.hide();
+    this.router.navigateToRoute('location');
+  }
 
-    this.toast.error(this.translationService.trCode(nameChanged.code));
+  handleChangeUsernameRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
   }

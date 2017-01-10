@@ -7,7 +7,7 @@
             <md-slider>
                 <li repeat.for="photo of photos">
                     <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
-                        disabled.bind="isSending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
+                        disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
                         <i class="material-icons">remove</i>
                     </a>
                     <a href.bind="photo.big" target="_blank">
@@ -78,18 +78,18 @@
         <div class="section">
             <div class="row">
                 <div class="col s6">
-                    <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="isSending" click.delegate="deleteVote()">
+                    <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
                         <i class="material-icons center">thumb_down</i>
                     </button>
-                    <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="isSending" click.delegate="voteNegative()">
+                    <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
                         <i class="material-icons center">thumb_down</i>
                     </button>
                 </div>
                 <div class="col s6">
-                    <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="isSending" click.delegate="deleteVote()">
+                    <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
                         <i class="material-icons center">thumb_up</i>
                     </button>
-                    <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="isSending" click.delegate="votePositive()">
+                    <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
                         <i class="material-icons center">thumb_up</i>
                     </button>                    
                 </div>
@@ -109,7 +109,7 @@
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <a md-modal-trigger href="#modal-resolve" disabled.bind="isSending" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
                         ${'remark.resolve' | t}
                     </a>
                 </div>
@@ -129,7 +129,7 @@
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <button class="btn waves-effect waves-light btn-large" disabled.bind="isSending" click.delegate="displayCamera()">
+                    <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
                         ${'remark.add_photo' | t}
                     </button>
                 </div>
@@ -145,7 +145,7 @@
         <div class="section">
             <div class="row">
                 <div class="col s12">
-                    <a md-modal-trigger disabled.bind="isSending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
+                    <a md-modal-trigger disabled.bind="sending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
                         ${'common.delete' | t}
                     </a>
                 </div>

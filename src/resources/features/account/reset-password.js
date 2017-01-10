@@ -40,8 +40,6 @@ export class ResetPassword {
   async submit() {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
-      this.sending = false;
-
       return;
     }
 

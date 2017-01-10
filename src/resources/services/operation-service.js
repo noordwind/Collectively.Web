@@ -1,65 +1,117 @@
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
+import AuthService from 'resources/services/auth-service';
 import ApiBaseService from 'resources/services/api-base-service';
+import SignalRService from 'resources/services/signalr-service';
 import * as retry from 'retry';
 
-@inject(EventAggregator, ApiBaseService)
+@inject(EventAggregator, AuthService, ApiBaseService, SignalRService)
 export default class OperationService {
-  constructor(eventAggregator, apiBaseService) {
+  constructor(eventAggregator, authService, apiBaseService, signalR) {
     this.eventAggregator = eventAggregator;
+    this.authService = authService;
     this.apiBaseService = apiBaseService;
-    this.operations = [];
-    this.eventAggregator
-      .subscribe('operation:updated', async message => {
-        this.handleOperationUpdated(message);
-      });
+    this.signalR = signalR;
+    this.signalR.initialize();
+    this.processedOperations = [];
+    this.subscriptions = [];
+    this.signalRTimeoutSeconds = 5;
+    this._initializeOperations();
+    this.eventAggregator.subscribe('operation:updated', async message => {
+      this.handleOperationUpdated(message);
+    });
+  }
+
+  _initializeOperations() {
+    this.operations = [
+      map('sign_up', 'signed_up'),
+      map('set_new_password', 'new_password_set'),
+      map('change_username', 'username_changed'),
+      map('change_password', 'password_changed'),
+      map('create_remark', 'remark_created'),
+      map('delete_remark', 'remark_deleted'),
+      map('resolve_remark', 'remark_resolved'),
+      map('add_photos_to_remark', 'photos_to_remark_added'),
+      map('remove_photos_from_remark', 'photos_from_remark_removed'),
+      map('submit_remark_vote', 'remark_vote_submitted'),
+      map('delete_remark_vote', 'remark_vote_deleted')
+    ];
+
+    function map(name, event) {
+      return { name, event: { success: event, rejected: `${name}_rejected`} };
+    }
+  }
+
+  subscribe(operation, onSuccess, onRejected) {
+    let availableOperation = this.operations.find(x => x.name === operation);
+    if (availableOperation === null || typeof availableOperation === 'undefined') {
+      return;
+    }
+    this.subscriptions.push({ operation, onSuccess, onRejected, event: availableOperation.event });
+  }
+
+  unsubscribeAll() {
+    this.subscriptions = [];
   }
 
   async execute(fn) {
     let response = await fn();
-    let operationEndpoint = response['x-operation'];
+    let endpoint = response['x-operation'];
     let resource = response['x-resource'];
-    if (!operationEndpoint) {
+    if (!endpoint) {
       return ({success: false, message: 'Operation has not been found.', code: 'error'});
     }
-    this.operations.push({key: operationEndpoint, value: {completed: false}});
 
+    let requestId = endpoint.split('/')[1];
+    if (this.signalR.connected && this.authService.isLoggedIn) {
+      //Wait 5 seconds for SignalR to complete - if there's no response then fallback to the API call.
+      this.processedOperations.push({
+        key: endpoint,
+        processed: false,
+        value: { completed: false, resource: resource }
+      });
+      setTimeout(async () => {
+        if (this.isOperationProcessed(requestId)) {
+          return;
+        }
+        await this.tryFetchOperation(endpoint);
+      }, this.signalRTimeoutSeconds * 1000);
+
+      return;
+    }
+    //If user is not authenticated or SignalR is not connected simply fetch the operation result from the API.
+    await this.tryFetchOperation(endpoint);
+  }
+
+  async tryFetchOperation(endpoint) {
     let retryOperation = retry.operation({
-      retries: 200,
-      minTimeout: 50,
-      maxTimeout: 100
+      retries: 10,
+      minTimeout: 500,
+      maxTimeout: 1000
     });
 
-    return new Promise(async (resolve, reject) => {
-      retryOperation.attempt(async currentAttempt => {
-        let index = this.operations.findIndex(x => x.key === operationEndpoint);
-        let operation = this.operations[index];
-        if (operation.value.completed === true) {
-          this.stopDelayedFetch(operation.timeoutId);
-          this.operations.splice(index, 1);
-          operation.value.resource = resource;
-
-          resolve(operation.value);
-        } else {
-          this.startDelayedFetch(operationEndpoint, index);
-          
-          retryOperation.retry('Operation is not completed.');
-        }
-      });
+    retryOperation.attempt(async currentAttempt => {
+      let operation = await this.fetchOperationState(endpoint);
+      if (operation.completed === false) {
+        retryOperation.retry('Operation has not completed.');
+      } else {
+        this._publishOperationUpdated(operation);
+      }
     });
   }
 
   async fetchOperationState(endpoint, next) {
     let operation = await this.getOperation(endpoint);
     if (operation.statusCode === 404) {
-      return {completed: false};
+      return { completed: false };
     }
     if (operation.state === 'created') {
-      return {completed: false};
+      return { completed: false };
     }
 
     return {
       completed: true,
+      name: operation.name,
       success: operation.success,
       code: operation.code,
       message: operation.message,
@@ -71,34 +123,66 @@ export default class OperationService {
     return await this.apiBaseService.get(endpoint, {}, false);
   }
 
+  getProcessedOperation(requestId) {
+    let key = `operations/${requestId}`;
+
+    return this.processedOperations.find(x => x.key === key);
+  }
+
+  isOperationProcessed(requestId) {
+    let processedOperation = this.getProcessedOperation(requestId);
+    if (processedOperation === null || typeof processedOperation === 'undefined') {
+      return false;
+    }
+
+    return processedOperation.processed;
+  }
+
   handleOperationUpdated(message) {
-    let key = `operations/${message.requestId}`;
-    let index = this.operations.findIndex(x => x.key === key);
-    if (index < 0) {
+    let processedOperation = this.getProcessedOperation(message.requestId);
+    if (processedOperation === null || typeof processedOperation === 'undefined') {
       return;
     }
-    let operation = {
-      completed: true,
-      success: message.state === 'completed',
-      code: message.code,
-      message: message.message
-    };
-    this.operations[index].value = operation;
-    this.stopDelayedFetch(this.operations[index].timeoutId);
+
+    processedOperation.processed = true;
+    let operation = processedOperation.value;
+    operation.name = message.name;
+    operation.completed = true;
+    operation.success = message.state === 'completed';
+    operation.code = message.code;
+    operation.message = message.message;
+    this._publishOperationUpdated(operation);
   }
 
-  startDelayedFetch(endpoint, operationIndex) {
-    if (!this.operations[operationIndex].timeoutId) {
-      let timeoutId = setTimeout(async () => {
-        let result = await this.fetchOperationState(endpoint);
-        this.operations[operationIndex].value = result;
-        this.operations[operationIndex].timeoutId = null;
-      }, 1000);
-      this.operations[operationIndex].timeoutId = timeoutId;
+  //Depends whether the operation comes from the SignalR or API
+  //it will either contain the command name or the event name.
+  _publishOperationUpdated(operation) {
+    this.subscriptions.forEach(x => {
+      handleSignalRCall(x);
+      handleApiCall(x);
+    });
+
+    function handleApiCall(subscriber) {
+      if (subscriber.operation !== operation.name) {
+        return;
+      }
+      if (operation.success) {
+        subscriber.onSuccess(operation);
+
+        return;
+      }
+      subscriber.onRejected(operation);
     }
-  }
 
-  stopDelayedFetch(id) {
-    clearTimeout(id);
+    function handleSignalRCall(subscriber) {
+      if (subscriber.event.success === operation.name) {
+        subscriber.onSuccess(operation);
+
+        return;
+      }
+      if (subscriber.event.rejected === operation.name) {
+        subscriber.onRejected(operation);
+      }
+    }
   }
 }

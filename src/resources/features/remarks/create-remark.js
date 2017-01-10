@@ -6,11 +6,13 @@ import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import OperationService from 'resources/services/operation-service';
 
 @inject(Router, I18N, TranslationService, LocationService,
-RemarkService, ToastService, LoaderService)
+RemarkService, ToastService, LoaderService, OperationService)
 export class CreateRemark {
-  constructor(router, i18n, translationService, location, remarkService, toast, loader) {
+  constructor(router, i18n, translationService, location, remarkService, toast,
+    loader, operationService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -18,10 +20,21 @@ export class CreateRemark {
     this.remarkService = remarkService;
     this.toast = toast;
     this.loader = loader;
+    this.operationService = operationService;
     this.remark = {
       tags: []
     };
-    this.isSending = false;
+    this.sending = false;
+  }
+
+  attached() {
+    this.operationService.subscribe('create_remark',
+      operation => this.handleRemarkCreated(operation),
+      operation => this.handleCreateRemarkRejected(operation));
+  }
+
+  detached() {
+    this.operationService.unsubscribeAll();
   }
 
   async activate() {
@@ -49,26 +62,21 @@ export class CreateRemark {
   }
 
   async sendRemark() {
-    this.isSending = true;
+    this.sending = true;
     this.loader.display();
-    this.tags.forEach(tag => {
-      if (tag.selected) {
-        this.remark.tags.push(tag.key);
-      }
-    });
-    this.toast.info(this.translationService.tr('remark.processing'));
-    let remarkCreated = await this.remarkService.sendRemark(this.remark);
-    if (remarkCreated.success) {
-      this.toast.success(this.translationService.tr('remark.processed'));
-      this.loader.hide();
-      let remarkId = remarkCreated.resource.split('/')[1];
-      this.router.navigateToRoute('remark', {id: remarkId});
+    await this.remarkService.sendRemark(this.remark);
+  }
 
-      return;
-    }
+  handleRemarkCreated(operation) {
+    this.toast.success(this.translationService.tr('remark.processed'));
+    this.loader.hide();
+    let remarkId = operation.resource.split('/')[1];
+    this.router.navigateToRoute('remark', { id: remarkId });
+  }
 
-    this.toast.error(this.translationService.trCode(remarkCreated.code));
-    this.isSending = false;
+  handleCreateRemarkRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
     this.loader.hide();
   }
 

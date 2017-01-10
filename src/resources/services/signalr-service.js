@@ -14,27 +14,30 @@ export default class SignalRService {
   }
 
   initialize() {
-    if (this.connection !== null) {
+    if (this.connected) {
+      return;
+    }
+    if (!this.authService.isLoggedIn) {
       return;
     }
 
     this.connection = new RpcConnection(environment.signalRUrl, 'formatType=json&format=text');
-    this.connection.on('remarkCreated', (message) => {
+    this.connection.on('remark_created', (message) => {
       this.eventAggregator.publish('remark:created', message);
     });
-    this.connection.on('remarkResolved', (message) => {
+    this.connection.on('remark_resolved', (message) => {
       this.eventAggregator.publish('remark:resolved', message);
     });
-    this.connection.on('remarkDeleted', (message) => {
+    this.connection.on('remark_deleted', (message) => {
       this.eventAggregator.publish('remark:deleted', message);
     });
-    this.connection.on('photosToRemarkAdded', (message) => {
-      this.eventAggregator.publish('remark:photoAdded', message);
+    this.connection.on('photos_to_remark_added', (message) => {
+      this.eventAggregator.publish('remark:photo_added', message);
     });
-    this.connection.on('photosFromRemarkRemoved', (message) => {
+    this.connection.on('photos_from_remark_removed', (message) => {
       this.eventAggregator.publish('remark:photoRemoved', message);
     });
-    this.connection.on('operationUpdated', (message) => {
+    this.connection.on('operation_updated', (message) => {
       this.eventAggregator.publish('operation:updated', message);
     });
     this.connection.on('disconnect', async (message) => {
@@ -45,13 +48,17 @@ export default class SignalRService {
       if (e) {
         console.log('Connection closed with error: ' + e);
       } else {
-        console.log('SignalR connection lost');
+        console.log('SignalR connection was lost.');
         if (this.reconnect) {
           this.connect();
         }
       }
     };
     this.connect();
+  }
+
+  get connected() {
+    return this.connection !== null;
   }
 
   connect() {
@@ -62,7 +69,7 @@ export default class SignalRService {
       maxTimeout: 5000
     });
     operation.attempt(currentAttempt => {
-      console.log(`Connecting to SignalR, attempt:${currentAttempt}`);
+      console.log(`Connecting to the CoolectorHub, attempt: ${currentAttempt}.`);
       let connection = this.connection;
       let token = `Bearer ${this.authService.token}`;
       connection.start()

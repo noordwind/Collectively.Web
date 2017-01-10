@@ -54,7 +54,6 @@ export class SignIn {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
       this.sending = false;
-      return;
     }
 
     this.loader.display();
