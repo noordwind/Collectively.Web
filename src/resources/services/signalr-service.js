@@ -35,7 +35,7 @@ export default class SignalRService {
       this.eventAggregator.publish('remark:photo_added', message);
     });
     this.connection.on('photos_from_remark_removed', (message) => {
-      this.eventAggregator.publish('remark:photoRemoved', message);
+      this.eventAggregator.publish('remark:photo_removed', message);
     });
     this.connection.on('operation_updated', (message) => {
       this.eventAggregator.publish('operation:updated', message);

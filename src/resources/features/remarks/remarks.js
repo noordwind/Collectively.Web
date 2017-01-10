@@ -244,14 +244,14 @@ export class Remarks {
 
   async subscribeRemarkPhotosAdded() {
     return await this.eventAggregator
-      .subscribe('remark:photoAdded', async message => {
+      .subscribe('remark:photo_added', async message => {
         this.remarks = this.updatePhotos(this.remarks, message);
       });
   }
 
   async subscribeRemarkPhotoRemoved() {
     return await this.eventAggregator
-      .subscribe('remark:photoRemoved', async message => {
+      .subscribe('remark:photo_removed', async message => {
         this.remarks = this.removeAndUpdateRemarkPhoto(this.remarks, message);
       });
   }
