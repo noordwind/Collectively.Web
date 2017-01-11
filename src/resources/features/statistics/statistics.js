@@ -30,12 +30,11 @@ export class Statistics {
     await this.browseGeneralStatistics();
     await this.browseReporters();
     await this.browseResolvers();
+    await this.browseCategories();
     await this.browseTags();
   }
 
   async attached() {
-    await this.browseCategories();
-    
     this.remarkCreatedSubscription = await this.subscribeRemarkCreated();
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
@@ -107,6 +106,10 @@ export class Statistics {
     return await this.eventAggregator
       .subscribe('remark:created', async message => {
         this.general.reported++;
+        let index = this.reporters.findIndex(x => x.name === message.author);
+        if (index >= 0) {
+          this.reporters[index].count++;
+        }
       });
   }
 
@@ -114,6 +117,10 @@ export class Statistics {
     return await this.eventAggregator
       .subscribe('remark:resolved', async message => {
         this.general.resolved++;
+        let index = this.resolvers.findIndex(x => x.name === message.author);
+        if (index >= 0) {
+          this.resolvers[index].count++;
+        }
       });
   }
 
