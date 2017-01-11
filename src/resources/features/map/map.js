@@ -126,7 +126,11 @@ export class Map {
     this.filters.radius = radiusMeters;
     this._updateFilters();
     if (this.radiusChanged !== null) {
-      this.radiusChanged(radiusMeters, center);
+      let args = {
+        radiusMeters,
+        center
+      };
+      this.radiusChanged(args);
     }
   }
 

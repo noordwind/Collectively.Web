@@ -18,7 +18,7 @@
     </div>
     <div class="row" if.bind="mapEnabled">
         <div class="col s12">
-            <map remarks.two-way="mapRemarks" center.bind="filters.center" radius-changed.bind="radiusChanged"></map>
+            <map remarks.two-way="mapRemarks" center.bind="filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
         </div>
     </div>
     <div class="row" if.bind="!mapEnabled">
