@@ -162,9 +162,10 @@ export class Map {
     let detailsText = this.translationService.tr('common.details');
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
+    let enlarge = remark.rating >= 2 && this.filters.distinguishLiked;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
-    this.drawMarker(longitude, latitude, detailsText, content, color);
+    this.drawMarker(longitude, latitude, detailsText, content, color, enlarge);
   }
 
   getRemarMarkerkColor(remark) {
@@ -183,17 +184,20 @@ export class Map {
     }
   }
 
-  drawMarker(longitude, latitude, title, content, color) {
-    let icon = new google.maps.MarkerImage(`https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`);
+  drawMarker(longitude, latitude, title, content, color, enlarge) {
     let position = {lng: longitude, lat: latitude};
     let infowindow = new google.maps.InfoWindow({
       content: content
     });
+    let size = enlarge ? new google.maps.Size(30, 45) : new google.maps.Size(20, 30);
     let marker = new google.maps.Marker({
       position: position,
       title: title,
       map: this.map,
-      icon: icon
+      icon: {
+        url: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
+        scaledSize: size
+      }
     });
     marker.addListener('click', function() {
       infowindow.open(map, marker);

@@ -21,6 +21,9 @@
     <div class="row">
         <p class="col s12">${'remark.additional_filters' | t}</p>
         <div class="col s6">
+            <md-checkbox md-checked.bind="filters.distinguishLiked" md-filled-in="true" value.bind="filters.distinguishLiked">${'remark.distinguish_liked' | t}</md-checkbox>
+        </div>
+        <div class="col s6">
             <md-checkbox md-checked.bind="filters.disliked" md-filled-in="true" value.bind="filters.disliked">${'remark.show_disliked' | t}</md-checkbox>
         </div>
     </div>
