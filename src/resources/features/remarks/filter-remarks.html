@@ -18,6 +18,12 @@
             <md-checkbox md-checked.bind="category.checked" md-filled-in="true" value.bind="category.id">${category.translatedName}</md-checkbox>
         </div>
     </div>
+    <div class="row">
+        <p class="col s12">${'remark.additional_filters' | t}</p>
+        <div class="col s6">
+            <md-checkbox md-checked.bind="filters.disliked" md-filled-in="true" value.bind="filters.disliked">${'remark.show_disliked' | t}</md-checkbox>
+        </div>
+    </div>
     <div class="section">
         <div class="row">
             <div class="col s12">

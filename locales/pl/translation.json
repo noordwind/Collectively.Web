@@ -130,6 +130,7 @@
     "location_loaded": "Lokalizacja została ustalona."
   },
   "remark": {
+    "additional_filters": "Dodatkowe filtry",
     "add_photo": "Dodaj zdjęcie",
     "added_photo": "Zdjęcie zostało dodane.",
     "adding_photo": "Dodajemy zdjęcie, proszę czekać...",
@@ -167,6 +168,7 @@
     "resolved_at": "Rozwiązane dnia",
     "resolved_by": "Rozwiązane przez",
     "resolving_remark": "Rozwiązujemy zgłoszenie, proszę czekać...",
+    "show_disliked": "Pokaż nielubiane (z negatywną oceną).",
     "state": "Stan",
     "state_active": "aktywne",
     "state_new": "nowe",

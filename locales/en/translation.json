@@ -131,6 +131,7 @@
     "location_loaded": "Location has been loaded."
   },
   "remark": {
+    "additional_filters": "Additional filters",
     "add_photo": "Add photo",
     "added_photo": "Photo has been added.",   
     "adding_photo": "Adding photo, please wait...",
@@ -150,7 +151,7 @@
     "display": "Display on map",
     "description": "Description (optional)",
     "deleted_photo": "Photo has been deleted.",   
-    "deleting_photo": "Deleting photo, please wait...",
+    "deleting_photo": "Deleting photo, please wait...",   
     "filter": "Filter remarks",
     "location": "Location",
     "post_on_facebook": "Post on Facebook",
@@ -168,6 +169,7 @@
     "resolved_at": "Resolved at",
     "resolved_by": "Resolved by",
     "resolving_remark": "Resolving remark, please wait...",
+    "show_disliked": "Show disliked (with negative score).",
     "state": "State",
     "state_active": "active",
     "state_new": "new",
