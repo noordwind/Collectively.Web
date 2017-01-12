@@ -37,6 +37,12 @@ export default class SignalRService {
     this.connection.on('photos_from_remark_removed', (message) => {
       this.eventAggregator.publish('remark:photo_removed', message);
     });
+    this.connection.on('remark_vote_submitted', (message) => {
+      this.eventAggregator.publish('remark:vote_submitted', message);
+    });
+    this.connection.on('remark_vote_deleted', (message) => {
+      this.eventAggregator.publish('remark:vote_deleted', message);
+    });
     this.connection.on('operation_updated', (message) => {
       this.eventAggregator.publish('operation:updated', message);
     });

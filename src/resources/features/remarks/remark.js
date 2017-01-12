@@ -147,6 +147,8 @@ export class Remark {
     });
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
+    this.remarkVoteSubmittedSubscription = await this.subscribeRemarkVoteSubmitted();
+    this.remarkVoteDeletedSubscription = await this.subscribeRemarkVoteDeleted();
 
     this.operationService.subscribe('resolve_remark',
       operation => this.handleRemarkResolved(operation),
@@ -176,6 +178,8 @@ export class Remark {
   detached() {
     this.remarkResolvedSubscription.dispose();
     this.remarkDeletedSubscription.dispose();
+    this.remarkVoteSubmittedSubscription.dispose();
+    this.remarkVoteDeletedSubscription.dispose();
     this.operationService.unsubscribeAll();
   }
 
@@ -296,6 +300,63 @@ export class Remark {
       });
   }
 
+  async subscribeRemarkVoteSubmitted() {
+    return await this.eventAggregator
+      .subscribe('remark:vote_submitted', async message => {
+        if (this.remark.id !== message.remarkId) {
+          return;
+        }
+        if (Array.isArray(this.remark.votes)) {
+          let index = this.remark.votes.findIndex(x => x.userId === message.userId);
+          if (index < 0) {
+            this.remark.votes.push({
+              userId: message.userId,
+              positive: message.positive,
+              createdAt: message.createdAt
+            });
+          } else if (this.remark.votes[index].positive !== message.positive) {
+            this.remark.votes[index].positive = message.positive;
+          }
+          if (this.account.userId !== message.userId) {
+            this.calculateRating();
+          }
+        }
+      });
+  }
+
+  async subscribeRemarkVoteDeleted() {
+    return await this.eventAggregator
+      .subscribe('remark:vote_deleted', async message => {
+        if (Array.isArray(this.remark.votes)) {
+          if (this.remark.id !== message.remarkId) {
+            return;
+          }
+          let index = this.remark.votes.findIndex(x => x.userId === message.userId);
+          if (index < 0) {
+            return;
+          }
+          this.remark.votes.splice(index, 1);
+          if (this.account.userId !== message.userId) {
+            this.calculateRating();
+          }
+        }
+      });
+  }
+
+  calculateRating() {
+    if (Array.isArray(this.remark.votes)) {
+      let rating = 0;
+      this.remark.votes.forEach(x => {
+        if (x.positive) {
+          rating++;
+        } else {
+          rating--;
+        }
+      });
+      this.rating = rating;
+    }
+  }
+
   async votePositive() {
     this._vote(true);
   }
@@ -350,7 +411,6 @@ export class Remark {
   handleRemarkResolved(operation) {
     this.toast.success(this.translationService.tr('remark.remark_resolved'));
     this.loader.hide();
-    this.router.navigateToRoute('remarks');
   }
 
   handleResolveRemarkRejected(operation) {
