@@ -411,6 +411,7 @@ export class Remark {
   handleRemarkResolved(operation) {
     this.toast.success(this.translationService.tr('remark.remark_resolved'));
     this.loader.hide();
+    this.router.navigateToRoute('remarks');
   }
 
   handleResolveRemarkRejected(operation) {
