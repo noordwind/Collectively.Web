@@ -97,7 +97,7 @@ export class Statistics {
       results: 5
     });
     tags.forEach(x => {
-      x.name = this.translationService.tr(`tags.${x.name}`);
+      x.name = this.translationService.trCapitalized(`tags.${x.name}`);
     });
     this.tags = tags;
   }
