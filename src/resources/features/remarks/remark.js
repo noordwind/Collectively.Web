@@ -208,7 +208,8 @@ export class Remark {
     let command = {
       remarkId: this.remark.id,
       latitude: this.location.current.latitude,
-      longitude: this.location.current.longitude
+      longitude: this.location.current.longitude,
+      address: this.location.current.address
     };
     this.sending = true;
     this.loader.display();
