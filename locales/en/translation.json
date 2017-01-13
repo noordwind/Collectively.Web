@@ -133,7 +133,7 @@
   "remark": {
     "additional_filters": "Additional filters",
     "add_photo": "Add photo",
-    "added_photo": "Photo has been added.",   
+    "added_photo": "Photo has successfully saved.",   
     "adding_photo": "Adding photo, please wait...",
     "author": "Author",
     "browse_user_remarks": "Browse user remarks",
@@ -158,6 +158,7 @@
     "post_on_facebook": "Post on Facebook",
     "processed": "Your remark has been sent.",
     "processing": "Processing a remark, please wait...",
+    "processing_photo": "Photo was sent and is being processed...",
     "rating": "Rating",
     "remark_resolved": "Remark has been resolved.",
     "remark_removed": "Remark has been removed.",
@@ -213,7 +214,7 @@
     "tags": "Tags",
     "top_reporters": "Top reporters",
     "top_resolvers": "Top resolvers",
-    "users": "Użytkownicy"
+    "users": "Users"
   },
   "tags": {
     "select_tags": "Tags (optional)",

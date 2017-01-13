@@ -249,10 +249,8 @@ export class Remark {
       };
 
       await this.remarkService.addPhotos(this.remark.id, photos);
-      this.loader.hide();
       this.sending = false;
-      await this.toast.success(this.translationService.tr('remark.added_photo'));
-      location.reload();
+      await this.toast.success(this.translationService.tr('remark.processing_photo'));
     };
     reader.readAsDataURL(file);
   }
@@ -439,14 +437,12 @@ export class Remark {
 
   async handlePhotosAddedToRemark(operation) {
     this.loader.hide();
-    this.sending = false;
     await this.toast.success(this.translationService.tr('remark.added_photo'));
     location.reload();
   }
 
   handleAddPhotosToRemarkRejected(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
-    this.sending = false;
     this.loader.hide();
   }
 

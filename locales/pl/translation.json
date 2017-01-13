@@ -132,7 +132,7 @@
   "remark": {
     "additional_filters": "Dodatkowe filtry",
     "add_photo": "Dodaj zdjęcie",
-    "added_photo": "Zdjęcie zostało dodane.",
+    "added_photo": "Zdjęcie zostało pomyślnie zapisane.",
     "adding_photo": "Dodajemy zdjęcie, proszę czekać...",
     "author": "Autor",
     "browse_user_remarks": "Przeglądaj zgłoszenia użytkownika",
@@ -157,6 +157,7 @@
     "post_on_facebook": "Dodaj post na Facebook",
     "processed": "Twoje zgłoszenie zostało wysłane.",
     "processing": "Przetwarzamy zgłoszenie, proszę czekać...",
+    "processing_photo": "Zdjęcie zostało wysłane i jest przetwarzane...",
     "rating": "Ocena",
     "remark_resolved": "Zgłoszenie zostało rozwiązane.",
     "remark_removed": "Zgłoszenie zostało usunięte.",
