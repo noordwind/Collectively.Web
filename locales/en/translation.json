@@ -217,6 +217,7 @@
     "users": "Users"
   },
   "tags": {
+    "tag": "tag",
     "select_tags": "Tags (optional)",
     "junk": "junk",
     "small": "small",

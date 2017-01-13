@@ -216,6 +216,7 @@
     "users": "Użytkownicy"
   },
   "tags": {
+    "tag": "tag",
     "select_tags": "Tagi (opcjonalne)",
     "junk": "śmieć",
     "small": "mały",

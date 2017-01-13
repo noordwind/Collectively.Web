@@ -151,9 +151,29 @@ export default [
     }
   },
   {
-    route: 'users/:name/remarks',
-    moduleId: `${modulePrefix}/remarks/user-remarks`,
+    route: 'users/:username/remarks',
+    moduleId: `${modulePrefix}/remarks/remark-list-page`,
     name: 'user-remarks',
+    title: 'Remarks',
+    nav: false,
+    settings: {
+      translationKey: 'route.user_remarks'
+    }
+  },
+  {
+    route: 'category/:category/remarks',
+    moduleId: `${modulePrefix}/remarks/remark-list-page`,
+    name: 'category-remarks',
+    title: 'Remarks',
+    nav: false,
+    settings: {
+      translationKey: 'route.user_remarks'
+    }
+  },
+  {
+    route: 'tag/:tag/remarks',
+    moduleId: `${modulePrefix}/remarks/remark-list-page`,
+    name: 'tag-remarks',
     title: 'Remarks',
     nav: false,
     settings: {
