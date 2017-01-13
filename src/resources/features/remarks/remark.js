@@ -249,6 +249,10 @@ export class Remark {
       };
 
       await this.remarkService.addPhotos(this.remark.id, photos);
+      this.loader.hide();
+      this.sending = false;
+      await this.toast.success(this.translationService.tr('remark.added_photo'));
+      location.reload();
     };
     reader.readAsDataURL(file);
   }
