@@ -86,6 +86,7 @@ export class Statistics {
       results: 5
     });
     categories.forEach(x => {
+      x.url = this.router.generate('category-remarks', {category: x.name});
       x.name = this.translationService.tr(`remark.category_${x.name}`);
     });
     this.categories = categories;
