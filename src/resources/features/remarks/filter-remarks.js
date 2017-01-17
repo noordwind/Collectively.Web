@@ -28,6 +28,10 @@ export class FilterRemarks {
     this.setupTypeFilter();
   }
 
+  deactivate() {
+    this.filterRemarks();
+  }
+
   resetFilters() {
     this.categories.forEach(c => c.checked = true);
     this.filters = this.filtersService.defaultFilters;
@@ -37,7 +41,6 @@ export class FilterRemarks {
   filterRemarks() {
     this.filters.categories = this.selectedCategories;
     this._updateFilters();
-    this.router.navigateBack();
   }
 
   get selectedCategories() {
