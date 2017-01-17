@@ -189,9 +189,13 @@ export class Remarks {
   }
 
   resetPosition() {
-    this.filters.center = this.filters.defaultCenter;
-    this._updateFilters();
-    this.eventAggregator.publish('location:reset-center', this.filters.center)
+    this.location.getLocation(l => {
+      this.filters.defaultCenter.latitude = l.coords.latitude;
+      this.filters.defaultCenter.longitude = l.coords.longitude;
+      this.filters.center = this.filters.defaultCenter;
+      this._updateFilters();
+      this.eventAggregator.publish('location:reset-center', this.filters.center);
+    });
   }
 
   _updateFilters() {
