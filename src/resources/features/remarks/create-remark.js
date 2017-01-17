@@ -64,6 +64,7 @@ export class CreateRemark {
   async sendRemark() {
     this.sending = true;
     this.loader.display();
+    this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
     await this.remarkService.sendRemark(this.remark);
   }
 
