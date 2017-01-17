@@ -88,6 +88,7 @@ export class Statistics {
     categories.forEach(x => {
       x.url = this.router.generate('category-remarks', {category: x.name});
       x.name = this.translationService.tr(`remark.category_${x.name}`);
+      x.count = x.reportedCount;
     });
     this.categories = categories;
   }
@@ -100,6 +101,7 @@ export class Statistics {
     tags.forEach(x => {
       x.url = this.router.generate('tag-remarks', {tag: x.name});
       x.name = this.translationService.trCapitalized(`tags.${x.name}`);
+      x.count = x.reportedCount;
     });
     this.tags = tags;
   }
