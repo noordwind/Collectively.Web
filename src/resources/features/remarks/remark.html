@@ -4,17 +4,14 @@
     <h4>${'remark.details' | t} [${stateName}]</h4>
     <div class="section" if.bind="hasPhoto">
         <div class="row">
-            <md-slider>
-                <li repeat.for="photo of photos">
-                    <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
-                        disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
-                        <i class="material-icons">remove</i>
-                    </a>
-                    <a href.bind="photo.big" target="_blank">
-                        <img src.bind="photo.medium" class="responsive-img"/>
-                    </a>
-                </li>
-            </md-slider>
+            <md-carousel md-slider="true">
+                <md-carousel-item repeat.for="photo of photos" md-image="${photo.medium}" md-href="${photo.big}">
+                  <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
+                      disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
+                      <i class="material-icons">remove</i>
+                  </a>
+                </md-carousel-item>
+            </md-carousel>
         </div>
     </div>
     <div class="divider"></div>

@@ -17,6 +17,7 @@ export function configure(aurelia) {
     .plugin('aurelia-materialize-bridge', bridge => {
       bridge.useAutoComplete()
             .useButton()
+            .useCarousel()
             .useCheckbox()
             .useChip()
             .useDropdown()

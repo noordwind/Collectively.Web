@@ -51,7 +51,7 @@
     "i18next-browser-languagedetector": "^1.0.1",
     "i18next-xhr-backend": "^1.2.1",
     "jasmine-core": "^2.4.1",
-    "jquery": "^3.1.1",
+    "jquery": "^2.2.4",
     "karma": "^0.13.22",
     "karma-babel-preprocessor": "^6.0.1",
     "karma-chrome-launcher": "^1.0.1",
