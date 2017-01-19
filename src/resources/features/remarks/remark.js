@@ -141,6 +141,7 @@ export class Remark {
   }
 
   async attached() {
+    this.scrollToTop();
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
@@ -483,5 +484,9 @@ export class Remark {
     this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
 }
