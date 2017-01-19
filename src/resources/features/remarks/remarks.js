@@ -65,6 +65,7 @@ export class Remarks {
   }
 
   async attached() {
+    this.filters = this.filtersService.filters;
     this.fileInput = document.getElementById('file');
     $('#file').change(async () => {
       this.image = this.files[0];
@@ -94,10 +95,17 @@ export class Remarks {
   }
 
   async browseForList(page, results, clear = false) {
-    let query = this.query;
-    query.radius = 0;
-    query.page = page || 0;
-    query.results = results || 25;
+    let query = {
+      radius: 0,
+      longitude: this.location.current.longitude,
+      latitude: this.location.current.latitude,
+      categories: encodeURI(this.filters.categories),
+      state: this.filters.state,
+      disliked: this.filters.disliked,
+      page: page || 0,
+      results: results || 25
+    };
+    console.log(JSON.stringify(query));
     let remarks = await this.browse(query, !clear);
     if (clear) {
       this.remarks = [];
