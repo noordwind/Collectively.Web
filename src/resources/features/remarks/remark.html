@@ -2,17 +2,24 @@
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="resources/features/images/image-resizer"></require>
     <h4>${'remark.details' | t} [${stateName}]</h4>
-    <div class="section" if.bind="hasPhoto">
-        <div class="row">
-            <md-carousel md-slider="true">
-                <md-carousel-item repeat.for="photo of photos" md-image="${photo.medium}" md-href="${photo.big}">
-                  <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
-                      disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
-                      <i class="material-icons">remove</i>
-                  </a>
-                </md-carousel-item>
-            </md-carousel>
+    <div class="section photo-slider" if.bind="hasPhoto">
+        <div class="row" repeat.for="photo of photos">
+            <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
+                    disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
+                    <i class="material-icons">remove</i>
+                </a>
+            <div class="center" if.bind="photo.visible">
+                <a href.bind="photo.big" target="_blank"><img src.bind="photo.medium" class="responsive-img" /></a>
+            </div>
         </div>
+    </div>
+    <div class="row" if.bind="hasPhoto">
+        <div class="col s6">
+            <button class="btn ${hasPreviousPhoto === false ? 'disabled' : ''}" click.delegate="showPreviousPhoto()"><<</button>
+        </div>
+        <div class="col s6">
+            <button class="btn ${hasNextPhoto === false ? 'disabled' : ''}" click.delegate="showNextPhoto()">>></button>
+        </div>            
     </div>
     <div class="divider"></div>
     <div class="section">

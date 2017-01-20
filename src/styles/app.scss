@@ -80,6 +80,11 @@ input[type=range]::-webkit-slider-thumb {
     width: 100%;
 }
 
+.photo-slider {
+    height: 700px; 
+    position: relative
+}
+
 .collection-item:not(.active):hover {
     background-color: $primary-light-color;
 }
@@ -110,6 +115,10 @@ input[type=range]::-webkit-slider-thumb {
     #map {
         height: 300px;
     }
+
+    .photo-slider {
+        height: 550px; 
+    }
 }
 
 #loader {
@@ -136,3 +145,4 @@ li > a {
     color: $primary-light-color;
     background-color: $primary-color;
 }
+

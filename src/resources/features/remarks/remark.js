@@ -44,6 +44,7 @@ export class Remark {
     this.isInRange = false;
     this.photoToDelete = null;
     this.isPositiveVote = false;
+    this.visiblePhotoIndex = 0;
     this.signalR.initialize();
   }
 
@@ -87,6 +88,15 @@ export class Remark {
     return this.vote !== null && typeof this.vote !== 'undefined';
   }
 
+  get hasPreviousPhoto() {
+    return this.visiblePhotoIndex > 0;
+  }
+
+  get hasNextPhoto() {
+    return this.visiblePhotoIndex < this.photos.length - 1;
+  }
+
+
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
@@ -110,6 +120,7 @@ export class Remark {
     this.photos = smallPhotos.map((photo, index) => {
       return {
         groupId: photo.groupId,
+        visible: index === 0,
         small: photo.url,
         medium: mediumPhotos[index].url,
         big: bigPhotos[index].url
@@ -269,6 +280,32 @@ export class Remark {
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.deleting_photo'));
     await this.remarkService.deletePhoto(this.remark.id, groupId);
+  }
+
+  showPreviousPhoto() {
+    if (this.hasPreviousPhoto) {
+      this.visiblePhotoIndex--;
+      this.displayPhoto();
+    }
+  }
+
+  showNextPhoto() {
+    if (this.hasNextPhoto) {
+      this.visiblePhotoIndex++;
+      this.displayPhoto();
+    }
+  }
+
+
+  displayPhoto() {
+    this.photos.forEach((photo, index) => {
+      if (this.visiblePhotoIndex === index) {
+        photo.visible = true;
+
+        return;
+      }
+      photo.visible = false;
+    });
   }
 
   async subscribeRemarkResolved() {
