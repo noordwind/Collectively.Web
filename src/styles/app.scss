@@ -115,9 +115,11 @@ input[type=range]::-webkit-slider-thumb {
     #map {
         height: 300px;
     }
+}
 
+@media only screen and (max-device-width: 480px) {
     .photo-slider {
-        height: 550px; 
+        height: 500px;
     }
 }
 

@@ -2,16 +2,10 @@
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="resources/features/images/image-resizer"></require>
     <h4>${'remark.details' | t} [${stateName}]</h4>
-    <div class="section photo-slider" if.bind="hasPhoto">
-        <div class="row" repeat.for="photo of photos">
-            <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo" 
-                    disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">
-                    <i class="material-icons">remove</i>
-                </a>
-            <div class="center" if.bind="photo.visible">
-                <a href.bind="photo.big" target="_blank"><img src.bind="photo.medium" class="responsive-img" /></a>
-            </div>
-        </div>
+    <div class="section photo-slider valign-wrapper" if.bind="hasPhoto">
+        <a repeat.for="photo of photos" href.bind="photo.big" if.bind="photo.visible" class="valign center" style="width: 100%;" target="_blank">
+            <img class="responsive-img" src.bind="photo.medium" />
+        </a>
     </div>
     <div class="row" if.bind="hasPhoto">
         <div class="col s6">
@@ -20,7 +14,6 @@
         <div class="col s6">
             <button class="btn ${hasNextPhoto === false ? 'disabled' : ''}" click.delegate="showNextPhoto()">>></button>
         </div>            
-    </div>
     <div class="divider"></div>
     <div class="section">
         <div class="row">
