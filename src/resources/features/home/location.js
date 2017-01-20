@@ -30,6 +30,7 @@ export class Location {
     await this.locationService.getLocation(async location => {
       let latitude = location.coords.latitude;
       let longitude = location.coords.longitude;
+      this.filters.center = {latitude, longitude};
       this.filters.defaultCenter = {latitude, longitude};
       this.filtersService.filters = this.filters;
       this.toast.success(this.translationService.tr('location.location_loaded'));

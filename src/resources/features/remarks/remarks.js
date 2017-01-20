@@ -105,7 +105,6 @@ export class Remarks {
       page: page || 0,
       results: results || 25
     };
-    console.log(JSON.stringify(query));
     let remarks = await this.browse(query, !clear);
     if (clear) {
       this.remarks = [];
