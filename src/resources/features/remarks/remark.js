@@ -96,6 +96,10 @@ export class Remark {
     return this.visiblePhotoIndex < this.photos.length - 1;
   }
 
+  get hasPhoto() {
+    return this.remark && this.photos && this.photos.length > 0;
+  }
+
 
   async activate(params, routeConfig) {
     this.location.startUpdating();
@@ -134,7 +138,6 @@ export class Remark {
       latitude: this.latitude,
       longitude: this.longitude
     });
-    this.hasPhoto = remark.photos.length > 0;
     if (remark.tags === null) {
       remark.tags = [];
     }
@@ -161,6 +164,8 @@ export class Remark {
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
     this.remarkVoteSubmittedSubscription = await this.subscribeRemarkVoteSubmitted();
     this.remarkVoteDeletedSubscription = await this.subscribeRemarkVoteDeleted();
+    this.remarkPhotoAddedSubscription = await this.subscribeRemarkPhotoAdded();
+    this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
 
     this.operationService.subscribe('resolve_remark',
       operation => this.handleRemarkResolved(operation),
@@ -184,7 +189,7 @@ export class Remark {
 
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
-      operation => this.handleDeleteRemarVoteRejected(operation));
+      operation => this.handleDeleteRemarkVoteRejected(operation));
   }
 
   detached() {
@@ -192,6 +197,8 @@ export class Remark {
     this.remarkDeletedSubscription.dispose();
     this.remarkVoteSubmittedSubscription.dispose();
     this.remarkVoteDeletedSubscription.dispose();
+    this.remarkPhotoAddedSubscription.dispose();
+    this.remarkPhotoRemovedSubscription.dispose();
     this.operationService.unsubscribeAll();
   }
 
@@ -296,6 +303,12 @@ export class Remark {
     }
   }
 
+  showLastPhoto() {
+    if (this.photos) {
+      this.visiblePhotoIndex = this.photos.length - 1;
+      this.displayPhoto();
+    }
+  }
 
   displayPhoto() {
     this.photos.forEach((photo, index) => {
@@ -380,6 +393,34 @@ export class Remark {
             this.calculateRating();
           }
         }
+      });
+  }
+
+  async subscribeRemarkPhotoAdded() {
+    return await this.eventAggregator
+      .subscribe('remark:photo_added', async message => {
+        if (message.remarkId !== this.id) {
+          return;
+        }
+        let smallPhoto = message.newPhotos.find(x => x.size === 'small');
+        let mediumPhoto = message.newPhotos.find(x => x.size === 'medium');
+        let bigPhoto = message.newPhotos.find(x => x.size === 'big');
+        let photo = {
+          groupId: smallPhoto.groupId,
+          visible: true,
+          small: smallPhoto.url,
+          medium: mediumPhoto.url,
+          big: bigPhoto.url
+        };
+        this.photos.push(photo);
+        this.showLastPhoto();
+      });
+  }
+
+  async subscribeRemarkPhotoRemoved() {
+    return await this.eventAggregator
+      .subscribe('remark:photo_removed', async message => {
+        console.log('photo removed');
       });
   }
 
@@ -474,19 +515,19 @@ export class Remark {
 
   async handlePhotosAddedToRemark(operation) {
     this.loader.hide();
-    location.reload();
+    this.sending = false;
   }
 
   handleAddPhotosToRemarkRejected(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
     this.loader.hide();
+    this.sending = false;
   }
 
   async handlePhotosFromRemarkRemoved(operation) {
     this.loader.hide();
     this.sending = false;
     await this.toast.success(this.translationService.tr('remark.deleted_photo'));
-    location.reload();
   }
 
   handleRemovePhotosFromRemarkRejected(operation) {
@@ -517,7 +558,7 @@ export class Remark {
     this._updateRating(positive);
   }
 
-  handleDeleteRemarVoteRejected(operation) {
+  handleDeleteRemarkVoteRejected(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
