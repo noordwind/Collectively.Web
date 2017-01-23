@@ -49,13 +49,13 @@ export class RemarkList {
     });
   }
 
-  getMore(scrollContext) {
-    if (scrollContext.isAtBottom && this.loadMore !== null) {
-      this.loadMore();
-    }
+  loadMoreChanged(newValue) {
+    this.loadMore = newValue;
+  }
 
-    if (scrollContext.isAtTop && this.refresh !== null) {
-      this.refresh();
+  getMore() {
+    if (this.loadMore !== null) {
+      this.loadMore();
     }
   }
 }

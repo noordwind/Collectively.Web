@@ -32,7 +32,6 @@ export function configure(aurelia) {
             .useSwitch();
     })
     .plugin('aurelia-validation')
-    .plugin('aurelia-ui-virtualization')
     .plugin('aurelia-i18n', (instance) => {
       instance.i18next.use(XHR);
       instance.i18next.use(LanguageDetectionService);
