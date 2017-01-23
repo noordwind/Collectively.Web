@@ -420,7 +420,16 @@ export class Remark {
   async subscribeRemarkPhotoRemoved() {
     return await this.eventAggregator
       .subscribe('remark:photo_removed', async message => {
-        console.log('photo removed');
+        if (message.remarkId !== this.remark.id) {
+          return;
+        }
+        message.groupIds.forEach(groupId => {
+          let index = this.photos.findIndex(x => x.groupId === groupId);
+          if (index > -1) {
+            this.photos.splice(index, 1);
+          }
+        });
+        this.showLastPhoto();
       });
   }
 

@@ -3,15 +3,15 @@
     <require from="resources/features/images/image-resizer"></require>
     <h4>${'remark.details' | t} [${stateName}]</h4>
     <div class="section photo-slider valign-wrapper" if.bind="hasPhoto">
-      <div repeat.for="photo of photos">
-        <a href.bind="photo.big" if.bind="photo.visible" class="valign center" style="width: 100%;" target="_blank">
+      <div repeat.for="photo of photos" if.bind="photo.visible" class="valign center" style="width: 100%;">
+        <a href.bind="photo.big" target="_blank">
             <img class="responsive-img" src.bind="photo.medium" />
             
         </a>
-        <button if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"  
+        <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"  
             disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light"> 
             <i class="material-icons">remove</i> 
-        </button>
+        </a>
       </div>
     </div>
     <div class="row" if.bind="hasPhoto">
