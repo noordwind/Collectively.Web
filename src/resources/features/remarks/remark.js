@@ -268,7 +268,7 @@ export class Remark {
       };
 
       await this.remarkService.addPhotos(this.remark.id, photos);
-      await this.toast.success(this.translationService.tr('remark.processing_photo'), 20000);
+      await this.toast.success(this.translationService.tr('remark.processing_photo'), 6000);
     };
     reader.readAsDataURL(file);
   }
@@ -324,7 +324,7 @@ export class Remark {
   async subscribeRemarkResolved() {
     return await this.eventAggregator
       .subscribe('remark:resolved', async message => {
-        if (this.id !== message.remarkId) {
+        if (this.remark.id !== message.remarkId) {
           return;
         }
         this.state = 'resolved';
@@ -343,7 +343,7 @@ export class Remark {
   async subscribeRemarkDeleted() {
     return await this.eventAggregator
       .subscribe('remark:deleted', async message => {
-        if (this.id !== message.remarkId) {
+        if (this.remark.id !== message.remarkId) {
           return;
         }
         if (this.account.userId !== this.remark.author.userId) {
@@ -399,7 +399,7 @@ export class Remark {
   async subscribeRemarkPhotoAdded() {
     return await this.eventAggregator
       .subscribe('remark:photo_added', async message => {
-        if (message.remarkId !== this.id) {
+        if (message.remarkId !== this.remark.id) {
           return;
         }
         let smallPhoto = message.newPhotos.find(x => x.size === 'small');
