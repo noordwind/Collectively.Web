@@ -27,6 +27,9 @@ export class InfiniteScrollCustomAttribute {
   onScrollChange() {
     if (!self.isTicking) {
       window.requestAnimationFrame(() => {
+        if (typeof self.checkScrollPosition === 'undefined') {
+          return;
+        }
         self.checkScrollPosition();
         self.isTicking = false;
       });

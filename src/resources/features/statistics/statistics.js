@@ -4,7 +4,6 @@ import { EventAggregator } from 'aurelia-event-aggregator';
 import StatisticsService from 'resources/services/statistics-service';
 import TranslationService from 'resources/services/translation-service';
 
-
 @inject(Router, EventAggregator, StatisticsService, TranslationService)
 export class Statistics {
   constructor(router, eventAggregator, statisticsService, translationService) {

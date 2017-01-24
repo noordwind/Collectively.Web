@@ -4,7 +4,7 @@
     <li if.bind="header" class="collection-item header">
       <span><b>${header}</b></span>
     </li>
-    <li class="collection-item" virtual-repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
+    <li class="collection-item" repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
         <a if.bind="item.url" href.bind="item.url">
           <div>
             <span>${item.name}</span>
