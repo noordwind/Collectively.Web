@@ -10,6 +10,8 @@ export class RemarkList {
   @bindable remarks = [];
   @bindable loadMore = null;
   @bindable refresh = null;
+  @bindable orderBy = 'distance';
+  @bindable sortOrder = 'ascending';
 
   constructor(router, i18n, translationService, eventAggregator, locationService) {
     this.router = router;

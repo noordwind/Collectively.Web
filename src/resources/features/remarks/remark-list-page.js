@@ -24,6 +24,8 @@ export class RemarkListPage {
     this.header = '';
     this.query = { };
     this.loading = false;
+    this.orderBy = 'distance';
+    this.sortOrder = 'ascending';
   }
 
   async activate(params) {
@@ -33,12 +35,16 @@ export class RemarkListPage {
       this.userId = user.userId || '';
       let header = this.translationService.trCapitalized('remark.user_remarks');
       this.header = `${header} ${params.username}`;
+      this.orderBy = 'createdAt';
+      this.sortOrder = 'descending';
     }
     if (params.resolver) {
       let user = await this.userService.getAccountByName(params.resolver);
       this.resolverId = user.userId || '';
       let header = this.translationService.trCapitalized('remark.resolved_by');
       this.header = `${header} ${params.resolver}`;
+      this.orderBy = 'createdAt';
+      this.sortOrder = 'descending';
     }
     if (params.category) {
       let header = this.translationService.trCapitalized('remark.category');
@@ -59,7 +65,9 @@ export class RemarkListPage {
       resolverId: this.resolverId || '',
       categories: params.category || '',
       tags: params.tag || '',
-      state: params.state || ''
+      state: params.state || '',
+      orderBy: this.orderBy,
+      sortOrder: this.sortOrder
     };
     this.remarks = await this.browse();
   }

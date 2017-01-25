@@ -5,7 +5,7 @@
     <require from="../../converters/sortValueConverter"></require>
     <require from="../../custom-attributes/infinite-scroll"></require>
     <ul class="collection" infinite-scroll="callback.call: getMore()">
-        <li class="collection-item avatar" repeat.for="remark of remarks | sort:{propertyName: 'distance', direction: 'ascending'}">            
+        <li class="collection-item avatar" repeat.for="remark of remarks | sort:{propertyName: orderBy, direction: sortOrder}">            
             <a href.bind="remark.url">
               <img if.bind="remark.hasPhoto" class="circle" src.bind="remark.smallPhotoUrl" alt=""/>
               <span class="title">
