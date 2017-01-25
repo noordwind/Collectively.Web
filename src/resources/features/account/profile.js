@@ -64,7 +64,9 @@ export class Profile {
       authorId: this.user.userId,
       state: 'active',
       page: 1,
-      results: 5
+      results: 5,
+      orderBy: 'createdAt',
+      sortOrder: 'descending'
     };
     let remarks = await this.remarkService.browse(query);
     remarks.forEach(remark => {
