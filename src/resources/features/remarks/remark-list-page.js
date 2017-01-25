@@ -34,6 +34,12 @@ export class RemarkListPage {
       let header = this.translationService.trCapitalized('remark.user_remarks');
       this.header = `${header} ${params.username}`;
     }
+    if (params.resolver) {
+      let user = await this.userService.getAccountByName(params.resolver);
+      this.resolverId = user.userId || '';
+      let header = this.translationService.trCapitalized('remark.resolved_by');
+      this.header = `${header} ${params.resolver}`;
+    }
     if (params.category) {
       let header = this.translationService.trCapitalized('remark.category');
       let category = this.translationService.trCapitalized(`remark.category_${params.category}`);
@@ -47,9 +53,10 @@ export class RemarkListPage {
     this.query = {
       page: 1,
       results: 25,
-      longitude: this.location.current.longitude,
-      latitude: this.location.current.latitude,
-      authorId: this.userId,
+      longitude: this.location.current.longitude || 0,
+      latitude: this.location.current.latitude || 0,
+      authorId: this.userId || '',
+      resolverId: this.resolverId || '',
       categories: params.category || '',
       tags: params.tag || '',
       state: params.state || ''

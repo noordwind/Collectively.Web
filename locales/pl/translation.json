@@ -202,7 +202,8 @@
     "sign_in": "Logowanie",
     "sign_up": "Rejestracja",
     "start": "Start",
-    "user_remarks": "Zgłoszenia użytkownika"
+    "user_remarks": "Zgłoszenia użytkownika",
+    "user_resolved_remarks": "Zgłoszenia rozwiązane prez użytkownika"
   },
   "statistics": {
     "categories": "Kategorie",

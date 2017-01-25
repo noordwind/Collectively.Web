@@ -161,6 +161,16 @@ export default [
     }
   },
   {
+    route: 'users/:resolver/remarks/resolved',
+    moduleId: `${modulePrefix}/remarks/remark-list-page`,
+    name: 'user-resolved-remarks',
+    title: 'Remarks',
+    nav: false,
+    settings: {
+      translationKey: 'route.user_resolved_remarks'
+    }
+  },
+  {
     route: 'category/:category/remarks',
     moduleId: `${modulePrefix}/remarks/remark-list-page`,
     name: 'category-remarks',

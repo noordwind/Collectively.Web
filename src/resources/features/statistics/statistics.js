@@ -73,7 +73,7 @@ export class Statistics {
     resolvers.forEach(x => {
       if (x.name) {
         x.count = x.resolvedCount;
-        x.url = this.router.generate('user-remarks', {username: x.name});
+        x.url = this.router.generate('user-resolved-remarks', {resolver: x.name});
       }
     });
     this.resolvers = resolvers;

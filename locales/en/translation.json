@@ -203,7 +203,8 @@
     "sign_in": "Sign in",
     "sign_up": "Sign up",
     "start": "Start",
-    "user_remarks": "User remarks"
+    "user_remarks": "User remarks",
+    "user_resolved_remarks": "User resolved remarks"
   },
   "statistics": {
     "categories": "Categories",
