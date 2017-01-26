@@ -1,9 +1,9 @@
 export default {
-  debug: true,
-  testing: true,
+  debug: false,
+  testing: false,
   title: 'Coolector [Dev]',
-  apiUrl: 'http://localhost:5000/',
-  signalRUrl: 'http://localhost:15000/hub',
+  apiUrl: 'https://coolector-dev.tk/api/',
+  signalRUrl: 'https://coolector-dev.tk/signalr/hub',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
