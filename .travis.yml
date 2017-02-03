@@ -1,0 +1,13 @@
+language: node_js
+dist: trusty
+sudo: required
+mono: none
+node_js: 
+  - 6
+before_script:
+  - chmod a+x ./travis-build.sh
+  - chmod a+x ./after-success.sh
+script:
+  - ./travis-build.sh
+after_success:
+  - ./after-success.sh
