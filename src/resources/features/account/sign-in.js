@@ -7,18 +7,21 @@ import { ValidationControllerFactory,
   validateTrigger  } from 'aurelia-validation';
 import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
 import AuthService from 'resources/services/auth-service';
+import FacebookService from 'resources/services/facebook-service';
 import UserService from 'resources/services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
+
 @inject(Router, I18N, TranslationService, ValidationControllerFactory, AuthService,
-  UserService, ToastService, LoaderService)
+  FacebookService, UserService, ToastService, LoaderService)
 export class SignIn {
-  constructor(router, i18n, translationService, controllerFactory, authService, userService, toast, loader) {
+  constructor(router, i18n, translationService, controllerFactory, authService, facebookService, userService, toast, loader) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
     this.authService = authService;
+    this.facebookService = facebookService.init();
     this.userService = userService;
     this.account = {
       email: '',
@@ -50,6 +53,10 @@ export class SignIn {
       .on(this.account);
   }
 
+  get signInAllowed() {
+    return 'geolocation' in navigator;
+  }
+
   async submit() {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
@@ -79,4 +86,18 @@ export class SignIn {
     this.loader.hide();
     this.toast.error(this.translationService.trCode('invalid_credentials'));
   }
+
+  facebookSignIn() {
+    this.sending = true;
+    this.loader.display();
+    this.facebookService.login(() => {
+      this.loader.hide();
+      this.router.navigateToRoute('location');
+
+      return;
+    }, () => {
+      this.loader.hide();
+      this.sending = false;
+    });
+  }  
 }
