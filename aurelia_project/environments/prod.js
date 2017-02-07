@@ -17,5 +17,6 @@ export default {
   },
   facebook: {
     appId: '1827531987461765'
-  }
+  },
+  logLevel: 'info'
 };

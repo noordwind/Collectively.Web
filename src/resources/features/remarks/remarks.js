@@ -9,14 +9,16 @@ import ToastService from 'resources/services/toast-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
+import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, TranslationService, LocationService, RemarkService,
 FiltersService, LoaderService, ToastService, AuthService,
-UserService, SignalRService, EventAggregator)
+UserService, SignalRService, LogService, EventAggregator)
 export class Remarks {
-  constructor(router, translationService, location, remarkService, filtersService, loader, toast,
-  authService, userService, signalRService, eventAggregator) {
+  constructor(router, translationService, location,
+  remarkService, filtersService, loader, toast, authService,
+  userService, signalRService, logService, eventAggregator) {
     this.router = router;
     this.translationService = translationService;
     this.location = location;
@@ -27,6 +29,7 @@ export class Remarks {
     this.authService = authService;
     this.userService = userService;
     this.signalR = signalRService;
+    this.log = logService;
     this.eventAggregator = eventAggregator;
     this.files = [];
     this.filters = this.filtersService.filters;
@@ -58,6 +61,10 @@ export class Remarks {
     this.filtersEnabled = this.isAuthenticated;
     this.createRemarkEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
+    this.log.trace('remarks_activated', {
+      filters: this.filters,
+      location: this.location.current
+    });
   }
 
   get resetPositionEnabled() {
@@ -77,6 +84,7 @@ export class Remarks {
     this.remarkPhotosAddedSubscription = await this.subscribeRemarkPhotosAdded();
     this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
     await this.browseForList(this.page);
+    this.log.trace('remarks_attached', {filters: this.filters});
   }
 
   detached() {
@@ -206,7 +214,9 @@ export class Remarks {
   }
 
   _updateFilters() {
+    this.log.trace('remarks_update_filters', {oldValue: this.filtersService.filters, newValue: this.filters});
     this.filtersService.filters = this.filters;
+    this.log.trace('remarks_filters_updated', {value: this.filtersService.filters});
   }
 
   async subscribeMapLoaded() {

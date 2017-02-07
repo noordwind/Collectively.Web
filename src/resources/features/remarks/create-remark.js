@@ -7,12 +7,14 @@ import RemarkService from 'resources/services/remark-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
+import LogService from 'resources/services/log-service';
 
 @inject(Router, I18N, TranslationService, LocationService,
-RemarkService, ToastService, LoaderService, OperationService)
+RemarkService, ToastService, LoaderService, OperationService,
+LogService)
 export class CreateRemark {
   constructor(router, i18n, translationService, location, remarkService, toast,
-    loader, operationService) {
+    loader, operationService, logService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -21,6 +23,7 @@ export class CreateRemark {
     this.toast = toast;
     this.loader = loader;
     this.operationService = operationService;
+    this.log = logService;
     this.remark = {
       tags: []
     };
@@ -28,6 +31,7 @@ export class CreateRemark {
   }
 
   attached() {
+    this.log.trace('create_remark_attached');
     this.operationService.subscribe('create_remark',
       operation => this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
@@ -65,6 +69,7 @@ export class CreateRemark {
     this.sending = true;
     this.loader.display();
     this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
+    this.log.trace('create_remark_submitted', {remark: this.remark});
     await this.remarkService.sendRemark(this.remark);
   }
 
