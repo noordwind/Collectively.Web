@@ -11,24 +11,25 @@ import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import SignalRService from 'resources/services/signalr-service';
 import OperationService from 'resources/services/operation-service';
+import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import Environment from '../../../environment';
 
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-SignalRService, OperationService, EventAggregator, Environment)
+SignalRService, OperationService, EventAggregator,
+LogService, Environment)
 export class Remark {
   constructor(router, i18n, translationService, location, filtersService, remarkService,
   toastService, loader, authService, userService, signalR, operationService,
-  eventAggregator, environment) {
+  eventAggregator, logService, environment) {
     self = this;
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
     this.location = location;
     this.filtersService = filtersService;
-    this.filters = this.filtersService.filters;
     this.remarkService = remarkService;
     this.toast = toastService;
     this.loader = loader;
@@ -37,6 +38,7 @@ export class Remark {
     this.signalR = signalR;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
+    this.log = logService;
     this.feature = environment.feature;
     this.remarkPhotosLimit = environment.constraints.remarkPhotosLimit * 3; //3 different sizes.
     this.remark = {};
@@ -110,6 +112,11 @@ export class Remark {
       this.account = await this.userService.getAccount();
     }
     await this.loadRemark();
+
+    this.log.trace('remark_details_activated', {
+      remark: this.remark,
+      filters: this.filtersService.filters
+    });
   }
 
   async loadRemark() {
@@ -190,6 +197,8 @@ export class Remark {
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
       operation => this.handleDeleteRemarkVoteRejected(operation));
+
+    this.log.trace('remark_details_attached');
   }
 
   detached() {
@@ -203,10 +212,8 @@ export class Remark {
   }
 
   display() {
-    this.filters.center.latitude = this.latitude;
-    this.filters.center.longitude = this.longitude;
-    this.filters.map.enabled = true;
-    this.filtersService.filters = this.filters;
+    this.filtersService.setCenter({latitude: this.latitude, longitude: this.longitude});
+    this.filtersService.setMapEnabled(true);
     this.router.navigateToRoute('display-remark', {id: this.id});
   }
 

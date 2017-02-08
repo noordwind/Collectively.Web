@@ -32,14 +32,13 @@ export class Remarks {
     this.log = logService;
     this.eventAggregator = eventAggregator;
     this.files = [];
-    this.filters = this.filtersService.filters;
     this.query = {
-      radius: this.filters.radius,
+      radius: this.filtersService.filters.radius,
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
-      categories: encodeURI(this.filters.categories),
-      state: this.filters.state,
-      disliked: this.filters.disliked
+      categories: encodeURI(this.filtersService.filters.categories),
+      state: this.filtersService.filters.state,
+      disliked: this.filtersService.filters.disliked
     };
     this.page = 1;
     this.results = 25;
@@ -62,7 +61,7 @@ export class Remarks {
     this.createRemarkEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
     this.log.trace('remarks_activated', {
-      filters: this.filters,
+      filters: this.filtersService.filters,
       location: this.location.current
     });
   }
@@ -72,7 +71,6 @@ export class Remarks {
   }
 
   async attached() {
-    this.filters = this.filtersService.filters;
     this.fileInput = document.getElementById('file');
     $('#file').change(async () => {
       this.image = this.files[0];
@@ -84,7 +82,7 @@ export class Remarks {
     this.remarkPhotosAddedSubscription = await this.subscribeRemarkPhotosAdded();
     this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
     await this.browseForList(this.page);
-    this.log.trace('remarks_attached', {filters: this.filters});
+    this.log.trace('remarks_attached', {filters: this.filtersService.filters});
   }
 
   detached() {
@@ -97,8 +95,8 @@ export class Remarks {
   }
 
   async browseForMap() {
-    this.query.results = this.filters.results;
-    this.query.radius = this.filters.radius;
+    this.query.results = this.filtersService.filters.results;
+    this.query.radius = this.filtersService.filters.radius;
     this.mapRemarks = await this.browse(this.query);
   }
 
@@ -107,9 +105,9 @@ export class Remarks {
       radius: 0,
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
-      categories: encodeURI(this.filters.categories),
-      state: this.filters.state,
-      disliked: this.filters.disliked,
+      categories: encodeURI(this.filtersService.filters.categories),
+      state: this.filtersService.filters.state,
+      disliked: this.filtersService.filters.disliked,
       page: page || 0,
       results: results || 25
     };
@@ -127,7 +125,7 @@ export class Remarks {
 
   async browse(query, cache = true) {
     query.authorId = '';
-    if (this.filters.type === 'mine') {
+    if (this.filtersService.filters.type === 'mine') {
       query.authorId = this.account.userId;
     }
     let remarks = await this.remarkService.browse(query, cache);
@@ -176,9 +174,8 @@ export class Remarks {
       return remark;
     }
 
-    this.filters.center = {latitude, longitude};
-    this.filters.map.enabled = true;
-    this._updateFilters();
+    this.filtersService.setCenter({latitude, longitude});
+    this.filtersService.setMapEnabled(true);
 
     return remark;
   }
@@ -188,35 +185,26 @@ export class Remarks {
   }
 
   async radiusChanged(radius, center) {
-    this.filters.radius = radius;
+    this.filtersService.setRadius(radius);
     this.query.longitude = center.lng();
     this.query.latitude = center.lat();
     await this.browseForMap();
   }
 
   get mapEnabled() {
-    return this.filters.map.enabled;
+    return this.filtersService.filters.map.enabled;
   }
 
   set mapEnabled(value) {
-    this.filters.map.enabled = value;
-    this._updateFilters();
+    this.filtersService.setMapEnabled(value);
   }
 
   resetPosition() {
     this.location.getLocation(l => {
-      this.filters.defaultCenter.latitude = l.coords.latitude;
-      this.filters.defaultCenter.longitude = l.coords.longitude;
-      this.filters.center = this.filters.defaultCenter;
-      this._updateFilters();
-      this.eventAggregator.publish('location:reset-center', this.filters.center);
+      this.filtersService.setDefaultCenter({latitude: l.coords.latitude, longitude: l.coords.longitude});
+      this.filtersService.setCenter(this.filtersService.filters.defaultCenter);
+      this.eventAggregator.publish('location:reset-center', this.filtersService.filters.center);
     });
-  }
-
-  _updateFilters() {
-    this.log.trace('remarks_update_filters', {oldValue: this.filtersService.filters, newValue: this.filters});
-    this.filtersService.filters = this.filters;
-    this.log.trace('remarks_filters_updated', {value: this.filtersService.filters});
   }
 
   async subscribeMapLoaded() {
@@ -236,7 +224,7 @@ export class Remarks {
           longitude: message.location.coordinates[0]
         };
         let remark = this.processRemark(message);
-        if (this.location.isInRange(location, this.filters.radius)) {
+        if (this.location.isInRange(location, this.filtersService.filters.radius)) {
           this.mapRemarks = this.insertRemark(this.mapRemarks, remark);
         }
         let lastRemark = this.remarks.length > 0

@@ -1,11 +1,13 @@
 import {inject} from 'aurelia-framework';
 import StorageService from 'resources/services/storage-service';
+import LogService from 'resources/services/log-service';
 import environment from '../../environment';
 
-@inject(StorageService)
+@inject(StorageService, LogService)
 export default class FiltersService {
-  constructor(storageService) {
+  constructor(storageService, logService) {
     this.storageService = storageService;
+    this.log = logService;
     this.environment = environment;
     if (this.filters === null || typeof this.filters === 'undefined') {
       this.filters = this.defaultFilters;
@@ -48,5 +50,30 @@ export default class FiltersService {
 
   set filters(newFilters) {
     this.storageService.write(this.environment.filtersStorageKey, newFilters);
+  }
+
+  setMapEnabled(value) {
+    let filters = this.filters;
+    filters.map.enabled = value;
+    this.filters = filters;
+    this.log.trace('filters_map_enabled_updated', {newValue: {enabled: value}, filters: this.filters});
+  }
+
+  setRadius(value) {
+    let filters = this.filters;
+    filters.radius = value;
+    this.filters = filters;
+  }
+
+  setCenter(value) {
+    let filters = this.filters;
+    filters.center = value;
+    this.filters = filters;
+  }
+
+  setDefaultCenter(value) {
+    let filters = this.filters;
+    filters.defaultCenter = value;
+    this.filters = filters;
   }
 }
