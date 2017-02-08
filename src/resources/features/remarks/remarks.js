@@ -48,6 +48,7 @@ export class Remarks {
     this.mapLoadedSubscription = null;
     this.signalR.initialize();
     this.loadingRemarks = false;
+    this.mapEnabled = this.filtersService.filters.map.enabled;
   }
 
   async activate(params) {
