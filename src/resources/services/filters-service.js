@@ -43,6 +43,7 @@ export default class FiltersService {
     if (filters !== null) {
       return filters;
     }
+    this.log.trace('filters_set_default', {filters: this.defaultFilters});
     this.storageService.write(this.environment.filtersStorageKey, this.defaultFilters);
 
     return this.defaultFilters;
