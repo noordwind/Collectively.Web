@@ -20,9 +20,9 @@ export class ImageResizer {
   }
 
   async resizeImage(image) {
-    let self = this;
+    let that = this;
     if (image.type.indexOf('image') < 0) {
-      await self.toast.error('Selected photo is invalid.');
+      await that.toast.error('Selected photo is invalid.');
 
       return;
     }
@@ -45,7 +45,7 @@ export class ImageResizer {
         0, 0, canvas.width, canvas.height);
 
       let base64 = canvas.toDataURL('image/jpeg');
-      self.resized(base64);
+      that.resized(base64);
     };
   }
 }

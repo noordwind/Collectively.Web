@@ -17,20 +17,20 @@ export default class LocationService {
   }
 
   async getLocation(next, err, skipError) {
-    let self = this;
+    let that = this;
     skipError = skipError || this.exists;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async location => {
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
         let address = await this.getAddress(latitude, longitude);
-        self.current = {
+        that.current = {
           longitude: longitude,
           latitude: latitude,
           accuracy: location.coords.accuracy,
           address: address
         };
-        self.eventAggregator.publish('location:loaded', location);
+        that.eventAggregator.publish('location:loaded', location);
         if (typeof next !== 'undefined') {
           next(location);
         }
@@ -44,7 +44,7 @@ export default class LocationService {
           return;
         }
         if (error.code === 1) {
-          self.eventAggregator.publish('location:error');
+          that.eventAggregator.publish('location:error');
         }
       });
       return;
@@ -52,7 +52,7 @@ export default class LocationService {
     if (skipError) {
       return;
     }
-    self.eventAggregator.publish('location:error');
+    that.eventAggregator.publish('location:error');
   }
 
   async getAddress(latitude, longitude) {

@@ -49,17 +49,17 @@ export class FilterRemarks {
   }
 
   async setupCategoriesFilter() {
-    let self = this;
+    let that = this;
     let categories = await this.remarkService.getCategories();
     categories.forEach(c => {
-      if (typeof(self.filters.categories) === 'undefined' || self.filters.categories.length === 0) {
+      if (typeof(that.filters.categories) === 'undefined' || that.filters.categories.length === 0) {
         c.checked = true;
       } else {
-        c.checked = self.filters.categories.indexOf(c.name) !== -1;
+        c.checked = that.filters.categories.indexOf(c.name) !== -1;
       }
       c.translatedName = this.translationService.tr(`remark.category_${c.name}`);
     });
-    self.categories = categories;
+    that.categories = categories;
   }
 
   setupStateFilter() {

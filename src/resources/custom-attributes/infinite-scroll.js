@@ -8,7 +8,7 @@ export class InfiniteScrollCustomAttribute {
   @bindable callback = null;
 
   constructor(element) {
-    self = this;
+    that = this;
     this.element = element;
   }
 
@@ -25,16 +25,16 @@ export class InfiniteScrollCustomAttribute {
   }
 
   onScrollChange() {
-    if (!self.isTicking) {
+    if (!that.isTicking) {
       window.requestAnimationFrame(() => {
-        if (typeof self.checkScrollPosition === 'undefined') {
+        if (typeof that.checkScrollPosition === 'undefined') {
           return;
         }
-        self.checkScrollPosition();
-        self.isTicking = false;
+        that.checkScrollPosition();
+        that.isTicking = false;
       });
     }
-    self.isTicking = true;
+    that.isTicking = true;
   }
 
   checkScrollPosition() {

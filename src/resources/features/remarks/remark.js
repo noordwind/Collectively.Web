@@ -24,7 +24,7 @@ export class Remark {
   constructor(router, i18n, translationService, location, filtersService, remarkService,
   toastService, loader, authService, userService, signalR, operationService,
   eventAggregator, logService, environment) {
-    self = this;
+    that = this;
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -247,7 +247,7 @@ export class Remark {
     if (base64 === '') {
       return;
     }
-    await self.addPhotos(base64);
+    await that.addPhotos(base64);
   }
 
   async addPhotos(base64Image) {
