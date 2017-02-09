@@ -77,4 +77,10 @@ export default class FiltersService {
     filters.defaultCenter = value;
     this.filters = filters;
   }
+
+  setZoomLevel(value) {
+    let filters = this.filters;
+    filters.map.zoomLevel = value;
+    this.filters = filters;
+  }
 }
