@@ -21,10 +21,11 @@ ToastService, LoaderService, AuthService, UserService,
 SignalRService, OperationService, EventAggregator,
 LogService, Environment)
 export class Remark {
+  newImageResized = null;
+
   constructor(router, i18n, translationService, location, filtersService, remarkService,
   toastService, loader, authService, userService, signalR, operationService,
   eventAggregator, logService, environment) {
-    that = this;
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -162,6 +163,7 @@ export class Remark {
   }
 
   async attached() {
+    let that = this;
     this.scrollToTop();
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
@@ -197,6 +199,13 @@ export class Remark {
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
       operation => this.handleDeleteRemarkVoteRejected(operation));
+
+    this.newImageResized = async (base64) => {
+      if (base64 === '') {
+        return;
+      }
+      await that.addPhotos(base64);
+    };
 
     this.log.trace('remark_details_attached');
   }
@@ -241,13 +250,6 @@ export class Remark {
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.resolving_remark'));
     await this.remarkService.resolveRemark(command);
-  }
-
-  async newImageResized(base64) {
-    if (base64 === '') {
-      return;
-    }
-    await that.addPhotos(base64);
   }
 
   async addPhotos(base64Image) {
