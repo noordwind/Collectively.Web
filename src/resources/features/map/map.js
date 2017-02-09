@@ -82,7 +82,7 @@ export class Map {
   async locationUpdated(location) {
     let lng = location.coords.longitude;
     let lat = location.coords.latitude;
-    this.userPosition = { lat, lng };
+    this.userPosition = new google.maps.LatLng(lat, lng);
     this.drawUserMarker();
     this.filtersService.setDefaultCenter({latitude: lat, longitude: lng});
   }
@@ -93,7 +93,11 @@ export class Map {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: filters.map.zoomLevel,
       minZoom: 8,
-      center: this.position
+      center: this.position,
+      gestureHandling: 'cooperative',
+      zoomControl: false,
+      mapTypeControl: false,
+      streetViewControl: false
     });
 
     this.map.addListener('zoom_changed', () => {
