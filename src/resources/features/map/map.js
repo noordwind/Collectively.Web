@@ -65,48 +65,36 @@ export class Map {
   }
 
   centerChanged(newValue) {
-    try {
-      if (this.centerInitialized) {
-        return;
-      }
-      if (this.map === null) {
-        return;
-      }
-      if (typeof newValue === 'undefined' || newValue === null) {
-        return;
-      }
-      this.position = new google.maps.LatLng(newValue.latitude, newValue.longitude);
-      this.map.setCenter(this.position);
-      this.centerInitialized = true;
-    } catch (error) {
-      this.log.error('map_center_changed', error);
+    if (this.centerInitialized) {
+      return;
     }
+    if (this.map === null) {
+      return;
+    }
+    if (typeof newValue === 'undefined' || newValue === null) {
+      return;
+    }
+    this.position = new google.maps.LatLng(newValue.latitude, newValue.longitude);
+    this.map.setCenter(this.position);
+    this.centerInitialized = true;
   }
 
   async locationUpdated(location) {
-    try {
-      let lng = location.coords.longitude;
-      let lat = location.coords.latitude;
-      this.userPosition = { lat, lng };
-      this.drawUserMarker();
-      this.filtersService.setDefaultCenter({latitude: lat, longitude: lng});
-    } catch (error) {
-      this.log.error('map_location_updated', error);
-    }
+    let lng = location.coords.longitude;
+    let lat = location.coords.latitude;
+    this.userPosition = { lat, lng };
+    this.drawUserMarker();
+    this.filtersService.setDefaultCenter({latitude: lat, longitude: lng});
   }
 
   drawMap() {
-    try {
-      let filters = this.filtersService.filters;
-      this.log.trace('map_draw', {position: this.position, filters: filters});
-      this.map = new google.maps.Map(document.getElementById('map'), {
-        zoom: filters.map.zoomLevel,
-        minZoom: 8,
-        center: this.position
-      });
-    } catch (error) {
-      this.log.error('map_draw_map', error);
-    }
+    let filters = this.filtersService.filters;
+    this.log.trace('map_draw', {position: this.position, filters: filters});
+    this.map = new google.maps.Map(document.getElementById('map'), {
+      zoom: filters.map.zoomLevel,
+      minZoom: 8,
+      center: this.position
+    });
 
     this.map.addListener('zoom_changed', () => {
       this.filtersService.setZoomLevel(this.map.getZoom());
@@ -117,88 +105,68 @@ export class Map {
     });
 
     this.map.addListener('center_changed', () => {
-      try {
-        let center = this.map.getCenter();
-        let latitude = center.lat();
-        let longitude = center.lng();
-        this.filtersService.setCenter({latitude: latitude, longitude: longitude});
-      } catch (error) {
-        this.log.error('map_center_changed_listener', error);
-      }
+      let center = this.map.getCenter();
+      let latitude = center.lat();
+      let longitude = center.lng();
+      this.filtersService.setCenter({latitude: latitude, longitude: longitude});
     });
   }
 
   _recalculateRadius() {
-    try {
-      this.mapDragged = true;
-      let bounds = this.map.getBounds();
-      let center = bounds.getCenter();
-      let northEast = bounds.getNorthEast();
-      let earthRadius = 6378000.41;
-      let centerLat = center.lat() / 57.2958;
-      let centerLng = center.lng() / 57.2958;
-      let northEastLat = northEast.lat() / 57.2958;
-      let northEastLng = northEast.lng() / 57.2958;
-      let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
-                          Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
+    this.mapDragged = true;
+    let bounds = this.map.getBounds();
+    let center = bounds.getCenter();
+    let northEast = bounds.getNorthEast();
+    let earthRadius = 6378000.41;
+    let centerLat = center.lat() / 57.2958;
+    let centerLng = center.lng() / 57.2958;
+    let northEastLat = northEast.lat() / 57.2958;
+    let northEastLng = northEast.lng() / 57.2958;
+    let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
+                        Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
 
-      this.filtersService.setRadius(radiusMeters);
-      if (this.radiusChanged !== null) {
-        let args = {
-          radiusMeters,
-          center
-        };
-        this.radiusChanged(args);
-      }
-    } catch (error) {
-      this.log.error('map_recalculate_radius', error);
+    this.filtersService.setRadius(radiusMeters);
+    if (this.radiusChanged !== null) {
+      let args = {
+        radiusMeters,
+        center
+      };
+      this.radiusChanged(args);
     }
   }
 
   drawUserMarker() {
-    try {
-      let lat = this.userPosition.lat;
-      let lng = this.userPosition.lng;
-      if (this.userMarker !== null) {
-        this.userMarker.setMap(null);
-      }
-      let title = this.translationService.tr('common.user');
-      let content = this.translationService.tr('common.you_are_here');
-      this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
-      if (!this.mapDragged) {
-        this.moveMarker(this.userMarker, lat, lng);
-      }
-    } catch (error) {
-      this.log.error('map_draw_user_marker', error);
+    let lat = this.userPosition.lat;
+    let lng = this.userPosition.lng;
+    if (this.userMarker !== null) {
+      this.userMarker.setMap(null);
+    }
+    let title = this.translationService.tr('common.user');
+    let content = this.translationService.tr('common.you_are_here');
+    this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
+    if (!this.mapDragged) {
+      this.moveMarker(this.userMarker, lat, lng);
     }
   }
 
   moveMarker(marker, lat, lng) {
-    try {
-      let position = new google.maps.LatLng(lat, lng);
-      marker.setPosition(position);
-      // this.map.panTo(position);
-    } catch (error) {
-      this.log.error('map_move_marker', error);
-    }
+    let position = new google.maps.LatLng(lat, lng);
+    marker.setPosition(position);
+    // this.map.panTo(position);
   }
 
   drawRemarkMarker(remark) {
-    try {
-      let longitude = remark.location.coordinates[0];
-      let latitude = remark.location.coordinates[1];
-      let category = this.translationService.tr(`remark.category_${remark.category}`);
-      let color = this.getRemarMarkerkColor(remark);
-      let detailsText = this.translationService.tr('common.details');
-      let url = this.router.generate('remark', {id: remark.id});
-      let description = remark.description ? remark.description : '';
-      let enlarge = remark.rating >= 2 && this.filters.distinguishLiked;
-      description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
-      let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
-      this.drawMarker(longitude, latitude, detailsText, content, color, enlarge);
-    } catch (error) {
-      this.log.error('map_draw_remark_marker', error);
-    }
+    let longitude = remark.location.coordinates[0];
+    let latitude = remark.location.coordinates[1];
+    let category = this.translationService.tr(`remark.category_${remark.category}`);
+    let color = this.getRemarMarkerkColor(remark);
+    let detailsText = this.translationService.tr('common.details');
+    let url = this.router.generate('remark', {id: remark.id});
+    let description = remark.description ? remark.description : '';
+    let enlarge = remark.rating >= 2 && this.filters.distinguishLiked;
+    description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
+    let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
+    this.drawMarker(longitude, latitude, detailsText, content, color, enlarge);
   }
 
   getRemarMarkerkColor(remark) {
@@ -218,29 +186,25 @@ export class Map {
   }
 
   drawMarker(longitude, latitude, title, content, color, enlarge) {
-    try {
-      let position = new google.maps.LatLng(latitude, longitude);
-      let infowindow = new google.maps.InfoWindow({
-        content: content
-      });
-      let size = enlarge ? new google.maps.Size(30, 45) : new google.maps.Size(20, 30);
-      let marker = new google.maps.Marker({
-        position: position,
-        title: title,
-        map: this.map,
-        icon: {
-          url: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
-          scaledSize: size
-        }
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-      });
+    let position = new google.maps.LatLng(latitude, longitude);
+    let infowindow = new google.maps.InfoWindow({
+      content: content
+    });
+    let size = enlarge ? new google.maps.Size(30, 45) : new google.maps.Size(20, 30);
+    let marker = new google.maps.Marker({
+      position: position,
+      title: title,
+      map: this.map,
+      icon: {
+        url: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
+        scaledSize: size
+      }
+    });
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
 
-      return marker;
-    } catch (error) {
-      this.log.error('map_draw_marker', error);
-    }
+    return marker;
   }
 
   drawRadius() {
