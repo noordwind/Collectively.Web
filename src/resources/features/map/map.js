@@ -101,7 +101,8 @@ export class Map {
       gestureHandling: 'cooperative',
       zoomControl: false,
       mapTypeControl: false,
-      streetViewControl: false
+      streetViewControl: false,
+      styles: [{featureType: 'poi', elementType: 'labels', stylers: [{visibility: 'off'}]}]
     });
 
     this.map.addListener('zoom_changed', () => {
