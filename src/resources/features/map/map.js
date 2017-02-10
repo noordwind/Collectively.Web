@@ -26,7 +26,6 @@ export class Map {
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
     this.centerInitialized = false;
-    // this.mapDragged = false;
   }
 
   async attached() {
@@ -50,7 +49,6 @@ export class Map {
     this.resetCenterSubscription = await this.eventAggregator.subscribe('location:reset-center',
       async response => {
         this.filtersService.setMapFollow(true);
-        // this.mapDragged = false;
         this.position = new google.maps.LatLng(response.latitude, response.longitude);
         await this.map.setCenter(this.position);
       });
@@ -129,7 +127,6 @@ export class Map {
   }
 
   _recalculateRadius() {
-    // this.mapDragged = true;
     let bounds = this.map.getBounds();
     let center = bounds.getCenter();
     let northEast = bounds.getNorthEast();
@@ -152,17 +149,18 @@ export class Map {
   }
 
   drawUserMarker() {
-    let lat = this.userPosition.lat;
-    let lng = this.userPosition.lng;
+    let lat = this.userPosition.lat();
+    let lng = this.userPosition.lng();
     if (this.userMarker !== null) {
       this.userMarker.setMap(null);
     }
     let title = this.translationService.tr('common.user');
     let content = this.translationService.tr('common.you_are_here');
     this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
-    // if (!this.mapDragged) {
-    //   this.moveMarker(this.userMarker, lat, lng);
-    // }
+    let bounds = this.map.getBounds();
+    if (bounds && bounds.contains(this.userPosition)) {
+      this.moveMarker(this.userMarker, lat, lng);
+    }
   }
 
   moveMarker(marker, lat, lng) {
