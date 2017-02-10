@@ -17,7 +17,6 @@ export class Location {
     this.translationService = translationService;
     this.locationService = locationService;
     this.filtersService = filtersService;
-    this.filters = this.filtersService.filters;
     this.loader = loader;
     this.toast = toast;
     this.eventAggregator = eventAggregator;
@@ -30,9 +29,8 @@ export class Location {
     await this.locationService.getLocation(async location => {
       let latitude = location.coords.latitude;
       let longitude = location.coords.longitude;
-      this.filters.center = {latitude, longitude};
-      this.filters.defaultCenter = {latitude, longitude};
-      this.filtersService.filters = this.filters;
+      this.filtersService.setCenter({latitude, longitude});
+      this.filtersService.setDefaultCenter({latitude, longitude});
       this.toast.success(this.translationService.tr('location.location_loaded'));
       this.loader.hide();
       this.router.navigateToRoute('remarks');

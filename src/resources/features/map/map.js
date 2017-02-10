@@ -26,7 +26,7 @@ export class Map {
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
     this.centerInitialized = false;
-    this.mapDragged = false;
+    // this.mapDragged = false;
   }
 
   async attached() {
@@ -49,7 +49,8 @@ export class Map {
         async response => await this.locationUpdated(response));
     this.resetCenterSubscription = await this.eventAggregator.subscribe('location:reset-center',
       async response => {
-        this.mapDragged = false;
+        this.filtersService.setMapFollow(true);
+        // this.mapDragged = false;
         this.position = new google.maps.LatLng(response.latitude, response.longitude);
         await this.map.setCenter(this.position);
       });
@@ -85,6 +86,9 @@ export class Map {
     this.userPosition = new google.maps.LatLng(lat, lng);
     this.drawUserMarker();
     this.filtersService.setDefaultCenter({latitude: lat, longitude: lng});
+    if (this.filtersService.filters.map.follow) {
+      await this.map.setCenter(this.userPosition);
+    }
   }
 
   drawMap() {
@@ -104,6 +108,13 @@ export class Map {
       this.filtersService.setZoomLevel(this.map.getZoom());
       this._recalculateRadius();
     });
+
+    this.map.addListener('dragstart', () => {
+      if (this.filtersService.filters.map.follow) {
+        this.filtersService.setMapFollow(false);
+      }
+    });
+
     this.map.addListener('dragend', () => {
       this._recalculateRadius();
     });
@@ -117,7 +128,7 @@ export class Map {
   }
 
   _recalculateRadius() {
-    this.mapDragged = true;
+    // this.mapDragged = true;
     let bounds = this.map.getBounds();
     let center = bounds.getCenter();
     let northEast = bounds.getNorthEast();
@@ -148,9 +159,9 @@ export class Map {
     let title = this.translationService.tr('common.user');
     let content = this.translationService.tr('common.you_are_here');
     this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
-    if (!this.mapDragged) {
-      this.moveMarker(this.userMarker, lat, lng);
-    }
+    // if (!this.mapDragged) {
+    //   this.moveMarker(this.userMarker, lat, lng);
+    // }
   }
 
   moveMarker(marker, lat, lng) {

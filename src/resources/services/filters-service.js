@@ -33,7 +33,8 @@ export default class FiltersService {
       },
       map: {
         enabled: true,
-        zoomLevel: 15
+        zoomLevel: 15,
+        follow: true
       }
     };
   }
@@ -57,7 +58,14 @@ export default class FiltersService {
     let filters = this.filters;
     filters.map.enabled = value;
     this.filters = filters;
-    this.log.trace('filters_map_enabled_updated', {newValue: {enabled: value}, filters: this.filters});
+    this.log.trace('filters_set_map_enabled', {newValue: {enabled: value}, filters: this.filters});
+  }
+
+  setMapFollow(value) {
+    let filters = this.filters;
+    filters.map.follow = value;
+    this.filters = filters;
+    this.log.trace('filters_set_map_follow', {newValue: {value}, filters: this.filters});
   }
 
   setRadius(value) {

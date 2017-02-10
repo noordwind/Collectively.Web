@@ -212,6 +212,9 @@ export class Remarks {
     return await this.eventAggregator
       .subscribe('map:loaded', async response => {
         this.loader.display();
+        if (this.filtersService.filters.map.follow) {
+          this.resetPosition();
+        }
         await this.browseForMap();
         this.loader.hide();
       });
