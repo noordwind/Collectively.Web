@@ -20,6 +20,10 @@ h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
+nav-bar {
+  z-index: 1000;
+}
+
 nav {
     background-color: $primary-color
 }
@@ -56,6 +60,42 @@ i.primary-color {
     color: $primary-color-strong;
 }
 
+.btn-side {
+  margin: 0 23px 0 23px;
+}
+
+.btn-right-top {
+  position: fixed;
+  top: 77px;
+  right: 23px;
+}
+
+.btn-right-top-absolute {
+  position: absolute;
+  top: 77px;
+  right: 23px;
+}
+
+.btn-right-top-second {
+  position: fixed;
+  top: 145px;
+  right: 23px;
+}
+
+.btn-right-bottom {
+  position: fixed;
+  bottom: 23px;
+  right: 23px;
+}
+
+.btn-center-bottom {
+  position: fixed;
+  left: 0;
+  bottom: 23px;
+  width: 100%;
+  text-align: center;
+}
+
 .spinner-layer {
    border-color: $primary-color;  
 }
@@ -76,8 +116,11 @@ input[type=range]::-webkit-slider-thumb {
 }
 
 #map {
-    height: 500px;
-    width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
 }
 
 .photo-slider {
@@ -109,12 +152,6 @@ input[type=range]::-webkit-slider-thumb {
 
 .btn:not(.btn-floating) {
     width: 100%;
-}
-
-@media screen and (max-height: 700px) {
-    #map {
-        height: 300px;
-    }
 }
 
 @media only screen and (max-device-width: 480px) {

@@ -200,6 +200,10 @@ export class Remarks {
     this.filtersService.setMapEnabled(value);
   }
 
+  toggleMapEnabled() {
+    this.mapEnabled = !this.mapEnabled;
+  }
+
   resetPosition() {
     this.location.getLocation(l => {
       this.filtersService.setDefaultCenter({latitude: l.coords.latitude, longitude: l.coords.longitude});
