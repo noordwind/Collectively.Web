@@ -96,7 +96,7 @@ export class Map {
       zoom: filters.map.zoomLevel,
       minZoom: 8,
       center: this.position,
-      gestureHandling: 'cooperative',
+      gestureHandling: 'greedy',
       zoomControl: false,
       mapTypeControl: false,
       streetViewControl: false,
