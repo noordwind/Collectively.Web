@@ -202,6 +202,9 @@ export class Remarks {
 
   toggleMapEnabled() {
     this.mapEnabled = !this.mapEnabled;
+    if (this.mapEnabled) {
+      this.scrollToTop();
+    }
   }
 
   resetPosition() {
@@ -358,5 +361,9 @@ export class Remarks {
     remarks.splice(index, 1);
 
     return Array.from(remarks);
+  }
+
+  scrollToTop() {
+    window.scrollTo(0, 0);
   }
 }
