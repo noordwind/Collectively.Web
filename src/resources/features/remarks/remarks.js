@@ -72,6 +72,7 @@ export class Remarks {
   }
 
   async attached() {
+    this.scrollToTop();
     this.fileInput = document.getElementById('file');
     $('#file').change(async () => {
       this.image = this.files[0];

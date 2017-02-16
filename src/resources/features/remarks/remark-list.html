@@ -3,20 +3,35 @@
     <require from="../../converters/truncateValueConverter"></require>
     <require from="../../converters/distanceFormatValueConverter"></require>
     <require from="../../converters/sortValueConverter"></require>
+    <require from="../../converters/string-capitalize-first-letter"></require>
     <require from="../../custom-attributes/infinite-scroll"></require>
     <ul class="collection" infinite-scroll="callback.call: getMore()">
-        <li class="collection-item avatar" repeat.for="remark of remarks | sort:{propertyName: orderBy, direction: sortOrder}">            
+        <li class="collection-item remark-list-item" repeat.for="remark of remarks | sort:{propertyName: orderBy, direction: sortOrder}">            
             <a href.bind="remark.url">
-              <img if.bind="remark.hasPhoto" class="circle" src.bind="remark.smallPhotoUrl" alt=""/>
-              <span class="title">
-                ${remark.categoryName} 
-                [<span if.bind="remark.distance || remark.distance===0">${remark.distance | distanceFormat}</span>]
-              </span>
-              <span if.bind="remark.resolved" class="new badge static" data-badge-caption="${'remark.state_resolved' | t}"></span>
-              <p>${remark.location.address}</p>
-              <p>${remark.description | truncate}</p>
-              <p>${remark.author.name | truncate}</p>               
-              <p>${remark.createdAt | dateFormat}</p>
+              <div class="row">
+                <div class="col s2 no-padding">
+                  <i class="material-icons">error</i>
+                </div>
+                <div class="col s6">
+                  <div class="header">${'remark.category_'+remark.category | t}</div>
+                  <div class="second-line">${remark.location.address}</div>
+                  <div class="third-line">
+                    <i if.bind="remark.resolved" class="material-icons">done</i>
+                    ${remark.resolved ? 'remark.state_resolved' : 'remark.state_active' | t | stringCapitalizeFirstLetter}
+                  </div>
+                </div>
+                <div class="col s2 no-padding">
+                  <div class="distance">
+                    <i class="material-icons">near_me</i>
+                    <div class="number">${remark.distance | distanceFormat}</div>
+                  </div>
+                </div>
+                <div class="col s2 no-padding">
+                  <div class="action">
+                    <i class="material-icons">keyboard_arrow_right</i>
+                  </div>
+                </div>
+              </div>
             </a>
         </li>
     </ul>

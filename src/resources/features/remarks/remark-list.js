@@ -45,12 +45,6 @@ export class RemarkList {
     this.locationLoadedSubscription.dispose();
   }
 
-  remarksChanged(newValue) {
-    newValue.forEach(remark => {
-      remark.categoryName = this.translationService.tr(`remark.category_${remark.category}`);
-    });
-  }
-
   loadMoreChanged(newValue) {
     this.loadMore = newValue;
   }

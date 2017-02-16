@@ -185,3 +185,66 @@ li > a {
     background-color: $primary-color;
 }
 
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.remark-list-item {
+  padding: 15px 10px !important;
+
+  i {
+    font-size: 3rem;
+  }
+
+  .row {
+    margin: 0 auto;
+  }
+
+  .small-line-height {
+    line-height: 1.2em;
+  }
+
+  .header {
+    @extend .overflow-ellipsis;
+    @extend .small-line-height;
+    font-weight: 500;
+  }
+
+  .second-line {
+    @extend .overflow-ellipsis;
+    @extend .small-line-height;
+    font-size: 75%;
+    font-weight: 500;
+  }
+
+  .third-line {
+    @extend .overflow-ellipsis;
+    @extend .small-line-height;
+    font-size: 75%;
+    font-weight: 300;
+    i {
+      font-size: 1rem;
+    }  
+  }
+
+  .distance {
+    @extend .overflow-ellipsis;
+    line-height: 1em;
+
+    i {
+      font-size: 2rem;
+    }
+
+    .number {
+      @extend .overflow-ellipsis;
+      font-size: 75%;
+    }
+  }
+
+  .action {
+    @extend .overflow-ellipsis;
+  }
+}
+
