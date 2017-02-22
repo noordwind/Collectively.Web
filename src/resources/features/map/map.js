@@ -192,9 +192,10 @@ export class Map {
     }
 
     switch (remark.category) {
-    case 'accidents': return 'FBF514';
-    case 'damages': return 'E40521';
-    case 'litter': return '9F6807';
+    case 'defect': return 'E40521';
+    case 'issue': return 'E08040';
+    case 'suggestion': return 'FBF514';
+    case 'praise': return '43C9E7';
     default: return this.defaultRemarkMarkerColor;
     }
   }
