@@ -3,7 +3,7 @@ export default {
   testing: false,
   title: 'Coolector [Stage]',
   apiUrl: 'https://coolector-stage.tk/api/hub',
-  signalRUrl: '',
+  websocketUrl: '',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

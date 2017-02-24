@@ -8,17 +8,17 @@ import LoaderService from 'resources/services/loader-service';
 import ToastService from 'resources/services/toast-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
-import SignalRService from 'resources/services/signalr-service';
+import WebsocketService from 'resources/services/websocket-service';
 import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, TranslationService, LocationService, RemarkService,
 FiltersService, LoaderService, ToastService, AuthService,
-UserService, SignalRService, LogService, EventAggregator)
+UserService, WebsocketService, LogService, EventAggregator)
 export class Remarks {
   constructor(router, translationService, location,
   remarkService, filtersService, loader, toast, authService,
-  userService, signalRService, logService, eventAggregator) {
+  userService, websocketService, logService, eventAggregator) {
     this.router = router;
     this.translationService = translationService;
     this.location = location;
@@ -28,7 +28,7 @@ export class Remarks {
     this.toast = toast;
     this.authService = authService;
     this.userService = userService;
-    this.signalR = signalRService;
+    this.websocket = websocketService;
     this.log = logService;
     this.eventAggregator = eventAggregator;
     this.files = [];
@@ -46,7 +46,7 @@ export class Remarks {
     this.mapRemarks = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
-    this.signalR.initialize();
+    this.websocket.initialize();
     this.loadingRemarks = false;
     this.mapEnabled = this.filtersService.filters.map.enabled;
   }

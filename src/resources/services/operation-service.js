@@ -2,20 +2,20 @@ import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AuthService from 'resources/services/auth-service';
 import ApiBaseService from 'resources/services/api-base-service';
-import SignalRService from 'resources/services/signalr-service';
+import WebsocketService from 'resources/services/websocket-service';
 import * as retry from 'retry';
 
-@inject(EventAggregator, AuthService, ApiBaseService, SignalRService)
+@inject(EventAggregator, AuthService, ApiBaseService, WebsocketService)
 export default class OperationService {
-  constructor(eventAggregator, authService, apiBaseService, signalR) {
+  constructor(eventAggregator, authService, apiBaseService, websocket) {
     this.eventAggregator = eventAggregator;
     this.authService = authService;
     this.apiBaseService = apiBaseService;
-    this.signalR = signalR;
-    this.signalR.initialize();
+    this.websocket = websocket;
+    this.websocket.initialize();
     this.processedOperations = [];
     this.subscriptions = [];
-    this.signalRTimeoutSeconds = 5;
+    this.websocketTimeoutSeconds = 5;
     this._initializeOperations();
     this.eventAggregator.subscribe('operation:updated', async message => {
       this.handleOperationUpdated(message);
@@ -63,8 +63,8 @@ export default class OperationService {
     }
 
     let requestId = endpoint.split('/')[1];
-    if (this.signalR.connected && this.authService.isLoggedIn) {
-      //Wait 5 seconds for SignalR to complete - if there's no response then fallback to the API call.
+    if (this.websocket.connected && this.authService.isLoggedIn) {
+      //Wait 5 seconds for websocket to complete - if there's no response then fallback to the API call.
       this.processedOperations.push({
         key: endpoint,
         processed: false,
@@ -75,11 +75,11 @@ export default class OperationService {
           return;
         }
         await this.tryFetchOperation(endpoint);
-      }, this.signalRTimeoutSeconds * 1000);
+      }, this.websocketTimeoutSeconds * 1000);
 
       return;
     }
-    //If user is not authenticated or SignalR is not connected simply fetch the operation result from the API.
+    //If user is not authenticated or websocket is not connected simply fetch the operation result from the API.
     await this.tryFetchOperation(endpoint);
   }
 
@@ -125,7 +125,6 @@ export default class OperationService {
 
   getProcessedOperation(requestId) {
     let key = `operations/${requestId}`;
-
     return this.processedOperations.find(x => x.key === key);
   }
 
@@ -143,7 +142,6 @@ export default class OperationService {
     if (processedOperation === null || typeof processedOperation === 'undefined') {
       return;
     }
-
     processedOperation.processed = true;
     let operation = processedOperation.value;
     operation.name = message.name;
@@ -154,11 +152,11 @@ export default class OperationService {
     this._publishOperationUpdated(operation);
   }
 
-  //Depends whether the operation comes from the SignalR or API
+  //Depends whether the operation comes from the Websocket or API
   //it will either contain the command name or the event name.
   _publishOperationUpdated(operation) {
     this.subscriptions.forEach(x => {
-      handleSignalRCall(x);
+      handleWebsocketCall(x);
       handleApiCall(x);
     });
 
@@ -174,7 +172,7 @@ export default class OperationService {
       subscriber.onRejected(operation);
     }
 
-    function handleSignalRCall(subscriber) {
+    function handleWebsocketCall(subscriber) {
       if (subscriber.event.success === operation.name) {
         subscriber.onSuccess(operation);
 
