@@ -172,7 +172,7 @@ export class Map {
   drawRemarkMarker(remark) {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
-    let category = this.translationService.tr(`remark.category_${remark.category}`);
+    let category = this.translationService.tr(`remark.category_${remark.category.name}`);
     let color = this.getRemarMarkerkColor(remark);
     let detailsText = this.translationService.tr('common.details');
     let url = this.router.generate('remark', {id: remark.id});
