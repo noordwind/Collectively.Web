@@ -21,7 +21,6 @@ export default class WebsocketService {
       return;
     }
 
-    console.log(environment.websocketUrl);
     this.connection = new WebSocketManager.Connection(environment.websocketUrl, 'formatType=json&format=text');
     this.connection.enableLogging = false;
     this.connection.clientMethods['remark_created'] = (message) => {
@@ -46,7 +45,6 @@ export default class WebsocketService {
       this.eventAggregator.publish('remark:vote_deleted', message);
     };
     this.connection.clientMethods['operation_updated'] = (message) => {
-      console.log('received operation updated');
       this.eventAggregator.publish('operation:updated', message);
     };
     this.connection.clientMethods['disconnect'] = async (message) => {

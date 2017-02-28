@@ -173,5 +173,3 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ }
 /******/ ])
 });
-;
-//# sourceMappingURL=WebSocketManager.js.map

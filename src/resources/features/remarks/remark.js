@@ -9,7 +9,7 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
-import SignalRService from 'resources/services/signalr-service';
+import WebsocketService from 'resources/services/websocket-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -18,13 +18,13 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-SignalRService, OperationService, EventAggregator,
+WebsocketService, OperationService, EventAggregator,
 LogService, Environment)
 export class Remark {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, signalR, operationService,
+  toastService, loader, authService, userService, websockets, operationService,
   eventAggregator, logService, environment) {
     this.router = router;
     this.i18n = i18n;
@@ -36,7 +36,7 @@ export class Remark {
     this.loader = loader;
     this.authService = authService;
     this.userService = userService;
-    this.signalR = signalR;
+    this.websockets = websockets;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
     this.log = logService;
@@ -48,7 +48,7 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
-    this.signalR.initialize();
+    this.websockets.initialize();
   }
 
   get canDelete() {
