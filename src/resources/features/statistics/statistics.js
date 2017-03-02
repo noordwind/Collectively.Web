@@ -50,7 +50,7 @@ export class Statistics {
     this.general = [
       { name: this.translationService.trCapitalized('remark.state_new'), count: generalStats.newCount},
       { name: this.translationService.trCapitalized('remark.state_reported'), count: generalStats.reportedCount},
-      { name: this.translationService.trCapitalized('remark.state_processing'), count: generalStats.rrocessingCount},
+      { name: this.translationService.trCapitalized('remark.state_processing'), count: generalStats.processingCount},
       { name: this.translationService.trCapitalized('remark.state_resolved'), count: generalStats.resolvedCount},
       { name: this.translationService.trCapitalized('remark.state_canceled'), count: generalStats.canceledCount},
       { name: this.translationService.trCapitalized('remark.state_deleted'), count: generalStats.deletedCount},
