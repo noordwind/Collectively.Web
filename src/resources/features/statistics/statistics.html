@@ -6,24 +6,7 @@
   <div class="divider"></div>
   <div class="section">
     <h4>${'statistics.remarks' | t}</h4>
-    <ul class="collection">
-      <li class="collection-item">
-        <div>
-            <span>${'statistics.reported' | t}</span>
-            <div class="secondary-content">
-                <span>${general.reported}</span>
-            </div>
-          </div>
-      </li>
-      <li class="collection-item">
-        <div>
-            <span>${'statistics.resolved' | t}</span>
-            <div class="secondary-content">
-                <span>${general.resolved}</span>
-            </div>
-          </div>
-      </li>
-    </ul>
+    <statistics-list items.bind="general"></statistics-list>
   </div>
   <div class="section">
     <h4>${'statistics.categories' | t}</h4>

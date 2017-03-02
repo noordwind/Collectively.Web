@@ -46,7 +46,16 @@ export class Statistics {
   }
 
   async browseGeneralStatistics() {
-    this.general = await this.statisticsService.getGeneralStatistics();
+    let generalStats = await this.statisticsService.getGeneralStatistics();
+    this.general = [
+      { name: this.translationService.trCapitalized('remark.state_new'), count: generalStats.newCount},
+      { name: this.translationService.trCapitalized('remark.state_reported'), count: generalStats.reportedCount},
+      { name: this.translationService.trCapitalized('remark.state_processing'), count: generalStats.rrocessingCount},
+      { name: this.translationService.trCapitalized('remark.state_resolved'), count: generalStats.resolvedCount},
+      { name: this.translationService.trCapitalized('remark.state_canceled'), count: generalStats.canceledCount},
+      { name: this.translationService.trCapitalized('remark.state_deleted'), count: generalStats.deletedCount},
+      { name: this.translationService.trCapitalized('remark.state_renewed'), count: generalStats.renewedCount}
+    ];
   }
 
   async browseReporters() {
@@ -57,7 +66,7 @@ export class Statistics {
     });
     reporters.forEach(x => {
       if (x.name) {
-        x.count = x.reportedCount;
+        x.count = x.remarks.reportedCount;
         x.url = this.router.generate('user-remarks', {username: x.name});
       }
     });
@@ -72,7 +81,7 @@ export class Statistics {
     });
     resolvers.forEach(x => {
       if (x.name) {
-        x.count = x.resolvedCount;
+        x.count = x.remarks.resolvedCount;
         x.url = this.router.generate('user-resolved-remarks', {resolver: x.name});
       }
     });
@@ -87,7 +96,7 @@ export class Statistics {
     categories.forEach(x => {
       x.url = this.router.generate('category-remarks', {category: x.name});
       x.name = this.translationService.tr(`remark.category_${x.name}`);
-      x.count = x.reportedCount;
+      x.count = x.remarks.reportedCount;
     });
     this.categories = categories;
   }
@@ -100,7 +109,7 @@ export class Statistics {
     tags.forEach(x => {
       x.url = this.router.generate('tag-remarks', {tag: x.name});
       x.name = this.translationService.trCapitalized(`tags.${x.name}`);
-      x.count = x.reportedCount;
+      x.count = x.remarks.reportedCount;
     });
     this.tags = tags;
   }
