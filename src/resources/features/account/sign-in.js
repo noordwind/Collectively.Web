@@ -26,7 +26,7 @@ export class SignIn {
     this.account = {
       email: '',
       password: '',
-      provider: 'coolector'
+      provider: 'collectively'
     };
     this.toast = toast;
     this.loader = loader;
@@ -75,7 +75,7 @@ export class SignIn {
         token: session.token,
         expiry: session.expiry,
         key: session.key,
-        provider: 'coolector'
+        provider: 'collectively'
       };
       this.loader.hide();
       this.router.navigateToRoute('location');
