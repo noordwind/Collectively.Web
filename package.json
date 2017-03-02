@@ -16,7 +16,8 @@
     "aurelia-validation": "^0.13.1",
     "bluebird": "^3.4.1",
     "pushstate-server": "^2.1.0",
-    "retry": "^0.10.0"
+    "retry": "^0.10.0",
+    "socket.io-client": "^1.7.3"
   },
   "peerDependencies": {},
   "devDependencies": {

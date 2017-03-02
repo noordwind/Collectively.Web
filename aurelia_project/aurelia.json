@@ -178,6 +178,11 @@
             "name": "retry",
             "path": "../node_modules/retry/lib",
             "main": "retry"
+          },
+          {
+            "name": "socket.io-client",
+            "path": "../node_modules/socket.io-client/dist",
+            "main": "socket.io.min"
           }
         ]
       },

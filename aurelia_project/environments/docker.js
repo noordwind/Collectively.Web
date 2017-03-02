@@ -3,7 +3,7 @@ export default {
   testing: true,
   title: 'Coolector [Docker]',
   apiUrl: 'http://api:5000/',
-  websocketUrl: 'ws://signalr:15000/hub',
+  websocketUrl: 'http://signalr:15000',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

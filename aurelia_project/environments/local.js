@@ -3,7 +3,7 @@ export default {
   testing: true,
   title: 'Coolector [Local]',
   apiUrl: 'http://localhost:5000/',
-  websocketUrl: 'ws://localhost:15000/hub',
+  websocketUrl: 'http://localhost:15000',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

@@ -3,7 +3,7 @@ export default {
   testing: false,
   title: 'Coolector [Dev]',
   apiUrl: 'https://coolector-dev.tk/api/',
-  websocketUrl: 'wss://coolector-dev.tk/signalr/hub',
+  websocketUrl: 'http://coolector-dev.tk/signalr',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
