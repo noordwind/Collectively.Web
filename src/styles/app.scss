@@ -64,10 +64,16 @@ i.primary-color {
   margin: 0 23px 0 23px;
 }
 
+.btn-left-top {
+  position: fixed;
+  right: 23px;
+  top: 23px;
+}
+
 .btn-right-top {
   position: fixed;
-  top: 77px;
   right: 23px;
+  top: 23px;
 }
 
 .btn-right-top-absolute {
@@ -82,10 +88,10 @@ i.primary-color {
   right: 23px;
 }
 
-.btn-right-bottom {
+.btn-left-bottom {
   position: fixed;
+  left: 23px;
   bottom: 23px;
-  right: 23px;
 }
 
 .btn-center-bottom {
@@ -94,6 +100,12 @@ i.primary-color {
   bottom: 23px;
   width: 100%;
   text-align: center;
+}
+
+.btn-right-bottom {
+  position: fixed;
+  bottom: 23px;
+  right: 23px;
 }
 
 .spinner-layer {

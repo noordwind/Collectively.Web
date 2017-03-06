@@ -8,11 +8,6 @@
       </div>
     </div>
     <div class="row">
-      <div class="btn-right-top" if.bind="resetPositionEnabled">
-        <button click.delegate="resetPosition()" class="btn btn-floating btn-large waves-effect">
-          <i class="large material-icons">my_location</i>
-        </button>
-      </div>
       <div class="btn-right-top-absolute" if.bind="!mapEnabled">
         <button click.delegate="toggleMapEnabled()" class="btn btn-floating btn-large waves-effect">
           <i class="large material-icons">map</i>
@@ -23,15 +18,20 @@
           <i class="large material-icons">list</i>
         </button>
       </div>
+      <div class="btn-left-bottom">
+        <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating btn-large waves-effect">
+          <i class="large material-icons">layers</i>
+        </a>
+      </div>
       <div class="btn-center-bottom" if.bind="createRemarkEnabled">
         <a route-href="route: create-remark" title="${'remark.create' | t}" class="btn btn-floating btn-large waves-effect">
           <i class="large material-icons">add</i>
         </a>
       </div>
-      <div class="btn-right-bottom">
-        <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating btn-large waves-effect">
-          <i class="large material-icons">layers</i>
-        </a>
+      <div class="btn-right-bottom" if.bind="resetPositionEnabled">
+        <button click.delegate="resetPosition()" class="btn btn-floating btn-large waves-effect">
+          <i class="large material-icons">my_location</i>
+        </button>
       </div>
     </div>
 </template>
