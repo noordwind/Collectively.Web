@@ -3,7 +3,7 @@ export default {
   testing: false,
   title: 'Coolector [Dev]',
   apiUrl: 'https://coolector-dev.tk/api/',
-  websocketUrl: 'http://coolector-dev.tk/websockets',
+  websocketUrl: 'https://coolector-dev.tk/websockets',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
