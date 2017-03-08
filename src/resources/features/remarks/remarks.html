@@ -18,14 +18,14 @@
           <i class="large material-icons">list</i>
         </button>
       </div>
-      <div class="btn-left-bottom">
-        <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating btn-large waves-effect">
-          <i class="large material-icons">layers</i>
-        </a>
-      </div>
       <div class="btn-center-bottom" if.bind="createRemarkEnabled">
         <a route-href="route: create-remark" title="${'remark.create' | t}" class="btn btn-floating btn-large waves-effect">
           <i class="large material-icons">add</i>
+        </a>
+      </div>
+      <div class="btn-left-bottom">
+        <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating btn-large waves-effect">
+          <i class="large material-icons">layers</i>
         </a>
       </div>
       <div class="btn-right-bottom" if.bind="resetPositionEnabled">
