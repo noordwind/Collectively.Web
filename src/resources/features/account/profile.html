@@ -16,7 +16,7 @@
       </div>
       <div class="row">
         <div class="divider"></div>
-          <h4 class="col s12">${'account.remarks' | t} [${statistics.reportedCount}]</h4>
+          <h4 class="col s12">${'account.remarks' | t} [${statistics.remarks.reportedCount}]</h4>
           <div class="section">
             <remark-list if.bind="remarks.length > 0" remarks.bind="remarks"
               order-by.bind="'createdAt'" sort-order.bind="'descending'"></remark-list>
