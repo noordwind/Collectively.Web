@@ -1,9 +1,9 @@
 export default {
   debug: false,
   testing: false,
-  title: 'Coolector [Dev]',
-  apiUrl: 'https://coolector-dev.tk/api/',
-  websocketUrl: 'https://coolector-dev.tk/websockets',
+  title: 'Collectively [Dev]',
+  apiUrl: 'https://api-dev.becollective.ly/',
+  websocketUrl: 'https://api-dev.becollective.ly/websockets',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

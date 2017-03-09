@@ -28,7 +28,7 @@ export class SignUp {
       email: '',
       password: '',
       name: '',
-      provider: 'coolector'
+      provider: 'collectively'
     };
     this.sending = false;
     this.controller = controllerFactory.createForCurrentScope();

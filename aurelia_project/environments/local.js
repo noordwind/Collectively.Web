@@ -1,7 +1,7 @@
 export default {
   debug: true,
   testing: true,
-  title: 'Coolector [Local]',
+  title: 'Collectively [Local]',
   apiUrl: 'http://localhost:5000/',
   websocketUrl: 'http://localhost:15000',
   sessionStorageKey: 'session',

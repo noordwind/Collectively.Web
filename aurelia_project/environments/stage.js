@@ -1,9 +1,9 @@
 export default {
   debug: true,
   testing: false,
-  title: 'Coolector [Stage]',
-  apiUrl: 'https://coolector-stage.tk/api/hub',
-  websocketUrl: '',
+  title: 'Collectively [Stage]',
+  apiUrl: 'https://api-stage.becollective.ly/',
+  websocketUrl: 'https://api-stage.becollective.ly/websockets',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

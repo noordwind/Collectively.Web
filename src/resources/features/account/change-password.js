@@ -52,7 +52,7 @@ export class ChangePassword {
   }
 
   canActivate() {
-    if (this.authService.provider === 'coolector') {
+    if (this.authService.provider === 'collectively') {
       return true;
     }
 

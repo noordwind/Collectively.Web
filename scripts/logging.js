@@ -13,8 +13,8 @@
     _LTracker.push(logObject);
   };
 
-  if (location.hostname === 'coolector.tk'
-    || 'coolector-dev.tk') {
+  if (location.hostname === 'collectively.tk'
+    || 'collectively-dev.tk') {
     window._LTracker = window._LTracker || [];
     _LTracker.push({
       'logglyKey': 'cd84d926-5a57-4598-9ab4-623eee369995',

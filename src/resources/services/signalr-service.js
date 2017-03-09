@@ -75,12 +75,12 @@ export default class SignalRService {
       maxTimeout: 5000
     });
     operation.attempt(currentAttempt => {
-      console.log(`Connecting to the CoolectorHub, attempt: ${currentAttempt}.`);
+      console.log(`Connecting to the CollectivelyHub, attempt: ${currentAttempt}.`);
       let connection = this.connection;
       let token = `Bearer ${this.authService.token}`;
       connection.start()
         .then(() => {
-          connection.invoke('Coolector.Services.SignalR.Hubs.CoolectorHub.InitializeAsync', token);
+          connection.invoke('Collectively.Services.SignalR.Hubs.CollectivelyHub.InitializeAsync', token);
         })
         .catch(err => operation.retry(err));
     });

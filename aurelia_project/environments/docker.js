@@ -1,7 +1,7 @@
 export default {
   debug: true,
   testing: true,
-  title: 'Coolector [Docker]',
+  title: 'Collectively [Docker]',
   apiUrl: 'http://api:5000/',
   websocketUrl: 'http://signalr:15000',
   sessionStorageKey: 'session',

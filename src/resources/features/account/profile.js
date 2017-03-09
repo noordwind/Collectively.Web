@@ -83,7 +83,7 @@ export class Profile {
     return !this.username || this.currentUser.name === this.username;
   }
 
-  get isCoolectorAccount() {
-    return this.authService.provider === 'coolector';
+  get isCollectivelyAccount() {
+    return this.authService.provider === 'collectively';
   }
 }

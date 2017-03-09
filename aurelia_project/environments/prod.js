@@ -1,9 +1,9 @@
 export default {
   debug: false,
   testing: false,
-  title: 'Coolector',
-  apiUrl: 'https://coolector.tk/api/',
-  websocketUrl: 'http://coolector.tk/signalr',
+  title: 'Collectively',
+  apiUrl: 'https://api.becollective.ly/',
+  websocketUrl: 'https://api.becollective.ly/websockets',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

@@ -1,10 +1,10 @@
 {
-  "name": "coolector",
-  "description": "Coolector web application.",
+  "name": "collectively",
+  "description": "Collectively web application.",
   "version": "0.1.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/noordwind/Coolector-Web"
+    "url": "https://github.com/noordwind/Collectively-Web"
   },
   "license": "MIT",
   "dependencies": {
