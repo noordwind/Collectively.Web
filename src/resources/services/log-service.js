@@ -24,7 +24,7 @@ export default class LogService {
       return false;
     }
     let user = '';
-    if (this.authService.isLoggedIn) {
+    if (this.authService.isLoggedIn && this.userService.getAccount) {
       user = await this.userService.getAccount();
     }
     const logObject = {
