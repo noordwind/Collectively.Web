@@ -4,6 +4,7 @@ export default {
   title: 'Collectively [Local]',
   apiUrl: 'http://localhost:5000/',
   websocketUrl: 'http://localhost:15000',
+  websocketPath: '/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',

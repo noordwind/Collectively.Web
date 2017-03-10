@@ -24,7 +24,7 @@ export default class WebsocketService {
     }
 
     console.log('connecting to socket io server');
-    let socket = io.connect(environment.websocketUrl);
+    let socket = io.connect(environment.websocketUrl, {path: environment.websocketPath});
     socket.on('connect', () => {
       console.log('connected');
       socket.on('operation_updated', (message) => {
