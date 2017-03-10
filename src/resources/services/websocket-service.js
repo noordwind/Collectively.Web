@@ -24,8 +24,9 @@ export default class WebsocketService {
     }
 
     console.log('connecting to socket io server');
-    this.socket = io(environment.websocketUrl);
+    this.socket = io.connect(environment.websocketUrl);
     this.socket.on('connect', () => {
+      console.log('connected');
       this.socket.on('operation_updated', (message) => {
         this.logger.debug('operation_updated message received', message);
         this.eventAggregator.publish('operation:updated', message);
