@@ -16,6 +16,11 @@ export class SideNav {
     });
   }
 
+  logout() {
+    this.authService.logout();
+    this.router.navigateToRoute('start');
+  }
+
   get navigation() {
     let customNav = [];
     for (let navModel of this.router.navigation) {
