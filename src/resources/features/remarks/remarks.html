@@ -2,26 +2,19 @@
     <require from="resources/features/map/map"></require>
     <require from="resources/features/nav/side-nav"></require>
     <require from="resources/features/remarks/remark-list"></require>
-    <map if.bind="mapEnabled" remarks.two-way="mapRemarks" center.bind="filtersService.filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
+    <map remarks.two-way="mapRemarks" center.bind="filtersService.filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
     <side-nav router.bind="router"></side-nav>
-    <div class="row" if.bind="!mapEnabled">
-      <div class="col s12">
-        <remark-list remarks.bind="remarks" load-more.call="loadMore()" refresh.call="refreshList()"></remark-list>
-      </div>
+    <div id="remark-list" class="side-nav">
+        <remark-list remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
     </div>
     <div class="row">
       <div class="btn-left-top">
-        <button class="btn btn-floating btn-large waves-effect button-collapse" data-activates="nav-mobile">
+        <button class="btn btn-floating btn-large waves-effect button-sidenav-left" data-activates="nav-mobile">
           <i class="large material-icons">menu</i>
         </button>
       </div>
-      <div class="btn-right-top" if.bind="!mapEnabled">
-        <button click.delegate="toggleMapEnabled()" class="btn btn-floating btn-large waves-effect">
-          <i class="large material-icons">map</i>
-        </button>
-      </div>
-      <div class="btn-right-top-second" if.bind="mapEnabled">
-        <button click.delegate="toggleMapEnabled()" class="btn btn-floating btn-large waves-effect">
+      <div class="btn-right-top">
+        <button class="btn btn-floating btn-large waves-effect button-sidenav-right" data-activates="remark-list">
           <i class="large material-icons">list</i>
         </button>
       </div>

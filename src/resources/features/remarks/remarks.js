@@ -48,7 +48,6 @@ export class Remarks {
     this.mapLoadedSubscription = null;
     this.websocket.initialize();
     this.loadingRemarks = false;
-    this.mapEnabled = this.filtersService.filters.map.enabled;
   }
 
   async activate(params) {
@@ -61,6 +60,9 @@ export class Remarks {
     this.filtersEnabled = this.isAuthenticated;
     this.createRemarkEnabled = this.isAuthenticated;
     this.selectedRemarkId = params.id;
+    if (this.selectedRemarkId) {
+      this.filtersService.setMapFollow(false);
+    }
     this.log.trace('remarks_activated', {
       filters: this.filtersService.filters,
       location: this.location.current
@@ -68,7 +70,7 @@ export class Remarks {
   }
 
   get resetPositionEnabled() {
-    return this.isAuthenticated && this.mapEnabled;
+    return this.isAuthenticated;
   }
 
   async attached() {
@@ -85,6 +87,10 @@ export class Remarks {
     this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
     await this.browseForList(this.page);
     this.log.trace('remarks_attached', {filters: this.filtersService.filters});
+    $('.button-sidenav-right').off('click').sideNav({
+      edge: 'right',
+      closeOnClick: true
+    });
   }
 
   detached() {
@@ -97,6 +103,7 @@ export class Remarks {
   }
 
   async browseForMap() {
+    console.log(`browse for map ${JSON.stringify(this.query)}`);
     this.query.results = this.filtersService.filters.results;
     this.query.radius = this.filtersService.filters.radius;
     this.mapRemarks = await this.browse(this.query);
@@ -175,9 +182,7 @@ export class Remarks {
     if (!remark.selected) {
       return remark;
     }
-
-    this.filtersService.setCenter({latitude, longitude});
-    this.filtersService.setMapEnabled(true);
+    this.setCenter(latitude, longitude);
 
     return remark;
   }
@@ -193,27 +198,21 @@ export class Remarks {
     await this.browseForMap();
   }
 
-  get mapEnabled() {
-    return this.filtersService.filters.map.enabled;
-  }
-
-  set mapEnabled(value) {
-    this.filtersService.setMapEnabled(value);
-  }
-
-  toggleMapEnabled() {
-    this.mapEnabled = !this.mapEnabled;
-    if (this.mapEnabled) {
-      this.scrollToTop();
-    }
-  }
-
   resetPosition() {
     this.location.getLocation(l => {
       this.filtersService.setDefaultCenter({latitude: l.coords.latitude, longitude: l.coords.longitude});
       this.filtersService.setCenter(this.filtersService.filters.defaultCenter);
       this.eventAggregator.publish('location:reset-center', this.filtersService.filters.center);
     });
+  }
+
+  setCenter(latitude, longitude) {
+    let center = {
+      latitude: latitude,
+      longitude: longitude
+    };
+    this.filtersService.setCenter(center);
+    this.eventAggregator.publish('map:centerChanged', center);
   }
 
   async subscribeMapLoaded() {

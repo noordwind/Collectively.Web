@@ -9,8 +9,9 @@ export class SideNav {
     this.authService = authService;
   }
 
-  async attached() {
-    $('.button-collapse').sideNav({
+  attached() {
+    $('.button-sidenav-left').off('click').sideNav({
+      edge: 'left',
       closeOnClick: true
     });
   }

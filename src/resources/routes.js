@@ -70,6 +70,7 @@ export default [
     settings: {
       reqLogin: true,
       icon: 'view_list',
+      hideNavbar: true,
       translationKey: 'route.remarks'
     }
   },
@@ -101,6 +102,18 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
+      translationKey: 'route.create_remark'
+    }
+  },
+  {
+    route: 'remarks/:id/success',
+    moduleId: `${modulePrefix}/remarks/remark-added`,
+    name: 'remark-added',
+    title: 'Remark successfully added',
+    nav: false,
+    settings: {
+      reqLogin: true,
+      hideNavbar: true,
       translationKey: 'route.create_remark'
     }
   },

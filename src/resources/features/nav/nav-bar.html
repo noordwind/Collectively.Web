@@ -1,14 +1,10 @@
 <template>
-    <require from="resources/features/nav/side-nav"></require>
-    <nav role="navigation" class="ft-nav" if.bind="!isRemarksScreen">
+    <nav role="navigation" class="ft-nav">
         <div class="container">
             <a if.bind="canGoBack" click.trigger="back()" class="left hide-on-large-only">
                 <i class="material-icons back-btn">arrow_back</i>
             </a>
             <a route-href="route: remarks" class="brand-logo">Collectively</a>
-            <a href="#" data-activates="nav-mobile" class="button-collapse right" if.bind="authService.isLoggedIn">
-                <i class="material-icons">menu</i>
-            </a>
             <ul class="right hide-on-med-and-down">
                 <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
                     <a class="waves-effect" href.bind="route.href">
@@ -23,7 +19,6 @@
                     </a>
                 </li>
             </ul>
-            <side-nav router.bind="router"></side-nav>
         </div>
     </nav>
 </template>

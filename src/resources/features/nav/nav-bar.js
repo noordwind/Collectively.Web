@@ -35,10 +35,6 @@ export class NavBar {
     this.router.navigateBack();
   }
 
-  get isRemarksScreen() {
-    return this.router.history.fragment === '/remarks';
-  }
-
   get canGoBack() {
     let routes = [ '/location', '/remarks' ];
     return !(routes.includes(this.router.history.previousLocation));

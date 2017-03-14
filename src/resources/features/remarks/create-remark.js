@@ -77,7 +77,7 @@ export class CreateRemark {
     this.toast.success(this.translationService.tr('remark.processed'));
     this.loader.hide();
     let remarkId = operation.resource.split('/')[1];
-    this.router.navigateToRoute('remark', { id: remarkId });
+    this.router.navigateToRoute('remark-added', { id: remarkId });
   }
 
   handleCreateRemarkRejected(operation) {

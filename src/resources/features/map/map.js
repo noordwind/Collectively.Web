@@ -52,11 +52,17 @@ export class Map {
         this.position = new google.maps.LatLng(response.latitude, response.longitude);
         await this.map.setCenter(this.position);
       });
+    this.centerChangedSubscription = await this.eventAggregator.subscribe('map:centerChanged',
+      async center => {
+        let position = new google.maps.LatLng(center.latitude, center.longitude);
+        await this.map.setCenter(position);
+      });
   }
 
   detached() {
     this.locationLoadedSubscription.dispose();
     this.resetCenterSubscription.dispose();
+    this.centerChangedSubscription.dispose();
   }
 
   remarksChanged(newValue) {
