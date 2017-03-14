@@ -20,10 +20,6 @@ h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
-nav-bar {
-  z-index: 1000;
-}
-
 nav {
     background-color: $primary-color
 }
@@ -66,7 +62,7 @@ i.primary-color {
 
 .btn-left-top {
   position: fixed;
-  right: 23px;
+  left: 23px;
   top: 23px;
 }
 
@@ -84,7 +80,7 @@ i.primary-color {
 
 .btn-right-top-second {
   position: fixed;
-  top: 145px;
+  top: 23px;
   right: 23px;
 }
 

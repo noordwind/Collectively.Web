@@ -1,0 +1,17 @@
+<template>
+  <ul class="side-nav" id="nav-mobile">
+      <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
+          <a class="waves-effect" href.bind="route.href">
+              <i class="material-icons">${route.settings.icon}</i>
+              ${route.settings.translationKey | t}
+          </a>
+      </li>
+      <li><div class="divider"></div></li>
+      <li if.bind="authService.isLoggedIn">
+          <a class="waves-effect" href="#" click.delegate="logout()">
+              <i class="material-icons">power_settings_new</i>  
+              ${'route.logout' | t}
+          </a>
+      </li>
+  </ul>
+</template>

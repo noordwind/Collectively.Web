@@ -15,10 +15,6 @@ export class NavBar {
   }
 
   async attached() {
-    $('.button-collapse').sideNav({
-      closeOnClick: true
-    });
-
     this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
       async response => {
         this.logout();
@@ -37,6 +33,10 @@ export class NavBar {
 
   back() {
     this.router.navigateBack();
+  }
+
+  get isRemarksScreen() {
+    return this.router.history.fragment === '/remarks';
   }
 
   get canGoBack() {

@@ -97,9 +97,7 @@ export class Map {
       minZoom: 8,
       center: this.position,
       gestureHandling: 'greedy',
-      zoomControl: false,
-      mapTypeControl: false,
-      streetViewControl: false,
+      disableDefaultUI: true,
       styles: [{featureType: 'poi', elementType: 'labels', stylers: [{visibility: 'off'}]}]
     });
 

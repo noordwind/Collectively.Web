@@ -1,6 +1,7 @@
 import PreLoginRoute from 'resources/middleware/pre-login-route';
 import AuthorizeStep from 'resources/middleware/authorize-step';
 import LoaderHandler from 'resources/middleware/loader-handler';
+import SideNavCleaner from 'resources/middleware/side-nav-cleaner';
 import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import environment from './environment';
@@ -19,6 +20,7 @@ export class App {
 
         //TODO: Move to custom pipeline step.
     config.addPipelineStep('authorize', LoaderHandler);
+    config.addPipelineStep('postRender', SideNavCleaner);
     config.map(routes);
     config.options.pushState = true;
   }

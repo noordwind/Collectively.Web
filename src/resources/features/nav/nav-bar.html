@@ -1,5 +1,6 @@
 <template>
-    <nav role="navigation" class="ft-nav">
+    <require from="resources/features/nav/side-nav"></require>
+    <nav role="navigation" class="ft-nav" if.bind="!isRemarksScreen">
         <div class="container">
             <a if.bind="canGoBack" click.trigger="back()" class="left hide-on-large-only">
                 <i class="material-icons back-btn">arrow_back</i>
@@ -22,21 +23,7 @@
                     </a>
                 </li>
             </ul>
-            <ul class="side-nav" id="nav-mobile">
-                <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
-                    <a class="waves-effect" href.bind="route.href">
-                        <i class="material-icons">${route.settings.icon}</i>
-                        ${route.settings.translationKey | t}
-                    </a>
-                </li>
-                <li><div class="divider"></div></li>
-                <li if.bind="authService.isLoggedIn">
-                    <a class="waves-effect" href="#" click.delegate="logout()">
-                        <i class="material-icons">power_settings_new</i>  
-                        ${'route.logout' | t}
-                    </a>
-                </li>
-            </ul>
+            <side-nav router.bind="router"></side-nav>
         </div>
     </nav>
 </template>
