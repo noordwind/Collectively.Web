@@ -1,6 +1,22 @@
 <template>
-  <h1>Remark Added</h1>
-  <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
-      ${'remark.display' | t}
-  </button>
+  <section>
+    <div class="row">
+      <h3 class="center-align">${'remark.remark_added' | t}</h3>
+    </div>
+  </section>
+  <section>
+    <div class="row">
+      <h5 class="center-align">${'remark.thanks_for_reporting' | t}</h5>
+    </div>
+  </section>
+  <section>
+    <div class="row">
+      <button disabled class="btn waves-effect waves-light btn-large">${'remark.share' | t}</button>
+    </div>
+    <div class="row">
+      <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
+        ${'remark.display' | t}
+      </button>
+    </div>
+  </section>
 </template>
