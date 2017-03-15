@@ -224,7 +224,7 @@ li > a {
 
 .remark-list-item {
   padding: 15px 0 !important;
-  border-bottom: 1px solid rgba(inherit, .1);
+  border-bottom: 1px solid rgba(black, .1);
 
   i {
     font-size: 3rem;
@@ -320,7 +320,9 @@ li > a {
 
 @media only screen and (min-device-width: $mobile-width) {
     .remark-side-list {
-      width: 50%;
+      .side-nav {
+        width: 50%;
+      }
     }
 }
 
