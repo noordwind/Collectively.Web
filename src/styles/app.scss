@@ -2,8 +2,10 @@ $primary-color: #2C74DA;
 $primary-color-light: #3B8DFF;
 $primary-color-strong: #2759B9;
 $secondary-color: #009720;
-$primary-light-color: #FFEBEE;
+$primary-light-color: #FFFFFF;
 $secondary-light-color: #3B8DFF;
+$primary-dark-color: #2E2E2E;
+$secondary-dark-color: #656565;
 $mobile-width: 992px;
 
 body {
@@ -256,3 +258,36 @@ li > a {
   }
 }
 
+.main-menu {
+  .side-nav {
+    background-color: $primary-dark-color;
+
+    li {
+      a {
+        color: $primary-light-color;
+        font-size: 1.5rem;
+        padding: 0;
+      }
+
+      .divider {
+        background-color: $secondary-dark-color;
+      }
+    }
+
+    .row {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    i {
+      color: $primary-light-color!important;
+    }
+
+    .noordwind-info {
+      span {
+        color: $secondary-dark-color;
+        padding: 0;
+      }
+    }
+  }
+}

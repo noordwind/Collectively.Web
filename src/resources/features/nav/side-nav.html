@@ -1,17 +1,41 @@
 <template>
-  <ul class="side-nav" id="nav-mobile">
-      <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
-          <a class="waves-effect" href.bind="route.href">
-              <i class="material-icons">${route.settings.icon}</i>
-              ${route.settings.translationKey | t}
-          </a>
-      </li>
-      <li><div class="divider"></div></li>
-      <li if.bind="authService.isLoggedIn">
-          <a class="waves-effect" href="#" click.delegate="logout()">
-              <i class="material-icons">power_settings_new</i>  
-              ${'route.logout' | t}
-          </a>
-      </li>
-  </ul>
+  <require from="resources/converters/lowercaseValueConverter"></require>
+  <div class="main-menu">
+    <div class="side-nav" id="nav-mobile">
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <h5>Place for logo</h5>
+        </div>
+      </div>
+      <div class="row">
+        <ul class="col s10 offset-s1">
+          <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
+            <a class="waves-effect" href.bind="route.href">
+                ${route.settings.translationKey | t | lowercase }
+            </a>
+            <div class="divider"></div>
+          </li>
+          <li if.bind="authService.isLoggedIn">
+              <a class="waves-effect" href="#" click.delegate="logout()">
+                  ${'route.logout' | t | lowercase }
+              </a>
+          </li>
+        </ul>
+      </div>
+      <div class="row">
+        <div class="col s10 offset-s1 noordwind-info">
+          <span class="col s12">Find us at</span>
+          <div class="col s1">
+            <i class="material-icons">power_settings_new</i>
+          </div>
+          <div class="col s1">
+            <i class="material-icons">power_settings_new</i>
+          </div>
+          <div class="col s1">
+            <i class="material-icons">power_settings_new</i>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>

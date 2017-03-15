@@ -71,7 +71,19 @@ export default [
       reqLogin: true,
       icon: 'view_list',
       hideNavbar: true,
-      translationKey: 'route.remarks'
+      translationKey: 'route.map'
+    }
+  },
+  {
+    route: 'statistics',
+    moduleId: `${modulePrefix}/statistics/statistics`,
+    name: 'statistics',
+    title: 'Statistics',
+    nav: true,
+    settings: {
+      reqLogin: true,
+      icon: 'show_chart',
+      translationKey: 'statistics.statistics'
     }
   },
   {
@@ -81,6 +93,7 @@ export default [
     title: 'Display remark',
     nav: false,
     settings: {
+      hideNavbar: true,
       translationKey: 'route.remark_display'
     }
   },
@@ -201,18 +214,6 @@ export default [
     nav: false,
     settings: {
       translationKey: 'route.user_remarks'
-    }
-  },
-  {
-    route: 'statistics',
-    moduleId: `${modulePrefix}/statistics/statistics`,
-    name: 'statistics',
-    title: 'Statistics',
-    nav: true,
-    settings: {
-      reqLogin: true,
-      icon: 'show_chart',
-      translationKey: 'statistics.statistics'
     }
   }
 ];
