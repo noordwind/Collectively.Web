@@ -4,8 +4,8 @@
     <require from="resources/features/remarks/remark-list"></require>
     <map remarks.two-way="mapRemarks" center.bind="filtersService.filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
     <side-nav router.bind="router"></side-nav>
-    <div id="remark-list" class="side-nav">
-        <remark-list remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
+    <div class="remark-side-list">
+        <remark-list id="remark-list" class="side-nav" remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
     </div>
     <div class="row">
       <div class="btn-left-top">

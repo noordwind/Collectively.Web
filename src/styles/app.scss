@@ -30,14 +30,6 @@ i.primary-color {
     color: $primary-color
 }
 
-.side-nav a {
-    color: $primary-color
-}
-
-.side-nav i {
-    color: $primary-color!important;
-}
-
 .btn{
     background-color: $primary-color
 }
@@ -164,12 +156,6 @@ input[type=range]::-webkit-slider-thumb {
     width: 100%;
 }
 
-@media only screen and (max-device-width: 480px) {
-    .photo-slider {
-        height: 500px;
-    }
-}
-
 #loader {
     position: absolute;
     top: -6px;
@@ -201,8 +187,44 @@ li > a {
   white-space: nowrap;
 }
 
+
+.main-menu {
+  .side-nav {
+    background-color: $primary-dark-color;
+
+    li {
+      a {
+        color: $primary-light-color;
+        font-size: 1.5rem;
+        padding: 0;
+      }
+
+      .divider {
+        background-color: $secondary-dark-color;
+      }
+    }
+
+    .row {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    i {
+      color: $primary-light-color!important;
+    }
+
+    .noordwind-info {
+      span {
+        color: $secondary-dark-color;
+        padding: 0;
+      }
+    }
+  }
+}
+
 .remark-list-item {
-  padding: 15px 10px !important;
+  padding: 15px 0 !important;
+  border-bottom: 1px solid rgba(inherit, .1);
 
   i {
     font-size: 3rem;
@@ -258,36 +280,52 @@ li > a {
   }
 }
 
-.main-menu {
+.remark-side-list {
   .side-nav {
-    background-color: $primary-dark-color;
+    background-color: $primary-color;
+    .remark-list-item {
+      position: relative;
+      background-color: inherit;
+      border-bottom-color: rgba( $primary-light-color, .1);
 
-    li {
-      a {
+      div {
         color: $primary-light-color;
-        font-size: 1.5rem;
-        padding: 0;
       }
 
-      .divider {
-        background-color: $secondary-dark-color;
+      .icon {
+        position: relative;
+        i {
+          position: absolute;
+          top: 0;
+          right: 0;
+          color: $primary-light-color;
+          font-size: 1.5rem;
+        }
       }
-    }
 
-    .row {
-      margin-left: auto;
-      margin-right: auto;
-    }
+      .address {
+        opacity: .5;
+      }
 
-    i {
-      color: $primary-light-color!important;
-    }
+      .distance {
+        opacity: .5;
+      }
 
-    .noordwind-info {
-      span {
-        color: $secondary-dark-color;
-        padding: 0;
+      .action {
+        opacity: .5;
       }
     }
   }
+}
+
+@media only screen and (min-device-width: $mobile-width) {
+    .remark-side-list {
+      width: 50%;
+    }
+}
+
+@media only screen and (max-device-width: 480px) {
+    .photo-slider {
+        height: 500px;
+    }
 }

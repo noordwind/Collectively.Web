@@ -103,7 +103,6 @@ export class Remarks {
   }
 
   async browseForMap() {
-    console.log(`browse for map ${JSON.stringify(this.query)}`);
     this.query.results = this.filtersService.filters.results;
     this.query.radius = this.filtersService.filters.radius;
     this.mapRemarks = await this.browse(this.query);
