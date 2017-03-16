@@ -44,6 +44,7 @@ export class Remarks {
     this.results = 25;
     this.remarks = [];
     this.mapRemarks = [];
+    this.categories = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
     this.websocket.initialize();
@@ -63,6 +64,7 @@ export class Remarks {
     if (this.selectedRemarkId) {
       this.filtersService.setMapFollow(false);
     }
+    this.categories = await this.remarkService.getCategories();
     this.log.trace('remarks_activated', {
       filters: this.filtersService.filters,
       location: this.location.current

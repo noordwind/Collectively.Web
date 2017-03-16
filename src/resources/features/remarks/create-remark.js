@@ -35,18 +35,16 @@ export class CreateRemark {
     this.operationService.subscribe('create_remark',
       operation => this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
+    this.location.startUpdatingAddress();
   }
 
   detached() {
     this.operationService.unsubscribeAll();
+    this.location.stopUpdatingAddress();
   }
 
-  async activate() {
-    this.categories = await this.remarkService.getCategories();
-    this.categories.forEach(category => {
-      category.translatedName = this.translationService.tr(`remark.category_${category.name}`);
-    });
-    this.setCategory(this.categories[0]);
+  async activate(params) {
+    this.remark.category = params.category;
     this.remark.latitude = this.location.current.latitude;
     this.remark.longitude = this.location.current.longitude;
     this.remark.address = this.location.current.address;
@@ -60,9 +58,8 @@ export class CreateRemark {
     });
   }
 
-  setCategory(category) {
-    this.category = category;
-    this.remark.category = category.name;
+  get address() {
+    return this.location.current.address || this.translationService.tr('common.location');
   }
 
   async sendRemark() {

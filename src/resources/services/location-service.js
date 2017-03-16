@@ -4,7 +4,6 @@ import {HttpClient} from 'aurelia-fetch-client';
 import StorageService from 'resources/services/storage-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
-
 @inject(HttpClient, StorageService, EventAggregator)
 export default class LocationService {
   constructor(httpClient, storageService, eventAggregator) {
@@ -14,6 +13,7 @@ export default class LocationService {
     this.environment = environment;
     this.eventAggregator = eventAggregator;
     this.isUpdating = false;
+    this.updateAddress = false;
   }
 
   async getLocation(next, err, skipError) {
@@ -23,13 +23,17 @@ export default class LocationService {
       navigator.geolocation.getCurrentPosition(async location => {
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
-        let address = await this.getAddress(latitude, longitude);
         that.current = {
           longitude: longitude,
           latitude: latitude,
           accuracy: location.coords.accuracy,
-          address: address
+          address: ''
         };
+        if (this.updateAddress) {
+          console.log('update address');
+          let address = await this.getAddress(latitude, longitude);
+          that.current.address = address;
+        }
         that.eventAggregator.publish('location:loaded', location);
         if (typeof next !== 'undefined') {
           next(location);
@@ -58,6 +62,7 @@ export default class LocationService {
   async getAddress(latitude, longitude) {
     let response = await this.httpClient.fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}`);
     let addressComponents = await response.json();
+    console.log(addressComponents);
     if (addressComponents.results.length === 0) {
       return '';
     }
@@ -66,7 +71,8 @@ export default class LocationService {
   }
 
   get current() {
-    return this.storageService.read(this.environment.locationStorageKey);
+    let location = this.storageService.read(this.environment.locationStorageKey);
+    return location;
   }
 
   set current(newLocation) {
@@ -124,6 +130,14 @@ export default class LocationService {
 
   stopUpdating() {
     this.isUpdating = false;
+  }
+
+  startUpdatingAddress() {
+    this.updateAddress = true;
+  }
+
+  stopUpdatingAddress() {
+    this.updateAddress = false;
   }
 
   _updateLocationTask() {

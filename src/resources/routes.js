@@ -108,7 +108,7 @@ export default [
     }
   },
   {
-    route: 'remarks/create',
+    route: 'remarks/:category/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name: 'create-remark',
     title: 'Create remark',

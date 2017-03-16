@@ -1,7 +1,7 @@
 $primary-color: #2C74DA;
 $primary-color-light: #3B8DFF;
 $primary-color-strong: #2759B9;
-$secondary-color: #009720;
+$secondary-color: #3B8DFF;
 $primary-light-color: #FFFFFF;
 $secondary-light-color: #3B8DFF;
 $primary-dark-color: #2E2E2E;
@@ -52,50 +52,6 @@ i.primary-color {
 
 .btn-side {
   margin: 0 23px 0 23px;
-}
-
-.btn-left-top {
-  position: fixed;
-  left: 23px;
-  top: 23px;
-}
-
-.btn-right-top {
-  position: fixed;
-  right: 23px;
-  top: 23px;
-}
-
-.btn-right-top-absolute {
-  position: absolute;
-  top: 77px;
-  right: 23px;
-}
-
-.btn-right-top-second {
-  position: fixed;
-  top: 23px;
-  right: 23px;
-}
-
-.btn-left-bottom {
-  position: fixed;
-  left: 23px;
-  bottom: 23px;
-}
-
-.btn-center-bottom {
-  position: fixed;
-  left: 0;
-  bottom: 23px;
-  width: 100%;
-  text-align: center;
-}
-
-.btn-right-bottom {
-  position: fixed;
-  bottom: 23px;
-  right: 23px;
 }
 
 .spinner-layer {
@@ -152,6 +108,19 @@ input[type=range]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
+.create-remark-btn {
+  .btn-floating {
+    background-color: $primary-color;
+  }
+}
+
+// .white-floating-btn {
+//   .btn-floating {
+//     background-color: $primary-light-color;
+//     color: $primary-color;
+//   }
+// }
+
 .btn:not(.btn-floating) {
     width: 100%;
 }
@@ -187,6 +156,93 @@ li > a {
   white-space: nowrap;
 }
 
+.remarks-view {
+  .btn-left-top {
+    position: fixed;
+    left: 23px;
+    top: 23px;
+  }
+
+  .btn-right-top {
+    position: fixed;
+    right: 23px;
+    top: 23px;
+  }
+
+  .btn-right-top-absolute {
+    position: absolute;
+    top: 77px;
+    right: 23px;
+  }
+
+  .btn-right-top-second {
+    position: fixed;
+    top: 23px;
+    right: 23px;
+  }
+
+  .btn-left-bottom {
+    position: fixed;
+    left: 23px;
+    bottom: 23px;
+    z-index: 1000;
+  }
+
+  .btn-center-bottom {
+    position: fixed;
+    left: 0;
+    bottom: 23px;
+    margin: 0 35%;
+    width: 30%;
+    text-align: center;
+    z-index: 1000;    
+  }
+
+  .btn-right-bottom {
+    position: fixed;
+    bottom: 23px;
+    right: 23px;
+    z-index: 1000;
+    
+  }
+}
+
+.create-remark-view {
+  padding: 0 20px;
+  .text-underlined {
+    display: block;
+    padding: 10px 0;
+    font-size: 23px;
+    border-bottom: 2px solid rgba(black, .1);
+  }
+
+  .materialize-textarea {
+    border-bottom: 2px solid rgba(black, .1) !important;
+    box-shadow: 0 0 0 0 transparent !important;    
+  }
+
+  .materialize-textarea:focus {
+    outline: none !important;
+    border-bottom: 2px solid $primary-color !important;
+    box-shadow: 0 1px 0 0 $primary-color !important;
+  }
+
+  .add-media {
+    background-color: rgba(black, .1);
+    height: 150px;
+    width: 100%;
+    text-align: center;
+    padding: 65px;
+  }
+
+  .send-button {
+    text-align: center;
+    .btn {
+      width: 80%;
+      border-radius: 20px;
+    }
+  }
+}
 
 .main-menu {
   .side-nav {
