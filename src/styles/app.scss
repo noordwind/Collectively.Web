@@ -122,7 +122,8 @@ input[type=range]::-webkit-slider-thumb {
 // }
 
 .btn:not(.btn-floating) {
-    width: 100%;
+  width: 80%;
+  border-radius: 20px;
 }
 
 #loader {
@@ -208,6 +209,7 @@ li > a {
 }
 
 .create-remark-view {
+  color: $secondary-dark-color;
   padding: 0 20px;
   .text-underlined {
     display: block;
@@ -234,12 +236,35 @@ li > a {
     text-align: center;
     padding: 65px;
   }
+}
 
-  .send-button {
-    text-align: center;
-    .btn {
-      width: 80%;
-      border-radius: 20px;
+.remark-summary-view {
+  .text {
+    color: $secondary-dark-color;
+    font-weight: 600;
+  }
+
+  .category-text {
+    @extend .text;
+    font-size: 23px;
+  }
+
+  .location-text {
+    @extend .text;
+    font-size: 15px;
+    i {
+      position: relative;
+      top: 5px;
+    }
+  }
+
+  .description-text{
+    @extend .text;
+    font-size: 15px;
+
+    p {
+      font-size: 15px;
+      font-weight: 300;
     }
   }
 }
