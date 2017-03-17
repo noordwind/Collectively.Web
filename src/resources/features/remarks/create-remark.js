@@ -28,14 +28,19 @@ export class CreateRemark {
       tags: []
     };
     this.sending = false;
+    this.showSummary = false;
   }
 
   attached() {
     this.log.trace('create_remark_attached');
     this.operationService.subscribe('create_remark',
-      operation => this.handleRemarkCreated(operation),
+      async operation => await this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
     this.location.startUpdatingAddress();
+    this.fileInput = document.getElementById('new-image');
+    $('#new-image').change(async () => {
+      this.newImage = this.files[0];
+    });
   }
 
   detached() {
@@ -62,6 +67,15 @@ export class CreateRemark {
     return this.location.current.address || this.translationService.tr('common.location');
   }
 
+  goToSummary() {
+    this.remark.address = this.address;
+    this.toggleSummary();
+  }
+
+  toggleSummary() {
+    this.showSummary = !this.showSummary;
+  }
+
   async sendRemark() {
     this.sending = true;
     this.loader.display();
@@ -70,10 +84,58 @@ export class CreateRemark {
     await this.remarkService.sendRemark(this.remark);
   }
 
-  handleRemarkCreated(operation) {
+  displayCamera() {
+    this.fileInput.click();
+  }
+
+  newImageResized = async (base64) => {
+    if (base64 === '') {
+      return;
+    }
+    this.base64Image = base64;
+    this.remark.photos = [{
+      medium: base64,
+      visible: true
+    }];
+  };
+
+  async addPhotos(remarkId, base64Image) {
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.adding_photo'));
+    let reader = new FileReader();
+    let file = this.newImage;
+    reader.onload = async () => {
+      if (file.type.indexOf('image') < 0) {
+        this.toast.error(this.translationService.trCode('invalid_file'));
+        this.loader.hide();
+        this.sending = false;
+
+        return;
+      }
+      let photo = {
+        base64: base64Image,
+        name: file.name,
+        contentType: file.type
+      };
+
+      let photos = {
+        photos: [photo]
+      };
+
+      await this.remarkService.addPhotos(remarkId, photos);
+      await this.toast.success(this.translationService.tr('remark.processing_photo'), 6000);
+    };
+    reader.readAsDataURL(file);
+  }
+
+  async handleRemarkCreated(operation) {
     this.toast.success(this.translationService.tr('remark.processed'));
     this.loader.hide();
     let remarkId = operation.resource.split('/')[1];
+    if (this.remark.photos) {
+      await this.addPhotos(remarkId, this.base64Image);
+    }
     this.router.navigateToRoute('remark-added', { id: remarkId });
   }
 

@@ -1,53 +1,63 @@
 <template>
   <require from="resources/features/remarks/remark-summary"></require>
+  <require from="resources/features/images/image-resizer"></require>
   <div class="create-remark-view">
     <div class="section">
       <form submit.delegate="sendRemark()">
-        <div class="row">
+        <div if.bind="!showSummary">
+          <div class="row">
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category | t}</span>
             </div>
             <div class="input-field col s12">
-              <span class="text-underlined">${address | t}</span>
+              <span class="text-underlined">${address}</span>
             </div>
             <div class="input-field col s12">
-                <textarea id="description" placeholder="Description" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
+                <textarea id="description" placeholder="${'remark.description' | t}" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
             </div>
             <div class="col s12">
-              <div class="add-media">
-                <span>add media</span>
+              <div class="add-media" click.delegate="displayCamera()">
+                <span if.bind="!remark.photos">${'remark.add_photo' | t}</span>
+                <img if.bind="remark.photos" src.bind="remark.photos[0].medium" />
               </div>
+              <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+              <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
             </div>
+          </div>
+          <!--<div class="row">
+              <div class="input-field col s12">
+              <h5>${'tags.select_tags' | t}</h5>
+              <md-chip md-close="false" repeat.for="tag of tags" click.delegate="toggleTag(tag)" class="tag ${tag.selected ? 'tag-selected' : ''}">
+                  ${tag.value}
+              </md-chip>
+              </div>
+          </div>-->
+          <div class="row">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light" click.delegate="goToSummary()">
+                ${'common.next' | t}
+              </button>
+            </div>
+          </div>
         </div>
-        <!--<div class="row">
-            <div class="input-field col s12">
-            <h5>${'tags.select_tags' | t}</h5>
-            <md-chip md-close="false" repeat.for="tag of tags" click.delegate="toggleTag(tag)" class="tag ${tag.selected ? 'tag-selected' : ''}">
-                ${tag.value}
-            </md-chip>
+        <div if.bind="showSummary">
+          <remark-summary remark.bind="remark"></remark-summary>
+          <div class="row center">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light" type="submit" disabled.bind="sending">
+                ${'common.submit' | t}
+              </button>
             </div>
-        </div>-->
-        <div class="row">
-            <div class="col s12 center">
-                <button class="btn waves-effect waves-light" type="submit" disabled.bind="sending">
-                  ${'common.next' | t}
-                </button>
+          </div>
+          <div class="row center">
+            <div class="col s10 offset-s1 center">
+              <button class="btn waves-effect waves-light" click.delegate="toggleSummary()">
+                ${'common.edit' | t}
+              </button>
             </div>
+          </div>
         </div>
       </form>
-    </div>
-    <div if.bind="displaySummary">
-      <remark-summary remark.bind="remark"></remark-summary>
-      <div class="row center">
-        <button class="btn waves-effect waves-light">
-          ${'common.submit' | t}
-        </button>
-      </div>
-      <div class="row center">
-        <button class="btn waves-effect waves-light">
-          ${'common.submit' | t}
-        </button>
-      </div>
     </div>
   </div>
 </template>

@@ -2,24 +2,45 @@
   <div class="remark-summary-view">
     <div class="row">
       <div class="col s12 category-text">
-        <span>Category</span>
+        <span>${'remark.category_'+remark.category | t}</span>
       </div>
       <div class="col s12 location-text">
         <i class="material-icons">my_location</i>
-        <span>Location</span>
+        <span>${remark.address}</span>
       </div>
     </div>
-    <div class="row">    
-      <div class="col s12">
-        <div>PHOTO</div>
+    <div class="row">
+      <div class="photos-section">
+        <div class="photos-slider">
+          <div class="photos-wrapper">
+            <div repeat.for="photo of remark.photos" if.bind="photo.visible">
+              <a if.bind="photo.big" href.bind="photo.big" target="_blank">
+                <img src.bind="photo.medium" />
+              </a>
+              <img if.bind="!photo.big" src.bind="photo.medium" />
+            </div>
+            <div if.bind="isRemarkReported && hasMultuplePhotos">
+              <div class="prev-button">
+                <button class="btn ${hasPreviousPhoto === false ? 'disabled' : ''}" click.delegate="showPreviousPhoto()">
+                  <i class="material-icons">keyboard_arrow_left</i>
+                </button>
+              </div>
+              <div class="next-button">
+                <button class="btn ${hasNextPhoto === false ? 'disabled' : ''}" click.delegate="showNextPhoto()">
+                  <i class="material-icons">keyboard_arrow_right</i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row description-text">
       <div class="col s12">
-        <span>Description</span>
+        <span>${'remark.description' | t}</span>
       </div>
       <div class="col s12">
-        <p>Stratatata dupa</p>
+        <p>${remark.description}</p>
       </div>
     </div>
   </div>

@@ -14,7 +14,7 @@
         </a>
       </div>
     </div>
-    <div class="row" if.bind="hasPhoto">
+    <div class="row" if.bind="isRemarkReported && hasMultuplePhotos">
         <div class="col s6">
             <button class="btn ${hasPreviousPhoto === false ? 'disabled' : ''}" click.delegate="showPreviousPhoto()"><<</button>
         </div>

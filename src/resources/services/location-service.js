@@ -23,17 +23,17 @@ export default class LocationService {
       navigator.geolocation.getCurrentPosition(async location => {
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
-        that.current = {
+        let current = {
           longitude: longitude,
           latitude: latitude,
           accuracy: location.coords.accuracy,
           address: ''
         };
-        if (this.updateAddress) {
-          console.log('update address');
-          let address = await this.getAddress(latitude, longitude);
-          that.current.address = address;
+        if (that.updateAddress) {
+          let address = await that.getAddress(latitude, longitude);
+          current.address = address;
         }
+        that.current = current;
         that.eventAggregator.publish('location:loaded', location);
         if (typeof next !== 'undefined') {
           next(location);
@@ -62,7 +62,6 @@ export default class LocationService {
   async getAddress(latitude, longitude) {
     let response = await this.httpClient.fetch(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}`);
     let addressComponents = await response.json();
-    console.log(addressComponents);
     if (addressComponents.results.length === 0) {
       return '';
     }
