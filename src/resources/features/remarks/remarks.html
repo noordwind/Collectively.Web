@@ -25,7 +25,9 @@
           </a>
           <ul>
             <li repeat.for="category of categories">
-              <a route-href="route: create-remark; params.bind: {category : category.name}" class="btn-floating">${category.name}</a>
+              <a route-href="route: create-remark; params.bind: {category : category.name}" class="btn-floating">
+                ${'remark.category_'+category.name | t}
+              </a>
             </li>
           </ul>
         </div>
