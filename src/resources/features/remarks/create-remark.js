@@ -28,7 +28,6 @@ export class CreateRemark {
       tags: []
     };
     this.sending = false;
-    this.showSummary = false;
   }
 
   attached() {
@@ -73,7 +72,8 @@ export class CreateRemark {
   }
 
   toggleSummary() {
-    this.showSummary = !this.showSummary;
+    $('.fill-remark-screen').toggle();
+    $('.remark-summary-screen').toggle();
   }
 
   async sendRemark() {

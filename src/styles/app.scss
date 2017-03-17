@@ -241,6 +241,10 @@ li > a {
       height: 150px;
     }
   }
+
+  .remark-summary-screen {
+    display: none;
+  }
 }
 
 .remark-summary-view {
@@ -311,6 +315,10 @@ li > a {
       img {
         height: 320px;
       }
+    }
+
+    .photo-placeholder {
+      padding-top: 145px;
     }
   }
 }

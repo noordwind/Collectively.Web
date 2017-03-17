@@ -4,7 +4,7 @@
   <div class="create-remark-view">
     <div class="section">
       <form submit.delegate="sendRemark()">
-        <div if.bind="!showSummary">
+        <div class="fill-remark-screen">
           <div class="row">
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category | t}</span>
@@ -40,7 +40,7 @@
             </div>
           </div>
         </div>
-        <div if.bind="showSummary">
+        <div class="remark-summary-screen">
           <remark-summary remark.bind="remark"></remark-summary>
           <div class="row center">
             <div class="col s10 offset-s1 center">
