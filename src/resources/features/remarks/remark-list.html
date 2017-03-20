@@ -16,8 +16,8 @@
                   <div class="header">${'remark.category_'+remark.category.name | t}</div>
                   <div class="second-line address">${remark.location.address}</div>
                   <div class="third-line">
-                    <i if.bind="remark.resolved" class="material-icons">done</i>
-                    ${remark.resolved ? 'remark.state_resolved' : 'remark.state_active' | t | stringCapitalizeFirstLetter}
+                    <i if.bind="remark.state.state === 'resolved'" class="material-icons">done</i>
+                    ${'remark.state_'+remark.state.state | t | stringCapitalizeFirstLetter}
                   </div>
                 </div>
                 <div class="col s3 no-padding">
