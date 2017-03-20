@@ -91,19 +91,6 @@ export class Remark {
     return this.vote !== null && typeof this.vote !== 'undefined';
   }
 
-  get hasPreviousPhoto() {
-    return this.visiblePhotoIndex > 0;
-  }
-
-  get hasNextPhoto() {
-    return this.visiblePhotoIndex < this.photos.length - 1;
-  }
-
-  get hasPhoto() {
-    return this.remark && this.photos && this.photos.length > 0;
-  }
-
-
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
@@ -129,7 +116,7 @@ export class Remark {
     let smallPhotos = remark.photos.filter(x => x.size === 'small');
     let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
     let bigPhotos = remark.photos.filter(x => x.size === 'big');
-    this.photos = smallPhotos.map((photo, index) => {
+    this.remark.photos = smallPhotos.map((photo, index) => {
       return {
         groupId: photo.groupId,
         visible: index === 0,
@@ -146,6 +133,7 @@ export class Remark {
       latitude: this.latitude,
       longitude: this.longitude
     });
+    this.remark.address = remark.location.address;
     if (remark.tags === null) {
       remark.tags = [];
     }
@@ -164,17 +152,15 @@ export class Remark {
 
   async attached() {
     let that = this;
-    this.scrollToTop();
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
     });
+    this.scrollToTop();
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
     this.remarkVoteSubmittedSubscription = await this.subscribeRemarkVoteSubmitted();
     this.remarkVoteDeletedSubscription = await this.subscribeRemarkVoteDeleted();
-    this.remarkPhotoAddedSubscription = await this.subscribeRemarkPhotoAdded();
-    this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
 
     this.operationService.subscribe('resolve_remark',
       operation => this.handleRemarkResolved(operation),
@@ -215,8 +201,6 @@ export class Remark {
     this.remarkDeletedSubscription.dispose();
     this.remarkVoteSubmittedSubscription.dispose();
     this.remarkVoteDeletedSubscription.dispose();
-    this.remarkPhotoAddedSubscription.dispose();
-    this.remarkPhotoRemovedSubscription.dispose();
     this.operationService.unsubscribeAll();
   }
 
@@ -298,38 +282,6 @@ export class Remark {
     await this.remarkService.deletePhoto(this.remark.id, groupId);
   }
 
-  showPreviousPhoto() {
-    if (this.hasPreviousPhoto) {
-      this.visiblePhotoIndex--;
-      this.displayPhoto();
-    }
-  }
-
-  showNextPhoto() {
-    if (this.hasNextPhoto) {
-      this.visiblePhotoIndex++;
-      this.displayPhoto();
-    }
-  }
-
-  showLastPhoto() {
-    if (this.photos) {
-      this.visiblePhotoIndex = this.photos.length - 1;
-      this.displayPhoto();
-    }
-  }
-
-  displayPhoto() {
-    this.photos.forEach((photo, index) => {
-      if (this.visiblePhotoIndex === index) {
-        photo.visible = true;
-
-        return;
-      }
-      photo.visible = false;
-    });
-  }
-
   async subscribeRemarkResolved() {
     return await this.eventAggregator
       .subscribe('remark:resolved', async message => {
@@ -405,43 +357,6 @@ export class Remark {
       });
   }
 
-  async subscribeRemarkPhotoAdded() {
-    return await this.eventAggregator
-      .subscribe('remark:photo_added', async message => {
-        if (message.remarkId !== this.remark.id) {
-          return;
-        }
-        let smallPhoto = message.newPhotos.find(x => x.size === 'small');
-        let mediumPhoto = message.newPhotos.find(x => x.size === 'medium');
-        let bigPhoto = message.newPhotos.find(x => x.size === 'big');
-        let photo = {
-          groupId: smallPhoto.groupId,
-          visible: true,
-          small: smallPhoto.url,
-          medium: mediumPhoto.url,
-          big: bigPhoto.url
-        };
-        this.photos.push(photo);
-        this.showLastPhoto();
-      });
-  }
-
-  async subscribeRemarkPhotoRemoved() {
-    return await this.eventAggregator
-      .subscribe('remark:photo_removed', async message => {
-        if (message.remarkId !== this.remark.id) {
-          return;
-        }
-        message.groupIds.forEach(groupId => {
-          let index = this.photos.findIndex(x => x.groupId === groupId);
-          if (index > -1) {
-            this.photos.splice(index, 1);
-          }
-        });
-        this.showLastPhoto();
-      });
-  }
-
   calculateRating() {
     if (Array.isArray(this.remark.votes)) {
       let rating = 0;
@@ -465,18 +380,20 @@ export class Remark {
   }
 
   async _vote(positive) {
-    this.loader.display();
     this.sending = true;
     this.isPositiveVote = positive;
-    this.toast.info(this.translationService.tr('remark.submitting_vote'));
     await this.remarkService.vote(this.id, positive);
+    this._changeVoteType(this.isPositiveVote);
+    this.sending = false;
   }
 
   async deleteVote() {
-    this.loader.display();
     this.sending = true;
-    this.toast.info(this.translationService.tr('remark.deleting_vote'));
     await this.remarkService.deleteVote(this.id);
+    let positive = !this.vote.positive;
+    this.vote = null;
+    this._updateRating(positive);
+    this.sending = false;
   }
 
   _changeVoteType(positive) {
@@ -556,9 +473,6 @@ export class Remark {
 
   handleRemarkVoteSubmitted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_submitted'));
-    this.loader.hide();
-    this.sending = false;
-    this._changeVoteType(this.isPositiveVote);
   }
 
   handleSubmitRemarkVoteRejected(operation) {
@@ -569,11 +483,6 @@ export class Remark {
 
   handleRemarkVoteDeleted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_deleted'));
-    this.loader.hide();
-    this.sending = false;
-    let positive = !this.vote.positive;
-    this.vote = null;
-    this._updateRating(positive);
   }
 
   handleDeleteRemarkVoteRejected(operation) {

@@ -1,62 +1,25 @@
 <template>
     <require from="../../converters/dateFormatValueConverter"></require>
     <require from="resources/features/images/image-resizer"></require>
-    <h4>${'remark.details' | t} [${stateName}]</h4>
-    <div class="section photo-slider valign-wrapper" if.bind="hasPhoto">
-      <div repeat.for="photo of photos" if.bind="photo.visible" class="valign center" style="width: 100%;">
-        <a href.bind="photo.big" target="_blank">
-            <img class="responsive-img" src.bind="photo.medium" />
-            
-        </a>
-        <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"  
-            disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light"> 
-            <i class="material-icons">remove</i> 
-        </a>
+    <require from="resources/features/remarks/remark-summary"></require>
+    <div class="remark-view">
+      <remark-summary remark.bind="remark"></remark-summary>
+      <div class="row text-field">
+        <div class="col s12">
+          <span>${'remark.rating' | t}</span>
+        </div>
+        <div class="col s12">
+          <p textcontent.bind="rating"></p>
+        </div>
       </div>
-    </div>
-    <div class="row" if.bind="isRemarkReported && hasMultuplePhotos">
-        <div class="col s6">
-            <button class="btn ${hasPreviousPhoto === false ? 'disabled' : ''}" click.delegate="showPreviousPhoto()"><<</button>
+      <div class="row text-field">
+        <div class="col s12">
+          <span>${'remark.author' | t}</span>
         </div>
-        <div class="col s6">
-            <button class="btn ${hasNextPhoto === false ? 'disabled' : ''}" click.delegate="showNextPhoto()">>></button>
-        </div>  
-    </div>
-    <div class="divider"></div>
-    <div class="section">
-        <div class="row">
-            <div class="col s12">
-                <label>${'remark.category' | t}</label>
-                <p textcontent.one-way="remark.categoryName"/>
-            </div>
-            <div class="col s12">
-                <label>${'remark.location' | t}</label>
-                <p>${remark.location.address}</p>
-            </div>
-            <div class="col s12">
-                <label>${'remark.tags' | t}</label>
-                <div class="row">
-                    <div class="col s12">
-                        <p></p>
-                        <md-chip md-close="false" repeat.for="tag of tags">
-                            ${tag.value}
-                        </md-chip>
-                    </div>
-                </div>
-            </div>
-            <div class="col s12">
-                <label>${'remark.description' | t}</label>              
-                <p textcontent.one-way="remark.description"/>
-            </div>
-            <div class="col s12">
-                <label>${'remark.rating' | t}</label>     
-                <p textcontent.one-way="rating"/>
-            </div>
-            <div class="col s12">
-                <label>${'remark.author' | t}</label>
-                <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
-            </div>
+        <div class="col s12">
+          <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
         </div>
+      </div>
     </div>
     <div if.bind="remark.resolved">
         <h4>${'remark.resolved' | t}</h4>

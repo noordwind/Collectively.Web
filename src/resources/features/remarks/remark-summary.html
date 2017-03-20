@@ -2,7 +2,7 @@
   <div class="remark-summary-view">
     <div class="row">
       <div class="col s12 category-text">
-        <span>${'remark.category_'+remark.category | t}</span>
+        <span>${'remark.category_'+remark.category.name | t}</span>
       </div>
       <div class="col s12 location-text">
         <i class="material-icons">my_location</i>
@@ -13,7 +13,7 @@
       <div class="photos-section">
         <div class="photos-slider">
           <div class="photos-wrapper">
-            <div if.bind="!remark.photos" class="photo-placeholder">
+            <div if.bind="!hasPhoto" class="photo-placeholder">
                 <span>${'remark.no_image' | t}</span>
             </div>
             <div repeat.for="photo of remark.photos" if.bind="photo.visible">

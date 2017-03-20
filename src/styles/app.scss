@@ -323,6 +323,23 @@ li > a {
   }
 }
 
+.remark-view {
+  .text {
+    color: $secondary-dark-color;
+    font-weight: 600;
+  }
+
+  .text-field{
+    @extend .text;
+    font-size: 15px;
+
+    p {
+      font-size: 15px;
+      font-weight: 300;
+    }
+  }
+}
+
 .main-menu {
   .side-nav {
     background-color: $primary-dark-color;

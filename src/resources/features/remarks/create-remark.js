@@ -25,6 +25,9 @@ export class CreateRemark {
     this.operationService = operationService;
     this.log = logService;
     this.remark = {
+      category: {
+        name: ''
+      },
       tags: []
     };
     this.sending = false;
@@ -48,7 +51,7 @@ export class CreateRemark {
   }
 
   async activate(params) {
-    this.remark.category = params.category;
+    this.remark.category.name = params.category;
     this.remark.latitude = this.location.current.latitude;
     this.remark.longitude = this.location.current.longitude;
     this.remark.address = this.location.current.address;
@@ -80,8 +83,10 @@ export class CreateRemark {
     this.sending = true;
     this.loader.display();
     this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
-    this.log.trace('create_remark_submitted', {remark: this.remark});
-    await this.remarkService.sendRemark(this.remark);
+    let remark = JSON.parse(JSON.stringify(this.remark));
+    remark.category = this.remark.category.name;
+    this.log.trace('create_remark_submitted', {remark: remark});
+    await this.remarkService.sendRemark(remark);
   }
 
   displayCamera() {
@@ -102,7 +107,6 @@ export class CreateRemark {
   async addPhotos(remarkId, base64Image) {
     this.sending = true;
     this.loader.display();
-    this.toast.info(this.translationService.tr('remark.adding_photo'));
     let reader = new FileReader();
     let file = this.newImage;
     reader.onload = async () => {
@@ -124,7 +128,6 @@ export class CreateRemark {
       };
 
       await this.remarkService.addPhotos(remarkId, photos);
-      await this.toast.success(this.translationService.tr('remark.processing_photo'), 6000);
     };
     reader.readAsDataURL(file);
   }
