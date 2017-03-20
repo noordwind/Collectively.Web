@@ -3,44 +3,25 @@
     <require from="resources/features/images/image-resizer"></require>
     <require from="resources/features/remarks/remark-summary"></require>
     <div class="remark-view">
-      <remark-summary remark.bind="remark"></remark-summary>
-      <div class="row text-field">
-        <div class="col s12">
-          <span>${'remark.rating' | t}</span>
+      <div class="section">
+        <remark-summary remark.bind="remark"></remark-summary>
+        <div class="row text-field">
+          <div class="col s12">
+            <span>${'remark.rating' | t}</span>
+          </div>
+          <div class="col s12">
+            <p textcontent.bind="rating"></p>
+          </div>
         </div>
-        <div class="col s12">
-          <p textcontent.bind="rating"></p>
+        <div class="row text-field">
+          <div class="col s12">
+            <span>${'remark.author' | t}</span>
+          </div>
+          <div class="col s12">
+            <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
+          </div>
         </div>
       </div>
-      <div class="row text-field">
-        <div class="col s12">
-          <span>${'remark.author' | t}</span>
-        </div>
-        <div class="col s12">
-          <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
-        </div>
-      </div>
-    </div>
-    <div if.bind="remark.resolved">
-        <h4>${'remark.resolved' | t}</h4>
-        <div class="divider"></div>
-        <div class="section">
-            <div class="row">
-                <div if.bind="resolvedBigPhoto" class="col s12">
-                    <a href.bind="resolvedBigPhoto.url" target="_blank">
-                        <img class="responsive-img" src.bind="resolvedMediumPhoto.url"/>
-                    </a>
-                </div>
-                <div class="col s12">
-                    <label>${'remark.resolved_by' | t}</label>
-                    <p><a route-href="route: user-remarks; params.bind: {name : remark.resolver.name}">${remark.resolver.name}</a></p>
-                </div>
-                <div class="col s12">
-                    <label>${'remark.resolved_at' | t}</label>
-                    <p>${remark.resolvedAt | dateFormat}</p>
-                </div>                
-            </div>
-        </div>
     </div>
     <div if.bind="canVote">
         <div class="section">

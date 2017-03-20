@@ -248,9 +248,17 @@ li > a {
 }
 
 .remark-summary-view {
+  padding-top: 23px;
+
   .text {
     color: $secondary-dark-color;
     font-weight: 600;
+  }
+
+  .state-text {
+    @extend .text;
+    font-size: 15px;
+    text-transform: uppercase;
   }
 
   .category-text {
