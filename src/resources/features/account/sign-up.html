@@ -1,40 +1,57 @@
 <template>
-  <div class="row">  
-    <h4>${'account.sign_up_for_app' | t}</h4>
-  </div>
-  <form submit.delegate="submit()" class="col s12">
-    <div class="row">
-      <md-input class="col s12"
-        md-label="${'account.name' | t}" 
-        md-value.bind="account.name & validate"
-        md-validate="true">
-      </md-input>
-    </div>
-    <div class="row">
-      <md-input class="col s12"
-        md-label="${'account.email' | t}" 
-        md-type="email"
-        md-value.bind="account.email & validate"
-        md-validate="true">
-      </md-input>
-    </div>
-    <div class="row">
-      <md-input class="col s12"
-        md-label="${'account.password' | t}" 
-        md-type="password"
-        md-value.bind="account.password & validate"
-        md-validate="true">
-      </md-input>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <button md-button disabled.bind="sending" class="btn waves-effect waves-light btn-large" type="submit">${'account.sign_up' | t}</button>
+  <div class="sign-up-view">
+    <form submit.delegate="submit()">
+      <div class="section">
+        <div class="row">
+          <input class="col s12" type="text" value.bind="account.name & validate"
+            placeholder="${'account.name' | t}"  />
+        </div>
+        <div class="row">
+          <input class="col s12" type="email" value.bind="account.email & validate"
+            placeholder="${'account.email' | t}"  />
+        </div>
+        <div class="row">
+          <input class="col s12" type="password" value.bind="account.password & validate"
+            placeholder="${'account.password' | t}"/>
+        </div>
       </div>
-    </div>
-  </form>
-  <div class="section">
-    <div class="col s12">
-        ${'account.already_have_account' | t} <a route-href="route: sign-in" >${'common.click_here' | t}</a> ${'account.to_sign_in' | t}
-    </div>
+      <div class="buttons">
+        <div class="section">
+          <div class="row">
+            <div class="col s12">
+              <button disabled.bind="sending" class="btn waves-effect waves-light btn-large" 
+                type="submit">${'account.sign_up' | t}</button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col s10 offset-s1">
+            <div class="text-divider">${'common.or' | t}</div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="row">
+            <div class="col s10 offset-s1">
+              <button disabled.bind="sending" class="btn btn-facebook waves-effect waves-light btn-large" 
+                click.delegate="facebookSignIn()">
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="section">
+          <div class="row">
+            <div class="col s12 additional-text">
+              <a route-href="route: sign-in" >
+                <span>
+                  ${'account.already_have_account' | t}
+                  ${'common.click_here' | t}
+                  ${'account.to_sign_in' | t}
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
   </div>
 </template>

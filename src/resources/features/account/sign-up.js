@@ -1,21 +1,22 @@
 import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import {I18N} from 'aurelia-i18n';
-import TranslationService from 'resources/services/translation-service';
 import { ValidationControllerFactory,
   ValidationRules,
   validateTrigger  } from 'aurelia-validation';
 import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
+import TranslationService from 'resources/services/translation-service';
 import UserService from '../../services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
+import FacebookService from 'resources/services/facebook-service';
 
 @inject(Router, I18N, TranslationService, ValidationControllerFactory, UserService,
-  ToastService, LoaderService, OperationService)
+  ToastService, LoaderService, OperationService, FacebookService)
 export class SignUp {
   constructor(router, i18n, translationService, controllerFactory, userService,
-    toast, loader, operationService) {
+    toast, loader, operationService, facebookService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -24,6 +25,7 @@ export class SignUp {
     this.toast = toast;
     this.loader = loader;
     this.operationService = operationService;
+    this.facebookService = facebookService;
     this.account = {
       email: '',
       password: '',
@@ -82,6 +84,20 @@ export class SignUp {
     this.sending = true;
     this.toast.info(this.translationService.tr('account.creating_account'));
     await this.userService.signUp(this.account);
+  }
+
+  facebookSignIn() {
+    this.sending = true;
+    this.loader.display();
+    this.facebookService.login(() => {
+      this.loader.hide();
+      this.router.navigateToRoute('location');
+
+      return;
+    }, () => {
+      this.loader.hide();
+      this.sending = false;
+    });
   }
 
   handleSignedUp(operation) {

@@ -100,5 +100,5 @@ export class SignIn {
       this.loader.hide();
       this.sending = false;
     });
-  }  
+  }
 }
