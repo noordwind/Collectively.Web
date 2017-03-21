@@ -5,20 +5,6 @@
                 <i class="material-icons back-btn">arrow_back</i>
             </a>
             <a route-href="route: remarks" class="title">${title | t}</a>
-            <ul class="right hide-on-med-and-down">
-                <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
-                    <a class="waves-effect" href.bind="route.href">
-                        <i class="material-icons left">${route.settings.icon}</i>
-                        <span t="${route.settings.translationKey}"></span>
-                    </a>
-                </li>
-                <li if.bind="authService.isLoggedIn">
-                    <a class="waves-effect"  href="#" click.delegate="logout()">
-                        <i class="material-icons left">power_settings_new</i>
-                        <span t="${'route.logout'}"></span>
-                    </a>
-                </li>
-            </ul>
         </div>
     </nav>
 </template>
