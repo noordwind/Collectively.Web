@@ -2,7 +2,9 @@
   "account":{
     "account_created": "Your account has been created.",
     "already_have_account": "Already have an account?",
+    "avatar_uploaded": "Avatar was chaned.",
     "browse_user_profile": "Browse user profile",
+    "change_avatar": "Change avatar",
     "creating_account": "Creating your account, please wait...",
     "do_not_remember_password": "Don't remember your password?",
     "do_not_have_account": "Don't' have an account yet?",
@@ -56,6 +58,7 @@
     "to_reset_password": "to reset it.",
     "to_sign_in": "to sign in.",
     "to_sign_up": "to sign up.",
+    "upload_avatar": "Upload avatar",
     "user": "User"
   },
   "code": {

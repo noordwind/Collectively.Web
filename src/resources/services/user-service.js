@@ -1,56 +1,62 @@
 import {inject} from 'aurelia-framework';
-import {HttpClient} from 'aurelia-fetch-client';
 import ApiBaseService from 'resources/services/api-base-service';
-import CacheService from 'resources/services/cache-service';
-import AuthService from 'resources/services/auth-service';
-import ToastService from 'resources/services/toast-service';
 import OperationService from 'resources/services/operation-service';
 
-@inject(HttpClient, CacheService, AuthService, ToastService, OperationService)
-export default class UserService extends ApiBaseService {
-  constructor(httpClient, cacheService, authService, toastService, operationService)  {
-    super(httpClient, cacheService, authService, toastService);
+@inject(ApiBaseService, OperationService)
+export default class UserService {
+  constructor(apiBaseService, operationService)  {
+    this.apiBaseService = apiBaseService;
     this.operationService = operationService;
   }
 
   async signIn(account) {
-    return await this.post('sign-in', account);
+    return await this.apiBaseService.post('sign-in', account);
   }
 
   async signUp(account) {
     return await this.operationService.execute(async ()
-      => await this.post('sign-up', account));
+      => await this.apiBaseService.post('sign-up', account));
   }
 
   async getAccount(cache = true) {
-    return await this.get('account', {}, cache);
+    return await this.apiBaseService.get('account', {}, cache);
   }
 
   async getAccountByName(name) {
-    return await this.get(`users/${name}`);
+    return await this.apiBaseService.get(`users/${name}`);
   }
 
   async isNameAvailable(name) {
-    return await this.get(`account/names/${name}/available`, {}, false);
+    return await this.apiBaseService.get(`account/names/${name}/available`, {}, false);
   }
 
   async changeUsername(name) {
     return await this.operationService.execute(async ()
-      => await this.put('account/name', { name }));
+      => await this.apiBaseService.put('account/name', { name }));
   }
 
   async changePassword(currentPassword, newPassword) {
     return await this.operationService.execute(async ()
-      => await this.put('account/password', { currentPassword, newPassword }));
+      => await this.apiBaseService.put('account/password', { currentPassword, newPassword }));
   }
 
   async resetPassword(email) {
     return await this.operationService.execute(async ()
-      => await this.post('reset-password', { email }));
+      => await this.apiBaseService.post('reset-password', { email }));
   }
 
   async setNewPassword(email, token, password) {
     return await this.operationService.execute(async ()
-      => await this.post('reset-password/set-new', { email, token, password }));
+      => await this.apiBaseService.post('reset-password/set-new', { email, token, password }));
+  }
+
+  async uploadAvatar(avatar) {
+    this._clearUserCache();
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post('account/avatar', avatar));
+  }
+
+  _clearUserCache() {
+    this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account.*/);
   }
 }

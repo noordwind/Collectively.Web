@@ -2,7 +2,9 @@
   "account":{
     "account_created": "Twoje konto zostało utworzone.",
     "already_have_account": "Posiadasz już konto?",
+    "avatar_uploaded": "Awatar został zmieniony.",
     "browse_user_profile": "Przeglądaj profil użytkownika",
+    "change_avatar": "Zmień awatar",
     "creating_account": "Tworzymy Twoje konto, proszę czekać...",
     "do_not_remember_password": "Nie pamiętasz hasła?",
     "do_not_have_account": "Nie posiadasz jeszcze konta?",
@@ -56,6 +58,7 @@
     "to_reset_password": "aby je zresetować.",
     "to_sign_in": "aby się zalogować.",
     "to_sign_up": "aby się zarejestrować.",
+    "upload_avatar": "Wyślij awatar",
     "user": "Użytkownik"
   },
   "code": {
