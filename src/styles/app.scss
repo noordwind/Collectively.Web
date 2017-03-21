@@ -443,6 +443,7 @@ li > a {
 
 .main-menu {
   .side-nav {
+    z-index: 1001;
     background-color: $primary-dark-color;
 
     li {
