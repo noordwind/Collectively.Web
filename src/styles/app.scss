@@ -6,6 +6,7 @@ $primary-light-color: #FFFFFF;
 $secondary-light-color: #3B8DFF;
 $primary-dark-color: #2E2E2E;
 $secondary-dark-color: #656565;
+$tertiary-dark-color: rgba(black, .1);
 $mobile-width: 992px;
 
 body {
@@ -215,11 +216,11 @@ li > a {
     display: block;
     padding: 10px 0;
     font-size: 23px;
-    border-bottom: 2px solid rgba(black, .1);
+    border-bottom: 2px solid $tertiary-dark-color;
   }
 
   .materialize-textarea {
-    border-bottom: 2px solid rgba(black, .1) !important;
+    border-bottom: 2px solid $tertiary-dark-color !important;
     box-shadow: 0 0 0 0 transparent !important;    
   }
 
@@ -230,7 +231,7 @@ li > a {
   }
 
   .add-media {
-    background-color: rgba(black, .1);
+    background-color: $tertiary-dark-color;
     height: 150px;
     width: 100%;
     text-align: center;
@@ -317,7 +318,7 @@ li > a {
       left: 0;
       width: 100%;
       height: 320px;
-      background-color: rgba(black, .1);
+      background-color: $tertiary-dark-color;
       text-align: center;
 
       img {
@@ -344,6 +345,67 @@ li > a {
     p {
       font-size: 15px;
       font-weight: 300;
+    }
+  }
+}
+
+.sign-in-view {
+  form {
+    margin-top: 40%;
+  }
+
+  input {
+    color: $primary-dark-color;
+    font-weight: 600;
+    font-size: 23px;
+    border-bottom: 2px solid $tertiary-dark-color !important;
+    box-shadow: 0 0 0 0 transparent !important;  
+  }
+
+  input:focus {
+    outline: none !important;
+    border-bottom: 2px solid $primary-color !important;
+    box-shadow: 0 1px 0 0 $primary-color !important;
+  }
+
+  .row {
+    margin: 0 auto;
+  }
+
+  .text-divider {
+	display: flex;
+	flex-basis: 100%;
+	align-items: center;
+	color: $primary-dark-color;
+	margin: 8px 0px;
+  text-transform: uppercase;
+  }
+  
+  .text-divider::before,
+  .text-divider::after {
+    content: "";
+    flex-grow: 1;
+    background: $tertiary-dark-color;
+    height: 1px;
+    font-size: 0px;
+    line-height: 0px;
+    margin: 0px 8px;
+  }
+
+  .buttons {
+    margin-top: 15%;
+  }
+
+  .btn-facebook {
+    background: #4C69BA url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') no-repeat center;
+  }
+
+  .forgot-pwd {
+    text-align: center;
+    span {
+      color: $secondary-dark-color;
+      font-size: 15px;
+      font-weight: 500;
     }
   }
 }
@@ -384,7 +446,7 @@ li > a {
 
 .remark-list-item {
   padding: 15px 0 !important;
-  border-bottom: 1px solid rgba(black, .1);
+  border-bottom: 1px solid $tertiary-dark-color;
 
   i {
     font-size: 3rem;
