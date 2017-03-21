@@ -7,7 +7,9 @@ export default [
     name: 'start',
     title: 'Start',
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: true
+      },
       translationKey: 'route.start'
     }
   },
@@ -17,7 +19,11 @@ export default [
     name: 'sign-in',
     title: 'Sign in',
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'start'
+      },
       translationKey: 'route.sign_in'
     }
   },
@@ -27,7 +33,11 @@ export default [
     name: 'reset-password',
     title: 'Reset password',
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'start'
+      },
       translationKey: 'route.reset_password'
     }
   },
@@ -37,7 +47,11 @@ export default [
     name: 'set-new-password',
     title: 'Set new password',
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'start'
+      },
       translationKey: 'route.set_new_password'
     }
   },
@@ -47,7 +61,11 @@ export default [
     name: 'sign-up',
     title: 'Sign up',
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'start'
+      },
       translationKey: 'route.sign_up'
     }
   },
@@ -58,6 +76,10 @@ export default [
     title: 'location',
     settings: {
       reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg'
+      },
       translationKey: 'route.location'
     }
   },
@@ -70,7 +92,9 @@ export default [
     settings: {
       reqLogin: true,
       icon: 'view_list',
-      hideNavbar: true,
+      navbar: {
+        hide: true
+      },
       translationKey: 'route.map'
     }
   },
@@ -83,6 +107,11 @@ export default [
     settings: {
       reqLogin: true,
       icon: 'show_chart',
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'statistics.statistics'
     }
   },
@@ -93,7 +122,9 @@ export default [
     title: 'Display remark',
     nav: false,
     settings: {
-      hideNavbar: true,
+      navbar: {
+        hide: true
+      },
       translationKey: 'route.remark_display'
     }
   },
@@ -104,6 +135,11 @@ export default [
     title: 'Remark',
     nav: false,
     settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'route.remark'
     }
   },
@@ -115,6 +151,11 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'route.create_remark'
     }
   },
@@ -126,7 +167,11 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
-      hideNavbar: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'route.create_remark'
     }
   },
@@ -138,6 +183,11 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'route.filter_remarks'
     }
   },
@@ -151,6 +201,11 @@ export default [
     settings: {
       reqLogin: true,
       icon: 'account_box',
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'remarks'
+      },
       translationKey: 'route.profile'
     }
   },
@@ -162,6 +217,10 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg'
+      },
       translationKey: 'route.set_username'
     }
   },
@@ -173,6 +232,11 @@ export default [
     nav: false,
     settings: {
       reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'profile'
+      },
       translationKey: 'route.change_password'
     }
   },
@@ -183,6 +247,11 @@ export default [
     title: 'Remarks',
     nav: false,
     settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'previous'
+      },
       translationKey: 'route.user_remarks'
     }
   },
@@ -193,6 +262,11 @@ export default [
     title: 'Remarks',
     nav: false,
     settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'previous'
+      },
       translationKey: 'route.user_resolved_remarks'
     }
   },
@@ -203,6 +277,11 @@ export default [
     title: 'Remarks',
     nav: false,
     settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'statistics'
+      },
       translationKey: 'route.user_remarks'
     }
   },
@@ -213,6 +292,11 @@ export default [
     title: 'Remarks',
     nav: false,
     settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'statistics'
+      },
       translationKey: 'route.user_remarks'
     }
   }

@@ -1,10 +1,10 @@
 <template>
-    <nav role="navigation" class="ft-nav">
+    <nav role="navigation" class="ft-nav ${settings.bgColor}">
         <div class="container">
-            <a if.bind="canGoBack" click.trigger="back()" class="left hide-on-large-only">
+            <a if.bind="settings.backRoute" click.trigger="back()" class="left hide-on-large-only">
                 <i class="material-icons back-btn">arrow_back</i>
             </a>
-            <a route-href="route: remarks" class="brand-logo">Collectively</a>
+            <a route-href="route: remarks" class="title">${title | t}</a>
             <ul class="right hide-on-med-and-down">
                 <li repeat.for="route of navigation" class="${route.isActive ? 'active' : ''}">
                     <a class="waves-effect" href.bind="route.href">

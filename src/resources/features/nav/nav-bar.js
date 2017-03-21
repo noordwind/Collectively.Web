@@ -32,7 +32,15 @@ export class NavBar {
   }
 
   back() {
-    this.router.navigateBack();
+    if (!this.settings && !this.settings.backRoute) {
+      return;
+    }
+    if (this.settings.backRoute === 'previous') {
+      this.router.navigateBack();
+      return;
+    }
+    this.router.navigateToRoute(this.settings.backRoute);
+    return;
   }
 
   get canGoBack() {
@@ -49,5 +57,18 @@ export class NavBar {
       }
     }
     return customNav;
+  }
+
+  get title() {
+    if (this.router.currentInstruction) {
+      return this.router.currentInstruction.config.settings.translationKey;
+    }
+    return '';
+  }
+
+  get settings() {
+    if (this.router.currentInstruction) {
+      return this.router.currentInstruction.config.settings.navbar;
+    }
   }
 }

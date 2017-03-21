@@ -24,7 +24,30 @@ h1,h2,h3,h4,h5,h6,a{
 }
 
 nav {
-    background-color: $primary-color
+  background-color: $primary-light-color;
+  box-shadow: none;
+
+  .title {
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+}
+
+nav.blue-bg {
+  background-color: $primary-color;
+  border-bottom: 1px solid $primary-light-color;
+  a {
+    color: $primary-light-color;
+  }
+}
+
+nav.white-bg {
+  background-color: $primary-light-color;
+  border-bottom: 1px solid $tertiary-dark-color;
+  a {
+    color: $primary-dark-color;
+  }
 }
 
 i.primary-color {
@@ -351,7 +374,7 @@ li > a {
 
 .sign-in-view {
   form {
-    margin-top: 40%;
+    margin-top: 30%;
   }
 
   input {
