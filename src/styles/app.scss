@@ -400,13 +400,21 @@ li > a {
     background: #4C69BA url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/14082/icon_facebook.png') no-repeat center;
   }
 
-  .forgot-pwd {
+  .additional-text {
     text-align: center;
     span {
       color: $secondary-dark-color;
       font-size: 15px;
       font-weight: 500;
     }
+  }
+}
+
+.sign-up-view {
+  @extend .sign-in-view;
+
+  form {
+    margin-top: 30%;
   }
 }
 
