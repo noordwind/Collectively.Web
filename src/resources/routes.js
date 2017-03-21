@@ -168,9 +168,7 @@ export default [
     settings: {
       reqLogin: true,
       navbar: {
-        hide: false,
-        bgColor: 'white-bg',
-        backRoute: 'remarks'
+        hide: true
       },
       translationKey: 'route.create_remark'
     }
