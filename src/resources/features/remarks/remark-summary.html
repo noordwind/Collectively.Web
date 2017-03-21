@@ -27,7 +27,7 @@
               </a>
               <img if.bind="!photo.big" src.bind="photo.medium" />
             </div>
-            <div if.bind="isRemarkReported && hasMultuplePhotos">
+            <div if.bind="isRemarkReported && hasMultiplePhotos">
               <div class="prev-button">
                 <button class="btn ${hasPreviousPhoto === false ? 'disabled' : ''}" click.delegate="showPreviousPhoto()">
                   <i class="material-icons">keyboard_arrow_left</i>

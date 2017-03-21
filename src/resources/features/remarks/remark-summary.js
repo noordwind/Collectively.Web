@@ -38,7 +38,7 @@ export class RemarkSummary {
     return this.remark && this.remark.photos && this.remark.photos.length > 0;
   }
 
-  get hasMultuplePhotos() {
+  get hasMultiplePhotos() {
     return this.hasPhoto && this.remark.photos.length > 1;
   }
 
