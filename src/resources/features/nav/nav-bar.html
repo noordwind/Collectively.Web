@@ -1,7 +1,7 @@
 <template>
     <nav role="navigation" class="ft-nav ${settings.bgColor}">
         <div class="container">
-            <a if.bind="settings.backRoute" click.trigger="back()" class="left hide-on-large-only">
+            <a if.bind="settings.backRoute" click.trigger="back()" class="left">
                 <i class="material-icons back-btn">arrow_back</i>
             </a>
             <a route-href="route: remarks" class="title">${title | t}</a>
