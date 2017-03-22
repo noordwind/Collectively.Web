@@ -1,26 +1,38 @@
 import {inject, bindable} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import ToastService from 'resources/services/toast-service';
+import LoaderService from 'resources/services/loader-service';
 import TranslationService from 'resources/services/translation-service';
 import RemarkService from 'resources/services/remark-service';
 import OperationService from 'resources/services/operation-service';
+import AuthService from 'resources/services/auth-service';
+import UserService from 'resources/services/user-service';
 
-@inject(ToastService, TranslationService,
- RemarkService, OperationService, EventAggregator)
+@inject(ToastService, LoaderService, TranslationService,
+ RemarkService, OperationService, AuthService,
+ UserService, EventAggregator)
 export class RemarkSummary {
   @bindable remark = null;
 
-  constructor(toastService, translationService,
-  remarkService, operationService, eventAggregator) {
+  constructor(toastService, loader, translationService,
+  remarkService, operationService, authService,
+  userService, eventAggregator) {
     this.toast = toastService;
+    this.loader = loader;
     this.translationService = translationService;
     this.remarkService = remarkService;
     this.operationService = operationService;
+    this.authService = authService;
+    this.userService = userService;
     this.eventAggregator = eventAggregator;
     this.visiblePhotoIndex = 0;
+    this.account = {userId: ''};
   }
 
   async attached() {
+    if (this.isAuthenticated) {
+      this.account = await this.userService.getAccount();
+    }
     this.remarkPhotoAddedSubscription = await this.subscribeRemarkPhotoAdded();
     this.remarkPhotoRemovedSubscription = await this.subscribeRemarkPhotoRemoved();
   }
@@ -28,6 +40,10 @@ export class RemarkSummary {
   detached() {
     this.remarkPhotoAddedSubscription.dispose();
     this.remarkPhotoRemovedSubscription.dispose();
+  }
+
+  get isAuthenticated() {
+    return this.authService.isLoggedIn;
   }
 
   get isRemarkReported() {
@@ -50,12 +66,19 @@ export class RemarkSummary {
     return this.hasPhoto && this.visiblePhotoIndex < this.remark.photos.length - 1;
   }
 
+  get canDeletePhotos() {
+    return this.isAuthenticated
+      && this.remark.createdAt
+      && this.account
+      && this.account.userId === this.remark.author.userId;
+  }
+
   markPhotoToDelete(photo) {
     this.photoToDelete = photo;
   }
 
   async deletePhoto() {
-    if (this.photoToDelete === null) {
+    if (!this.photoToDelete) {
       return;
     }
 
@@ -64,6 +87,11 @@ export class RemarkSummary {
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.deleting_photo'));
     await this.remarkService.deletePhoto(this.remark.id, groupId);
+    let index = this.remark.photos.findIndex(x => x.groupId === groupId);
+    if (index > -1) {
+      this.remark.photos.splice(index, 1);
+    }
+    this.showLastPhoto();
   }
 
   showPreviousPhoto() {
@@ -122,6 +150,7 @@ export class RemarkSummary {
   async subscribeRemarkPhotoRemoved() {
     return await this.eventAggregator
       .subscribe('remark:photo_removed', async message => {
+        console.log(message);
         if (message.remarkId !== this.remark.id) {
           return;
         }
