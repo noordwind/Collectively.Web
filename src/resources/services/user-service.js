@@ -56,7 +56,13 @@ export default class UserService {
       => await this.apiBaseService.post('account/avatar', avatar));
   }
 
+  async removeAvatar() {
+    this._clearUserCache();
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete('account/avatar'));
+  }
+
   _clearUserCache() {
-    this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account.*/);
+    this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account*/);
   }
 }

@@ -26,6 +26,8 @@ export default class OperationService {
     this.operations = [
       map('sign_up', 'signed_up'),
       map('set_new_password', 'new_password_set'),
+      map('upload_avatar', 'avatar_uploaded'),
+      map('remove_avatar', 'avatar_removed'),
       map('change_username', 'username_changed'),
       map('change_password', 'password_changed'),
       map('create_remark', 'remark_created'),

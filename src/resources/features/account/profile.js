@@ -7,15 +7,16 @@ import StatisticsService from 'resources/services/statistics-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import TranslationService from 'resources/services/translation-service';
+import OperationService from 'resources/services/operation-service';
 import {Router} from 'aurelia-router';
 
 @inject(AuthService, UserService, RemarkService,
 LocationService, StatisticsService, ToastService,
-LoaderService, TranslationService, Router)
+LoaderService, TranslationService, OperationService, Router)
 export class Profile {
   constructor(authService, userService, remarkService,
   locationService, statisticsService, toast, loader,
-    translationService, router) {
+    translationService, operationService, router) {
     this.authService = authService;
     this.userService = userService;
     this.remarkService = remarkService;
@@ -24,6 +25,7 @@ export class Profile {
     this.toast = toast;
     this.loader = loader;
     this.translationService = translationService;
+    this.operationService = operationService;
     this.router = router;
     this.sending = false;
     this.remarks = [];
@@ -34,6 +36,7 @@ export class Profile {
       reportedCount: 0,
       resolvedCount: 0
     };
+    this.setDefaultAvatar();
   }
 
   async activate(params) {
@@ -43,13 +46,18 @@ export class Profile {
   }
 
   async attached() {
+    this.operationService.subscribe('upload_avatar',
+      async operation => await this.handleAvatarUploaded(operation),
+      operation => this.handleUploadAvatarRejected(operation));
+    this.operationService.subscribe('remove_avatar',
+      async operation => await this.handleAvatarRemoved(operation),
+      operation => this.handleRemoveAvatarRejected(operation));
     await this.fetchUser();
     if (!this.user.name) {
       return;
     }
     await this.fetchStatistics();
     await this.fetchRemarks();
-    this.avatar = this.user.avatarUrl ? this.user.avatarUrl : 'assets/images/user_placeholder.png';
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
@@ -63,6 +71,9 @@ export class Profile {
     } else {
       this.user = await this.userService.getAccountByName(this.username);
     }
+    if (this.user.avatarUrl) {
+      this.avatar = this.user.avatarUrl;
+    }
   }
 
   async fetchStatistics() {
@@ -72,7 +83,8 @@ export class Profile {
     } else {
       this.statistics = {
         remarks: {
-          reportedCount: 0
+          reportedCount: 0,
+          resolvedCount: 0
         }
       };
     }
@@ -147,10 +159,42 @@ export class Profile {
         avatar
       };
       await this.userService.uploadAvatar(request);
-      this.toast.success(this.translationService.tr('account.avatar_uploaded'));
-      this.sending = false;
-      this.loader.hide();
     };
     reader.readAsDataURL(file);
+  }
+
+  async handleAvatarUploaded(operation) {
+    this.toast.success(this.translationService.tr('account.avatar_uploaded'));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleUploadAvatarRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  async removeAvatar() {
+    this.sending = true;
+    this.loader.hide();
+    await this.userService.removeAvatar();
+  }
+
+  async handleAvatarRemoved(operation) {
+    this.setDefaultAvatar();
+    this.toast.success(this.translationService.tr('account.avatar_removed'));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleRemoveAvatarRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  setDefaultAvatar() {
+    this.avatar = 'assets/images/user_placeholder.png';
   }
 }

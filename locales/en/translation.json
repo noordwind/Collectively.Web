@@ -2,7 +2,8 @@
   "account":{
     "account_created": "Your account has been created.",
     "already_have_account": "Already have an account?",
-    "avatar_uploaded": "Avatar was chaned.",
+    "avatar_removed": "Avatar was removed.",
+    "avatar_uploaded": "Avatar was changed.",
     "browse_user_profile": "Browse user profile",
     "change_avatar": "Change avatar",
     "creating_account": "Creating your account, please wait...",

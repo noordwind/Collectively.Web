@@ -2,6 +2,7 @@
   "account":{
     "account_created": "Twoje konto zostało utworzone.",
     "already_have_account": "Posiadasz już konto?",
+    "avatar_removed": "Awatar został usunięty.",
     "avatar_uploaded": "Awatar został zmieniony.",
     "browse_user_profile": "Przeglądaj profil użytkownika",
     "change_avatar": "Zmień awatar",
