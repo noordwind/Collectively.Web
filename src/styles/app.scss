@@ -23,6 +23,16 @@ h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
+.blue-bg {
+  background-color: $primary-color;
+  color: $primary-light-color;
+}
+
+.white-bg {
+  background-color: $primary-light-color;
+  color: $primary-dark-color;
+}
+
 nav {
   background-color: $primary-light-color;
   box-shadow: none;
@@ -449,6 +459,9 @@ li > a {
   form {
     margin-top: 30px;
   }
+}
+
+.filters-view {
 }
 
 .main-menu {
