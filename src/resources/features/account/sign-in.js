@@ -13,10 +13,13 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
 
-@inject(Router, I18N, TranslationService, ValidationControllerFactory, AuthService,
-  FacebookService, UserService, ToastService, LoaderService)
+@inject(Router, I18N, TranslationService,
+ValidationControllerFactory, AuthService,
+FacebookService, UserService, ToastService, LoaderService)
 export class SignIn {
-  constructor(router, i18n, translationService, controllerFactory, authService, facebookService, userService, toast, loader) {
+  constructor(router, i18n, translationService,
+  controllerFactory, authService, facebookService,
+  userService, toast, loader) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
