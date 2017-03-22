@@ -25,7 +25,7 @@ export class SignUp {
     this.toast = toast;
     this.loader = loader;
     this.operationService = operationService;
-    this.facebookService = facebookService;
+    this.facebookService = facebookService.init();
     this.account = {
       email: '',
       password: '',
