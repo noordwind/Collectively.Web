@@ -122,6 +122,14 @@ export class Profile {
     return this.avatar;
   }
 
+  get defaultAvatarUrl() {
+    return 'assets/images/user_placeholder.png';
+  }
+
+  get isAvatarDefault() {
+    return this.avatarUrl === this.defaultAvatarUrl;
+  }
+
   displayCamera() {
     this.fileInput.click();
   }
@@ -195,6 +203,6 @@ export class Profile {
   }
 
   setDefaultAvatar() {
-    this.avatar = 'assets/images/user_placeholder.png';
+    this.avatar = this.defaultAvatarUrl;
   }
 }

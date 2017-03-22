@@ -6,19 +6,25 @@
       <a route-href="route: remarks" class="btn btn-large">${'account.go_back_to_remarks' | t}</a>
     </div>
     <div if.bind="user.name">
+      <div class="avatar-wrapper">
         <form if.bind="isCurrentUser">
-            <div class="section">
-                <img src.bind="avatarUrl" class="avatar pointer responsive-img" title="${'account.change_avatar' | t}" click.delegate="displayCamera()"/>
-                <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
-                <image-resizer image.bind="newImage" width="200" height="200" resized.bind="newImageResized"></image-resizer>
-            </div>
-            <button class="btn waves-effect waves-light" click.delegate="uploadAvatar()" if.bind="avatarSelected">
-                ${'account.upload_avatar' | t}
-            </button>
-        </form>
-        <div if.bind="!isCurrentUser">
-            <img src.bind="avatarUrl" class="avatar responsive-img"/>
-        </div> 
+              <div class="section">
+                  <img src.bind="avatarUrl" class="avatar pointer responsive-img" title="${'account.change_avatar' | t}" click.delegate="displayCamera()"/>
+                  <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+                  <image-resizer image.bind="newImage" width="200" height="200" resized.bind="newImageResized"></image-resizer>
+                  <a if.bind="avatarUrl && !isAvatarDefault && !avatarSelected" title="${'common.delete' | t}" md-modal-trigger href="#modal-remove-avatar"   
+                    disabled.bind="sending" class="btn btn-img btn-floating waves-effect waves-light">  
+                    <i class="material-icons">remove</i>
+                  </a>
+              </div>
+              <button class="btn waves-effect waves-light" click.delegate="uploadAvatar()" if.bind="avatarSelected">
+                  ${'account.upload_avatar' | t}
+              </button>
+          </form>
+          <div if.bind="!isCurrentUser">
+              <img src.bind="avatarUrl" class="avatar responsive-img"/>
+          </div> 
+      </div>
       <h3>${user.name}</h3>
       <div class="row">
           <div class="col s12">
@@ -47,6 +53,15 @@
             <a route-href="route: change-password" class="btn waves-effect waves-light btn-large">
                 <i class="material-icons left">vpn_key</i>${'account.change_password' | t}
             </a>
+        </div>
+      </div>
+      <div id="modal-remove-avatar" class="modal">
+        <div class="modal-content">
+          <p>${'remark.delete_photo_question' | t}</p>
+        </div>
+        <div class="modal-footer">
+          <a click.delegate="removeAvatar()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
         </div>
       </div>
     </div>
