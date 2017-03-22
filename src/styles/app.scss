@@ -40,12 +40,18 @@ nav.blue-bg {
   a {
     color: $primary-light-color;
   }
+  span {
+    color: $primary-light-color;
+  }
 }
 
 nav.white-bg {
   background-color: $primary-light-color;
   border-bottom: 1px solid $tertiary-dark-color;
   a {
+    color: $primary-dark-color;
+  }
+  span {
     color: $primary-dark-color;
   }
 }
@@ -374,7 +380,7 @@ li > a {
 
 .sign-in-view {
   form {
-    margin-top: 30%;
+    margin-top: 50px;
   }
 
   input {
@@ -416,7 +422,7 @@ li > a {
   }
 
   .buttons {
-    margin-top: 15%;
+    margin-top: 30px;
   }
 
   .btn-facebook {
@@ -437,7 +443,7 @@ li > a {
   @extend .sign-in-view;
 
   form {
-    margin-top: 30%;
+    margin-top: 30px;
   }
 }
 
