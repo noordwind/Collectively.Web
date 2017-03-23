@@ -23,6 +23,16 @@ h1,h2,h3,h4,h5,h6,a{
     color: $primary-color
 }
 
+.blue-bg {
+  background-color: $primary-color;
+  color: $primary-light-color;
+}
+
+.white-bg {
+  background-color: $primary-light-color;
+  color: $primary-dark-color;
+}
+
 nav {
   background-color: $primary-light-color;
   box-shadow: none;
@@ -187,6 +197,10 @@ li > a {
   white-space: nowrap;
 }
 
+.avatar-wrapper {
+  position: relative;
+}
+
 .remarks-view {
   .btn-left-top {
     position: fixed;
@@ -349,6 +363,7 @@ li > a {
       height: 320px;
       background-color: $tertiary-dark-color;
       text-align: center;
+      overflow: hidden;
 
       img {
         height: 320px;
@@ -444,6 +459,18 @@ li > a {
 
   form {
     margin-top: 30px;
+  }
+}
+
+.filters-view {
+  .filter-section-title {
+    margin: 0;
+
+    span {
+      font-size: 12px;
+      padding: 0;
+      text-transform: uppercase;
+    }
   }
 }
 
@@ -575,6 +602,32 @@ li > a {
         opacity: .5;
       }
     }
+  }
+}
+
+.checkbox {
+  .checkbox-label {
+    font-size: 23px;
+    font-weight: 600;
+  }
+
+  .checkbox-circle {
+    position: relative;
+    width: 30px;
+    height: 30px;
+    border: 1px solid $primary-light-color;
+    border-radius: 50%;
+  }
+
+  .checkbox-circle-selected {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    margin: -10px 0px 0px -10px;
+    border-radius: 50%;
+    background-color: $primary-light-color;
   }
 }
 

@@ -107,49 +107,6 @@ export class Remark {
     });
   }
 
-  async loadRemark() {
-    let remark = await this.remarkService.getRemark(this.id);
-    this.remark = remark;
-    this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
-    this.resolvedMediumPhoto = remark.photos.find(x => x.size === 'medium' && x.metadata === 'resolved');
-    this.resolvedBigPhoto = remark.photos.find(x => x.size === 'big' && x.metadata === 'resolved');
-    let smallPhotos = remark.photos.filter(x => x.size === 'small');
-    let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
-    let bigPhotos = remark.photos.filter(x => x.size === 'big');
-    this.remark.photos = smallPhotos.map((photo, index) => {
-      return {
-        groupId: photo.groupId,
-        visible: index === 0,
-        small: photo.url,
-        medium: mediumPhotos[index].url,
-        big: bigPhotos[index].url
-      };
-    });
-    this.state = remark.resolved ? 'resolved' : 'new';
-    this.stateName = this.translationService.tr(`remark.state_${this.state}`);
-    this.latitude = remark.location.coordinates[1];
-    this.longitude = remark.location.coordinates[0];
-    this.isInRange = this.location.isInRange({
-      latitude: this.latitude,
-      longitude: this.longitude
-    });
-    this.remark.address = remark.location.address;
-    if (remark.tags === null) {
-      remark.tags = [];
-    }
-    this.tags = remark.tags.map(tag => {
-      return {
-        key: tag,
-        value: this.translationService.tr(`tags.${tag}`)
-      };
-    });
-    this.rating = remark.rating;
-    if (remark.votes === null) {
-      remark.votes = [];
-    }
-    this.vote = remark.votes.find(x => x.userId === this.account.userId);
-  }
-
   async attached() {
     let that = this;
     this.fileInput = document.getElementById('new-image');
@@ -176,7 +133,7 @@ export class Remark {
 
     this.operationService.subscribe('remove_photos_from_remark',
       async operation => await this.handlePhotosFromRemarkRemoved(operation),
-      operation => this.handleRemovePhotosFromRemarkRejected(operation));
+      async operation => await this.handleRemovePhotosFromRemarkRejected(operation));
 
     this.operationService.subscribe('submit_remark_vote',
       operation => this.handleRemarkVoteSubmitted(operation),
@@ -202,6 +159,51 @@ export class Remark {
     this.remarkVoteSubmittedSubscription.dispose();
     this.remarkVoteDeletedSubscription.dispose();
     this.operationService.unsubscribeAll();
+  }
+
+  async loadRemark() {
+    let remark = await this.remarkService.getRemark(this.id);
+    this.remark = remark;
+    this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
+    this.processPhotos(remark);
+    this.state = remark.resolved ? 'resolved' : 'new';
+    this.stateName = this.translationService.tr(`remark.state_${this.state}`);
+    this.latitude = remark.location.coordinates[1];
+    this.longitude = remark.location.coordinates[0];
+    this.isInRange = this.location.isInRange({
+      latitude: this.latitude,
+      longitude: this.longitude
+    });
+    this.remark.address = remark.location.address;
+    if (remark.tags === null) {
+      remark.tags = [];
+    }
+    this.tags = remark.tags.map(tag => {
+      return {
+        key: tag,
+        value: this.translationService.tr(`tags.${tag}`)
+      };
+    });
+    this.rating = remark.rating;
+    if (remark.votes === null) {
+      remark.votes = [];
+    }
+    this.vote = remark.votes.find(x => x.userId === this.account.userId);
+  }
+
+  processPhotos(remark) {
+    let smallPhotos = remark.photos.filter(x => x.size === 'small');
+    let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
+    let bigPhotos = remark.photos.filter(x => x.size === 'big');
+    this.remark.photos = smallPhotos.map((photo, index) => {
+      return {
+        groupId: photo.groupId,
+        visible: index === 0,
+        small: photo.url,
+        medium: mediumPhotos[index].url,
+        big: bigPhotos[index].url
+      };
+    });
   }
 
   display() {
@@ -465,8 +467,10 @@ export class Remark {
     await this.toast.success(this.translationService.tr('remark.deleted_photo'));
   }
 
-  handleRemovePhotosFromRemarkRejected(operation) {
+  async handleRemovePhotosFromRemarkRejected(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
+    let remark = await this.remarkService.getRemark(this.id);
+    this.processPhotos(remark);
     this.sending = false;
     this.loader.hide();
   }

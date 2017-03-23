@@ -8,7 +8,8 @@ export default [
     title: 'Start',
     settings: {
       navbar: {
-        hide: true
+        hide: true,
+        bgColor: 'blue-bg'
       },
       translationKey: 'route.start'
     }
@@ -93,7 +94,8 @@ export default [
       reqLogin: true,
       icon: 'view_list',
       navbar: {
-        hide: true
+        hide: true,
+        bgColor: 'white-bg'
       },
       translationKey: 'route.map'
     }
@@ -109,7 +111,7 @@ export default [
       icon: 'show_chart',
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'remarks'
       },
       translationKey: 'statistics.statistics'
@@ -123,7 +125,8 @@ export default [
     nav: false,
     settings: {
       navbar: {
-        hide: true
+        hide: true,
+        bgColor: 'white-bg'
       },
       translationKey: 'route.remark_display'
     }
@@ -168,7 +171,8 @@ export default [
     settings: {
       reqLogin: true,
       navbar: {
-        hide: true
+        hide: true,
+        bgColor: 'white-bg'
       },
       translationKey: 'route.create_remark'
     }
@@ -201,7 +205,7 @@ export default [
       icon: 'account_box',
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'remarks'
       },
       translationKey: 'route.profile'
@@ -217,7 +221,7 @@ export default [
       reqLogin: true,
       navbar: {
         hide: false,
-        bgColor: 'blue-bg'
+        bgColor: 'white-bg'
       },
       translationKey: 'route.set_username'
     }
@@ -232,7 +236,7 @@ export default [
       reqLogin: true,
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'profile'
       },
       translationKey: 'route.change_password'
@@ -262,7 +266,7 @@ export default [
     settings: {
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'previous'
       },
       translationKey: 'route.user_resolved_remarks'
@@ -277,7 +281,7 @@ export default [
     settings: {
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'statistics'
       },
       translationKey: 'route.user_remarks'
@@ -292,7 +296,7 @@ export default [
     settings: {
       navbar: {
         hide: false,
-        bgColor: 'blue-bg',
+        bgColor: 'white-bg',
         backRoute: 'statistics'
       },
       translationKey: 'route.user_remarks'

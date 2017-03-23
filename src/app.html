@@ -3,8 +3,8 @@
     <require from="styles/app.css"></require>
     <require from="resources/features/nav/nav-bar"></require>
     <md-progress id="loader" md-value.bind="null" if.bind="loaderActive"></md-progress>
-    <nav-bar router.bind="router" if.bind="!router.currentInstruction.config.settings.hideNavbar"></nav-bar>
-    <main>
+    <nav-bar router.bind="router" if.bind="!router.currentInstruction.config.settings.navbar.hide"></nav-bar>
+    <main class="${router.currentInstruction.config.settings.navbar.bgColor}">
         <div class="container">
             <router-view></router-view>
         </div>

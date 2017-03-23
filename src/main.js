@@ -18,7 +18,6 @@ export function configure(aurelia) {
       bridge.useAutoComplete()
             .useButton()
             .useCarousel()
-            .useCheckbox()
             .useChip()
             .useDropdown()
             .useFile()
