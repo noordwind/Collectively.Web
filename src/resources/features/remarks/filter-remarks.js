@@ -57,7 +57,6 @@ export class FilterRemarks {
       } else {
         c.checked = that.filters.categories.indexOf(c.name) !== -1;
       }
-      c.translatedName = this.translationService.tr(`remark.category_${c.name}`);
     });
     that.categories = categories;
   }

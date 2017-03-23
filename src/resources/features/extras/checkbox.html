@@ -1,0 +1,14 @@
+<template>
+  <div class="checkbox" click.delegate="toggle()">
+    <div class="row">
+      <div class="col s10">
+        <span class="checkbox-label">${label}</span>
+      </div>
+      <div class="col s2 no-padding">
+        <div class="checkbox-circle">
+          <div class="checkbox-circle-selected" if.bind="value.checked"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
