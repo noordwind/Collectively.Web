@@ -363,7 +363,8 @@ li > a {
       overflow: hidden;
 
       img {
-        height: 320px;
+        min-height: 320px;
+        min-width: 100vw;
       }
     }
 
