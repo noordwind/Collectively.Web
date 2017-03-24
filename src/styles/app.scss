@@ -241,6 +241,13 @@ li > a {
     text-align: center;
   }
 
+  .btn-center-bottom.fixed-action-btn ul {
+    min-width: 130px;
+    left: 46%;
+    text-align: left;
+    width: 100%;
+  }
+
   .btn-right-bottom {
     position: fixed;
     bottom: 23px;

@@ -24,10 +24,11 @@
             <i class="large material-icons">add</i>
           </a>
           <ul>
-            <li repeat.for="category of categories">
+            <li class="row" repeat.for="category of categories">
               <a route-href="route: create-remark; params.bind: {category : category.name}" class="btn-floating">
                 ${'remark.category_'+category.name | t}
               </a>
+              <span>${'remark.category_'+category.name | t}</span>
             </li>
           </ul>
         </div>
