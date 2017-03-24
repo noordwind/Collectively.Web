@@ -230,7 +230,6 @@ li > a {
     position: fixed;
     left: 23px;
     bottom: 23px;
-    z-index: 1000;
   }
 
   .btn-center-bottom {
@@ -240,14 +239,12 @@ li > a {
     margin: 0 35%;
     width: 30%;
     text-align: center;
-    z-index: 1000;    
   }
 
   .btn-right-bottom {
     position: fixed;
     bottom: 23px;
     right: 23px;
-    z-index: 1000;
     
   }
 }
@@ -476,7 +473,6 @@ li > a {
 
 .main-menu {
   .side-nav {
-    z-index: 1001;
     background-color: $primary-dark-color;
 
     li {
