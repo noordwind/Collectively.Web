@@ -490,6 +490,24 @@ li > a {
     }
   }
 
+  .statistics-header-wrapper {
+    position: relative;
+
+    .number {
+      font-size: 150px;
+      line-height: 100%;
+      color: $primary-color-light;
+    }
+
+    .text {
+      position: absolute;
+      top: 60px;
+      width: 100%;
+      font-size: 20px;
+      text-align: center;
+    }
+  }
+
   .general-stats-wrapper {
     div {
       margin-bottom: 20px;

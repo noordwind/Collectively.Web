@@ -19,9 +19,9 @@
     </div>
     <div if.bind="currentTab === 1" class="section">
       <div class="row center">
-        <div class="col s12">
-          <div class="col s12 number">${generalStats.reportedCount}</div>
-          <div class="col s12 text">${'statistics.remarks_added' | t}</div>
+        <div class="col s12 statistics-header-wrapper">
+          <div class="number">${generalStats.reportedCount}</div>
+          <div class="text">${'statistics.remarks_added' | t}</div>
         </div>
       </div>
       <div class="row center general-stats-wrapper">
