@@ -2,14 +2,18 @@ import { inject } from 'aurelia-framework';
 import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import StatisticsService from 'resources/services/statistics-service';
+import UserService from 'resources/services/user-service';
 import TranslationService from 'resources/services/translation-service';
 
-@inject(Router, EventAggregator, StatisticsService, TranslationService)
+@inject(Router, EventAggregator, StatisticsService,
+UserService, TranslationService)
 export class Statistics {
-  constructor(router, eventAggregator, statisticsService, translationService) {
+  constructor(router, eventAggregator, statisticsService,
+  userService, translationService) {
     this.router = router;
     this.eventAggregator = eventAggregator;
     this.statisticsService = statisticsService;
+    this.userService = userService;
     this.translationService = translationService;
     this.general = {
       reported: 0,
@@ -23,10 +27,12 @@ export class Statistics {
       page: 1,
       results: 10
     };
+    this.currentTab = 1;
   }
 
   async activate() {
     await this.browseGeneralStatistics();
+    await this.fetchMyStatistics();
     await this.browseReporters();
     await this.browseResolvers();
     await this.browseCategories();
@@ -45,8 +51,13 @@ export class Statistics {
     this.remarkDeletedSubscription.dispose();
   }
 
+  displayTab(tab) {
+    this.currentTab = tab || 1;
+  }
+
   async browseGeneralStatistics() {
     let generalStats = await this.statisticsService.getGeneralStatistics();
+    this.generalStats = generalStats;
     this.general = [
       { name: this.translationService.trCapitalized('remark.state_new'), count: generalStats.newCount},
       { name: this.translationService.trCapitalized('remark.state_reported'), count: generalStats.reportedCount},
@@ -56,6 +67,12 @@ export class Statistics {
       { name: this.translationService.trCapitalized('remark.state_deleted'), count: generalStats.deletedCount},
       { name: this.translationService.trCapitalized('remark.state_renewed'), count: generalStats.renewedCount}
     ];
+  }
+
+  async fetchMyStatistics() {
+    let currentUser = await this.userService.getAccount();
+    let statistics = await this.statisticsService.getUserStatistics(currentUser.userId);
+    this.myStatistics = statistics.remarks;
   }
 
   async browseReporters() {

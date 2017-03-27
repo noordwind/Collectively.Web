@@ -226,12 +226,17 @@
   "statistics": {
     "categories": "Categories",
     "remarks": "Remarks",
+    "remarks_added": "remarks added",
+    "remarks_added_by_you": "added by you",
+    "remarks_resolved": "remarks resolved",
+    "remarks_resolved_by_you": "resolved by you",
+    "remarks_unresolved": "remarks unresolved",
     "reported": "Reported",
-    "resolved": "Resolved",
     "statistics": "Statistics",
     "tags": "Tags",
     "top_reporters": "Top reporters",
     "top_resolvers": "Top resolvers",
+    "username": "Username",
     "users": "Users"
   },
   "tags": {

@@ -1,25 +1,65 @@
 <template>
   <require from="resources/features/statistics/statistics-list"></require>
-  <require from="../../converters/sortValueConverter"></require>
-
-  <h3>${'statistics.statistics' | t}</h3>
-  <div class="divider"></div>
-  <div class="section">
-    <h4>${'statistics.remarks' | t}</h4>
-    <statistics-list items.bind="general"></statistics-list>
-  </div>
-  <div class="section">
-    <h4>${'statistics.categories' | t}</h4>
-    <statistics-list items.bind="categories"></statistics-list>
-  </div>
-  <div class="section">
-    <h4>${'statistics.tags' | t}</h4>
-    <statistics-list items.bind="tags"></statistics-list>
-  </div>
-  <div class="divider"></div>
-  <div class="section">
-    <h4>${'statistics.users' | t}</h4>
-    <statistics-list items.bind="reporters" header="${'statistics.top_reporters' | t}"></statistics-list>
-    <statistics-list items.bind="resolvers" header="${'statistics.top_resolvers' | t}"></statistics-list>  
-  </div>
+  <require from="resources/converters/sortValueConverter"></require>
+  <require from="resources/converters/lowercaseValueConverter"></require>
+  <require from="resources/converters/string-capitalize-first-letter"></require>  
+  <div class="statistics-view">
+    <div class="section tab-section">
+      <div class="row center">
+        <div class="col s4 single-tab ${currentTab === 1 ? 'selected' : ''}" click.trigger="displayTab(1)">
+          ${'statistics.remarks' | t}
+        </div>
+        <div class="col s4 single-tab ${currentTab === 2 ? 'selected' : ''}" click.trigger="displayTab(2)">
+          ${'statistics.top_reporters' | t}
+        </div>
+        <div class="col s4 single-tab ${currentTab === 3 ? 'selected' : ''}" click.trigger="displayTab(3)">
+          ${'statistics.top_resolvers' | t}
+        </div>
+      </div>
+    </div>
+    <div if.bind="currentTab === 1" class="section">
+      <div class="row center">
+        <div class="col s12">
+          <div class="col s12 number">${generalStats.reportedCount}</div>
+          <div class="col s12 text">${'statistics.remarks_added' | t}</div>
+        </div>
+      </div>
+      <div class="row center general-stats-wrapper">
+        <div class="col s6">
+          <span class="col s12 number">${generalStats.resolvedCount}</span>
+          <span class="col s12 text">${'statistics.remarks_resolved' | t}</span>
+        </div>
+        <div class="col s6">
+          <span class="col s12 number">${generalStats.reportedCount - generalStats.deletedCount - generalStats.resolvedCount}</span>
+          <span class="col s12 text">${'statistics.remarks_unresolved' | t}</span> 
+        </div>
+        <div class="col s6">
+          <span class="col s12 number">${myStatistics.resolvedCount}</span>
+          <span class="col s12 text">${'statistics.remarks_resolved_by_you' | t}</span>
+        </div>
+        <div class="col s6">
+          <span class="col s12 number">${myStatistics.reportedCount}</span>
+          <span class="col s12 text">${'statistics.remarks_added_by_you' | t}</span>   
+        </div>
+        <div class="col s6" repeat.for="category of categories">
+          <span class="col s12 number">${category.count}</span>
+          <span class="col s12 text">${category.name | lowercase}</span>   
+        </div>
+      </div>
+    </div>
+    <div if.bind="currentTab === 2" class="section">
+      <div class="row center">
+        <statistics-list items.bind="reporters" 
+        header-column1="${'statistics.username' | t}" 
+        header-column2="${'statistics.reported' | t | stringCapitalizeFirstLetter}"></statistics-list>
+      </div>
+    </div>
+    <div if.bind="currentTab === 3" class="section">
+      <div class="row center">
+        <statistics-list items.bind="resolvers"
+        header-column1="${'statistics.username' | t}" 
+        header-column2="${'statistics.remarks_resolved' | t | stringCapitalizeFirstLetter}"></statistics-list>  
+      </div>
+    </div>
+  </div> 
 </template>

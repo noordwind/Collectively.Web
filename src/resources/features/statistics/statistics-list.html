@@ -1,24 +1,17 @@
 <template>
   <require from="../../converters/sortValueConverter"></require>
-  <ul class="collection">
-    <li if.bind="header" class="collection-item header">
-      <span><b>${header}</b></span>
-    </li>
-    <li class="collection-item" repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
-        <a if.bind="item.url" href.bind="item.url">
-          <div>
-            <span>${item.name}</span>
-            <div class="secondary-content">
-                <span>${item.count}</span>
-            </div>
-          </div>
-        </a>
-        <div if.bind="!item.url">
-          <span>${item.name}</span>
-          <div class="secondary-content">
-              <span>${item.count}</span>
-          </div>
-        </div>
-    </li>
-  </ul>
+  <table>
+    <thead>
+      <tr>
+        <th class="center">${headerColumn1}</th>
+        <th class="center">${headerColumn2}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
+        <td class="center">${item.name}</td>
+        <td class="center">${item.count}</td>
+      </tr>
+    </tbody>
+  </table>
 </template>

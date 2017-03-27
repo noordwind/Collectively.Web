@@ -225,12 +225,17 @@
   "statistics": {
     "categories": "Kategorie",
     "remarks": "Zgłoszenia",
+    "remarks_added": "dodane zgłoszenia",
+    "remarks_added_by_you": "dodane przez Ciebie",
+    "remarks_resolved": "rozwiązane",
+    "remarks_resolved_by_you": "rozwiązane przez Ciebie",
+    "remarks_unresolved": "nierozwiązane",
     "reported": "Zgłoszone",
-    "resolved": "Rozwiązane",
     "statistics": "Statystyki",
     "tags": "Tagi",
-    "top_reporters": "Najwięcej zgłoszonych",
-    "top_resolvers": "Najwięcej rozwiązanych",
+    "top_reporters": "Zgłaszający",
+    "top_resolvers": "Rozwiązujący",
+    "username": "Użytkownik",
     "users": "Użytkownicy"
   },
   "tags": {

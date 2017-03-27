@@ -111,7 +111,7 @@ export default [
       icon: 'show_chart',
       navbar: {
         hide: false,
-        bgColor: 'white-bg',
+        bgColor: 'blue-bg',
         backRoute: 'remarks'
       },
       translationKey: 'statistics.statistics'

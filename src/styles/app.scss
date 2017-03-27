@@ -479,6 +479,33 @@ li > a {
   }
 }
 
+.statistics-view {
+  .tab-section {
+    .single-tab {
+      height: 37px;
+    }
+
+    .selected {
+      border-bottom: 1px solid $primary-color-light;
+    }
+  }
+
+  .general-stats-wrapper {
+    div {
+      margin-bottom: 20px;
+    }
+  }
+
+  .number {
+    font-size: 30px;
+    font-weight: 600;
+  }
+
+  .text {
+    font-weight: 600;
+  }
+}
+
 .main-menu {
   .side-nav {
     background-color: $primary-dark-color;

@@ -3,7 +3,8 @@ import { Router } from 'aurelia-router';
 
 @inject(Router)
 export class StatisticsList {
-  @bindable header = '';
+  @bindable headerColumn1 = '';
+  @bindable headerColumn2 = '';
   @bindable items = [];
 
   constructor(router) {
