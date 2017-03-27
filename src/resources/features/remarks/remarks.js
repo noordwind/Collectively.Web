@@ -37,7 +37,7 @@ export class Remarks {
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
       categories: encodeURI(this.filtersService.filters.categories),
-      state: this.filtersService.filters.state,
+      states: encodeURI(this.filtersService.filters.states),
       disliked: this.filtersService.filters.disliked
     };
     this.page = 1;
@@ -116,7 +116,7 @@ export class Remarks {
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
       categories: encodeURI(this.filtersService.filters.categories),
-      state: this.filtersService.filters.state,
+      states: encodeURI(this.filtersService.filters.states),
       disliked: this.filtersService.filters.disliked,
       page: page || 0,
       results: results || 25

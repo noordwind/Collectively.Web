@@ -20,7 +20,7 @@ export default class FiltersService {
       results: 100000,
       categories: [],
       type: 'all',
-      state: 'active',
+      states: ['new', 'processing', 'renewed'],
       disliked: false,
       distinguishLiked: true,
       defaultCenter: {

@@ -40,12 +40,27 @@ export class FilterRemarks {
 
   filterRemarks() {
     this.filters.categories = this.selectedCategories;
+    this.filters.states = this.selectedStates;
     this._updateFilters();
   }
 
   get selectedCategories() {
     return $.grep(this.categories, c => c.checked)
             .map(c => c.name);
+  }
+
+  get selectedStates() {
+    let states = [];
+    let unresolved = this.states.find(x => x.name === 'unresolved');
+    if (unresolved.checked) {
+      states = states.concat(['new', 'processing', 'renewed']);
+    }
+    let resolved = this.states.find(x => x.name === 'resolved');
+    if (resolved.checked) {
+      states.push('resolved');
+    }
+
+    return states;
   }
 
   async setupCategoriesFilter() {
@@ -62,10 +77,12 @@ export class FilterRemarks {
   }
 
   setupStateFilter() {
-    this.states = [ {name: this.translationService.trCapitalized('remark.state_active'), value: 'active'},
-     {name: this.translationService.trCapitalized('remark.state_resolved'), value: 'resolved'},
-     {name: this.translationService.trCapitalized('common.all'), value: 'all'}
-     ];
+    let resolvedEnabled = this.filters.states.findIndex(s => s === 'resolved') > -1;
+    let unresolvedEnabled = this.filters.states.findIndex(s => s === 'new') > -1;
+    this.states = [
+      { name: 'resolved',  value: 'resolved', checked: resolvedEnabled},
+      { name: 'unresolved', value: 'unresolved', checked: unresolvedEnabled}
+    ];
   }
 
   setupTypeFilter() {

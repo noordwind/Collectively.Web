@@ -112,6 +112,7 @@
     "mine": "Mine",
     "next": "Next",
     "or": "or",
+    "other": "other",
     "publishOnSocialMedia": "Publish on social media",
     "reset": "Reset",
     "reset_position": "Restore position",
@@ -130,6 +131,10 @@
     "browse_user_remarks": "List my remarks",
     "nearest_remarks": "Nearest remarks",
     "submit_remark": "Submit a remark"
+  },
+  "filters": {
+    "resolved": "resolved",
+    "unresolved": "unresolved"
   },
   "location": {
     "fetching_location_message": "Fetching the current location...",
