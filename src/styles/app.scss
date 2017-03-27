@@ -702,3 +702,11 @@ img.avatar {
 .pointer {
   cursor: pointer;
 }
+
+.collection .collection-item.avatar .circle {
+  background-color: $primary-color!important;
+}
+
+.secondary-content {
+  color: $primary-color;
+}
