@@ -48,6 +48,7 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
+    this.comment = '';
     this.websockets.initialize();
   }
 
@@ -121,15 +122,15 @@ export class Remark {
 
     this.operationService.subscribe('resolve_remark',
       operation => this.handleRemarkResolved(operation),
-      operation => this.handleResolveRemarkRejected(operation));
+      operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('delete_remark',
       operation => this.handleRemarkDeleted(operation),
-      operation => this.handleDeleteRemarkRejected(operation));
+      operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('add_photos_to_remark',
       async operation => await this.handlePhotosAddedToRemark(operation),
-      operation => this.handleAddPhotosToRemarkRejected(operation));
+      operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('remove_photos_from_remark',
       async operation => await this.handlePhotosFromRemarkRemoved(operation),
@@ -137,11 +138,15 @@ export class Remark {
 
     this.operationService.subscribe('submit_remark_vote',
       operation => this.handleRemarkVoteSubmitted(operation),
-      operation => this.handleSubmitRemarkVoteRejected(operation));
+      operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
-      operation => this.handleDeleteRemarkVoteRejected(operation));
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('add_comment_to_remark',
+      operation => this.handleCommentAddedToRemark(operation),
+      operation => this.handleRejectedOperation(operation));
 
     this.newImageResized = async (base64) => {
       if (base64 === '') {
@@ -177,6 +182,9 @@ export class Remark {
     this.remark.address = remark.location.address;
     if (remark.tags === null) {
       remark.tags = [];
+    }
+    if (remark.comments === null) {
+      remark.comments = [];
     }
     this.tags = remark.tags.map(tag => {
       return {
@@ -432,31 +440,13 @@ export class Remark {
     this.router.navigateToRoute('remarks');
   }
 
-  handleResolveRemarkRejected(operation) {
-    this.toast.error(this.translationService.trCode(operation.code));
-    this.sending = false;
-    this.loader.hide();
-  }
-
   handleRemarkDeleted(operation) {
     this.toast.success(this.translationService.tr('remark.remark_removed'));
     this.loader.hide();
     this.router.navigateToRoute('remarks');
   }
 
-  handleDeleteRemarkRejected(operation) {
-    this.toast.error(this.translationService.trCode(operation.code));
-    this.sending = false;
-    this.loader.hide();
-  }
-
   async handlePhotosAddedToRemark(operation) {
-    this.loader.hide();
-    this.sending = false;
-  }
-
-  handleAddPhotosToRemarkRejected(operation) {
-    this.toast.error(this.translationService.trCode(operation.code));
     this.loader.hide();
     this.sending = false;
   }
@@ -475,21 +465,39 @@ export class Remark {
     this.loader.hide();
   }
 
-  handleRemarkVoteSubmitted(operation) {
-    this.toast.success(this.translationService.tr('remark.vote_submitted'));
+  get isCommentEmpty() {
+    return this.comment === null || this.comment.match(/^ *$/) !== null;
   }
 
-  handleSubmitRemarkVoteRejected(operation) {
-    this.toast.error(this.translationService.trCode(operation.code));
-    this.sending = false;
-    this.loader.hide();
+  async addComment() {
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.adding_comment'));
+    await this.remarkService.addComment(this.remark.id, this.comment);
+  }
+
+  toggleCommentForm() {
+    this.commentFormVisible = !this.commentFormVisible;
+    this.comment = '';
+  }
+
+  handleRemarkVoteSubmitted(operation) {
+    this.toast.success(this.translationService.tr('remark.vote_submitted'));
   }
 
   handleRemarkVoteDeleted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_deleted'));
   }
 
-  handleDeleteRemarkVoteRejected(operation) {
+  handleCommentAddedToRemark() {
+    this.loader.hide();
+    this.sending = false;
+    this.toast.success(this.translationService.tr('remark.comment_added'));
+    this.remark.comments.push({renderText: true, text: this.comment, user: {name: this.account.name}});
+    this.toggleCommentForm();
+  }
+
+  handleRejectedOperation(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();

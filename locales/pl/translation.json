@@ -100,6 +100,7 @@
   "common": {
     "all": "Wszystkie",
     "apply": "Zatwierdź",
+    "cancel": "Anuluj",
     "click_here": "Kliknij tutaj",
     "delete": "Usuń",
     "details": "Szczegóły",
@@ -143,6 +144,8 @@
   },
   "remark": {
     "additional_filters": "Dodatkowe filtry",
+    "add_comment": "Dodaj komentarz",
+    "adding_comment": "Dodajemy komentarz, proszę czekać...",
     "add_photo": "Dodaj zdjęcie",
     "added_photo": "Zdjęcie zostało pomyślnie zapisane.",
     "adding_photo": "Dodajemy zdjęcie, proszę czekać...",
@@ -155,6 +158,8 @@
     "category_suggestion": "Sugestia",
     "category_praise": "Pochwała",
     "create": "Nowe zgłoszenie",
+    "comment": "Komentarz",
+    "comment_added": "Komentarz został dodany.",
     "comments": "Komentarze",
     "delete_photo_question": "Czy na pewno chcesz usunąć wybrane zdjęcie?",
     "delete_question": "Czy na pewno chcesz usunąć wybrane zgłoszenie?",

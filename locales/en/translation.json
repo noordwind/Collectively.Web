@@ -100,6 +100,7 @@
   "common": {
     "all": "All",
     "apply": "Apply",
+    "cancel": "Cancel",
     "click_here": "Click here",
     "delete": "Delete",
     "details": "Details",
@@ -144,6 +145,8 @@
   },
   "remark": {
     "additional_filters": "Additional filters",
+    "add_comment": "Add comment",
+    "adding_comment": "Adding comment, please wait...",
     "add_photo": "Add photo",
     "added_photo": "Photo has successfully saved.",   
     "adding_photo": "Adding photo, please wait...",
@@ -156,6 +159,8 @@
     "category_suggestion": "Suggestion",
     "category_praise": "Praise",
     "create": "Create a remark",
+    "comment": "Comment",
+    "comment_added": "Comment has been added.",
     "comments": "Comments",
     "details": "Remark",
     "delete_photo_question": "Do you really want to delete the selected photo?",
