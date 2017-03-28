@@ -205,7 +205,7 @@ export default [
       icon: 'account_box',
       navbar: {
         hide: false,
-        bgColor: 'white-bg',
+        bgColor: 'blue-bg',
         backRoute: 'remarks'
       },
       translationKey: 'route.profile'

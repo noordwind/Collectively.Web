@@ -1,7 +1,6 @@
 import {inject} from 'aurelia-framework';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
-import RemarkService from 'resources/services/remark-service';
 import LocationService from 'resources/services/location-service';
 import StatisticsService from 'resources/services/statistics-service';
 import ToastService from 'resources/services/toast-service';
@@ -10,16 +9,15 @@ import TranslationService from 'resources/services/translation-service';
 import OperationService from 'resources/services/operation-service';
 import {Router} from 'aurelia-router';
 
-@inject(AuthService, UserService, RemarkService,
-LocationService, StatisticsService, ToastService,
-LoaderService, TranslationService, OperationService, Router)
+@inject(AuthService, UserService, LocationService,
+StatisticsService, ToastService, LoaderService,
+TranslationService, OperationService, Router)
 export class Profile {
-  constructor(authService, userService, remarkService,
-  locationService, statisticsService, toast, loader,
-    translationService, operationService, router) {
+  constructor(authService, userService, locationService,
+  statisticsService, toast, loader, translationService,
+  operationService, router) {
     this.authService = authService;
     this.userService = userService;
-    this.remarkService = remarkService;
     this.location = locationService;
     this.statisticsService = statisticsService;
     this.toast = toast;
@@ -28,7 +26,6 @@ export class Profile {
     this.operationService = operationService;
     this.router = router;
     this.sending = false;
-    this.remarks = [];
     this.username = '';
     this.user = null;
     this.currentUser = null;
@@ -57,7 +54,6 @@ export class Profile {
       return;
     }
     await this.fetchStatistics();
-    await this.fetchRemarks();
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
@@ -88,26 +84,6 @@ export class Profile {
         }
       };
     }
-  }
-
-  async fetchRemarks() {
-    let query = {
-      authorId: this.user.userId,
-      state: 'active',
-      page: 1,
-      results: 5,
-      orderBy: 'createdAt',
-      sortOrder: 'descending'
-    };
-    let remarks = await this.remarkService.browse(query);
-    remarks.forEach(remark => {
-      remark.url = this.router.generate('remark', { id: remark.id });
-      remark.distance = this.location.calculateDistance({
-        latitude: remark.location.coordinates[1],
-        longitude: remark.location.coordinates[0]
-      });
-    }, this);
-    this.remarks = remarks;
   }
 
   get isCurrentUser() {

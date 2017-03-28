@@ -1,67 +1,64 @@
 <template>
     <require from="resources/features/remarks/remark-list"></require>
     <require from="resources/features/images/image-resizer"></require>
-    <div class="row" if.bind="!user.name">
-      <h3>${'account.user' | t} ${username} ${'account.does_not_exist' | t}</h3>
-      <a route-href="route: remarks" class="btn btn-large">${'account.go_back_to_remarks' | t}</a>
-    </div>
-    <div if.bind="user.name">
-      <div class="avatar-wrapper">
-        <form if.bind="isCurrentUser">
-              <div class="section">
-                  <img src.bind="avatarUrl" class="avatar pointer responsive-img" title="${'account.change_avatar' | t}" click.delegate="displayCamera()"/>
-                  <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
-                  <image-resizer image.bind="newImage" width="200" height="200" resized.bind="newImageResized"></image-resizer>
-                  <a if.bind="avatarUrl && !isAvatarDefault && !avatarSelected" title="${'common.delete' | t}" md-modal-trigger href="#modal-remove-avatar"   
-                    disabled.bind="sending" class="btn btn-img btn-floating waves-effect waves-light">  
-                    <i class="material-icons">remove</i>
-                  </a>
-              </div>
-              <button class="btn waves-effect waves-light" click.delegate="uploadAvatar()" if.bind="avatarSelected">
-                  ${'account.upload_avatar' | t}
-              </button>
-          </form>
-          <div if.bind="!isCurrentUser">
-              <img src.bind="avatarUrl" class="avatar responsive-img"/>
-          </div> 
+    <div class="profile-view">
+      <div class="row" if.bind="!user.name">
+        <h3>${'account.user' | t} ${username} ${'account.does_not_exist' | t}</h3>
+        <a route-href="route: remarks" class="btn btn-large">${'account.go_back_to_remarks' | t}</a>
       </div>
-      <h3>${user.name}</h3>
-      <div class="row">
-          <div class="col s12">
-              <span>${'account.reported_remarks' | t} ${statistics.remarks.reportedCount}</span>
+      <div if.bind="user.name">
+        <div class="avatar-wrapper">
+          <form if.bind="isCurrentUser">
+                <div class="section">
+                    <img src.bind="avatarUrl" class="avatar pointer circle" title="${'account.change_avatar' | t}" click.delegate="displayCamera()"/>
+                    <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+                    <image-resizer image.bind="newImage" width="200" height="200" resized.bind="newImageResized"></image-resizer>
+                    <a if.bind="avatarUrl && !isAvatarDefault && !avatarSelected" title="${'common.delete' | t}" md-modal-trigger href="#modal-remove-avatar"   
+                      disabled.bind="sending" class="btn btn-img btn-floating waves-effect waves-light">  
+                      <i class="material-icons">remove</i>
+                    </a>
+                </div>
+                <button class="btn waves-effect waves-light" click.delegate="uploadAvatar()" if.bind="avatarSelected">
+                    ${'account.upload_avatar' | t}
+                </button>
+            </form>
+            <div if.bind="!isCurrentUser">
+                <img src.bind="avatarUrl" class="avatar"/>
+            </div> 
+        </div>
+        <div class="header-wrapper">
+          <h3>${user.name}</h3>
+        </div>
+        <div class="row">
+          <span class="col s6 right-align">${statistics.remarks.reportedCount} ${'account.reported_remarks' | t}</span>
+          <span class="col s6 left-align">${statistics.remarks.resolvedCount} ${'account.resolved_remarks' | t}</span>
+        </div>
+        <div class="section buttons-wrapper">
+          <div class="row">
+            <div class="col s10 offset-s1">
+              <a route-href="route: user-remarks; params.bind: {username : user.name}" 
+                class="btn waves-effect waves-light btn-large btn-white">
+                <i class="material-icons left">view_list</i>${'account.show_remarks' | t}
+              </a>
+            </div>
           </div>
-          <div class="col s12">
-              <span>${'account.resolved_remarks' | t} ${statistics.remarks.resolvedCount}</span>
-          </div>
-      </div>
-      <div class="row">
-        <div class="divider"></div>
-          <h4 class="col s12">${'account.remarks' | t} [${statistics.remarks.reportedCount}]</h4>
-          <div class="section">
-            <remark-list if.bind="remarks.length > 0" remarks.bind="remarks"
-              order-by.bind="'createdAt'" sort-order.bind="'descending'"></remark-list>
-            <span class="col s12" if.bind="remarks.length === 0">${'account.no_active_remarks' | t}</span>
-            <a if.bind="remarks.length > 0" route-href="route: user-remarks; params.bind: {username : user.name}" class="btn waves-effect waves-light btn-large">
-                <i class="material-icons left">view_list</i>${'account.show_all' | t}
-            </a>
-         </div>
-      </div>
-      <div class="row" if.bind="isCurrentUser && isCollectivelyAccount">
-        <div class="divider"></div>
-        <h4 class="col s12">${'account.change_password' | t}</h4>
-        <div class="section">
-            <a route-href="route: change-password" class="btn waves-effect waves-light btn-large">
+          <div if.bind="isCurrentUser && isCollectivelyAccount" class="row">
+            <div class="col s10 offset-s1">
+              <a route-href="route: change-password" 
+              class="btn waves-effect waves-light btn-large btn-dark">
                 <i class="material-icons left">vpn_key</i>${'account.change_password' | t}
-            </a>
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-      <div id="modal-remove-avatar" class="modal">
-        <div class="modal-content">
-          <p>${'remark.delete_photo_question' | t}</p>
-        </div>
-        <div class="modal-footer">
-          <a click.delegate="removeAvatar()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+        <div id="modal-remove-avatar" class="modal">
+          <div class="modal-content">
+            <p>${'remark.delete_photo_question' | t}</p>
+          </div>
+          <div class="modal-footer">
+            <a click.delegate="removeAvatar()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+          </div>
         </div>
       </div>
     </div>

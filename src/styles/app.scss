@@ -197,10 +197,6 @@ li > a {
   white-space: nowrap;
 }
 
-.avatar-wrapper {
-  position: relative;
-}
-
 .start-view {
   .header-wrapper {
     margin: 23px 0;
@@ -650,6 +646,27 @@ li > a {
   }
 }
 
+.profile-view {
+  .avatar-wrapper {
+    position: relative;
+    text-align: center;
+    a.btn {
+      background-color: $primary-light-color;
+      i {
+        color: $primary-color;
+      }
+    }
+  }
+
+  .header-wrapper {
+    h3 {
+      margin-top: 0;
+      text-align: center;
+      color: $primary-light-color;
+    }
+  }
+}
+
 .remark-side-list {
   .side-nav {
     background-color: $primary-color;
@@ -714,6 +731,30 @@ li > a {
   }
 }
 
+.btn-primary {
+  background-color: $primary-color;
+  color: $primary-light-color;
+  i {
+    color: $primary-light-color;
+  }
+}
+
+.btn-white {
+  background-color: $primary-light-color;
+  color: $primary-dark-color;
+  i {
+    color: $primary-dark-color;
+  }
+}
+
+.btn-dark {
+  background-color: $primary-dark-color;
+  color: $primary-light-color;
+  i {
+    color: $primary-light-color;
+  }
+}
+
 @media only screen and (min-device-width: $mobile-width) {
     .remark-side-list {
       .side-nav {
@@ -729,8 +770,8 @@ li > a {
 }
 
 img.avatar {
-  max-width: 200px; 
-  max-height: 200px;
+  width: 150px;
+  min-height: 150px;
 }
 
 .pointer {
