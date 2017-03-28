@@ -3,7 +3,7 @@ $primary-color-light: #3B8DFF;
 $primary-color-strong: #2759B9;
 $secondary-color: #3B8DFF;
 $primary-light-color: #FFFFFF;
-$secondary-light-color: #3B8DFF;
+$secondary-light-color: #00CCFF;
 $primary-dark-color: #2E2E2E;
 $secondary-dark-color: #656565;
 $tertiary-dark-color: rgba(black, .1);
@@ -109,7 +109,7 @@ input[type=range]::-webkit-slider-thumb {
 .progress {
    background-color: $primary-light-color; 
    .indeterminate {
-     background-color: $secondary-light-color;  
+     background-color: $primary-color-light;  
    }
 }
 
@@ -488,6 +488,7 @@ li > a {
 
     .selected {
       border-bottom: 1px solid $primary-color-light;
+      color: $secondary-light-color;
     }
   }
 
