@@ -36,7 +36,12 @@ export default class OperationService {
       map('add_photos_to_remark', 'photos_to_remark_added'),
       map('remove_photos_from_remark', 'photos_from_remark_removed'),
       map('submit_remark_vote', 'remark_vote_submitted'),
-      map('delete_remark_vote', 'remark_vote_deleted')
+      map('delete_remark_vote', 'remark_vote_deleted'),
+      map('add_comment_to_remark', 'comment_added_to_remark'),
+      map('edit_remark_comment', 'remark_comment_edited'),
+      map('delete_remark_comment', 'remark_comment_deleted'),
+      map('submit_remark_comment_vote', 'remark_comment_vote_submitted'),
+      map('delete_remark_comment_vote', 'remark_comment_vote_deleted')
     ];
 
     function map(name, event) {

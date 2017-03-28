@@ -60,6 +60,15 @@ export default class RemarkService {
       => await this.apiBaseService.delete(`remarks/${remarkId}/votes`));
   }
 
+  async addComment(remarkId, text) {
+    let request = {
+      text
+    };
+
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post(`remarks/${remarkId}/comments`, request));
+  }
+
   async getCategories() {
     return await this.apiBaseService.get('remarks/categories');
   }
