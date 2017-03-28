@@ -201,6 +201,33 @@ li > a {
   position: relative;
 }
 
+.start-view {
+  .header-wrapper {
+    margin: 23px 0;
+
+    h3 {
+      color: $primary-dark-color;
+      font-size: 15px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+  }
+
+  .buttons-wrapper {
+    .btn {
+      background-color: $primary-dark-color;
+    }
+  }
+
+  .buttons-wrapper-fixed {
+    @extend .buttons-wrapper;
+    position: fixed;
+    left: 0;
+    bottom: 23px;
+    width: 100%;
+  }
+}
+
 .remarks-view {
   .btn-left-top {
     position: fixed;

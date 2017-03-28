@@ -1,18 +1,26 @@
 <template>
-    <div class="row card-panel">
-        <div class="col s12 center-align">
-            <img src="assets/images/collectively_logo.png" class="responsive-img"/>
-            <div class="clear"></div>
-            <div class="row">
-                <a route-href="route: sign-in" class="btn waves-effect waves-light btn-large">
-                    <i class="material-icons left">vpn_key</i>${'account.sign_in' | t}
-                </a>
-            </div>
-            <div class="row">
-                <a route-href="route: sign-up" class="btn waves-effect waves-light btn-large">
-                    <i class="material-icons left">perm_identity</i>${'account.create' | t}
-                </a>
-            </div>
-        </div>
+  <div class="start-view center-align">
+    <div class="row header-wrapper">
+      <h3 class="col s12">Make your city great again!</h3>
     </div>
+    <div class="row">
+      <img src="assets/images/collectively_logo.png" class="responsive-img"/>
+    </div>
+    <div class="buttons-wrapper">
+      <div class="row">
+        <div class="col s8 offset-s2">
+          <a route-href="route: sign-in" class="btn waves-effect waves-light">
+            <i class="material-icons left">vpn_key</i>${'account.sign_in' | t}
+          </a>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s8 offset-s2">
+          <a route-href="route: sign-up" class="btn waves-effect waves-light">
+            <i class="material-icons left">perm_identity</i>${'account.create' | t}
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
