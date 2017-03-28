@@ -9,7 +9,7 @@ export default [
     settings: {
       navbar: {
         hide: true,
-        bgColor: 'blue-bg'
+        bgColor: 'white-bg'
       },
       translationKey: 'route.start'
     }
@@ -95,7 +95,7 @@ export default [
       icon: 'view_list',
       navbar: {
         hide: true,
-        bgColor: 'white-bg'
+        bgColor: 'blue-bg'
       },
       translationKey: 'route.map'
     }
