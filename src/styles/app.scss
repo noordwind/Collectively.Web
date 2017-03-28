@@ -246,6 +246,11 @@ li > a {
     left: 46%;
     text-align: left;
     width: 100%;
+
+    span {
+      font-weight: 600;
+      color: $primary-color-strong;
+    }
   }
 
   .btn-right-bottom {

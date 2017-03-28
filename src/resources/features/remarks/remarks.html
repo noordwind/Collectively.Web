@@ -24,11 +24,29 @@
             <i class="large material-icons">add</i>
           </a>
           <ul>
-            <li class="row" repeat.for="category of categories">
-              <a route-href="route: create-remark; params.bind: {category : category.name}" class="btn-floating">
-                ${'remark.category_'+category.name | t}
+            <li class="row">
+              <a route-href="route: create-remark; params.bind: {category : 'praise'}" class="btn-floating">
+                <i class="material-icons">thumb_up</i>
               </a>
-              <span>${'remark.category_'+category.name | t}</span>
+              <span>${'remark.category_praise' | t}</span>
+            </li>
+            <li class="row">
+              <a route-href="route: create-remark; params.bind: {category : 'suggestion'}" class="btn-floating">
+                <i class="material-icons">new_releases</i>
+              </a>
+              <span>${'remark.category_suggestion' | t}</span>
+            </li>
+            <li class="row">
+              <a route-href="route: create-remark; params.bind: {category : 'suggestion'}" class="btn-floating">
+                <i class="material-icons">warning</i>
+              </a>
+              <span>${'remark.category_issue' | t}</span>
+            </li>
+            <li class="row">
+              <a route-href="route: create-remark; params.bind: {category : 'defect'}" class="btn-floating">
+                <i class="material-icons">build</i>
+              </a>
+              <span>${'remark.category_defect' | t}</span>
             </li>
           </ul>
         </div>
