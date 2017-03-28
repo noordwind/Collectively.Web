@@ -229,6 +229,9 @@
     "user_remarks": "User remarks",
     "user_resolved_remarks": "User resolved remarks"
   },
+  "start": {
+    "header": "Make your city great again!"
+  },
   "statistics": {
     "categories": "Categories",
     "remarks": "Remarks",

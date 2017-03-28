@@ -228,6 +228,9 @@
     "user_remarks": "Zgłoszenia użytkownika",
     "user_resolved_remarks": "Zgłoszenia rozwiązane prez użytkownika"
   },
+  "start": {
+    "header": "Usprawnij swoje miasto!"
+  },
   "statistics": {
     "categories": "Kategorie",
     "remarks": "Zgłoszenia",
