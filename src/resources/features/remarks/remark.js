@@ -183,6 +183,9 @@ export class Remark {
     if (remark.tags === null) {
       remark.tags = [];
     }
+    if (remark.comments === null) {
+      remark.comments = [];
+    }
     this.tags = remark.tags.map(tag => {
       return {
         key: tag,
