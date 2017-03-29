@@ -25,18 +25,10 @@ export default class WebsocketService {
 
     console.log('connecting to socket io server');
     let socket = io.connect(environment.websocketUrl, {
-      path: environment.websocketPath,
-      query: `auth_token=${this.authService.token}`
+      path: environment.websocketPath
     });
     socket.on('connect', () => {
       console.log('connected');
-    });
-    socket.on('error', function(err) {
-      console.log('error');
-      console.log(err);
-    });
-    socket.on('authenticated', () => {
-      console.log('authentication succeeded');
       socket.on('operation_updated', (message) => {
         this.logger.debug('operation_updated message received', message);
         this.eventAggregator.publish('operation:updated', message);
