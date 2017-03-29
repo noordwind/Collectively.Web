@@ -147,6 +147,21 @@ export default [
     }
   },
   {
+    route: 'remarks/:id/comments',
+    moduleId: `${modulePrefix}/remarks/remark-comments`,
+    name: 'remark-comments',
+    title: 'Remark comments',
+    nav: false,
+    settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
+      translationKey: 'route.remark'
+    }
+  }, 
+  {
     route: 'remarks/:category/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name: 'create-remark',

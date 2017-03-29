@@ -21,50 +21,13 @@
             <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
           </div>
         </div>
-        <div class="row">
-            <div class="col s8">
-                <span>${'remark.comments' | t} [${remark.comments.length}]</span>
-            </div>
-            <div class="col s4 right-align" if.bind="!commentFormVisible">
-                <button click.delegate="toggleCommentForm()" class="btn waves-effect waves-light btn-floating btn-large" title="${'remark.add_comment' | t}">
-                    <i class="large material-icons">edit</i>
-                </button>
-            </div>
-        </div>
-        <div class="row" if.bind="commentFormVisible" disabled.bind="sending">
-            <form class="col s12">
-                <div class="row">
-                    <div class="input-field col s12">
-                    <textarea id="icon_prefix2" class="materialize-textarea" value.bind="comment"></textarea>
-                    <label for="icon_prefix2">${'remark.comment' | t}</label>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col s6">
-                        <button click.delegate="toggleCommentForm()" class="btn waves-effect waves-light btn-large">
-                            ${'common.cancel' | t}
-                        </button>
-                    </div>
-                    <div class="col s6">
-                        <button click.delegate="addComment()" class="btn waves-effect waves-light btn-large" disabled.bind="isCommentEmpty">
-                            ${'remark.add_comment' | t}
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="row">
-            <div class="col s12">
-                <ul class="collection">
-                    <li class="collection-item avatar" repeat.for="comment of remark.comments">
-                        <i class="material-icons circle">label_outline</i>
-                        <span class="title">${comment.user.name}</span>
-                        <p if.bind="comment.renderText">${comment.text}</p>
-                        <p if.bind="!comment.renderText" innerhtml.bind="comment.text"></p>
-                        <a class="secondary-content"><i class="material-icons">grade</i></a>
-                    </li>
-                </ul>
-            </div>
+        <div class="row text-field">
+          <div class="col s12">
+            <span>${'remark.comments' | t} [${remark.comments.length}]</span>
+          </div>
+          <div class="col s12">
+            <p><a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">${'remark.browse_comments' | t}</a></p>
+          </div>
         </div>
       </div>
     </div>

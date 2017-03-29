@@ -69,6 +69,30 @@ export default class RemarkService {
       => await this.apiBaseService.post(`remarks/${remarkId}/comments`, request));
   }
 
+  async editComment(remarkId, commentId, text) {
+    let request = {
+      text
+    };
+
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/comments/${commentId}`, request));
+  }
+
+  async deleteComment(remarkId, commentId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete(`remarks/${remarkId}/comments/${commentId}`));
+  }
+
+  async voteComment(remarkId, commentId, positive) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/comments/${commentId}/votes`, { positive }));
+  }
+
+  async deleteCommentVote(remarkId, commentId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete(`remarks/${remarkId}/comments/${commentId}/votes`));
+  }
+
   async getCategories() {
     return await this.apiBaseService.get('remarks/categories');
   }

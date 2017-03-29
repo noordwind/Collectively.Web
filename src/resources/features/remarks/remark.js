@@ -48,7 +48,6 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
-    this.comment = '';
     this.websockets.initialize();
   }
 
@@ -142,10 +141,6 @@ export class Remark {
 
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
-      operation => this.handleRejectedOperation(operation));
-
-    this.operationService.subscribe('add_comment_to_remark',
-      operation => this.handleCommentAddedToRemark(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.newImageResized = async (base64) => {
@@ -465,36 +460,12 @@ export class Remark {
     this.loader.hide();
   }
 
-  get isCommentEmpty() {
-    return this.comment === null || this.comment.match(/^ *$/) !== null;
-  }
-
-  async addComment() {
-    this.sending = true;
-    this.loader.display();
-    this.toast.info(this.translationService.tr('remark.adding_comment'));
-    await this.remarkService.addComment(this.remark.id, this.comment);
-  }
-
-  toggleCommentForm() {
-    this.commentFormVisible = !this.commentFormVisible;
-    this.comment = '';
-  }
-
   handleRemarkVoteSubmitted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_submitted'));
   }
 
   handleRemarkVoteDeleted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_deleted'));
-  }
-
-  handleCommentAddedToRemark() {
-    this.loader.hide();
-    this.sending = false;
-    this.toast.success(this.translationService.tr('remark.comment_added'));
-    this.remark.comments.push({renderText: true, text: this.comment, user: {name: this.account.name}});
-    this.toggleCommentForm();
   }
 
   handleRejectedOperation(operation) {
