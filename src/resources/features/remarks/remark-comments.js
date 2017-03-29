@@ -214,11 +214,12 @@ export class RemarkComments {
   }
 
   async _vote(commentId, positive) {
-    this.sending = true;
-    this.isPositiveVote = positive;
-    await this.remarkService.voteComment(this.id, commentId, positive);
-    this._changeVoteType(this.isPositiveVote(commentId));
-    this.sending = false;
+    console.log('Not implemented yet...');
+    // this.sending = true;
+    // this.isPositiveVote = positive;
+    // await this.remarkService.voteComment(this.id, commentId, positive);
+    // this._changeVoteType(this.isPositiveVote(commentId));
+    // this.sending = false;
   }
 
   async deleteVote(commentId) {
