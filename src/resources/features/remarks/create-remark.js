@@ -135,7 +135,8 @@ export class CreateRemark {
   async handleRemarkCreated(operation) {
     this.toast.success(this.translationService.tr('remark.processed'));
     this.loader.hide();
-    let remarkId = operation.resource.split('/')[1];
+    let resourceData = operation.resource.split('/');
+    let remarkId = resourceData[resourceData.length - 1];
     if (this.remark.photos) {
       await this.addPhotos(remarkId, this.base64Image);
     }

@@ -38,8 +38,8 @@ export default class OperationService {
       map('submit_remark_vote', 'remark_vote_submitted'),
       map('delete_remark_vote', 'remark_vote_deleted'),
       map('add_comment_to_remark', 'comment_added_to_remark'),
-      map('edit_remark_comment', 'remark_comment_edited'),
-      map('delete_remark_comment', 'remark_comment_deleted'),
+      map('edit_remark_comment', 'comment_edited_in_remark'),
+      map('delete_remark_comment', 'comment_deleted_from_remark'),
       map('submit_remark_comment_vote', 'remark_comment_vote_submitted'),
       map('delete_remark_comment_vote', 'remark_comment_vote_deleted')
     ];

@@ -45,6 +45,9 @@ export class RemarkComments {
     this.sending = false;
     this.commentVotes = [];
     this.comment = '';
+    this.editedCommentText = '';
+    this.editedCommentOriginalText = '';
+    this.editedComment = null;
     this.websockets.initialize();
   }
 
@@ -94,9 +97,12 @@ export class RemarkComments {
   }
 
   async attached() {
-    this.scrollToTop();
     this.operationService.subscribe('add_comment_to_remark',
       operation => this.handleCommentAddedToRemark(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('edit_remark_comment',
+      operation => this.handleCommentEditedInRemark(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.log.trace('remark_comments_attached');
@@ -253,7 +259,15 @@ export class RemarkComments {
   }
 
   get isCommentValid() {
-    return this.comment !== null && this.comment.match(/^ *$/) === null && this.comment.length <= 1000;
+    return this._isCommentValid(this.comment);
+  }
+
+  get isEditedCommentValid() {
+    return this.editedCommentText !== this.editedCommentOriginalText && this._isCommentValid(this.editedCommentText);
+  }
+
+  _isCommentValid(comment) {
+    return comment !== null && comment.match(/^ *$/) === null && comment.length <= 1000;
   }
 
   async addComment() {
@@ -263,9 +277,29 @@ export class RemarkComments {
     await this.remarkService.addComment(this.remark.id, this.comment);
   }
 
+  async editComment(commentId) {
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.updating_comment'));
+    await this.remarkService.editComment(this.remark.id, commentId, this.editedCommentText);
+  }
+
   toggleCommentForm() {
     this.commentFormVisible = !this.commentFormVisible;
     this.comment = '';
+  }
+
+  hideEditCommentForm(comment) {
+    comment.text = this.editedCommentOriginalText;
+    comment.editMode = false;
+  }
+
+  displayEditCommentForm(comment) {
+    this.remark.comments.forEach(c => c.editMode = false);
+    this.editedComment = comment;
+    this.editedCommentText = comment.text;
+    this.editedCommentOriginalText = comment.text;
+    comment.editMode = true;
   }
 
   handleRemarkVoteSubmitted(operation) {
@@ -276,21 +310,37 @@ export class RemarkComments {
     this.toast.success(this.translationService.tr('remark.vote_deleted'));
   }
 
-  handleCommentAddedToRemark() {
+  handleCommentAddedToRemark(operation) {
     this.loader.hide();
     this.sending = false;
     this.toast.success(this.translationService.tr('remark.comment_added'));
-    this.remark.comments.push({renderText: true, text: this.comment, user: {userId: this.account.userId, name: this.account.name}});
+    let resourceData = operation.resource.split('/');
+    let commentId = resourceData[resourceData.length - 1];
+    this.remark.comments.push({
+      renderText: true,
+      id: commentId,
+      text: this.comment,
+      editMode: false,
+      rating: 0,
+      user: {
+        userId: this.account.userId,
+        name: this.account.name
+      }});
     this.toggleCommentForm();
+  }
+
+  handleCommentEditedInRemark(operation) {
+    this.editedCommentOriginalText = this.editedCommentText;
+    this.hideEditCommentForm(this.editedComment);
+    this.editedComment = null;
+    this.loader.hide();
+    this.sending = false;
+    this.toast.success(this.translationService.tr('remark.comment_updated'));
   }
 
   handleRejectedOperation(operation) {
     this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
-  }
-
-  scrollToTop() {
-    window.scrollTo(0, 0);
   }
 }
