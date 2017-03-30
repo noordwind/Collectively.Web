@@ -9,7 +9,7 @@ export default [
     settings: {
       navbar: {
         hide: true,
-        bgColor: 'white-bg'
+        bgColor: 'blue-bg'
       },
       translationKey: 'route.start'
     }

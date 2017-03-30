@@ -198,14 +198,27 @@ li > a {
 }
 
 .start-view {
-  .header-wrapper {
-    margin: 23px 0;
+  position: absolute;
+  width: 100vw;
+  min-height: 100vh;
+  top: 0;
+  left: 0;
+  background: $primary-color url('assets/images/worek_bgr.png') no-repeat center;
+  background-size: contain;
 
+  .header-wrapper {
     h3 {
-      color: $primary-dark-color;
+      color: $primary-light-color;
       font-size: 15px;
       font-weight: 400;
       text-transform: uppercase;
+    }
+  }
+
+  .logo-wrapper {
+    img {
+      width: 50%;
+      max-width: 200px;
     }
   }
 
