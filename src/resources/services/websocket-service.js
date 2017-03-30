@@ -29,6 +29,10 @@ export default class WebsocketService {
     });
     socket.on('connect', () => {
       console.log('connected');
+      socket.emit('authenticate', {token: this.authService.token});
+    });
+    socket.on('authenticated', () => {
+      console.log('authenticated');
       socket.on('operation_updated', (message) => {
         this.logger.debug('operation_updated message received', message);
         this.eventAggregator.publish('operation:updated', message);
