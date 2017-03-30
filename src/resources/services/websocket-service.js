@@ -66,6 +66,10 @@ export default class WebsocketService {
         this.eventAggregator.publish('remark:vote_deleted', message);
       });
     });
+    socket.on('authentication_failed', () => {
+      console.log('authentication failed, disconnecting');
+      socket.disconnect();
+    });
     this.socket = socket;
   }
 
