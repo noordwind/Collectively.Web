@@ -1,22 +1,30 @@
 <template>
-  <section>
-    <div class="row">
-      <h3 class="center-align">${'remark.remark_added' | t}</h3>
-    </div>
-  </section>
-  <section>
-    <div class="row">
-      <h5 class="center-align">${'remark.thanks_for_reporting' | t}</h5>
-    </div>
-  </section>
-  <section>
-    <div class="row">
-      <button disabled class="btn waves-effect waves-light btn-large">${'remark.share' | t}</button>
-    </div>
-    <div class="row">
-      <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
-        ${'remark.display' | t}
-      </button>
-    </div>
-  </section>
+  <div class="remark-added-view">
+    <section class="header-section">
+      <div class="row">
+        <h3 class="center-align">${'remark.remark_added' | t}</h3>
+      </div>
+    </section>
+    <section class="content-section">
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <h5 class="center-align">${'remark.thanks_for_reporting' | t}</h5>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <button disabled class="btn waves-effect waves-light">${'remark.share' | t}</button>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s10 offset-s1">
+          <button click.delegate="display()" class="btn waves-effect waves-light">
+            ${'remark.display' | t}
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
 </template>

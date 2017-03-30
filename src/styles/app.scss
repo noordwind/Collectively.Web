@@ -422,6 +422,35 @@ li > a {
   }
 }
 
+.remark-added-view {
+  .header-section {
+    display: block;
+    background: url('assets/images/tape_bgr.png') no-repeat center;
+    background-size: contain;
+    height: 80px;
+
+    .row {
+      padding: 15px;
+    }
+
+    h3 {
+      font-size: 15px;
+      font-weight: 600;
+      color: $primary-light-color;
+      text-transform: uppercase;
+    }
+  }
+
+  .content-section {
+    margin: 50px 0;
+    h5 {
+      font-size: 23px;
+      font-weight: 600;
+      color: $primary-dark-color;
+    }
+  }
+}
+
 .remark-view {
   .text {
     color: $secondary-dark-color;
@@ -570,6 +599,16 @@ li > a {
 .main-menu {
   .side-nav {
     background-color: $primary-dark-color;
+
+    .logo-wrapper {
+      text-align: center;
+      margin-top: 23px;
+      margin-bottom: 0;
+
+      img {
+        height: 100px;
+      }
+    }
 
     li {
       a {
