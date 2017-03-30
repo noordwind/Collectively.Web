@@ -59,24 +59,32 @@ export class RemarkComments {
     return this.isAuthenticated && this.account.userId === userId;
   }
 
-  canVoteNegatively(commentId) {
-    return this.canVote && (this.hasVotedPositively(commentId) || !this.hasVoted(commentId));
+  removeUserVote(comment) {
+    let vote = comment.votes.find(x => x.userId === this.account.userId);
+    let index = comment.votes.indexOf(vote);
+    comment.votes = comment.votes.splice(index, 1);
+    comment.hasVoted = false;
   }
 
-  canVotePositively(commentId) {
-    return this.canVote && (this.hasVotedNegatively(commentId) || !this.hasVoted(commentId));
+  setUserVote(comment, positive) {
+    let vote = comment.votes.find(x => x.userId === this.account.userId);
+    if (vote === null || typeof vote === 'undefined') {
+      vote = {
+        userId: this.account.userId
+      };
+      comment.votes.push(vote);
+    }
+    vote.positive = positive;
+    comment.hasVoted = true;
+    comment.hasVotedPositively = positive;
   }
 
-  hasVotedPositively(commentId) {
-    return this.hasVoted(commentId) && this.vote.positive;
+  getUserVote(commentId) {
+    return this.getComment(commentId).votes.find(x => x.userId === this.account.userId);
   }
 
-  hasVotedNegatively(commentId) {
-    return this.hasVoted(commentId) && !this.vote.positive;
-  }
-
-  hasVoted(commentId) {
-    return this.vote !== null && typeof this.vote !== 'undefined';
+  getComment(commentId) {
+    return this.remark.comments.find(x => x.id === commentId);
   }
 
   canVote() {
@@ -97,6 +105,8 @@ export class RemarkComments {
   }
 
   async attached() {
+    this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
+
     this.operationService.subscribe('add_comment_to_remark',
       operation => this.handleCommentAddedToRemark(operation),
       operation => this.handleRejectedOperation(operation));
@@ -105,10 +115,19 @@ export class RemarkComments {
       operation => this.handleCommentEditedInRemark(operation),
       operation => this.handleRejectedOperation(operation));
 
+    this.operationService.subscribe('submit_remark_comment_vote',
+      operation => this.handleVoteSubmitted(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('delete_remark_comment_vote',
+      operation => this.handleVoteDeleted(operation),
+      operation => this.handleRejectedOperation(operation));
+
     this.log.trace('remark_comments_attached');
   }
 
   detached() {
+    this.remarkDeletedSubscription.dispose();
     this.operationService.unsubscribeAll();
   }
 
@@ -121,7 +140,18 @@ export class RemarkComments {
     if (remark.votes === null) {
       remark.votes = [];
     }
-    this.vote = remark.votes.find(x => x.userId === this.account.userId);
+    this.remark.comments.forEach(c => {
+      c.edited = c.history.length > 0;
+      c.editedAt = c.edited ? c.history[0].createdAt : null;
+      let vote = c.votes.find(x => x.userId === this.account.userId);
+      if (vote === null || typeof vote === 'undefined') {
+        c.hasVoted = false;
+
+        return;
+      }
+      c.hasVoted = true;
+      c.hasVotedPositively = vote.positive;
+    });
   }
 
   async delete(comment) {
@@ -148,60 +178,18 @@ export class RemarkComments {
       });
   }
 
-  async subscribeRemarkVoteSubmitted() {
-    return await this.eventAggregator
-      .subscribe('remark:vote_submitted', async message => {
-        if (this.remark.id !== message.remarkId) {
-          return;
-        }
-        if (Array.isArray(this.remark.votes)) {
-          let index = this.remark.votes.findIndex(x => x.userId === message.userId);
-          if (index < 0) {
-            this.remark.votes.push({
-              userId: message.userId,
-              positive: message.positive,
-              createdAt: message.createdAt
-            });
-          } else if (this.remark.votes[index].positive !== message.positive) {
-            this.remark.votes[index].positive = message.positive;
-          }
-          if (this.account.userId !== message.userId) {
-            this.calculateRating();
-          }
-        }
-      });
-  }
-
-  async subscribeRemarkVoteDeleted() {
-    return await this.eventAggregator
-      .subscribe('remark:vote_deleted', async message => {
-        if (Array.isArray(this.remark.votes)) {
-          if (this.remark.id !== message.remarkId) {
-            return;
-          }
-          let index = this.remark.votes.findIndex(x => x.userId === message.userId);
-          if (index < 0) {
-            return;
-          }
-          this.remark.votes.splice(index, 1);
-          if (this.account.userId !== message.userId) {
-            this.calculateRating();
-          }
-        }
-      });
-  }
-
-  calculateRating() {
-    if (Array.isArray(this.remark.votes)) {
+  calculateRating(commentId) {
+    let comment = this.remark.comments.find(x => x.id === commentId);
+    if (Array.isArray(comment.votes)) {
       let rating = 0;
-      this.remark.votes.forEach(x => {
+      comment.votes.forEach(x => {
         if (x.positive) {
-          rating++;
+          comment.rating++;
         } else {
-          rating--;
+          comment.rating--;
         }
       });
-      this.rating = rating;
+      comment.rating = rating;
     }
   }
 
@@ -214,48 +202,44 @@ export class RemarkComments {
   }
 
   async _vote(commentId, positive) {
-    console.log('Not implemented yet...');
-    // this.sending = true;
-    // this.isPositiveVote = positive;
-    // await this.remarkService.voteComment(this.id, commentId, positive);
-    // this._changeVoteType(this.isPositiveVote(commentId));
-    // this.sending = false;
+    this.sending = true;
+    await this.remarkService.voteComment(this.id, commentId, positive);
+    this._changeVoteType(commentId, positive);
+    this.sending = false;
   }
 
   async deleteVote(commentId) {
     this.sending = true;
     await this.remarkService.deleteCommentVote(this.id, commentId);
-    let positive = !this.vote.positive;
-    this.vote = null;
-    this._updateRating(positive);
+    let comment = this.getComment(commentId);
+    let positive = !comment.hasVotedPositively;
+    this.removeUserVote(comment);
+    this._updateRating(comment, positive);
     this.sending = false;
   }
 
-  _changeVoteType(positive) {
-    this._updateRating(positive);
-    if (!this.hasVoted) {
-      this.vote = {
-        userId: this.account.userId
-      };
+  _changeVoteType(commentId, positive) {
+    let comment = this.getComment(commentId);
+    this._updateRating(comment, positive);
+    if (!comment.hasVoted) {
+      this.removeUserVote(comment);
     }
-    this.vote.positive = positive;
+    this.setUserVote(comment, positive);
   }
 
-  _updateRating(positive) {
-    if (!this.hasVoted) {
+  _updateRating(comment, positive) {
+    if (!comment.hasVoted) {
       if (positive) {
-        this.rating++;
+        comment.rating++;
       } else {
-        this.rating--;
+        comment.rating--;
       }
-
       return;
     }
-
     if (positive) {
-      this.rating += 2;
+      comment.rating += 2;
     } else {
-      this.rating -= 2;
+      comment.rating -= 2;
     }
   }
 
@@ -303,12 +287,12 @@ export class RemarkComments {
     comment.editMode = true;
   }
 
-  handleRemarkVoteSubmitted(operation) {
-    this.toast.success(this.translationService.tr('remark.vote_submitted'));
+  handleVoteSubmitted(operation) {
+    this.toast.success(this.translationService.tr('remark.comment_vote_submitted'));
   }
 
-  handleRemarkVoteDeleted(operation) {
-    this.toast.success(this.translationService.tr('remark.vote_deleted'));
+  handleVoteDeleted(operation) {
+    this.toast.success(this.translationService.tr('remark.comment_vote_deleted'));
   }
 
   handleCommentAddedToRemark(operation) {
@@ -319,10 +303,15 @@ export class RemarkComments {
     let commentId = resourceData[resourceData.length - 1];
     this.remark.comments.push({
       renderText: true,
+      edited: false,
+      editedAt: null,
       id: commentId,
       text: this.comment,
       editMode: false,
       rating: 0,
+      createdAt: new Date(),
+      history: [],
+      votes: [],
       user: {
         userId: this.account.userId,
         name: this.account.name
@@ -331,12 +320,27 @@ export class RemarkComments {
   }
 
   handleCommentEditedInRemark(operation) {
+    let comment = this.getComment(this.editedComment.id);
+    comment.history.push({
+      text: this.editedCommentOriginalText,
+      createdAt: new Date()
+    });
+    comment.edited = true;
+    comment.editedAt = new Date();
     this.editedCommentOriginalText = this.editedCommentText;
     this.hideEditCommentForm(this.editedComment);
     this.editedComment = null;
     this.loader.hide();
     this.sending = false;
     this.toast.success(this.translationService.tr('remark.comment_updated'));
+  }
+
+  handleRemarkVoteSubmitted(operation) {
+    this.toast.success(this.translationService.tr('remark.vote_submitted'));
+  }
+
+  handleRemarkVoteDeleted(operation) {
+    this.toast.success(this.translationService.tr('remark.vote_deleted'));
   }
 
   handleRejectedOperation(operation) {

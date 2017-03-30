@@ -2,8 +2,8 @@
     <require from="../../converters/dateFormatValueConverter"></require>
       <div class="section">
         <div class="row">
-            <div class="col s8">
-                <span>${'remark.comments' | t} [${remark.comments.length}]</span>
+            <div class="col s12">
+                <h4>${'remark.comments' | t} [${remark.comments.length}]</h4>
             </div>
         </div>
         <div class="row" if.bind="commentFormVisible">
@@ -63,15 +63,17 @@
                                     <span class="badge">${'remark.rating' | t}: ${comment.rating}</span>
                                     <p if.bind="comment.renderText">${comment.text}</p>
                                     <p if.bind="!comment.renderText" innerhtml.bind="comment.text"></p>
+                                    <em if.bind="comment.edited">${'remark.comment_was_edited' | t} ${comment.editedAt | dateFormat} [${comment.history.length}]</em>
                                 </div>
                             </div>                          
                         </div>
                         <div class="row" if.bind="!comment.editMode">
-                             <div class="col s12">
-                                <span class="title">
-                                    <a route-href="route: profile; params.bind: {name : comment.user.name}">${comment.user.name}</a>
-                                </span>
-                             </div>                           
+                            <div class="col s6">
+                                <span><a route-href="route: profile; params.bind: {name : comment.user.name}">${comment.user.name}</a></span>
+                            </div>
+                            <div class="col s6 right-align">
+                                <span>${comment.createdAt | dateFormat}</span>
+                            </div>                            
                         </div>
                         <div class="row" if.bind="!comment.editMode">
                             <div class="col s3 m2 l1">
@@ -97,22 +99,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col s3 m2 l1" if.bind="hasVotedNegatively(comment.id) && !comment.removed">
+                            <div class="col s3 m2 l1" if.bind="canVote && (comment.hasVoted && !comment.hasVotedPositively) && !comment.removed">
                                 <button class="btn waves-effect waves-light btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote(comment.id)">
                                     <i class="material-icons center">thumb_down</i>
                                  </button>
                             </div>
-                            <div class="col s3 m2 l1" if.bind="canVoteNegatively(comment.id) && !comment.removed">
+                            <div class="col s3 m2 l1" if.bind="canVote && (!comment.hasVoted || comment.hasVotedPositively) && !comment.removed">
                                 <button class="btn waves-effect waves-light" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative(comment.id)">
                                     <i class="material-icons center">thumb_down</i>
                                 </button>
                             </div>
-                            <div class="col s3 m2 l1" if.bind="hasVotedPositively(comment.id && !comment.removed)">
+                            <div class="col s3 m2 l1" if.bind="canVote && (comment.hasVoted && comment.hasVotedPositively) && !comment.removed">
                                 <button class="btn waves-effect waves-light btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote(comment.id)">
                                     <i class="material-icons center">thumb_up</i>
                                 </button>
                             </div>
-                            <div class="col s3 m2 l1 " if.bind="canVotePositively(comment.id) && !comment.removed">
+                            <div class="col s3 m2 l1 " if.bind="canVote && (!comment.hasVoted || !comment.hasVotedPositively) && !comment.removed">
                                 <button class="btn waves-effect waves-light" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive(comment.id)">
                                     <i class="material-icons center">thumb_up</i>
                                 </button>                                  
