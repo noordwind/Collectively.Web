@@ -549,6 +549,10 @@ li > a {
   @extend .sign-in-view;
 }
 
+.change-password-view {
+  @extend .sign-in-view;
+}
+
 .location-view {
   p {
     font-size: 15px;
