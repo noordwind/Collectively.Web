@@ -41,6 +41,8 @@
           <span class="col s12 number">${myStatistics.reportedCount}</span>
           <span class="col s12 text">${'statistics.remarks_added_by_you' | t}</span>   
         </div>
+      </div>
+      <div class="row center general-stats-wrapper">
         <div class="col s6" repeat.for="category of categories">
           <span class="col s12 number">${category.count}</span>
           <span class="col s12 text">${category.name | lowercase}</span>   

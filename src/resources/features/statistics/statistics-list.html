@@ -8,7 +8,9 @@
       </tr>
     </thead>
     <tbody>
-      <tr repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}">
+      <tr repeat.for="item of items | sort:{propertyName: 'count', direction: 'descending'}"
+      class="${item.url ? 'pointer' : ''}"
+      click.trigger="navigate(item)">
         <td class="center">${item.name}</td>
         <td class="center">${item.count}</td>
       </tr>
