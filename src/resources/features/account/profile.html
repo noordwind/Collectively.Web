@@ -11,7 +11,7 @@
           <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 avatar-wrapper">
             <form if.bind="isCurrentUser">
                   <div class="section">
-                      <img src.bind="avatarUrl" class="avatar pointer circle" title="${'account.change_avatar' | t}" click.delegate="displayCamera()"/>
+                      <img src.bind="avatarUrl" class="avatar pointer circle" title="${'account.change_avatar' | t}" click.trigger="displayCamera()"/>
                       <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
                       <image-resizer image.bind="newImage" width="200" height="200" resized.bind="newImageResized"></image-resizer>
                       <a if.bind="avatarUrl && !isAvatarDefault && !avatarSelected" title="${'common.delete' | t}" md-modal-trigger href="#modal-remove-avatar"   
