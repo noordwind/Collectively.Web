@@ -38,6 +38,14 @@ export class RemarkListPage {
       this.orderBy = 'createdAt';
       this.sortOrder = 'descending';
     }
+
+    let userFavorites = '';
+    let favorites = params.type === 'favorites';
+    if (favorites) {
+      let header = this.translationService.trCapitalized('remark.favorite_remarks');
+      this.header = `${header}: ${params.username}`;
+      userFavorites = this.userId;
+    }
     if (params.resolver) {
       let user = await this.userService.getAccountByName(params.resolver);
       this.resolverId = user.userId || '';
@@ -67,7 +75,8 @@ export class RemarkListPage {
       tags: params.tag || '',
       state: params.state || '',
       orderBy: this.orderBy,
-      sortOrder: this.sortOrder
+      sortOrder: this.sortOrder,
+      userFavorites: userFavorites
     };
     this.remarks = await this.browse();
   }

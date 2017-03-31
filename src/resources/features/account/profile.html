@@ -36,7 +36,7 @@
         <div class="section buttons-wrapper">
           <div class="row">
             <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
-              <a route-href="route: user-remarks; params.bind: {username : user.name}" 
+              <a route-href="route: user-remarks; params.bind: {username: user.name}" 
                 class="btn waves-effect waves-light btn-large btn-white">
                 <i class="material-icons left">view_list</i>${'account.show_remarks' | t}
               </a>
@@ -44,9 +44,9 @@
           </div>
           <div class="row">
             <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
-              <a route-href="route: user-favorite-remarks; params.bind: {username : user.name}" 
+              <a route-href="route: user-remarks; params.bind: {username: user.name, type: 'favorites'}" 
                 class="btn waves-effect waves-light btn-large btn-white">
-                <i class="material-icons left">view_list</i>${'account.show_favorite_remarks' | t}
+                <i class="material-icons left">star</i>${'account.show_favorite_remarks' | t}
               </a>
             </div>
           </div>          

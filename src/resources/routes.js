@@ -273,21 +273,6 @@ export default [
     }
   },
   {
-    route: 'users/:username/favorites/remarks',
-    moduleId: `${modulePrefix}/remarks/favorite-remark-list-page`,
-    name: 'user-favorite-remarks',
-    title: 'Favorite remarks',
-    nav: false,
-    settings: {
-      navbar: {
-        hide: false,
-        bgColor: 'white-bg',
-        backRoute: 'previous'
-      },
-      translationKey: 'route.user_favorite_remarks'
-    }
-  },
-  {
     route: 'users/:resolver/remarks/resolved',
     moduleId: `${modulePrefix}/remarks/remark-list-page`,
     name: 'user-resolved-remarks',
