@@ -173,6 +173,9 @@ export class RemarkSummary {
 
   async addFavorite() {
     await this.userService.addFavoriteRemark(this.remark.id);
+    if (this.remark.userFavorites === null) {
+      this.remark.userFavorites = [];
+    }
     this.remark.userFavorites.push(this.account.userId);
     this.toast.info(this.translationService.tr('remark.favorite_remark_added'));
   }
