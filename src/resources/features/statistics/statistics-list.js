@@ -10,4 +10,10 @@ export class StatisticsList {
   constructor(router) {
     this.router = router;
   }
+
+  navigate(item) {
+    if (item.url) {
+      this.router.navigate(item.url);
+    }
+  }
 }
