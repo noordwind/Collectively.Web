@@ -16,7 +16,7 @@
                 <textarea id="description" placeholder="${'remark.description' | t}" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
             </div>
             <div class="col s12">
-              <div class="add-media" click.trigger="displayCamera()">
+              <div class="add-media pointer" click.trigger="displayCamera()">
                 <span if.bind="!remark.photos">${'remark.add_photo' | t}</span>
                 <img if.bind="remark.photos" src.bind="remark.photos[0].medium" />
               </div>
