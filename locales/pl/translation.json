@@ -182,6 +182,7 @@
     "description": "Opis (opcjonalny)",
     "deleted_photo": "Zdjęcie zostało usunięte.", 
     "deleting_photo": "Usuwamy zdjęcie, proszę czekać...",  
+    "favorite_remarks": "Ulubione zgłoszenia",
     "favorite_remark_added": "Zgłoszenie zostało dodane do listy ulubionych.",
     "favorite_remark_deleted": "Zgłoszenie zostało usunięte z listy ulubionych.",
     "filter": "Filtruj zgłoszenia",
