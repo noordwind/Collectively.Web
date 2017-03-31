@@ -168,7 +168,7 @@ export class RemarkSummary {
   }
 
   get isFavorite() {
-    return this.remark.userFavorites.indexOf(this.account.userId) > -1;
+    return this.remark.userFavorites && this.remark.userFavorites.indexOf(this.account.userId) > -1;
   }
 
   async addFavorite() {

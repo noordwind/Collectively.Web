@@ -1,0 +1,6 @@
+<template>
+    <require from="resources/features/remarks/remark-list"></require>
+    <h4>${header} [${remarks.length}]</h4>
+    <remark-list remarks.bind="remarks" load-more.call="loadMore()" 
+      order-by.bind="orderBy" sort-order.bind="sortOrder"></remark-list>
+</template>

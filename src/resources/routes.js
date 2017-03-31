@@ -158,9 +158,9 @@ export default [
         bgColor: 'white-bg',
         backRoute: 'remarks'
       },
-      translationKey: 'route.remark'
+      translationKey: 'route.remark_comments'
     }
-  }, 
+  },
   {
     route: 'remarks/:category/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
@@ -270,6 +270,21 @@ export default [
         backRoute: 'previous'
       },
       translationKey: 'route.user_remarks'
+    }
+  },
+  {
+    route: 'users/:username/favorites/remarks',
+    moduleId: `${modulePrefix}/remarks/favorite-remark-list-page`,
+    name: 'user-favorite-remarks',
+    title: 'Favorite remarks',
+    nav: false,
+    settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'previous'
+      },
+      translationKey: 'route.user_favorite_remarks'
     }
   },
   {

@@ -49,6 +49,7 @@
     "set_new_password": "Ustaw nowe hasło",
     "setting_new_password": "Ustawiamy nowe hasło, proszę czekać...",
     "set_your_name": "Prosimy o ustawienie nazwy użytkownika",
+    "show_favorite_remarks": "Ulubione zgłoszenia",
     "show_remarks": "Pokaż zgłoszenia",
     "sign_in": "Logowanie",
     "sign_in_via_email": "Zaloguj przez email",
@@ -235,6 +236,7 @@
     "map": "Mapa",
     "profile": "Profil",
     "remark": "Zgłoszenie",
+    "remark_comments": "Komentarze",
     "remark_display": "Wyświetl zgłoszenie",
     "remarks": "Zgłoszenia",
     "reset_password": "Reset hasła",
@@ -243,6 +245,7 @@
     "sign_in": "Logowanie",
     "sign_up": "Rejestracja",
     "start": "Start",
+    "user_favorite_remarks": "Ulubione zgłoszenia",
     "user_remarks": "Zgłoszenia użytkownika",
     "user_resolved_remarks": "Zgłoszenia rozwiązane prez użytkownika"
   },

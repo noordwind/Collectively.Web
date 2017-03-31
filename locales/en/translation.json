@@ -49,6 +49,7 @@
     "set_new_password": "Set new password",
     "setting_new_password": "Setting new password, please wait...",
     "set_your_name": "Please set your username",
+    "show_favorite_remarks": "Favorite remarks",
     "show_remarks": "Show remarks",
     "sign_in": "Sign in",
     "sign_in_via_email": "Sign in via email",
@@ -236,6 +237,7 @@
     "map": "Map",
     "profile": "Profile",
     "remark": "Remark",
+    "remark_comments": "Comments",
     "remark_display": "Display remark",
     "remarks": "Remarks",
     "reset_password": "Reset password",
@@ -244,6 +246,7 @@
     "sign_in": "Sign in",
     "sign_up": "Create account",
     "start": "Start",
+    "user_favorite_remarks": "Favorite remarks",
     "user_remarks": "User remarks",
     "user_resolved_remarks": "User resolved remarks"
   },
