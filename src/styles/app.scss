@@ -365,6 +365,18 @@ li > a {
     }
   }
 
+  .favorite-icon {
+    color: $secondary-dark-color;
+    opacity: 0.1;
+    position: absolute;
+    right: 10px;
+  }
+
+  .favorite-icon.selected {
+    color: $primary-color;
+    opacity: 1;
+  }
+
   .description-text{
     @extend .text;
     font-size: 15px;

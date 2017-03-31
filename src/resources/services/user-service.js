@@ -62,6 +62,16 @@ export default class UserService {
       => await this.apiBaseService.delete('account/avatar'));
   }
 
+  async addFavoriteRemark(remarkId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`account/favorites/remarks/${remarkId}`));
+  }
+
+  async deleteFavoriteRemark(remarkId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete(`account/favorites/remarks/${remarkId}`));
+  }
+
   _clearUserCache() {
     this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account*/);
   }

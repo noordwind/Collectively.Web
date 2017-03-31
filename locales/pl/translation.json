@@ -144,6 +144,7 @@
     "location_loaded": "Lokalizacja została ustalona."
   },
   "remark": {
+    "add_to_favorites": "Dodaj do ulubionych",
     "additional_filters": "Dodatkowe filtry",
     "add_comment": "Dodaj komentarz",
     "adding_comment": "Dodajemy komentarz, proszę czekać...",
@@ -169,6 +170,7 @@
     "comment_vote_submitted": "Komentarz zostały oceniony.",
     "comment_vote_deleted": "Ocena została usunięta.",
     "delete_comment_question": "Czy na pewno chcesz usunąć wybrany komentarz?",
+    "delete_from_favorites": "Usuń z ulubionych",
     "delete_photo_question": "Czy na pewno chcesz usunąć wybrane zdjęcie?",
     "delete_question": "Czy na pewno chcesz usunąć wybrane zgłoszenie?",
     "delete_vote": "Usuń ocenę",
@@ -178,7 +180,9 @@
     "details": "Zgłoszenie",
     "description": "Opis (opcjonalny)",
     "deleted_photo": "Zdjęcie zostało usunięte.", 
-    "deleting_photo": "Usuwamy zdjęcie, proszę czekać...",   
+    "deleting_photo": "Usuwamy zdjęcie, proszę czekać...",  
+    "favorite_remark_added": "Zgłoszenie zostało dodane do listy ulubionych.",
+    "favorite_remark_deleted": "Zgłoszenie zostało usunięte z listy ulubionych.",
     "filter": "Filtruj zgłoszenia",
     "location": "Lokalizacja",
     "no_image": "Brak zdjęcia",

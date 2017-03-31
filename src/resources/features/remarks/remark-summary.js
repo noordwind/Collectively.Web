@@ -50,6 +50,10 @@ export class RemarkSummary {
     return !!this.remark.createdAt;
   }
 
+  get showFavorite() {
+    return this.isRemarkReported;
+  }
+
   get hasPhoto() {
     return this.remark && this.remark.photos && this.remark.photos.length > 0;
   }
@@ -150,7 +154,6 @@ export class RemarkSummary {
   async subscribeRemarkPhotoRemoved() {
     return await this.eventAggregator
       .subscribe('remark:photo_removed', async message => {
-        console.log(message);
         if (message.remarkId !== this.remark.id) {
           return;
         }
@@ -162,5 +165,22 @@ export class RemarkSummary {
         });
         this.showLastPhoto();
       });
+  }
+
+  get isFavorite() {
+    return this.remark.userFavorites.indexOf(this.account.userId) > -1;
+  }
+
+  async addFavorite() {
+    await this.userService.addFavoriteRemark(this.remark.id);
+    this.remark.userFavorites.push(this.account.userId);
+    this.toast.info(this.translationService.tr('remark.favorite_remark_added'));
+  }
+
+  async deleteFavorite() {
+    await this.userService.deleteFavoriteRemark(this.remark.id);
+    let index = this.remark.userFavorites.indexOf(this.account.userId);
+    this.remark.userFavorites.splice(index, 1);
+    this.toast.info(this.translationService.tr('remark.favorite_remark_deleted'));
   }
 }
