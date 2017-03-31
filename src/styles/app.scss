@@ -759,6 +759,12 @@ li > a {
       color: $primary-light-color;
     }
   }
+
+  .modal-content {
+    p {
+      color: $primary-dark-color;
+    }
+  }
 }
 
 .remark-side-list {
