@@ -483,18 +483,21 @@ li > a {
 
 .sign-in-view {
   form {
-    margin-top: 50px;
+    margin-top: 10px;
   }
 
   input {
     color: $primary-dark-color;
     font-weight: 600;
     font-size: 23px;
+  }
+
+  input:not(.invalid) {
     border-bottom: 2px solid $tertiary-dark-color !important;
     box-shadow: 0 0 0 0 transparent !important;  
   }
 
-  input:focus {
+  input:not(.invalid):focus {
     outline: none !important;
     border-bottom: 2px solid $primary-color !important;
     box-shadow: 0 1px 0 0 $primary-color !important;
@@ -544,10 +547,6 @@ li > a {
 
 .sign-up-view {
   @extend .sign-in-view;
-
-  form {
-    margin-top: 30px;
-  }
 }
 
 .filters-view {

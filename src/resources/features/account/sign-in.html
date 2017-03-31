@@ -3,12 +3,16 @@
     <form if.bind="signInAllowed" submit.delegate="submit()">
       <div class="section">
         <div class="row">
-          <input class="col s12" type="email" value.bind="account.email & validate"
-            placeholder="${'account.email' | t}"  />
+          <md-input class="col s12" md-type="email" md-placeholder="${'account.email' | t}" md-validate="true" 
+          md-value.bind="account.email & validate"></md-input>
+          <!--<input class="col s12 validate" type="email" value.bind="account.email & validate"
+            placeholder="${'account.email' | t}"  />-->
         </div>
         <div class="row">
-          <input class="col s12" type="password" value.bind="account.password & validate"
-            placeholder="${'account.password' | t}"/>
+          <md-input class="col s12" md-type="password" md-placeholder="${'account.password' | t}" md-validate="true" 
+          md-value.bind="account.password & validate"></md-input>
+          <!--<input class="col s12 validate" type="password" value.bind="account.password & validate"
+            placeholder="${'account.password' | t}"/>-->
         </div>
       </div>
       <div class="buttons">
