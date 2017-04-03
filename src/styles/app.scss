@@ -781,6 +781,24 @@ li > a {
   padding: 15px 0 !important;
   border-bottom: 1px solid $tertiary-dark-color;
 
+  .icon {
+    position: relative;
+    i {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: $primary-dark-color;
+      font-size: 1.5rem;
+    }
+
+    img {
+      position: absolute;
+      top: 0;
+      right: 0;
+      height: 35px;
+    }
+  }
+
   i {
     font-size: 3rem;
   }
@@ -882,6 +900,13 @@ li > a {
           right: 0;
           color: $primary-light-color;
           font-size: 1.5rem;
+        }
+
+        img {
+          position: absolute;
+          top: 0;
+          right: 0;
+          height: 25px;
         }
       }
 

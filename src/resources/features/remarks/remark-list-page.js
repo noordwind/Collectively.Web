@@ -89,6 +89,7 @@ export class RemarkListPage {
         latitude: remark.location.coordinates[1],
         longitude: remark.location.coordinates[0]
       });
+      remark.icon = `assets/images/${remark.category.name}_icon_dark.png`;
     }, this);
 
     return remarks;

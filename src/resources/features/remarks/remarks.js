@@ -172,6 +172,7 @@ export class Remarks {
 
   processRemark(remark) {
     remark.url = this.router.generate('remark', {id: remark.id});
+    remark.icon = `assets/images/${remark.category.name}_icon.png`;
     remark.selected = remark.id === this.selectedRemarkId;
     let latitude = remark.location.coordinates[1];
     let longitude = remark.location.coordinates[0];

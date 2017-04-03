@@ -10,7 +10,7 @@
             <a href.bind="remark.url">
               <div class="row">
                 <div class="col s2 no-padding icon">
-                  <i class="material-icons">error</i>
+                  <img if.bind="remark.icon" src.bind="remark.icon"/>
                 </div>
                 <div class="col s7">
                   <div class="header">${'remark.category_'+remark.category.name | t}</div>
