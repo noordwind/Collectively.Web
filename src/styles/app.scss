@@ -155,12 +155,27 @@ input[type=range]::-webkit-slider-thumb {
   }
 }
 
-// .white-floating-btn {
-//   .btn-floating {
-//     background-color: $primary-light-color;
-//     color: $primary-color;
-//   }
-// }
+.dark-floating-btn {
+  .btn-floating {
+    background-color: $primary-dark-color;
+    color: $primary-color;
+
+    i {
+      color: $primary-color;
+    }
+  }
+}
+
+.white-floating-btn {
+  .btn-floating {
+    background-color: $primary-light-color;
+    color: $primary-color;
+
+    i {
+      color: $primary-color;
+    }
+  }
+}
 
 .btn:not(.btn-floating) {
   width: 100%;
@@ -288,6 +303,35 @@ li > a {
       font-weight: 600;
       color: $primary-color-strong;
     }
+
+    a {
+      text-align: center;
+    }
+
+    img {
+      max-width: 37px;
+      max-height: 37px;
+    }
+  }
+
+  .btn-praise {
+    background: $primary-color url('assets/images/praise_icon.png') no-repeat center;
+    background-size: auto 25px;
+  }
+
+  .btn-suggestion {
+    background: $primary-color url('assets/images/suggestion_icon.png') no-repeat center;
+    background-size: auto 25px;
+  }
+
+  .btn-issue {
+    background: $primary-color url('assets/images/issue_icon.png') no-repeat center;
+    background-size: 25px auto;
+  }
+
+  .btn-defect {
+    background: $primary-color url('assets/images/defects_icon.png') no-repeat center;
+    background-size: auto 25px;
   }
 
   .btn-right-bottom {
@@ -295,6 +339,33 @@ li > a {
     bottom: 23px;
     right: 23px;
     
+  }
+
+  .listed-view-btn {
+    background-color: $primary-light-color;
+    width: 37px;
+    height: 37px;
+    border-radius: 50%;
+
+    i {
+      width: 37px;
+      height: 37px;
+      position: relative;
+      top: 6px;
+      left: 6px;
+    }
+  }
+
+  .listed-view-btn:before {
+    content:"";
+    position: absolute;
+    left: 32px;
+    top: 6.5px;
+    width: 0;
+    height: 0;
+    border-top: 12px solid transparent;
+    border-bottom: 13px solid transparent;
+    border-left: 12px solid $primary-light-color;
   }
 }
 

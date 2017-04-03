@@ -9,15 +9,15 @@
           <remark-list id="remark-list" class="side-nav" remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
       </div>
       <div class="row">
-        <div class="btn-left-top">
+        <div class="btn-left-top dark-floating-btn">
           <button class="btn btn-floating waves-effect button-sidenav-left" data-activates="nav-mobile">
             <i class="large material-icons">menu</i>
           </button>
         </div>
-        <div class="btn-right-top">
-          <button class="btn btn-floating waves-effect button-sidenav-right white-floating-btn" data-activates="remark-list">
-            <i class="large material-icons">list</i>
-          </button>
+        <div class="btn-right-top listed-view-btn z-depth-1">
+          <a class="waves-effect button-sidenav-right" data-activates="remark-list">
+            <i class="material-icons">list</i>
+          </a>
         </div>
         <div class="btn-center-bottom fixed-action-btn create-remark-btn" if.bind="createRemarkEnabled">
           <a title="${'remark.create' | t}" class="btn btn-floating btn-large waves-effect">
@@ -25,39 +25,37 @@
           </a>
           <ul>
             <li class="row">
-              <a route-href="route: create-remark; params.bind: {category : 'praise'}" class="btn-floating">
-                <i class="material-icons">thumb_up</i>
-              </a>
+              <a route-href="route: create-remark; params.bind: {category : 'praise'}" 
+              class="btn-floating btn-praise"></a>
               <span>${'remark.category_praise' | t}</span>
             </li>
             <li class="row">
-              <a route-href="route: create-remark; params.bind: {category : 'suggestion'}" class="btn-floating">
-                <i class="material-icons">new_releases</i>
-              </a>
+              <a route-href="route: create-remark; params.bind: {category : 'suggestion'}" 
+              class="btn-floating btn-suggestion"></a>
               <span>${'remark.category_suggestion' | t}</span>
             </li>
             <li class="row">
-              <a route-href="route: create-remark; params.bind: {category : 'suggestion'}" class="btn-floating">
-                <i class="material-icons">warning</i>
-              </a>
+              <a route-href="route: create-remark; params.bind: {category : 'issue'}" 
+              class="btn-floating btn-issue"></a>
               <span>${'remark.category_issue' | t}</span>
             </li>
             <li class="row">
-              <a route-href="route: create-remark; params.bind: {category : 'defect'}" class="btn-floating">
-                <i class="material-icons">build</i>
-              </a>
+              <a route-href="route: create-remark; params.bind: {category : 'defect'}" 
+              class="btn-floating btn-defect"></a>
               <span>${'remark.category_defect' | t}</span>
             </li>
           </ul>
         </div>
         <div class="btn-left-bottom white-floating-btn">
           <a route-href="route: filter-remarks" title="${'remark.filter' | t}" class="btn btn-floating waves-effect">
-            <i class="large material-icons">layers</i>
+            <!--<i class="large material-icons">layers</i>-->
+            <img class="responsive-img" src="assets/images/layers_button.png"/>
           </a>
         </div>
         <div class="btn-right-bottom white-floating-btn" if.bind="resetPositionEnabled">
           <button click.delegate="resetPosition()" class="btn btn-floating waves-effect">
-            <i class="large material-icons">my_location</i>
+            <!--<i class="large material-icons">my_location</i>-->
+            <img class="responsive-img" src="assets/images/find_me_button.png"/>
           </button>
         </div>
       </div>
