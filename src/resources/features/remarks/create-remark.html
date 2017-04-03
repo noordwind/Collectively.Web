@@ -17,7 +17,10 @@
             </div>
             <div class="col s12">
               <div class="add-media pointer" click.trigger="displayCamera()">
-                <span if.bind="!remark.photos">${'remark.add_photo' | t}</span>
+                <div class="col s12">
+                  <img class="placeholder" if.bind="!remark.photos" src="assets/images/add_media_icon.png" />
+                </div>
+                <span class="col s12" if.bind="!remark.photos">${'remark.add_photo' | t}</span>
                 <img if.bind="remark.photos" src.bind="remark.photos[0].medium" />
               </div>
               <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>

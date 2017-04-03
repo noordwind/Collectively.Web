@@ -395,11 +395,14 @@ li > a {
     height: 150px;
     width: 100%;
     text-align: center;
-    padding-top: 65px;
 
     img {
-      margin-top: -65px;
       height: 150px;
+    }
+
+    img.placeholder {
+      margin-top: 30px;
+      height: 75px;
     }
   }
 
