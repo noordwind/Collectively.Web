@@ -330,7 +330,7 @@ li > a {
   }
 
   .btn-defect {
-    background: $primary-color url('assets/images/defects_icon.png') no-repeat center;
+    background: $primary-color url('assets/images/defect_icon.png') no-repeat center;
     background-size: auto 25px;
   }
 
@@ -425,6 +425,11 @@ li > a {
   .category-text {
     @extend .text;
     font-size: 23px;
+
+    img {
+      height: 23px;
+      margin-right: 5px;
+    }
   }
 
   .location-text {
@@ -433,6 +438,11 @@ li > a {
     i {
       position: relative;
       top: 5px;
+    }
+
+    img {
+      height: 30px;
+      margin-right: 5px;
     }
   }
 

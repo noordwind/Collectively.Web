@@ -1,9 +1,10 @@
 <template>
   <div class="remark-summary-view">
-    <div if.bind="remark.state" class="row">
-      <div class="col s10 state-text">
-        <span>${'remark.state_'+remark.state.state | t}</span>
-      </div>
+    <div class="row">
+      <div class="col s12 category-text">
+        <img src="${'assets/images/'+remark.category.name+'_icon_dark.png'}"/>
+        <span>${'remark.category_'+remark.category.name | t}</span>
+      </div> 
       <div class="col s2" if.bind="showFavorite">
         <span if.bind="isFavorite" class="pointer" title="${'remark.delete_from_favorites' | t}" click.delegate="deleteFavorite()">
           <i class="material-icons medium favorite-icon selected">star</i>
@@ -14,9 +15,9 @@
       </div>   
     </div>
     <div class="row">
-      <div class="col s12 category-text">
-        <span>${'remark.category_'+remark.category.name | t}</span>
-      </div>   
+      <div if.bind="remark.state" class="col s10 state-text">
+        <span>${'remark.state_'+remark.state.state | t}</span>
+      </div>
       <div class="col s12 location-text">
         <i class="material-icons">my_location</i>
         <span>${remark.address}</span>
