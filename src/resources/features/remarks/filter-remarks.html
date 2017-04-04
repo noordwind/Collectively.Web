@@ -20,6 +20,9 @@
         <div repeat.for="state of states" class="col s12">
           <checkbox value.bind="state" label="${'filters.'+state.name |t | lowercase}"></checkbox>
         </div>
+        <div class="col s12">
+          <checkbox value.bind="showMyRemarks" label="${'filters.my_remarks' | t}"></checkbox>
+        </div>
       </div>
     </div>
   </div>

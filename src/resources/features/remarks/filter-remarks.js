@@ -19,6 +19,9 @@ export class FilterRemarks {
     this.toast = toast;
     this.remarkService = remarkService;
     this.filters = this.filtersService.filters;
+    this.showMyRemarks = {
+      checked: this.filters.type === 'mine'
+    };
   }
 
   async activate() {
@@ -41,6 +44,11 @@ export class FilterRemarks {
   filterRemarks() {
     this.filters.categories = this.selectedCategories;
     this.filters.states = this.selectedStates;
+    if (this.showMyRemarks.checked) {
+      this.filters.type = 'mine';
+    } else {
+      this.filters.type = 'all';
+    }
     this._updateFilters();
   }
 

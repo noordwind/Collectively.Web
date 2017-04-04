@@ -137,7 +137,8 @@
   },
   "filters": {
     "resolved": "resolved",
-    "unresolved": "unresolved"
+    "unresolved": "unresolved",
+    "my_remarks": "show only mine"
   },
   "location": {
     "fetching_location_message": "Fetching the current location...",

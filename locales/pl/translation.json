@@ -136,7 +136,8 @@
   },
   "filters": {
     "resolved": "rozwiązane",
-    "unresolved": "nierozwiązane"
+    "unresolved": "nierozwiązane",
+    "my_remarks": "pokaż tylko moje"
   },
   "location": {
     "fetching_location_message": "Ustalamy aktualną lokalizację...",
