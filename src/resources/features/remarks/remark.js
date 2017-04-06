@@ -48,6 +48,8 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
+    this.actionDescription = '';
+    this.processDescription = '';
     this.websockets.initialize();
   }
 
@@ -56,7 +58,8 @@ export class Remark {
   }
 
   get canResolve() {
-    return this.isAuthenticated && this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
+    return this.isAuthenticated && this.account.userId === this.remark.author.userId &&
+           this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
   get canAddPhotos() {
@@ -89,6 +92,18 @@ export class Remark {
 
   get hasVoted() {
     return this.vote !== null && typeof this.vote !== 'undefined';
+  }
+
+  get canTakeAction() {
+    return this.isAuthenticated && !this.isParticipant;
+  }
+
+  get canProcess() {
+    return this.isParticipant;
+  }
+
+  get isParticipant() {
+    return this.remark.participants.find(x => x.user.userId === this.account.userId);
   }
 
   async activate(params, routeConfig) {
@@ -143,6 +158,18 @@ export class Remark {
       operation => this.handleRemarkVoteDeleted(operation),
       operation => this.handleRejectedOperation(operation));
 
+    this.operationService.subscribe('take_remark_action',
+      operation => this.handleRemarkActionTaken(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('cancel_remark_action',
+      operation => this.handleRemarkActionCanceled(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('process_remark',
+      operation => this.handleRemarkProcessed(operation),
+      operation => this.handleRejectedOperation(operation));
+
     this.newImageResized = async (base64) => {
       if (base64 === '') {
         return;
@@ -180,6 +207,9 @@ export class Remark {
     }
     if (remark.comments === null) {
       remark.comments = [];
+    }
+    if (remark.participants === null) {
+      remark.participants = [];
     }
     this.tags = remark.tags.map(tag => {
       return {
@@ -472,6 +502,47 @@ export class Remark {
     this.toast.error(this.translationService.trCode(operation.code));
     this.sending = false;
     this.loader.hide();
+  }
+
+  async takeAction() {
+    let index = this.remark.participants.findIndex(x => x.user.userId === this.account.userId);
+    if (index >= 0) {
+      return;
+    }
+    await this.remarkService.takeAction(this.id, this.actionDescription);
+  }
+
+  async cancelAction() {
+    await this.remarkService.cancelAction(this.id);
+  }
+
+  async process() {
+    await this.remarkService.processRemark(this.id, this.processDescription);
+  }
+
+  handleRemarkActionTaken(operation) {
+    this.toast.success(this.translationService.tr('remark.action_taken'));
+    this.remark.participants.push({
+      description: this.actionDescription,
+      user: {
+        userId: this.account.userId,
+        name: this.account.name
+      }});
+    this.actionDescription = '';
+  }
+
+  handleRemarkActionCanceled(operation) {
+    this.toast.info(this.translationService.tr('remark.action_canceled'));
+    let index = this.remark.participants.findIndex(x => x.user.userId === this.account.userId);
+    if (index < 0) {
+      return;
+    }
+    this.remark.participants.splice(index, 1);
+  }
+
+  handleRemarkProcessed(operation) {
+    this.toast.success(this.translationService.tr('remark.activity_sent'));
+    this.processDescription = '';
   }
 
   scrollToTop() {

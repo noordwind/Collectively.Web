@@ -93,6 +93,21 @@ export default class RemarkService {
       => await this.apiBaseService.delete(`remarks/${remarkId}/comments/${commentId}/votes`));
   }
 
+  async takeAction(remarkId, description) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post(`remarks/${remarkId}/actions`, { description }));
+  }
+
+  async cancelAction(remarkId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.delete(`remarks/${remarkId}/actions`));
+  }
+
+  async process(remarkId, description) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post(`remarks/${remarkId}/actions`, { description }));
+  }
+
   async getCategories() {
     return await this.apiBaseService.get('remarks/categories');
   }
@@ -107,6 +122,11 @@ export default class RemarkService {
 
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`remarks/${command.remarkId}/resolve`, command));
+  }
+
+  async processRemark(remarkId, description) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/process`, { description }));
   }
 
   async deleteRemark(id) {
