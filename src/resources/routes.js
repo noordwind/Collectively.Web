@@ -162,6 +162,21 @@ export default [
     }
   },
   {
+    route: 'remarks/:id/participants',
+    moduleId: `${modulePrefix}/remarks/remark-participants`,
+    name: 'remark-participants',
+    title: 'Remark participants',
+    nav: false,
+    settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
+      translationKey: 'route.remark_participants'
+    }
+  },
+  {
     route: 'remarks/:category/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name: 'create-remark',

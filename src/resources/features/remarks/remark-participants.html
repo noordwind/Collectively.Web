@@ -1,0 +1,19 @@
+<template>
+    <require from="../../converters/dateFormatValueConverter"></require>
+      <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <h4>${'remark.participants' | t} [${remark.participants.length}]</h4>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <ul class="collection">
+                    <li class="collection-item avatar" repeat.for="participant of remark.participants">
+                        <i class="material-icons circle">perm_identity</i>
+                        <span class="title"><a route-href="route: profile; params.bind: {name : participant.user.name}">${participant.user.name}</a></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</template>
