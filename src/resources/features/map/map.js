@@ -160,7 +160,8 @@ export class Map {
     }
     let title = this.translationService.tr('common.user');
     let content = this.translationService.tr('common.you_are_here');
-    this.userMarker = this.drawMarker(lng, lat, title, content, 'FFEBEE');
+    let markerImg = this.getDefaultGoogleMarker('FFEBEE');
+    this.userMarker = this.drawMarker(lng, lat, title, content, markerImg);
     let bounds = this.map.getBounds();
     if (bounds && bounds.contains(this.userPosition)) {
       this.moveMarker(this.userMarker, lat, lng);
@@ -177,45 +178,42 @@ export class Map {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
     let category = this.translationService.tr(`remark.category_${remark.category.name}`);
-    let color = this.getRemarMarkerkColor(remark);
     let detailsText = this.translationService.tr('common.details');
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
+    let markerImage = this.getRemarkMarker(remark);
     let enlarge = remark.rating >= 2 && this.filters.distinguishLiked;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
-    this.drawMarker(longitude, latitude, detailsText, content, color, enlarge);
+    this.drawMarker(longitude, latitude, detailsText, content, markerImage, enlarge);
   }
 
-  getRemarMarkerkColor(remark) {
-    if (remark.selected) {
-      return '3399FF';
-    }
-    if (remark.resolved) {
-      return '009720';
-    }
+  getDefaultGoogleMarker(color) {
+    return `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`;
+  }
 
-    switch (remark.category) {
-    case 'defect': return 'E40521';
-    case 'issue': return 'E08040';
-    case 'suggestion': return 'FBF514';
-    case 'praise': return '43C9E7';
-    default: return this.defaultRemarkMarkerColor;
+  getRemarkMarker(remark) {
+    switch (remark.category.name) {
+    case 'defect': return '/assets/images/defect_marker.png';
+    case 'issue': return '/assets/images/issue_marker.png';
+    case 'suggestion': return '/assets/images/suggestion_marker.png';
+    case 'praise': return '/assets/images/praise_marker.png';
+    default: return '/assets/images/issue_marker.png';
     }
   }
 
-  drawMarker(longitude, latitude, title, content, color, enlarge) {
+  drawMarker(longitude, latitude, title, content, imgPath, enlarge) {
     let position = new google.maps.LatLng(latitude, longitude);
     let infowindow = new google.maps.InfoWindow({
       content: content
     });
-    let size = enlarge ? new google.maps.Size(30, 45) : new google.maps.Size(20, 30);
+    let size = enlarge ? new google.maps.Size(50, 75) : new google.maps.Size(37.5, 50);
     let marker = new google.maps.Marker({
       position: position,
       title: title,
       map: this.map,
       icon: {
-        url: `https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|${color}`,
+        url: imgPath,
         scaledSize: size
       }
     });

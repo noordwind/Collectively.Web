@@ -503,18 +503,13 @@ li > a {
       left: 0;
       width: 100%;
       height: 320px;
-      background-color: $tertiary-dark-color;
+      background-color: #EDEDED;
       text-align: center;
       overflow: hidden;
 
       img {
-        min-height: 320px;
-        min-width: 100vw;
+        height: 320px;
       }
-    }
-
-    .photo-placeholder {
-      padding-top: 145px;
     }
   }
 }

@@ -28,7 +28,7 @@
         <div class="photos-slider">
           <div class="photos-wrapper">
             <div if.bind="!hasPhoto" class="photo-placeholder">
-                <span>${'remark.no_image' | t}</span>
+              <img src="/assets/images/photo_placeholder.png"/>
             </div>
             <div repeat.for="photo of remark.photos" if.bind="photo.visible">
               <a if.bind="photo.big" href.bind="photo.big" target="_blank">
