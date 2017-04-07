@@ -27,9 +27,7 @@
       <div class="photos-section">
         <div class="photos-slider">
           <div class="photos-wrapper">
-            <div if.bind="!hasPhoto" class="photo-placeholder">
-              <img src="/assets/images/photo_placeholder.png"/>
-            </div>
+            <div if.bind="!hasPhoto" class="photo-placeholder"></div>
             <div repeat.for="photo of remark.photos" if.bind="photo.visible">
               <a if.bind="photo.big" href.bind="photo.big" target="_blank">
                 <img src.bind="photo.medium" />
