@@ -21,6 +21,9 @@ export default class LocationService {
     skipError = skipError || this.exists;
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(async location => {
+        if (that.current === null) {
+          that.current = {};
+        }
         let latitude = location.coords.latitude;
         let longitude = location.coords.longitude;
         let current = {
