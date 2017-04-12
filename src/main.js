@@ -10,7 +10,7 @@ Promise.config({
   }
 });
 
-export function configure(aurelia) {
+export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature('resources')
@@ -52,5 +52,5 @@ export function configure(aurelia) {
     aurelia.use.plugin('aurelia-testing');
   }
 
-  aurelia.start().then(() => aurelia.setRoot());
+  await aurelia.start().then(() => aurelia.setRoot());
 }

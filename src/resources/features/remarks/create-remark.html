@@ -2,15 +2,15 @@
   <require from="resources/features/remarks/remark-summary"></require>
   <require from="resources/features/images/image-resizer"></require>
   <div class="create-remark-view">
-    <div class="section">
+    <div class="section" id="forma">
       <form submit.delegate="sendRemark()">
-        <div class="fill-remark-screen">
+        <div class="fill-remark-screen" if.bind="!summaryVisible">
           <div class="row">
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category.name | t}</span>
             </div>
             <div class="input-field col s12">
-              <span class="text-underlined">${address}</span>
+              <input type="text" value.bind="address" placeholder="${'remark.type_location' | t}"  />
             </div>
             <div class="input-field col s12">
                 <textarea id="description" placeholder="${'remark.description' | t}" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
@@ -43,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div class="remark-summary-screen">
+        <div if.bind="summaryVisible">
           <remark-summary remark.bind="remark"></remark-summary>
           <div class="row center">
             <div class="col s10 offset-s1 center">

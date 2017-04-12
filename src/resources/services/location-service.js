@@ -27,7 +27,8 @@ export default class LocationService {
           longitude: longitude,
           latitude: latitude,
           accuracy: location.coords.accuracy,
-          address: ''
+          address: that.current.address,
+          bounds: that.current.bounds
         };
         if (that.updateAddress) {
           let address = await that.getAddress(latitude, longitude);
@@ -71,6 +72,7 @@ export default class LocationService {
 
   get current() {
     let location = this.storageService.read(this.environment.locationStorageKey);
+
     return location;
   }
 

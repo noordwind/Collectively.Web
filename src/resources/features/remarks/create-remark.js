@@ -8,13 +8,14 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
+import {ObserverLocator} from 'aurelia-binding';
 
 @inject(Router, I18N, TranslationService, LocationService,
 RemarkService, ToastService, LoaderService, OperationService,
-LogService)
+LogService, ObserverLocator)
 export class CreateRemark {
   constructor(router, i18n, translationService, location, remarkService, toast,
-    loader, operationService, logService) {
+    loader, operationService, logService, observerLocator) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -24,6 +25,7 @@ export class CreateRemark {
     this.loader = loader;
     this.operationService = operationService;
     this.log = logService;
+    this.observerLocator = observerLocator;
     this.remark = {
       category: {
         name: ''
@@ -31,6 +33,9 @@ export class CreateRemark {
       tags: []
     };
     this.sending = false;
+    this.foundAddress = '';
+    this.coordinates = {};
+    this.summaryVisible = false;
   }
 
   attached() {
@@ -43,6 +48,21 @@ export class CreateRemark {
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
     });
+
+    this.observerLocator.getObserver(this, 'address')
+      .subscribe(async (newValue, oldValue) => {
+        this.coordinates = {};
+        if (newValue.match(/^ *$/) !== null) {
+          return;
+        }
+        let addresses = await this.geocode(newValue);
+        addresses.forEach(address => {
+          let location = address.geometry.location;
+          this.foundAddress = address.formatted_address;
+          this.coordinates.latitude = location.lat();
+          this.coordinates.longitude = location.lng();
+        });
+      });
   }
 
   detached() {
@@ -50,11 +70,34 @@ export class CreateRemark {
     this.location.stopUpdatingAddress();
   }
 
+  async geocode(value) {
+    return new Promise((resolve, reject) => {
+      new google.maps.Geocoder().geocode({ address: value, bounds: this.getBounds() }, (results, status) => {
+        status === google.maps.GeocoderStatus.OK ? resolve(results) : {};
+      });
+    });
+  }
+
+  getBounds() {
+    let bounds = this.location.current.bounds;
+    if (!bounds) {
+      return {};
+    }
+
+    return new google.maps.LatLngBounds(
+                  new google.maps.LatLng(bounds.south, bounds.west),
+                  new google.maps.LatLng(bounds.north, bounds.east));
+  }
+
   async activate(params) {
+    this.address = this.location.current.address;
+    this.foundAddress = this.address;
     this.remark.category.name = params.category;
     this.remark.latitude = this.location.current.latitude;
     this.remark.longitude = this.location.current.longitude;
     this.remark.address = this.location.current.address;
+    this.coordinates.latitude = this.location.current.latitude;
+    this.coordinates.longitude = this.location.current.longitude;
     let tags = await this.remarkService.getTags();
     this.tags = tags.map(tag => {
       return {
@@ -65,18 +108,20 @@ export class CreateRemark {
     });
   }
 
-  get address() {
-    return this.location.current.address || this.translationService.tr('common.location');
-  }
-
   goToSummary() {
-    this.remark.address = this.address;
+    if (!this.coordinates.longitude) {
+      this.toast.error(this.translationService.trCode('invalid_address'));
+
+      return;
+    }
+    this.remark.address = this.foundAddress;
+    this.remark.latitude = this.coordinates.latitude;
+    this.remark.longitude = this.coordinates.longitude;
     this.toggleSummary();
   }
 
   toggleSummary() {
-    $('.fill-remark-screen').toggle();
-    $('.remark-summary-screen').toggle();
+    this.summaryVisible = !this.summaryVisible;
   }
 
   async sendRemark() {
