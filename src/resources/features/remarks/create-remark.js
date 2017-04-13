@@ -72,21 +72,10 @@ export class CreateRemark {
 
   async geocode(value) {
     return new Promise((resolve, reject) => {
-      new google.maps.Geocoder().geocode({ address: value, bounds: this.getBounds() }, (results, status) => {
+      new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
         status === google.maps.GeocoderStatus.OK ? resolve(results) : {};
       });
     });
-  }
-
-  getBounds() {
-    let bounds = this.location.current.bounds;
-    if (!bounds) {
-      return {};
-    }
-
-    return new google.maps.LatLngBounds(
-                  new google.maps.LatLng(bounds.south, bounds.west),
-                  new google.maps.LatLng(bounds.north, bounds.east));
   }
 
   async activate(params) {

@@ -30,8 +30,7 @@ export default class LocationService {
           longitude: longitude,
           latitude: latitude,
           accuracy: location.coords.accuracy,
-          address: that.current.address,
-          bounds: that.current.bounds
+          address: that.current.address
         };
         if (that.updateAddress) {
           let address = await that.getAddress(latitude, longitude);
