@@ -50,6 +50,7 @@
     "setting_new_password": "Setting new password, please wait...",
     "set_your_name": "Please set your username",
     "show_favorite_remarks": "Favorite remarks",
+    "show_notification_settings": "Notification settings",
     "show_remarks": "Show remarks",
     "sign_in": "Sign in",
     "sign_in_via_email": "Sign in via email",
@@ -147,6 +148,19 @@
     "fetching_location_title": "Please wait while we're fetching your current location...",
     "location": "Location",
     "location_loaded": "Location has been loaded."
+  },
+  "notifications": {
+    "comment_added": "New comment added",
+    "enabled": "Enabled",
+    "email": "Email notifications",
+    "photo_added": "New photo added",
+    "push": "Push notifications",
+    "remark_canceled": "Remark canceled",
+    "remark_created": "Remark created",
+    "remark_deleted": "Remark deleted",
+    "remark_processed": "Remark processed",
+    "remark_renewed": "Remark renewed",
+    "remark_resolved": "Remark resolved"
   },
   "remark": {
     "action_canceled": "Action canceled, we'll miss you. :(",
@@ -253,6 +267,7 @@
     "location": "Location",
     "logout": "Sign out",
     "map": "Map",
+    "notification_settings": "Notification settings",
     "profile": "Profile",
     "remark": "Remark",
     "remark_comments": "Remark comments",

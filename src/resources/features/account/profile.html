@@ -51,7 +51,15 @@
                 <i class="material-icons left">star</i>${'account.show_favorite_remarks' | t}
               </a>
             </div>
-          </div>          
+          </div>
+          <div if.bind="isCurrentUser" class="row">
+            <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
+              <a route-href="route: notifications-settings;" 
+                class="btn waves-effect waves-light btn-large btn-white">
+                <i class="material-icons left">settings</i>${'account.show_notification_settings' | t}
+              </a>
+            </div>
+          </div>   
           <div if.bind="isCurrentUser && isCollectivelyAccount" class="row">
             <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
               <a route-href="route: change-password" 

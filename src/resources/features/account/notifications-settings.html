@@ -1,0 +1,33 @@
+<template>
+  <require from="resources/features/extras/checkbox"></require>
+  <div class="notification-settings-view">
+    <section if.bind="showEmailSection">
+      <div class="row title-section">
+        <span class="col s12">${'notifications.email' | t}</span>
+      </div>
+      <div class="row">
+        <div class="col s12" if.bind="!showEmailSettings">
+          <checkbox value.bind="emailSettings[0]" label="${emailSettings[0].translationKey | t}"></checkbox>
+        </div>
+        <div class="col s12" if.bind="showEmailSettings"
+        repeat.for="setting of emailSettings">
+          <checkbox value.bind="setting" label="${setting.translationKey | t}"></checkbox>
+        </div>
+      </div>
+    </section>
+    <section if.bind="showPushSection">
+      <div class="row title-section">
+        <span class="col s12">${'notifications.push' | t}</span>
+      </div>
+      <div class="row">
+        <div class="col s12" if.bind="!showPushSettings">
+          <checkbox value.bind="pushSettings[0]" label="${pushSettings[0].translationKey | t}"></checkbox>
+        </div>
+        <div class="col s12" if.bind="showPushSettings"
+        repeat.for="setting of pushSettings">
+          <checkbox value.bind="setting" label="${setting.translationKey | t}"></checkbox>
+        </div>
+      </div>
+    </section>
+  </div>
+</template>

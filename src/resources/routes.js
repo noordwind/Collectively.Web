@@ -242,6 +242,23 @@ export default [
     }
   },
   {
+    route: 'profile/settings/notifications',
+    moduleId: `${modulePrefix}/account/notifications-settings`,
+    name: 'notifications-settings',
+    title: 'My account',
+    nav: false,
+    settings: {
+      reqLogin: true,
+      icon: 'account_box',
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'profile'
+      },
+      translationKey: 'route.notification_settings'
+    }
+  },
+  {
     route: 'profile/username',
     moduleId: `${modulePrefix}/account/set-username`,
     name: 'username',

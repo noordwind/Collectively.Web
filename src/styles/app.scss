@@ -405,6 +405,10 @@ li > a {
       height: 75px;
     }
   }
+
+  .remark-summary-screen {
+    display: none;
+  }
 }
 
 .remark-summary-view {
@@ -596,6 +600,7 @@ li > a {
 	color: $primary-dark-color;
 	margin: 8px 0px;
   text-transform: uppercase;
+  text-decoration: none;
   }
   
   .text-divider::before,
@@ -644,7 +649,7 @@ li > a {
 }
 
 .filters-view {
-  .filter-section-title {
+  .title-section {
     margin: 0;
 
     span {
@@ -700,6 +705,12 @@ li > a {
   .text {
     font-weight: 600;
   }
+}
+
+.notification-settings-view {
+  @extend .filters-view;
+  margin-top: 20px;
+  
 }
 
 .main-menu {

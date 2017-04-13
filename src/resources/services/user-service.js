@@ -26,8 +26,17 @@ export default class UserService {
     return await this.apiBaseService.get(`users/${name}`);
   }
 
+  async getUserNotificationSettings() {
+    return await this.apiBaseService.get('account/settings/notifications', {}, false);
+  }
+
   async isNameAvailable(name) {
     return await this.apiBaseService.get(`account/names/${name}/available`, {}, false);
+  }
+
+  async setUserNotificationSettings(settings) {
+    return await this.operationService.execute(async()
+      => await this.apiBaseService.put('account/settings/notifications', settings));
   }
 
   async changeUsername(name) {
