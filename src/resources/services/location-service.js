@@ -32,7 +32,7 @@ export default class LocationService {
           accuracy: location.coords.accuracy,
           address: that.current.address
         };
-        if (that.updateAddress) {
+        if (that.updateAddress || !that.current.address) {
           let address = await that.getAddress(latitude, longitude);
           current.address = address;
         }
@@ -42,7 +42,8 @@ export default class LocationService {
           next(location);
         }
         return;
-      }, function(error) {
+      }, async (error) => {
+        await that.setDefaultLocation();
         if (typeof err !== 'undefined') {
           err(error);
           return;
@@ -56,10 +57,31 @@ export default class LocationService {
       });
       return;
     }
+    await that.setDefaultLocation();
     if (skipError) {
       return;
     }
+    if (typeof err !== 'undefined') {
+      err(error);
+      return;
+    }
     that.eventAggregator.publish('location:error');
+  }
+
+  async setDefaultLocation() {
+    if (this.current) {
+      return;
+    }
+    //Kraków coordinates - the center of the Europe ;).
+    const latitude = 50.06143;
+    const longitude = 19.93658;
+    const address = await this.getAddress(latitude, longitude);
+    this.current = {
+      latitude,
+      longitude,
+      address,
+      accuracy: 0
+    };
   }
 
   async getAddress(latitude, longitude) {

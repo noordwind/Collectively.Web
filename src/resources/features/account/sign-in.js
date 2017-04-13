@@ -9,23 +9,24 @@ import { MaterializeFormValidationRenderer } from 'aurelia-materialize-bridge';
 import AuthService from 'resources/services/auth-service';
 import FacebookService from 'resources/services/facebook-service';
 import UserService from 'resources/services/user-service';
+import LocationService from 'resources/services/location-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 
-
 @inject(Router, I18N, TranslationService,
 ValidationControllerFactory, AuthService,
-FacebookService, UserService, ToastService, LoaderService)
+FacebookService, UserService, LocationService, ToastService, LoaderService)
 export class SignIn {
   constructor(router, i18n, translationService,
   controllerFactory, authService, facebookService,
-  userService, toast, loader) {
+  userService, location, toast, loader) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
     this.authService = authService;
     this.facebookService = facebookService.init();
     this.userService = userService;
+    this.location = location;
     this.account = {
       email: '',
       password: '',
@@ -81,8 +82,7 @@ export class SignIn {
         provider: 'collectively'
       };
       this.loader.hide();
-      this.router.navigateToRoute('location');
-
+      await this.redirectAfterSignIn();
       return;
     }
 
@@ -91,17 +91,24 @@ export class SignIn {
     this.toast.error(this.translationService.trCode('invalid_credentials'));
   }
 
-  facebookSignIn() {
+  async facebookSignIn() {
     this.sending = true;
     this.loader.display();
-    this.facebookService.login(() => {
+    this.facebookService.login(async () => {
       this.loader.hide();
-      this.router.navigateToRoute('location');
-
+      await this.redirectAfterSignIn();
       return;
     }, () => {
       this.loader.hide();
       this.sending = false;
+    });
+  }
+
+  async redirectAfterSignIn() {
+    await this.location.getLocation(_ => {
+      this.router.navigateToRoute('location');
+    }, err => {
+      this.router.navigateToRoute('remarks');
     });
   }
 }

@@ -17,9 +17,10 @@ export default class AuthorizeStep {
       if (!this.authService.isLoggedIn) {
         return next.cancel(new Redirect(''));
       }
-      if (!('geolocation' in navigator)) {
-        return next.cancel(new Redirect(''));
-      }
+      //Having built-in GPS is no longer required to run the app.
+      // if (!('geolocation' in navigator)) {
+      //   return next.cancel(new Redirect(''));
+      // }
       if (this.authService.isLoggedIn) {
         let account = await this.userService.getAccount();
         if (account.state === 'incomplete') {

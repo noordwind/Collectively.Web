@@ -15,6 +15,7 @@ export default class FiltersService {
   }
 
   get defaultFilters() {
+    //Kraków coordinates - the center of the Europe ;).
     return {
       radius: 1000,
       results: 100000,
@@ -24,12 +25,12 @@ export default class FiltersService {
       disliked: false,
       distinguishLiked: true,
       defaultCenter: {
-        latitude: 0,
-        longitude: 0
+        latitude: 50.06143,
+        longitude: 19.93658
       },
       center: {
-        latitude: 0,
-        longitude: 0
+        latitude: 50.06143,
+        longitude: 19.93658
       },
       map: {
         enabled: true,

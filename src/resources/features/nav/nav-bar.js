@@ -11,20 +11,21 @@ export class NavBar {
     this.authService = authService;
     this.toast = toastService;
     this.eventAggregator = eventAggregator;
-    this.locationErrorSubscription = null;
+    // this.locationErrorSubscription = null;
   }
 
-  async attached() {
-    this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
-      async response => {
-        this.logout();
-        await this.toast.error('Location is required to run this app.');
-      });
-  }
+  //Having built-in GPS is no longer required to run the app.
+  // async attached() {
+  //   this.locationErrorSubscription = await this.eventAggregator.subscribe('location:error',
+  //     async response => {
+  //       this.logout();
+  //       await this.toast.error('Location is required to run this app.');
+  //     });
+  // }
 
-  detached() {
-    this.locationErrorSubscription.dispose();
-  }
+  // detached() {
+  //   this.locationErrorSubscription.dispose();
+  // }
 
   logout() {
     this.authService.logout();
