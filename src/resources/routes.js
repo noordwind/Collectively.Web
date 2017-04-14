@@ -177,6 +177,21 @@ export default [
     }
   },
   {
+    route: 'remarks/:id/activity',
+    moduleId: `${modulePrefix}/remarks/remark-activity`,
+    name: 'remark-activity',
+    title: 'Remark activity',
+    nav: false,
+    settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'remarks'
+      },
+      translationKey: 'route.remark_activity'
+    }
+  },
+  {
     route: 'remarks/:category/create',
     moduleId: `${modulePrefix}/remarks/create-remark`,
     name: 'create-remark',

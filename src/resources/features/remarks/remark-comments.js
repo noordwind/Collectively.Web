@@ -51,12 +51,16 @@ export class RemarkComments {
     this.websockets.initialize();
   }
 
+  canAdd() {
+    return this.isAuthenticated && !this.remark.resolved;
+  }
+
   canDelete(userId) {
-    return this.isAuthenticated && this.account.userId === userId;
+    return this.isAuthenticated && this.account.userId === userId && !this.remark.resolved;
   }
 
   canEdit(userId) {
-    return this.isAuthenticated && this.account.userId === userId;
+    return this.isAuthenticated && this.account.userId === userId && !this.remark.resolved;
   }
 
   removeUserVote(comment) {
@@ -88,7 +92,7 @@ export class RemarkComments {
   }
 
   canVote() {
-    return this.isAuthenticated;
+    return this.isAuthenticated && !this.remark.resolved;
   }
 
   async activate(params, routeConfig) {

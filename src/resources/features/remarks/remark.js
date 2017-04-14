@@ -79,7 +79,7 @@ export class Remark {
   }
 
   get canVote() {
-    return this.isAuthenticated;
+    return this.isAuthenticated && !this.remark.resolved;
   }
 
   get hasVotedPositively() {
@@ -95,11 +95,11 @@ export class Remark {
   }
 
   get canTakeAction() {
-    return this.isAuthenticated && !this.isParticipant;
+    return this.isAuthenticated && !this.isParticipant && !this.remark.resolved;
   }
 
   get canProcess() {
-    return this.isParticipant;
+    return this.isParticipant && !this.remark.resolved;
   }
 
   get isParticipant() {

@@ -1,0 +1,42 @@
+<template>
+    <require from="../../converters/dateFormatValueConverter"></require>
+      <div class="section">
+        <div class="row">
+            <div class="col s12">
+                <ul class="collection">
+                    <li class="collection-item avatar" repeat.for="activity of activities">
+                        <div class="row">
+                            <div class="col s12 ">
+                                <div if.bind="activity.name === 'new'">
+                                    <i class="material-icons circle">info_outline</i>
+                                    <p>${activity.description}</p>
+                                </div>
+                                <div if.bind="activity.name === 'processing'">
+                                    <i class="material-icons circle">label_outline</i>
+                                    <p>${activity.description}</p>
+                                </div>
+                                <div if.bind="activity.name === 'resolved'">
+                                    <i class="material-icons circle">done</i>
+                                    <p>${activity.description}</p>
+                                </div>
+                                <div if.bind="activity.name === 'canceled'">
+                                    <i class="material-icons circle">stop</i>
+                                    <p>${activity.description}</p>
+                                </div>
+                                <div if.bind="activity.name === 'renewed'">
+                                    <i class="material-icons circle">replay</i>
+                                    <p>${activity.description}</p>
+                                </div>                                                                                                                                
+                            </div>
+                            <div class="col s6">
+                                <span><a route-href="route: profile; params.bind: {name : activity.user}">${activity.user}</a></span>
+                            </div>
+                            <div class="col s6 right-align">
+                                <span>${activity.createdAt | dateFormat}</span>
+                            </div>    
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+</template>

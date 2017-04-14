@@ -20,7 +20,7 @@ LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
 WebsocketService, OperationService, EventAggregator,
 LogService, Environment)
-export class RemarkParticipants {
+export class RemarkActivity {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
@@ -42,6 +42,7 @@ export class RemarkParticipants {
     this.log = logService;
     this.feature = environment.feature;
     this.remark = {};
+    this.activities = [];
     this.sending = false;
     this.websockets.initialize();
   }
@@ -54,6 +55,7 @@ export class RemarkParticipants {
       this.account = await this.userService.getAccount();
     }
     await this.loadRemark();
+    this.displayStates();
     this.log.trace('remark_participants_activated', {
       remark: this.remark
     });
@@ -72,5 +74,17 @@ export class RemarkParticipants {
     if (this.remark.participants === null) {
       this.remark.participants = [];
     }
+  }
+
+  displayStates() {
+    this.activities = this.remark.states.map(x => {
+      console.log(x);
+      return {
+        name: x.state,
+        description: x.description,
+        createdAt: x.createdAt,
+        user: x.user.name
+      };
+    });
   }
 }
