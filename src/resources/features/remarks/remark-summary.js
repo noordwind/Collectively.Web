@@ -13,6 +13,7 @@ import UserService from 'resources/services/user-service';
  UserService, EventAggregator)
 export class RemarkSummary {
   @bindable remark = null;
+  @bindable createMode = false;
 
   constructor(toastService, loader, translationService,
   remarkService, operationService, authService,

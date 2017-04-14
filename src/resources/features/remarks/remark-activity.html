@@ -9,23 +9,23 @@
                             <div class="col s12 ">
                                 <div if.bind="activity.name === 'new'">
                                     <i class="material-icons circle">info_outline</i>
-                                    <p>${activity.description}</p>
+                                    <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'processing'">
                                     <i class="material-icons circle">label_outline</i>
-                                    <p>${activity.description}</p>
+                                    <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'resolved'">
                                     <i class="material-icons circle">done</i>
-                                    <p>${activity.description}</p>
+                                    <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'canceled'">
                                     <i class="material-icons circle">stop</i>
-                                    <p>${activity.description}</p>
+                                    <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'renewed'">
                                     <i class="material-icons circle">replay</i>
-                                    <p>${activity.description}</p>
+                                    <p innerhtml.bind="activity.description">}</p>
                                 </div>                                                                                                                                
                             </div>
                             <div class="col s6">

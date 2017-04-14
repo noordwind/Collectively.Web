@@ -63,9 +63,6 @@ export class RemarkParticipants {
     this.log.trace('remark_participants_attached');
   }
 
-  detached() {
-  }
-
   async loadRemark() {
     let remark = await this.remarkService.getRemark(this.id);
     this.remark = remark;
