@@ -35,7 +35,6 @@ export class NotificationsSettings {
       {name: 'remarkResolved', checked: settings.remarkResolved, translationKey: 'notifications.remark_resolved'},
       {name: 'remarkCanceled', checked: settings.remarkCanceled, translationKey: 'notifications.remark_canceled'},
       {name: 'remarkRenewed', checked: settings.remarkRenewed, translationKey: 'notifications.remark_renewed'},
-      {name: 'remarkDeleted', checked: settings.remarkDeleted, translationKey: 'notifications.remark_deleted'},
       {name: 'photosToRemarkAdded', checked: settings.photosToRemarkAdded, translationKey: 'notifications.photo_added'},
       {name: 'commentAdded', checked: settings.commentAdded, translationKey: 'notifications.comment_added'}
     ];
