@@ -160,8 +160,8 @@ export class Map {
     }
     let title = this.translationService.tr('common.user');
     let content = this.translationService.tr('common.you_are_here');
-    let markerImg = this.getDefaultGoogleMarker('FFEBEE');
-    this.userMarker = this.drawMarker(lng, lat, title, content, markerImg);
+    let markerImg = 'assets/images/current_location.png';
+    this.userMarker = this.drawMarker(lng, lat, title, content, markerImg, 35, 35);
     let bounds = this.map.getBounds();
     if (bounds && bounds.contains(this.userPosition)) {
       this.moveMarker(this.userMarker, lat, lng);
@@ -183,9 +183,11 @@ export class Map {
     let description = remark.description ? remark.description : '';
     let markerImage = this.getRemarkMarker(remark);
     let enlarge = remark.rating >= 2 && this.filters && this.filters.distinguishLiked;
+    let width = enlarge ? 50 : 37.5;
+    let height = enlarge ? 75 : 50;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
-    this.drawMarker(longitude, latitude, detailsText, content, markerImage, enlarge);
+    this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
   }
 
   getDefaultGoogleMarker(color) {
@@ -202,12 +204,14 @@ export class Map {
     }
   }
 
-  drawMarker(longitude, latitude, title, content, imgPath, enlarge) {
+  drawMarker(longitude, latitude, title, content, imgPath, width, height) {
     let position = new google.maps.LatLng(latitude, longitude);
     let infowindow = new google.maps.InfoWindow({
       content: content
     });
-    let size = enlarge ? new google.maps.Size(50, 75) : new google.maps.Size(37.5, 50);
+    width = width || 37.5;
+    height = height || 50;
+    let size = new google.maps.Size(width, height);
     let marker = new google.maps.Marker({
       position: position,
       title: title,
