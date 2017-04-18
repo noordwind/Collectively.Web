@@ -78,7 +78,6 @@ export class RemarkActivity {
 
   displayStates() {
     this.activities = this.remark.states.map(x => {
-      console.log(x);
       return {
         name: x.state,
         description: x.description,
