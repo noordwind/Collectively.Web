@@ -649,6 +649,18 @@ li > a {
 }
 
 .filters-view {
+  .dropdown-content {
+    li:not(.disabled) {
+      a {
+        color: $primary-color
+      }
+
+      span {
+        color: $primary-color
+      }
+    }
+  }
+
   .title-section {
     margin: 0;
 

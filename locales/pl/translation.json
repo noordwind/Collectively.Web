@@ -152,13 +152,15 @@
     "enabled": "Włączone",
     "email": "Powiadomienia Email",
     "photo_added": "Nowe zdjęcie",
+    "preferred_language": "Preferowany język",
     "push": "Powiadomienia push",
     "remark_canceled": "Odrzucono zgłoszenie",
     "remark_created": "Dodano zgłoszenie",
     "remark_deleted": "Usunięto zgłoszenie",
     "remark_processed": "Zaktualizowano zgłoszenie",
     "remark_renewed": "Przywrócono zgłoszenie",
-    "remark_resolved": "Rozwiązano zgłoszenie"
+    "remark_resolved": "Rozwiązano zgłoszenie",
+    "select_language": "Wybierz język"
   },
   "remark": {
     "action_canceled": "Anulowano akcję, będziemy za Tobą tęsknić. :(",

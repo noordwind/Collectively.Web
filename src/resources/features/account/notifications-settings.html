@@ -1,6 +1,16 @@
 <template>
   <require from="resources/features/extras/checkbox"></require>
   <div class="notification-settings-view">
+    <section>
+      <div class="row title-section">
+        <span class="col s12">${'notifications.preferred_language' | t}</span>
+      </div>
+      <select md-select="" value.two-way="preferredLanguage">
+        <option value="" disabled selected>${'notifications.select_language' | t}</option>
+        <option value="en-gb">English</option>
+        <option value="pl-pl">Polski</option>
+      </select>
+    </section>
     <section if.bind="showEmailSection">
       <div class="row title-section">
         <span class="col s12">${'notifications.email' | t}</span>

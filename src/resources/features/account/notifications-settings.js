@@ -9,6 +9,7 @@ export class NotificationsSettings {
     this.loader = loaderService;
     this.emailSettings = null;
     this.pushSettings = null;
+    this.preferredLanguage = null;
   }
 
   async attached() {
@@ -18,6 +19,7 @@ export class NotificationsSettings {
     if (settings.statusCode && settings.statusCode === 'notFound') {
       settings = this.defaultSettings;
     }
+    this.preferredLanguage = settings.culture;
     this.emailSettings = this.processSettings(settings.emailSettings);
     this.pushSettings = this.processSettings(settings.pushSettings);
     this.loader.hide();
@@ -50,7 +52,7 @@ export class NotificationsSettings {
       userId: this.account.userId,
       email: this.account.email,
       username: this.account.name,
-      culture: 'pl-pl',
+      culture: this.preferredLanguage,
       emailSettings: emailSettings,
       pushSettings: pushSettings
     };
