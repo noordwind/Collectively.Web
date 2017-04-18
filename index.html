@@ -5,9 +5,20 @@
     <title>Collectively</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+    <link href="assets/styles/splash.css" rel="stylesheet">
     <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+    </style>
   </head>
   <body aurelia-app="main">
+    <div class="splash">
+      <img class="splash-logo" src="assets/images/logo_white.png"/>
+      <div class="spinner">
+        <div class="bounce1"></div>
+        <div class="bounce2"></div>
+        <div class="bounce3"></div>
+      </div>
+    </div>
     <script async defer src="//maps.googleapis.com/maps/api/js?key=AIzaSyAYQP-y2Au6dmWKGFYRhzvG0k7NICkR02Q&libraries=places"></script>
     <script src="scripts/web-socket-manager.js"></script>
     <script src="scripts/vendor-bundle.js" data-main="aurelia-bootstrapper"></script>
