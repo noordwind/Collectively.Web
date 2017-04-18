@@ -106,6 +106,20 @@ export class Remark {
     return this.remark.participants.find(x => x.user.userId === this.account.userId);
   }
 
+  get isActionDescriptionValid() {
+    return this._isDescriptionValid(this.actionDescription);
+  }
+
+  get isProcessDescriptionValid() {
+    return this._isDescriptionValid(this.processDescription);
+  }
+
+  _isDescriptionValid(description) {
+    return description !== null &&
+      description.match(/^ *$/) === null &&
+      description.length <= 2000;
+  }
+
   async activate(params, routeConfig) {
     this.location.startUpdating();
     this.id = params.id;
@@ -222,6 +236,7 @@ export class Remark {
       remark.votes = [];
     }
     this.vote = remark.votes.find(x => x.userId === this.account.userId);
+    this.activitiesCount = this.remark.states.length - 1;
   }
 
   processPhotos(remark) {
@@ -543,6 +558,7 @@ export class Remark {
   handleRemarkProcessed(operation) {
     this.toast.success(this.translationService.tr('remark.activity_sent'));
     this.processDescription = '';
+    this.activitiesCount++;
   }
 
   scrollToTop() {
