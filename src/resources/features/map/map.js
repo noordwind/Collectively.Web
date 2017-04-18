@@ -182,7 +182,7 @@ export class Map {
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
     let markerImage = this.getRemarkMarker(remark);
-    let enlarge = remark.rating >= 2 && this.filters.distinguishLiked;
+    let enlarge = remark.rating >= 2 && this.filters && this.filters.distinguishLiked;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
     this.drawMarker(longitude, latitude, detailsText, content, markerImage, enlarge);
