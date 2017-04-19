@@ -63,7 +63,10 @@
     "user": "Użytkownik"
   },
   "code": {
+    "cannot_add_comment_too_often": "Nie można zbyt często dodawać komentarzy (prosimy poczekaj minutę).",
     "cannot_convert_file": "Wystąpił błąd podczas konwersji pliku.",
+    "cannot_create_remark_too_often": "Nie można zbyt często dodawać zgłoszeń (prosimy poczekaj minutę).",
+    "cannot_set_state_too_often": "Nie można zbyt często aktualizować zgłoszeń (prosimy poczekaj minutę).",
     "distance_between_user_and_remark_is_too_big": "Odległość od zlokalizowanego zgłoszenia jest zbyt duża.",
     "email_in_use": "Adres email jest już zajęty.",
     "email_not_found": "Adres email nie został znaleziony.",
