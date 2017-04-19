@@ -53,21 +53,26 @@ export class Remark {
     this.websockets.initialize();
   }
 
-  get canDelete() {
+  get isAuthor() {
     return this.isAuthenticated && this.account.userId === this.remark.author.userId;
+  }
+
+  get canDelete() {
+    return this.isAuthor;
   }
 
   get canResolve() {
-    return this.isAuthenticated && this.account.userId === this.remark.author.userId &&
-           this.remark.resolved === false && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
+    return this.isAuthor
+      && this.remark.resolved === false
+      && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
   get canAddPhotos() {
-    return this.isAuthenticated && this.account.userId === this.remark.author.userId && this.remark.photos.length < this.remarkPhotosLimit;
+    return this.isAuthor && this.remark.photos.length < this.remarkPhotosLimit;
   }
 
   get canDeletePhotos() {
-    return this.isAuthenticated && this.account.userId === this.remark.author.userId;
+    return this.isAuthor;
   }
 
   get canVoteNegatively() {

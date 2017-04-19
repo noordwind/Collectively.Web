@@ -565,6 +565,10 @@ li > a {
       font-weight: 300;
     }
   }
+
+  i {
+    margin: 0;
+  }
 }
 
 .sign-in-view {
@@ -649,6 +653,18 @@ li > a {
 }
 
 .filters-view {
+  .dropdown-content {
+    li:not(.disabled) {
+      a {
+        color: $primary-color
+      }
+
+      span {
+        color: $primary-color
+      }
+    }
+  }
+
   .title-section {
     margin: 0;
 

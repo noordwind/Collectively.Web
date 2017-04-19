@@ -156,7 +156,7 @@ export default [
       navbar: {
         hide: false,
         bgColor: 'white-bg',
-        backRoute: 'remarks'
+        backRoute: 'previous'
       },
       translationKey: 'route.remark_comments'
     }
@@ -171,7 +171,7 @@ export default [
       navbar: {
         hide: false,
         bgColor: 'white-bg',
-        backRoute: 'remarks'
+        backRoute: 'previous'
       },
       translationKey: 'route.remark_participants'
     }
@@ -186,7 +186,7 @@ export default [
       navbar: {
         hide: false,
         bgColor: 'white-bg',
-        backRoute: 'remarks'
+        backRoute: 'previous'
       },
       translationKey: 'route.remark_activity'
     }

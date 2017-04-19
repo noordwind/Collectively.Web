@@ -157,13 +157,15 @@
     "enabled": "Enabled",
     "email": "Email notifications",
     "photo_added": "New photo added",
+    "preferred_language": "Preferred language",
     "push": "Push notifications",
     "remark_canceled": "Remark canceled",
     "remark_created": "Remark created",
     "remark_deleted": "Remark deleted",
     "remark_processed": "Remark processed",
     "remark_renewed": "Remark renewed",
-    "remark_resolved": "Remark resolved"
+    "remark_resolved": "Remark resolved",
+    "select_language": "Select language"
   },
   "remark": {
     "action_canceled": "Action canceled, we'll miss you. :(",

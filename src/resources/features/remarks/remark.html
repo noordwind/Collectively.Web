@@ -38,156 +38,154 @@
           </div>            
         </div>       
       </div>
-    </div> 
-    <div class="section" if.bind="canTakeAction">
+      <div class="section" if.bind="canTakeAction">
         <div class="row">
-            <div class="col s12">
-                <a md-modal-trigger href="#modal-action" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                    ${'remark.take_action' | t}
-                </a>
-            </div>
+          <div class="col s12">
+            <a md-modal-trigger href="#modal-action" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">group_work</i>
+              ${'remark.take_action' | t}
+            </a>
+          </div>
         </div>
         <div id="modal-action" class="modal">
-            <div class="modal-content">
-                <p>${'remark.take_action_question' | t}</p>
-                <div class="input-field col s12">
-                    <textarea id="action-description" placeholder="${'remark.take_action_description' | t}" class="materialize-textarea" value.bind="actionDescription" maxlength="2000"></textarea>
-                </div>
+          <div class="modal-content">
+            <p>${'remark.take_action_question' | t}</p>
+            <div class="input-field col s12">
+              <textarea id="action-description" placeholder="${'remark.take_action_description' | t}" class="materialize-textarea" value.bind="actionDescription" maxlength="2000"></textarea>
             </div>
-            <div class="modal-footer">
-                <button click.delegate="takeAction()" disabled.bind="sending || !isActionDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <button click.delegate="takeAction()" disabled.bind="sending || !isActionDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
+            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
+          </div>
         </div>
-    </div>    
-    <div class="section" if.bind="canProcess">
-        <div class="row">        
-            <div class="col s6">
-                <a md-modal-trigger href="#modal-cancel" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                    ${'remark.cancel_action' | t}
-                </a>
-                <div id="modal-cancel" class="modal">
-                    <div class="modal-content">
-                        <p>${'remark.cancel_action_question' | t}</p>
-                    </div>
-                    <div class="modal-footer">
-                        <a click.delegate="cancelAction()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-                        <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-                    </div>
-                </div>                
-            </div>
-            <div class="col s6">
-                <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                    ${'remark.send_activity' | t}
-                </a>
-                <div id="modal-process" class="modal">
-                    <div class="modal-content">
-                        <div class="input-field col s12">
-                            <textarea placeholder="${'remark.send_activity_description' | t}" class="materialize-textarea" value.bind="processDescription" maxlength="2000"></textarea>
-                        </div>                        
-                    </div>
-                    <div class="modal-footer">
-                        <button click.delegate="process()" disabled.bind="sending || !isProcessDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
-                        <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
-                    </div>
-                </div>                
-            </div>              
-        </div>
-    </div> 
-    <div if.bind="canVote">
-        <div class="section">
-            <div class="row">
-                <div class="col s6">
-                    <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                        <i class="material-icons center">thumb_down</i>
-                    </button>
-                    <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
-                        <i class="material-icons center">thumb_down</i>
-                    </button>
-                </div>
-                <div class="col s6">
-                    <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                        <i class="material-icons center">thumb_up</i>
-                    </button>
-                    <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
-                        <i class="material-icons center">thumb_up</i>
-                    </button>                    
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="section">
+      </div>    
+      <div class="section" if.bind="canProcess">
         <div class="row">
-            <div class="col s12">
-                <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}" class="btn waves-effect waves-light btn-large">
-                    ${'remark.browse_activity' | t} [${activitiesCount}]
-                </a>
-            </div>
-        </div>
-    </div>               
-    <div class="section">
-        <div class="row">
-            <div class="col s12">
-                <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
-                    ${'remark.display' | t}
-                </button>
-            </div>
-        </div>
-    </div>          
-    <div if.bind="canResolve">
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                        ${'remark.resolve' | t}
-                    </a>
-                </div>
-            </div>
-        </div>
-        <div id="modal-resolve" class="modal">
-            <div class="modal-content">
-                <p>${'remark.resolve_question' | t}</p>
-            </div>
-            <div class="modal-footer">
-                <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+          <div class="col s6">
+            <a md-modal-trigger href="#modal-cancel" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">clear</i>
+              ${'remark.cancel_action' | t}
+            </a>
+            <div id="modal-cancel" class="modal">
+              <div class="modal-content">
+                <p>${'remark.cancel_action_question' | t}</p>
+              </div>
+              <div class="modal-footer">
+                <a click.delegate="cancelAction()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
                 <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-            </div>
+              </div>
+            </div>                
+          </div>
+          <div class="col s6">
+            <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">work</i>
+              ${'remark.send_activity' | t}
+            </a>
+            <div id="modal-process" class="modal">
+              <div class="modal-content">
+                <div class="input-field col s12">
+                  <textarea placeholder="${'remark.send_activity_description' | t}" class="materialize-textarea" value.bind="processDescription" maxlength="2000"></textarea>
+                </div>                        
+              </div>
+              <div class="modal-footer">
+                <button click.delegate="process()" disabled.bind="sending || !isProcessDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
+                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
+              </div>
+            </div>                
+          </div>              
         </div>
-    </div>
-    <div if.bind="canAddPhotos">
+      </div> 
+      <div if.bind="canVote">
         <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
-                        ${'remark.add_photo' | t}
-                    </button>
-                </div>
+          <div class="row">
+            <div class="col s6">
+              <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
+                <i class="material-icons center">thumb_down</i>
+              </button>
+              <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
+                <i class="material-icons center">thumb_down</i>
+              </button>
+            </div>
+            <div class="col s6">
+              <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
+                <i class="material-icons center">thumb_up</i>
+              </button>
+              <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
+                <i class="material-icons center">thumb_up</i>
+              </button>                    
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="section">
+        <div class="row">
+          <div class="col s12">
+            <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">timeline</i>
+              ${'remark.browse_activity' | t} [${activitiesCount}]
+            </a>
+          </div>
+        </div>
+      </div>               
+      <div class="section">
+        <div class="row">
+          <div class="col s12">
+            <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">map</i>
+              ${'remark.display' | t}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div if.bind="isAuthor">
+        <div class="divider"></div>
+        <div class="section">
+          <div if.bind="canAddPhotos" class="row">
+            <div class="col s12">
+              <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
+                <i class="material-icons left">add_a_photo</i>
+                ${'remark.add_photo' | t}
+              </button>
             </div>
             <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
             <div class="row">
-                <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
+              <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
             </div>
+          </div>
+          <div class="row">
+            <div if.bind="canDelete" class="col s6">
+              <a md-modal-trigger disabled.bind="sending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
+                <i class="material-icons left">delete</i>
+                ${'common.delete' | t}
+              </a>
+            </div>
+            <div if.bind="canResolve" class="col s6">
+              <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+                <i class="material-icons left">done</i>
+                ${'remark.resolve' | t}
+              </a>
+            </div>
+          </div>
         </div>
-    </div>    
-    <div if.bind="canDelete">
-        <div class="divider"></div>
-        <div class="section">
-            <div class="row">
-                <div class="col s12">
-                    <a md-modal-trigger disabled.bind="sending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
-                        ${'common.delete' | t}
-                    </a>
-                </div>
-            </div>
+        <div if.bind="canDelete" id="modal-delete" class="modal">
+          <div class="modal-content">
+              <p>${'remark.delete_question' | t}</p>
+          </div>
+          <div class="modal-footer">
+              <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+              <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+          </div>
         </div>
-        <div id="modal-delete" class="modal">
-            <div class="modal-content">
-                <p>${'remark.delete_question' | t}</p>
-            </div>
-            <div class="modal-footer">
-                <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-            </div>
+        <div if.bind="canResolve" id="modal-resolve" class="modal">
+          <div class="modal-content">
+            <p>${'remark.resolve_question' | t}</p>
+          </div>
+          <div class="modal-footer">
+            <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+          </div>
         </div>
+      </div>
     </div>
 </template>
