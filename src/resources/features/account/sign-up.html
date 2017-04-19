@@ -5,28 +5,25 @@
         <div class="row">
           <md-input class="col s12" md-type="text" md-placeholder="${'account.name' | t}" md-validate="true" 
           md-value.bind="account.name & validate"></md-input>
-          <!--<input class="col s12 validate" type="text" value.bind="account.name & validate"
-            placeholder="${'account.name' | t}"  />-->
         </div>
         <div class="row">
           <md-input class="col s12" md-type="email" md-placeholder="${'account.email' | t}" md-validate="true" 
           md-value.bind="account.email & validate"></md-input>
-          <!--<input class="col s12  validate" type="email" value.bind="account.email & validate"
-            placeholder="${'account.email' | t}"  />-->
         </div>
         <div class="row">
           <md-input class="col s12" md-type="password" md-placeholder="${'account.password' | t}" md-validate="true" 
           md-value.bind="account.password & validate"></md-input>
-          <!--<input class="col s12 validate" type="password" value.bind="account.password & validate"
-            placeholder="${'account.password' | t}"/>-->
         </div>
       </div>
       <div class="buttons">
         <div class="section">
           <div class="row">
             <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
-              <button disabled.bind="sending" class="btn waves-effect waves-light btn-large" 
-                type="submit">${'account.create' | t}</button>
+              <button disabled.bind="sending" class="btn waves-effect waves-light" 
+                type="submit">
+                <i class="material-icons left">perm_identity</i>
+                ${'account.create' | t}
+                </button>
             </div>
           </div>
         </div>
@@ -38,7 +35,7 @@
         <div class="section">
           <div class="row">
             <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
-              <button disabled.bind="sending" class="btn btn-facebook waves-effect waves-light btn-large" 
+              <button disabled.bind="sending" class="btn btn-facebook waves-effect waves-light" 
                 click.delegate="facebookSignIn()">
               </button>
             </div>

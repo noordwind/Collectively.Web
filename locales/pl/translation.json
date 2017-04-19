@@ -15,7 +15,7 @@
     "current_password_is_required": "Obecne hasło jest wymagane.",
     "current_password_is_invalid": "Obecne hasło jest niepoprawne.",
     "do_not_remember_password": "Nie pamiętasz hasła?",
-    "do_not_have_account": "Nie posiadasz jeszcze konta?",
+    "do_not_have_account": "Nie posiadasz jeszcze konta? Stwórz je!",
     "does_not_exist": "nie istnieje.",
     "email": "Email",
     "email_is_required": "Email jest wymagany.",

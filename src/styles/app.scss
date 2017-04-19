@@ -180,6 +180,11 @@ input[type=range]::-webkit-slider-thumb {
 .btn:not(.btn-floating) {
   width: 100%;
   border-radius: 20px;
+
+  padding: 0 1.25rem;
+  i {
+    margin: 0;
+  }
 }
 
 #loader {
@@ -564,10 +569,6 @@ li > a {
       font-size: 15px;
       font-weight: 300;
     }
-  }
-
-  i {
-    margin: 0;
   }
 }
 

@@ -15,7 +15,7 @@
     "current_password_is_invalid": "Current password is invalid.",
     "browse_user_profile": "Browse user profile",
     "do_not_remember_password": "Don't remember your password?",
-    "do_not_have_account": "Don't' have an account yet?",
+    "do_not_have_account": "Don't' have an account yet? Create it!",
     "does_not_exist": "doesn't exist",
     "email": "Email",
     "email_is_required": "Email is required.",
