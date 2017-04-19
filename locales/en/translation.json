@@ -63,7 +63,10 @@
     "user": "User"
   },
   "code": {
+    "cannot_add_comment_too_often": "Can not add a comment too often (please wait a minute).",
     "cannot_convert_file": "Can not convert file",
+    "cannot_create_remark_too_often": "Can not create a remark too often (please wait a minute).",
+    "cannot_set_state_too_often": "Can not update a remark comment too often (please wait a minute).",
     "distance_between_user_and_remark_is_too_big": "Distance between user and localized remark is too big.",
     "email_in_use": "Email address is in use.",
     "email_not_found": "Email address has not been found.",
