@@ -40,8 +40,8 @@ export default class FacebookService {
     return this;
   }
 
-  login(next) {
-    FB.login((response) => this.loginCallback(response, next), {scope: 'email, publish_actions'});
+  login(next, err) {
+    FB.login((response) => this.loginCallback(response, next, err), {scope: 'email, publish_actions'});
 
     return false;
   }
