@@ -32,19 +32,10 @@ export class Remarks {
     this.log = logService;
     this.eventAggregator = eventAggregator;
     this.files = [];
-    this.query = {
-      radius: this.filtersService.filters.radius,
-      longitude: this.location.current.longitude,
-      latitude: this.location.current.latitude,
-      categories: encodeURI(this.filtersService.filters.categories),
-      states: encodeURI(this.filtersService.filters.states),
-      disliked: this.filtersService.filters.disliked
-    };
     this.page = 1;
     this.results = 25;
     this.remarks = [];
     this.mapRemarks = [];
-    this.categories = [];
     this.selectedRemark = null;
     this.mapLoadedSubscription = null;
     this.websocket.initialize();
@@ -64,7 +55,6 @@ export class Remarks {
     if (this.selectedRemarkId) {
       this.filtersService.setMapFollow(false);
     }
-    this.categories = await this.remarkService.getCategories();
     this.log.trace('remarks_activated', {
       filters: this.filtersService.filters,
       location: this.location.current
@@ -105,9 +95,16 @@ export class Remarks {
   }
 
   async browseForMap() {
-    this.query.results = this.filtersService.filters.results;
-    this.query.radius = this.filtersService.filters.radius;
-    this.mapRemarks = await this.browse(this.query);
+    let query = {
+      categories: encodeURI(this.filtersService.filters.categories),
+      states: encodeURI(this.filtersService.filters.states),
+      disliked: this.filtersService.filters.disliked,
+      results: this.filtersService.filters.results,
+      radius: this.filtersService.filters.radius,
+      latitude: this.filtersService.filters.center.latitude,
+      longitude: this.filtersService.filters.center.longitude
+    };
+    this.mapRemarks = await this.browse(query);
   }
 
   async browseForList(page, results, clear = false) {
@@ -195,8 +192,7 @@ export class Remarks {
 
   async radiusChanged(radius, center) {
     this.filtersService.setRadius(radius);
-    this.query.longitude = center.lng();
-    this.query.latitude = center.lat();
+    this.setCenter(center.lat(), center.lng());
     await this.browseForMap();
   }
 
