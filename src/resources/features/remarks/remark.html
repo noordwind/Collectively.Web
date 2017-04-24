@@ -4,15 +4,7 @@
     <require from="resources/features/remarks/remark-summary"></require>
     <div class="remark-view">
       <div class="section">
-        <remark-summary remark.bind="remark" create-mode.bind="false"></remark-summary>
-        <div class="row text-field">
-          <div class="col s12">
-            <span>${'remark.rating' | t}</span>
-          </div>
-          <div class="col s12">
-            <p textcontent.bind="rating"></p>
-          </div>
-        </div>
+        <remark-summary remark.bind="remark" create-mode.bind="false" display-on-map.call="display()"></remark-summary>
         <div class="row text-field">
           <div class="col s12">
             <span>${'remark.author' | t}</span>
@@ -23,63 +15,26 @@
         </div>
         <div class="row text-field">
           <div class="col s12">
+            <span>${'remark.activity' | t} [${activitiesCount}]</span>
+          </div>
+          <div class="col s12">
+            <p><a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}">${'remark.browse_activity' | t}</a></p>
+          </div>
+        </div>         
+        <div class="row text-field">
+          <div class="col s12">
             <span>${'remark.comments' | t} [${remark.comments.length}]</span>
           </div>
           <div class="col s12">
             <p><a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">${'remark.browse_comments' | t}</a></p>
           </div>
-        </div> 
-        <div class="row text-field">
-          <div class="col s12">
-            <span>${'remark.participants' | t} [${remark.participants.length}]</span>
-          </div>
-          <div class="col s12">
-            <p><a route-href="route: remark-participants; params.bind: {id : remark.id}" title="${'remark.browse_participants' | t}">${'remark.browse_participants' | t}</a></p>
-          </div>            
-        </div>       
-      </div>
-      <div class="section" if.bind="canTakeAction">
-        <div class="row">
-          <div class="col s12">
-            <a md-modal-trigger href="#modal-action" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">group_work</i>
-              ${'remark.take_action' | t}
-            </a>
-          </div>
-        </div>
-        <div id="modal-action" class="modal">
-          <div class="modal-content">
-            <p>${'remark.take_action_question' | t}</p>
-            <div class="input-field col s12">
-              <textarea id="action-description" placeholder="${'remark.take_action_description' | t}" class="materialize-textarea" value.bind="actionDescription" maxlength="2000"></textarea>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button click.delegate="takeAction()" disabled.bind="sending || !isActionDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
-            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
-          </div>
-        </div>
-      </div>    
+        </div>            
+      </div>   
       <div class="section" if.bind="canProcess">
         <div class="row">
-          <div class="col s6">
-            <a md-modal-trigger href="#modal-cancel" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">clear</i>
-              ${'remark.cancel_action' | t}
-            </a>
-            <div id="modal-cancel" class="modal">
-              <div class="modal-content">
-                <p>${'remark.cancel_action_question' | t}</p>
-              </div>
-              <div class="modal-footer">
-                <a click.delegate="cancelAction()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-              </div>
-            </div>                
-          </div>
-          <div class="col s6">
+          <div class="col s12">
             <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">work</i>
+              <i class="material-icons left">group_work</i>
               ${'remark.send_activity' | t}
             </a>
             <div id="modal-process" class="modal">
@@ -99,7 +54,7 @@
       <div if.bind="canVote">
         <div class="section">
           <div class="row">
-            <div class="col s6">
+            <div class="col s5">
               <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
                 <i class="material-icons center">thumb_down</i>
               </button>
@@ -107,7 +62,10 @@
                 <i class="material-icons center">thumb_down</i>
               </button>
             </div>
-            <div class="col s6">
+            <div class="col s2 rating-wrapper">
+                <p textcontent.bind="rating" class="rating center-align"></p>              
+            </div>            
+            <div class="col s5">
               <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
                 <i class="material-icons center">thumb_up</i>
               </button>
@@ -115,26 +73,6 @@
                 <i class="material-icons center">thumb_up</i>
               </button>                    
             </div>
-          </div>
-        </div>
-      </div>
-      <div class="section">
-        <div class="row">
-          <div class="col s12">
-            <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">timeline</i>
-              ${'remark.browse_activity' | t} [${activitiesCount}]
-            </a>
-          </div>
-        </div>
-      </div>               
-      <div class="section">
-        <div class="row">
-          <div class="col s12">
-            <button click.delegate="display()" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">map</i>
-              ${'remark.display' | t}
-            </button>
           </div>
         </div>
       </div>

@@ -76,6 +76,14 @@ export class RemarkActivity {
     }
   }
 
+  get isParticipant() {
+    return this.remark.participants.find(x => x.user.userId === this.account.userId);
+  }
+
+  async cancelAction() {
+    await this.remarkService.cancelAction(this.id);
+  }
+
   displayStates() {
     this.activities = this.remark.states.map(x => {
       return {
