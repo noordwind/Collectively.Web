@@ -14,6 +14,7 @@ import UserService from 'resources/services/user-service';
 export class RemarkSummary {
   @bindable remark = null;
   @bindable createMode = false;
+  @bindable displayOnMap;
 
   constructor(toastService, loader, translationService,
   remarkService, operationService, authService,

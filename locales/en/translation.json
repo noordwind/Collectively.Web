@@ -170,6 +170,7 @@
   "remark": {
     "action_canceled": "Action canceled, we'll miss you. :(",
     "action_taken": "Action taken, thank you! :)",
+    "activity": "Activity",
     "activity_sent": "Activity details have been sent, thank you!",
     "add_to_favorites": "Add to favorites",
     "additional_filters": "Additional filters",
