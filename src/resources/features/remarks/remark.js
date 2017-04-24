@@ -104,7 +104,7 @@ export class Remark {
   }
 
   get canProcess() {
-    return this.isParticipant && !this.remark.resolved;
+    return !this.remark.resolved;
   }
 
   get isParticipant() {
@@ -179,10 +179,6 @@ export class Remark {
 
     this.operationService.subscribe('take_remark_action',
       operation => this.handleRemarkActionTaken(operation),
-      operation => this.handleRejectedOperation(operation));
-
-    this.operationService.subscribe('cancel_remark_action',
-      operation => this.handleRemarkActionCanceled(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('process_remark',
@@ -524,24 +520,11 @@ export class Remark {
     this.loader.hide();
   }
 
-  async takeAction() {
-    let index = this.remark.participants.findIndex(x => x.user.userId === this.account.userId);
-    if (index >= 0) {
-      return;
-    }
-    await this.remarkService.takeAction(this.id, this.actionDescription);
-  }
-
-  async cancelAction() {
-    await this.remarkService.cancelAction(this.id);
-  }
-
   async process() {
     await this.remarkService.processRemark(this.id, this.processDescription);
   }
 
   handleRemarkActionTaken(operation) {
-    this.toast.success(this.translationService.tr('remark.action_taken'));
     this.remark.participants.push({
       description: this.actionDescription,
       user: {
@@ -549,15 +532,6 @@ export class Remark {
         name: this.account.name
       }});
     this.actionDescription = '';
-  }
-
-  handleRemarkActionCanceled(operation) {
-    this.toast.info(this.translationService.tr('remark.action_canceled'));
-    let index = this.remark.participants.findIndex(x => x.user.userId === this.account.userId);
-    if (index < 0) {
-      return;
-    }
-    this.remark.participants.splice(index, 1);
   }
 
   handleRemarkProcessed(operation) {
