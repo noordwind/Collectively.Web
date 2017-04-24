@@ -2,11 +2,14 @@
     <require from="resources/features/map/map"></require>
     <require from="resources/features/nav/side-nav"></require>
     <require from="resources/features/remarks/remark-list"></require>
+    <require from="resources/custom-attributes/infinite-scroll"></require>
     <div class="remarks-view">
       <map remarks.two-way="mapRemarks" center.bind="filtersService.filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
       <side-nav router.bind="router"></side-nav>
       <div class="remark-side-list">
-          <remark-list id="remark-list" class="side-nav" remarks.bind="remarks" load-more.call="loadMore()"></remark-list>
+          <remark-list id="remark-list" class="side-nav" 
+          remarks.bind="remarks"
+          infinite-scroll="callback.call: loadMore()"></remark-list>
       </div>
       <div class="row">
         <div class="btn-left-top dark-floating-btn">

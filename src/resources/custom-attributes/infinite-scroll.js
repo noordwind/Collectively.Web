@@ -7,6 +7,7 @@ export class InfiniteScrollCustomAttribute {
 
   @bindable scrollBuffer = 500;
   @bindable callback = null;
+  @bindable windowScroll = false;
 
   constructor(element) {
     this.element = element;
@@ -26,25 +27,49 @@ export class InfiniteScrollCustomAttribute {
       }
       that.isTicking = true;
     };
-    window.addEventListener('scroll', this.onScrollChange);
+    let element = this.getElement();
+    element.addEventListener('scroll', this.onScrollChange);
   }
 
   detached() {
-    window.removeEventListener('scroll', this.onScrollChange);
+    let element = this.getElement();
+    element.removeEventListener('scroll', this.onScrollChange);
   }
 
   callbackChanged(newCallback) {
     this.callback = newCallback;
   }
-  
-  checkScrollPosition() {
-    let elementHeight = this.element.scrollHeight;
-    let elementOffsetTop = this.element.offsetTop;
-    let windowScrollPosition = window.innerHeight + window.pageYOffset;
-    let isPageScrolledToElementBottom = (windowScrollPosition + this.scrollBuffer) >= (elementHeight + elementOffsetTop);
 
+  checkScrollPosition() {
+    let elementHeight = this.getElementHeight();
+    let elementOffsetTop = this.element.offsetTop;
+    let windowScrollPosition = this.getWindowScrollPosition();
+
+    let isPageScrolledToElementBottom = (windowScrollPosition + this.scrollBuffer) >= (elementHeight + elementOffsetTop);
     if (this.callback && isPageScrolledToElementBottom) {
       this.callback();
     }
+  }
+
+  getElement() {
+    if (this.windowScroll) {
+      return window;
+    }
+    return this.element;
+  }
+
+  getWindowScrollPosition() {
+    let element = this.getElement();
+    if (this.windowScroll) {
+      return window.pageYOffset + window.innerHeight;
+    }
+    return element.scrollTop + window.innerHeight;
+  }
+
+  getElementHeight() {
+    if (this.windowScroll) {
+      return document.documentElement.scrollHeight;
+    }
+    return this.element.scrollHeight;
   }
 }

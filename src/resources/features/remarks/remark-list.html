@@ -5,7 +5,7 @@
     <require from="../../converters/sortValueConverter"></require>
     <require from="../../converters/string-capitalize-first-letter"></require>
     <require from="../../custom-attributes/infinite-scroll"></require>
-    <ul infinite-scroll="callback.call: getMore()">
+    <ul>
         <li class="remark-list-item" repeat.for="remark of remarks | sort:{propertyName: orderBy, direction: sortOrder}">            
             <a href.bind="remark.url">
               <div class="row">
