@@ -1033,8 +1033,10 @@ img.avatar {
 }
 
 p.rating {
-  margin-top: 0px;
   color: $primary-color;
+  position: absolute;
+  right: 30px;
+  top: 60px;
   font-size: 30px;
 }
 

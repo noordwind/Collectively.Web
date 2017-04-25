@@ -121,22 +121,6 @@ export class Remark {
     return this._isDescriptionValid(this.processDescription);
   }
 
-  get latestComment() {
-    if (this.remark.comments.length === 0) {
-      return {};
-    }
-
-    return this.remark.comments[this.remark.comments.length - 1];
-  }
-
-  get latestActivity() {
-    if (this.remark.states.length === 1) {
-      return {};
-    }
-
-    return this.remark.states[this.remark.states.length - 1];
-  }
-
   _isDescriptionValid(description) {
     return description !== null &&
       description.match(/^ *$/) === null &&
@@ -256,6 +240,23 @@ export class Remark {
     }
     this.vote = remark.votes.find(x => x.userId === this.account.userId);
     this.activitiesCount = this.remark.states.length - 1;
+
+    if (remark.comments.length > 0) {
+      this.latestComment = remark.comments[remark.comments.length - 1];
+    }
+
+    let latestActivity = {description: ''};
+    if (this.remark.states.length > 1) {
+      latestActivity = this.remark.states[this.remark.states.length - 1];
+      this._setLatestActivity(latestActivity.description);
+    }
+  }
+
+  _setLatestActivity(description) {
+    if (description === '') {
+      description = this.translationService.tr('remark.activity_has_no_description');
+    }
+    this.latestActivity = {description};
   }
 
   processPhotos(remark) {
@@ -511,6 +512,8 @@ export class Remark {
     this.remark.resolved = true;
     this.loader.hide();
     this.sending = false;
+    this.remark.state.state = 'resolved';
+    this.activitiesCount++;
     this.router.navigateToRoute('remarks');
   }
 
@@ -519,6 +522,8 @@ export class Remark {
     this.remark.resolved = false;
     this.loader.hide();
     this.sending = false;
+    this.activitiesCount++;
+    this.remark.state.state = 'renewed';
   }
 
   handleRemarkDeleted(operation) {
@@ -569,9 +574,8 @@ export class Remark {
     this.toast.success(this.translationService.tr('remark.activity_sent'));
     this.processDescription = '';
     this.activitiesCount++;
-    this.remark.states.push({
-      description
-    });
+    this.remark.state.state = 'processed';
+    this._setLatestActivity(description);
   }
 
   scrollToTop() {

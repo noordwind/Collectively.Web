@@ -4,7 +4,7 @@
     <require from="resources/features/remarks/remark-summary"></require>
     <div class="remark-view">
       <div class="section">
-        <remark-summary remark.bind="remark" create-mode.bind="false" display-on-map.call="display()"></remark-summary>
+        <remark-summary remark.bind="remark" rating.bind="rating" create-mode.bind="false" display-on-map.call="display()"></remark-summary>
         <div class="row text-field">
           <div class="col s12">
             <span>Dodane przez </span> 
@@ -25,9 +25,37 @@
           </div>
         </div>            
       </div>   
+      <div if.bind="canVote">
+        <div class="section">
+          <div class="row">
+            <div class="col s6">
+              <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
+                <i class="material-icons center">thumb_down</i>
+              </button>
+              <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
+                <i class="material-icons center">thumb_down</i>
+              </button>
+            </div>          
+            <div class="col s6">
+              <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
+                <i class="material-icons center">thumb_up</i>
+              </button>
+              <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
+                <i class="material-icons center">thumb_up</i>
+              </button>                    
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="section" if.bind="canProcess">
-        <div class="row">
-          <div class="col s12">
+        <div class="row"> 
+          <div if.bind="canAddPhotos" class="col s6">
+            <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
+              <i class="material-icons left">add_a_photo</i>
+              ${'remark.add_photo' | t}
+            </button>
+          </div>
+          <div class="col s6">
             <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
               <i class="material-icons left">group_work</i>
               ${'remark.send_activity' | t}
@@ -43,97 +71,64 @@
                 <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
               </div>
             </div>                
-          </div>              
+          </div> 
+          <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+          <div class="row">
+            <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
+          </div>
+        </div>                      
+      </div>
+      <div class="divider"></div>
+      <div class="section">
+        <div class="row">         
+          <div if.bind="canResolve" class="col s12">
+            <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">done</i>
+              ${'remark.resolve' | t}
+            </a>
+          </div>
+          <div if.bind="canRenew" class="col s12">
+            <a md-modal-trigger href="#modal-renew" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">replay</i>
+              ${'remark.renew' | t}
+            </a>
+          </div>
+        </div>
+        <div class="row" if.bind="canDelete">
+          <div class="col s12">
+            <a md-modal-trigger disabled.bind="sending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">delete</i>
+              ${'common.delete' | t}
+            </a>
+          </div>           
+        </div>
+      </div>
+      <div if.bind="canResolve" id="modal-resolve" class="modal">
+        <div class="modal-content">
+          <p>${'remark.resolve_question' | t}</p>
+        </div>
+        <div class="modal-footer">
+          <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+        </div>
+      </div>
+      <div if.bind="canRenew" id="modal-renew" class="modal">
+        <div class="modal-content">
+          <p>${'remark.renew_question' | t}</p>
+        </div>
+        <div class="modal-footer">
+          <a click.delegate="renew()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
         </div>
       </div> 
-      <div if.bind="canVote">
-        <div class="section">
-          <div class="row">
-            <div class="col s5">
-              <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                <i class="material-icons center">thumb_down</i>
-              </button>
-              <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
-                <i class="material-icons center">thumb_down</i>
-              </button>
-            </div>
-            <div class="col s2 rating-wrapper">
-                <p textcontent.bind="rating" class="rating center-align"></p>              
-            </div>            
-            <div class="col s5">
-              <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                <i class="material-icons center">thumb_up</i>
-              </button>
-              <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
-                <i class="material-icons center">thumb_up</i>
-              </button>                    
-            </div>
-          </div>
+      <div if.bind="canDelete" id="modal-delete" class="modal">
+        <div class="modal-content">
+            <p>${'remark.delete_question' | t}</p>
         </div>
-      </div>
-      <div if.bind="isAuthor">
-        <div class="divider"></div>
-        <div class="section">
-          <div if.bind="canAddPhotos" class="row">
-            <div class="col s12">
-              <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
-                <i class="material-icons left">add_a_photo</i>
-                ${'remark.add_photo' | t}
-              </button>
-            </div>
-            <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
-            <div class="row">
-              <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
-            </div>
-          </div>
-          <div class="row">
-            <div if.bind="canDelete" class="col s6">
-              <a md-modal-trigger disabled.bind="sending" href="#modal-delete" class="btn waves-effect waves-light btn-large">
-                <i class="material-icons left">delete</i>
-                ${'common.delete' | t}
-              </a>
-            </div>
-            <div if.bind="canResolve" class="col s6">
-              <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                <i class="material-icons left">done</i>
-                ${'remark.resolve' | t}
-              </a>
-            </div>
-            <div if.bind="canRenew" class="col s6">
-              <a md-modal-trigger href="#modal-renew" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                <i class="material-icons left">replay</i>
-                ${'remark.renew' | t}
-              </a>
-            </div>
-          </div>
-        </div>
-        <div if.bind="canDelete" id="modal-delete" class="modal">
-          <div class="modal-content">
-              <p>${'remark.delete_question' | t}</p>
-          </div>
-          <div class="modal-footer">
-              <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-              <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-          </div>
-        </div>
-        <div if.bind="canResolve" id="modal-resolve" class="modal">
-          <div class="modal-content">
-            <p>${'remark.resolve_question' | t}</p>
-          </div>
-          <div class="modal-footer">
-            <a click.delegate="resolve()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+        <div class="modal-footer">
+            <a click.delegate="delete()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
             <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-          </div>
         </div>
-        <div if.bind="canRenew" id="modal-renew" class="modal">
-          <div class="modal-content">
-            <p>${'remark.renew_question' | t}</p>
-          </div>
-          <div class="modal-footer">
-            <a click.delegate="renew()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
-          </div>
-        </div>        
-      </div>
+      </div>             
     </div>
 </template>

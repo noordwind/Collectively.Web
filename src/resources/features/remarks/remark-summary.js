@@ -15,6 +15,7 @@ export class RemarkSummary {
   @bindable remark = null;
   @bindable createMode = false;
   @bindable displayOnMap;
+  @bindable rating = 0;
 
   constructor(toastService, loader, translationService,
   remarkService, operationService, authService,
@@ -50,6 +51,9 @@ export class RemarkSummary {
 
   get isRemarkReported() {
     return !!this.remark.createdAt;
+  }
+  get showRating() {
+    return this.isRemarkReported;
   }
 
   get showFavorite() {
