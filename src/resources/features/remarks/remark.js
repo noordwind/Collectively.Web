@@ -48,7 +48,6 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
-    this.actionDescription = '';
     this.processDescription = '';
     this.websockets.initialize();
   }
@@ -128,7 +127,7 @@ export class Remark {
   }
 
   get latestActivity() {
-    if (this.remark.states.length === 0) {
+    if (this.remark.states.length === 1) {
       return {};
     }
 
@@ -191,10 +190,6 @@ export class Remark {
 
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
-      operation => this.handleRejectedOperation(operation));
-
-    this.operationService.subscribe('take_remark_action',
-      operation => this.handleRemarkActionTaken(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('process_remark',
@@ -540,20 +535,14 @@ export class Remark {
     await this.remarkService.processRemark(this.id, this.processDescription);
   }
 
-  handleRemarkActionTaken(operation) {
-    this.remark.participants.push({
-      description: this.actionDescription,
-      user: {
-        userId: this.account.userId,
-        name: this.account.name
-      }});
-    this.actionDescription = '';
-  }
-
   handleRemarkProcessed(operation) {
+    let description = this.processDescription;
     this.toast.success(this.translationService.tr('remark.activity_sent'));
     this.processDescription = '';
     this.activitiesCount++;
+    this.remark.states.push({
+      description
+    });
   }
 
   scrollToTop() {
