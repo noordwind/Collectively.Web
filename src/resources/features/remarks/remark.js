@@ -119,6 +119,22 @@ export class Remark {
     return this._isDescriptionValid(this.processDescription);
   }
 
+  get latestComment() {
+    if (this.remark.comments.length === 0) {
+      return {};
+    }
+
+    return this.remark.comments[this.remark.comments.length - 1];
+  }
+
+  get latestActivity() {
+    if (this.remark.states.length === 0) {
+      return {};
+    }
+
+    return this.remark.states[this.remark.states.length - 1];
+  }
+
   _isDescriptionValid(description) {
     return description !== null &&
       description.match(/^ *$/) === null &&

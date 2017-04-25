@@ -57,9 +57,6 @@
     </div>
     <div class="row description-text">
       <div class="col s12">
-        <span>${'remark.description' | t}</span>
-      </div>
-      <div class="col s12">
         <p if.bind="createMode">${remark.description}</p>
         <p if.bind="!createMode" innerhtml.bind="remark.description"></p>
       </div>
