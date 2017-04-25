@@ -428,6 +428,11 @@ li > a {
     @extend .text;
     font-size: 15px;
     text-transform: uppercase;
+
+    .date {
+      margin-left: 10px;
+      font-weight: 300;
+    }
   }
 
   .category-text {
