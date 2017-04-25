@@ -42,15 +42,15 @@ export class Map {
     this.position = new google.maps.LatLng(latitude, longitude);
     this.drawMap();
     this.drawUserMarker();
-    // this.drawRadius();
     this.eventAggregator.publish('map:loaded');
     this.locationLoadedSubscription = await this.eventAggregator.subscribe('location:loaded',
         async response => await this.locationUpdated(response));
     this.resetCenterSubscription = await this.eventAggregator.subscribe('location:reset-center',
       async response => {
         this.filtersService.setMapFollow(true);
-        this.position = new google.maps.LatLng(response.latitude, response.longitude);
-        await this.map.setCenter(this.position);
+        let position = new google.maps.LatLng(response.latitude, response.longitude);
+        await this.map.setCenter(position);
+        await this.eventAggregator.publish('map:location-restored', response);
       });
     this.centerChangedSubscription = await this.eventAggregator.subscribe('map:centerChanged',
       async center => {
@@ -124,9 +124,12 @@ export class Map {
 
     this.map.addListener('center_changed', () => {
       let center = this.map.getCenter();
-      let latitude = center.lat();
-      let longitude = center.lng();
-      this.filtersService.setCenter({latitude: latitude, longitude: longitude});
+      let position = {
+        latitude: center.lat(),
+        longitude: center.lng()
+      };
+      this.filtersService.setCenter(position);
+      this.eventAggregator.publish('remarks:update-map-remarks');
     });
   }
 
@@ -171,7 +174,6 @@ export class Map {
   moveMarker(marker, lat, lng) {
     let position = new google.maps.LatLng(lat, lng);
     marker.setPosition(position);
-    // this.map.panTo(position);
   }
 
   drawRemarkMarker(remark) {

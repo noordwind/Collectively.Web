@@ -40,6 +40,7 @@ export class Remarks {
     this.mapLoadedSubscription = null;
     this.websocket.initialize();
     this.loadingRemarks = false;
+    this.lastMapLoadPosition = null;
   }
 
   async activate(params) {
@@ -72,6 +73,7 @@ export class Remarks {
       this.image = this.files[0];
     });
     this.mapLoadedSubscription = await this.subscribeMapLoaded();
+    this.updateMapRemarksSubscription = await this.subscribeUpdateMapRemarks();
     this.remarkCreatedSubscription = await this.subscribeRemarkCreated();
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
@@ -87,6 +89,7 @@ export class Remarks {
 
   detached() {
     this.mapLoadedSubscription.dispose();
+    this.updateMapRemarksSubscription.dispose();
     this.remarkCreatedSubscription.dispose();
     this.remarkResolvedSubscription.dispose();
     this.remarkDeletedSubscription.dispose();
@@ -95,16 +98,36 @@ export class Remarks {
   }
 
   async browseForMap() {
+    let position = {
+      latitude: this.filtersService.filters.center.latitude,
+      longitude: this.filtersService.filters.center.longitude
+    };
     let query = {
       categories: encodeURI(this.filtersService.filters.categories),
       states: encodeURI(this.filtersService.filters.states),
       disliked: this.filtersService.filters.disliked,
       results: this.filtersService.filters.results,
       radius: this.filtersService.filters.radius,
-      latitude: this.filtersService.filters.center.latitude,
-      longitude: this.filtersService.filters.center.longitude
+      latitude: position.latitude,
+      longitude: position.longitude
     };
-    this.mapRemarks = await this.browse(query);
+    if (this.canBrowseForMap()) {
+      this.mapRemarks = await this.browse(query);
+      this.lastMapLoadPosition = position;
+    }
+  }
+
+  canBrowseForMap() {
+    if (!this.lastMapLoadPosition) {
+      return true;
+    }
+    let source = this.lastMapLoadPosition;
+    let target = this.filtersService.filters.center;
+    let distanceInMeters = this
+      .location
+      .calculateDistanceBetweenTwoPoints(source, target);
+
+    return distanceInMeters > 20;
   }
 
   async browseForList(page, results, clear = false) {
@@ -178,11 +201,6 @@ export class Remarks {
       longitude: longitude
     });
 
-    if (!remark.selected) {
-      return remark;
-    }
-    this.setCenter(latitude, longitude);
-
     return remark;
   }
 
@@ -196,11 +214,11 @@ export class Remarks {
     await this.browseForMap();
   }
 
-  resetPosition() {
+  async resetPosition() {
     this.location.getLocation(l => {
-      this.filtersService.setDefaultCenter({latitude: l.coords.latitude, longitude: l.coords.longitude});
-      this.filtersService.setCenter(this.filtersService.filters.defaultCenter);
-      this.eventAggregator.publish('location:reset-center', this.filtersService.filters.center);
+      let position = {latitude: l.coords.latitude, longitude: l.coords.longitude};
+      this.filtersService.setDefaultCenter(position);
+      this.eventAggregator.publish('location:reset-center', position);
     });
   }
 
@@ -209,7 +227,6 @@ export class Remarks {
       latitude: latitude,
       longitude: longitude
     };
-    this.filtersService.setCenter(center);
     this.eventAggregator.publish('map:centerChanged', center);
   }
 
@@ -222,6 +239,13 @@ export class Remarks {
         }
         await this.browseForMap();
         this.loader.hide();
+      });
+  }
+
+  async subscribeUpdateMapRemarks() {
+    return await this.eventAggregator
+      .subscribe('remarks:update-map-remarks', async center => {
+        await this.browseForMap();
       });
   }
 

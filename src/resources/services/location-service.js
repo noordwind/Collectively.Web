@@ -126,6 +126,10 @@ export default class LocationService {
 
   calculateDistance(target) {
     let source = this.current;
+    return this.calculateDistanceBetweenTwoPoints(source, target);
+  }
+
+  calculateDistanceBetweenTwoPoints(source, target) {
     let distanceToRadians = Math.PI / 180.0;
     let EarthRadius = 6378.1370;
 
