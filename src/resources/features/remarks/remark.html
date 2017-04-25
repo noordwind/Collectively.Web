@@ -7,26 +7,21 @@
         <remark-summary remark.bind="remark" create-mode.bind="false" display-on-map.call="display()"></remark-summary>
         <div class="row text-field">
           <div class="col s12">
-            <span>${'remark.author' | t}</span>
-          </div>
-          <div class="col s12">
-            <p><a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a></p>
+            <span>Dodane przez </span> 
+            <a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a>
+            dnia ${remark.createdAt | dateFormat}
           </div>
         </div>
         <div class="row text-field">
           <div class="col s12">
-            <span>${'remark.activity' | t} [${activitiesCount}]</span>
-          </div>
-          <div class="col s12">
-            <p><a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}">${'remark.browse_activity' | t}</a></p>
+            <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}">${'remark.activity' | t} [${activitiesCount}]</a>
+            <p class="truncate">${latestActivity.description}</p>
           </div>
         </div>         
         <div class="row text-field">
           <div class="col s12">
-            <span>${'remark.comments' | t} [${remark.comments.length}]</span>
-          </div>
-          <div class="col s12">
-            <p><a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">${'remark.browse_comments' | t}</a></p>
+            <a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">${'remark.comments' | t} [${remark.comments.length}]</a>
+            <p class="truncate">${latestComment.text}</p>
           </div>
         </div>            
       </div>   

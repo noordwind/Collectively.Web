@@ -48,7 +48,6 @@ export class Remark {
     this.photoToDelete = null;
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
-    this.actionDescription = '';
     this.processDescription = '';
     this.websockets.initialize();
   }
@@ -119,6 +118,22 @@ export class Remark {
     return this._isDescriptionValid(this.processDescription);
   }
 
+  get latestComment() {
+    if (this.remark.comments.length === 0) {
+      return {};
+    }
+
+    return this.remark.comments[this.remark.comments.length - 1];
+  }
+
+  get latestActivity() {
+    if (this.remark.states.length === 1) {
+      return {};
+    }
+
+    return this.remark.states[this.remark.states.length - 1];
+  }
+
   _isDescriptionValid(description) {
     return description !== null &&
       description.match(/^ *$/) === null &&
@@ -175,10 +190,6 @@ export class Remark {
 
     this.operationService.subscribe('delete_remark_vote',
       operation => this.handleRemarkVoteDeleted(operation),
-      operation => this.handleRejectedOperation(operation));
-
-    this.operationService.subscribe('take_remark_action',
-      operation => this.handleRemarkActionTaken(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('process_remark',
@@ -524,20 +535,14 @@ export class Remark {
     await this.remarkService.processRemark(this.id, this.processDescription);
   }
 
-  handleRemarkActionTaken(operation) {
-    this.remark.participants.push({
-      description: this.actionDescription,
-      user: {
-        userId: this.account.userId,
-        name: this.account.name
-      }});
-    this.actionDescription = '';
-  }
-
   handleRemarkProcessed(operation) {
+    let description = this.processDescription;
     this.toast.success(this.translationService.tr('remark.activity_sent'));
     this.processDescription = '';
     this.activitiesCount++;
+    this.remark.states.push({
+      description
+    });
   }
 
   scrollToTop() {
