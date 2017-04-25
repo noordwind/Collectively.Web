@@ -124,6 +124,14 @@ export default class RemarkService {
       => await this.apiBaseService.put(`remarks/${command.remarkId}/resolve`, command));
   }
 
+  async renewRemark(command) {
+    this._clearRemarksCache();
+    this._clearStatisticsCache();
+
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${command.remarkId}/renew`, command));
+  }
+
   async processRemark(remarkId, description) {
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`remarks/${remarkId}/process`, { description }));

@@ -9,6 +9,7 @@
                             <div class="col s12 ">
                                 <div if.bind="activity.name === 'new'">
                                     <i class="material-icons circle">info_outline</i>
+                                    <em class="remark-status"> ${'remark.remark_was_created' | t}</em>
                                     <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'processing'">
@@ -17,14 +18,17 @@
                                 </div>
                                 <div if.bind="activity.name === 'resolved'">
                                     <i class="material-icons circle">done</i>
+                                    <em class="remark-status"> ${'remark.remark_was_resolved' | t}</em>
                                     <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'canceled'">
                                     <i class="material-icons circle">stop</i>
+                                    <em class="remark-status"> ${'remark.remark_was_canceled' | t}</em>
                                     <p innerhtml.bind="activity.description">}</p>
                                 </div>
                                 <div if.bind="activity.name === 'renewed'">
                                     <i class="material-icons circle">replay</i>
+                                    <em class="remark-status"> ${'remark.remark_was_renewed' | t}</em>
                                     <p innerhtml.bind="activity.description">}</p>
                                 </div>                                                                                                                                
                             </div>

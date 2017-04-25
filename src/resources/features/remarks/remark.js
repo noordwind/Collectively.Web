@@ -61,13 +61,16 @@ export class Remark {
   }
 
   get canResolve() {
-    return this.isAuthor
-      && this.remark.resolved === false
+    return this.remark.resolved === false
       && (this.feature.resolveRemarkLocationRequired === false || this.isInRange);
   }
 
+  get canRenew() {
+    return this.remark.resolved;
+  }
+
   get canAddPhotos() {
-    return this.isAuthor && this.remark.photos.length < this.remarkPhotosLimit;
+    return this.remark.resolved === false && this.remark.photos.length < this.remarkPhotosLimit;
   }
 
   get canDeletePhotos() {
@@ -196,6 +199,10 @@ export class Remark {
       operation => this.handleRemarkProcessed(operation),
       operation => this.handleRejectedOperation(operation));
 
+    this.operationService.subscribe('renew_remark',
+      operation => this.handleRemarkRenewed(operation),
+      operation => this.handleRejectedOperation(operation));
+
     this.newImageResized = async (base64) => {
       if (base64 === '') {
         return;
@@ -296,6 +303,19 @@ export class Remark {
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.resolving_remark'));
     await this.remarkService.resolveRemark(command);
+  }
+
+  async renew() {
+    let command = {
+      remarkId: this.remark.id,
+      latitude: this.location.current.latitude,
+      longitude: this.location.current.longitude,
+      address: this.location.current.address
+    };
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.renewing_remark'));
+    await this.remarkService.renewRemark(command);
   }
 
   async addPhotos(base64Image) {
@@ -488,8 +508,17 @@ export class Remark {
 
   handleRemarkResolved(operation) {
     this.toast.success(this.translationService.tr('remark.remark_resolved'));
+    this.remark.resolved = true;
     this.loader.hide();
+    this.sending = false;
     this.router.navigateToRoute('remarks');
+  }
+
+  handleRemarkRenewed(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_renewed'));
+    this.remark.resolved = false;
+    this.loader.hide();
+    this.sending = false;
   }
 
   handleRemarkDeleted(operation) {

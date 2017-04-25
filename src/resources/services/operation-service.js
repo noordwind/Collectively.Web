@@ -44,7 +44,8 @@ export default class OperationService {
       map('delete_remark_comment_vote', 'remark_comment_vote_deleted'),
       map('take_remark_action', 'remark_action_taken'),
       map('cancel_remark_action', 'remark_action_canceled'),
-      map('process_remark', 'remark_processed')
+      map('process_remark', 'remark_processed'),
+      map('renew_remark', 'remark_renewed')
     ];
 
     function map(name, event) {
