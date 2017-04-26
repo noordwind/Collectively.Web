@@ -27,7 +27,7 @@
           ${remark.state.createdAt | dateFormat}
         </span>
       </div>
-      <div class="col s12 location-text">
+      <div class="col s10 location-text">
         <i class="material-icons">my_location</i>
         <span if.bind="createMode">${remark.address}</span>
         <a href="#" click.delegate="displayOnMap()" if.bind="!createMode">${remark.address}</a>
