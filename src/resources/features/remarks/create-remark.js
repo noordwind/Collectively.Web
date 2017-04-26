@@ -38,9 +38,28 @@ export class CreateRemark {
     this.summaryVisible = false;
   }
 
+  async activate(params) {
+    this.refreshLocation();
+    this.address = this.location.current.address;
+    this.foundAddress = this.address;
+    this.remark.category.name = params.category;
+    this.remark.latitude = this.location.current.latitude;
+    this.remark.longitude = this.location.current.longitude;
+    this.remark.address = this.location.current.address;
+    this.coordinates.latitude = this.location.current.latitude;
+    this.coordinates.longitude = this.location.current.longitude;
+    let tags = await this.remarkService.getTags();
+    this.tags = tags.map(tag => {
+      return {
+        key: tag.name,
+        value: this.translationService.tr(`tags.${tag.name}`),
+        selected: false
+      };
+    });
+  }
+
   attached() {
     this.log.trace('create_remark_attached');
-    this.refreshLocation();
     this.operationService.subscribe('create_remark',
       async operation => await this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
@@ -81,25 +100,6 @@ export class CreateRemark {
       new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
         status === google.maps.GeocoderStatus.OK ? resolve(results) : {};
       });
-    });
-  }
-
-  async activate(params) {
-    this.address = this.location.current.address;
-    this.foundAddress = this.address;
-    this.remark.category.name = params.category;
-    this.remark.latitude = this.location.current.latitude;
-    this.remark.longitude = this.location.current.longitude;
-    this.remark.address = this.location.current.address;
-    this.coordinates.latitude = this.location.current.latitude;
-    this.coordinates.longitude = this.location.current.longitude;
-    let tags = await this.remarkService.getTags();
-    this.tags = tags.map(tag => {
-      return {
-        key: tag.name,
-        value: this.translationService.tr(`tags.${tag.name}`),
-        selected: false
-      };
     });
   }
 
