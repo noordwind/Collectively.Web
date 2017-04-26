@@ -40,10 +40,10 @@ export class CreateRemark {
 
   attached() {
     this.log.trace('create_remark_attached');
+    this.refreshLocation();
     this.operationService.subscribe('create_remark',
       async operation => await this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
-    this.location.startUpdatingAddress();
     this.fileInput = document.getElementById('new-image');
     $('#new-image').change(async () => {
       this.newImage = this.files[0];
@@ -68,6 +68,12 @@ export class CreateRemark {
   detached() {
     this.operationService.unsubscribeAll();
     this.location.stopUpdatingAddress();
+  }
+
+  refreshLocation() {
+    this.location.stopUpdating();
+    this.location.startUpdatingAddress();
+    this.location.startUpdating();
   }
 
   async geocode(value) {
