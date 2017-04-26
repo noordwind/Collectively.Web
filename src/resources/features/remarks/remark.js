@@ -269,7 +269,8 @@ export class Remark {
         visible: index === 0,
         small: photo.url,
         medium: mediumPhotos[index].url,
-        big: bigPhotos[index].url
+        big: bigPhotos[index].url,
+        user: photo.user
       };
     });
   }

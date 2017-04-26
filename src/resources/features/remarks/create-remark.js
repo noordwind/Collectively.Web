@@ -93,6 +93,11 @@ export class CreateRemark {
     this.location.stopUpdating();
     this.location.startUpdatingAddress();
     this.location.startUpdating();
+    this.address = this.location.current.address;
+  }
+
+  clearAddress() {
+    this.address = '';
   }
 
   async geocode(value) {
