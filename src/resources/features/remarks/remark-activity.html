@@ -5,40 +5,64 @@
             <div class="col s12">
                 <ul class="collection">
                     <li class="collection-item avatar" repeat.for="activity of activities">
-                        <div class="row">
-                            <div class="col s12 ">
-                                <div if.bind="activity.name === 'new'">
-                                    <i class="material-icons circle">info_outline</i>
-                                    <em class="remark-status"> ${'remark.remark_was_created' | t}</em>
-                                    <p innerhtml.bind="activity.description">}</p>
-                                </div>
-                                <div if.bind="activity.name === 'processing'">
-                                    <i class="material-icons circle">label_outline</i>
-                                    <p innerhtml.bind="activity.description">}</p>
-                                </div>
-                                <div if.bind="activity.name === 'resolved'">
-                                    <i class="material-icons circle">done</i>
-                                    <em class="remark-status"> ${'remark.remark_was_resolved' | t}</em>
-                                    <p innerhtml.bind="activity.description">}</p>
-                                </div>
-                                <div if.bind="activity.name === 'canceled'">
-                                    <i class="material-icons circle">stop</i>
-                                    <em class="remark-status"> ${'remark.remark_was_canceled' | t}</em>
-                                    <p innerhtml.bind="activity.description">}</p>
-                                </div>
-                                <div if.bind="activity.name === 'renewed'">
-                                    <i class="material-icons circle">replay</i>
-                                    <em class="remark-status"> ${'remark.remark_was_renewed' | t}</em>
-                                    <p innerhtml.bind="activity.description">}</p>
-                                </div>                                                                                                                                
+                      <div class="row">
+                        <div class="col s12">
+                          <div if.bind="!activity.removed">
+                            <div if.bind="activity.name === 'new'">
+                              <i class="material-icons circle">info_outline</i>
+                              <em class="remark-status"> ${'remark.remark_was_created' | t}</em>
+                              <p innerhtml.bind="activity.description">}</p>
                             </div>
-                            <div class="col s6">
-                                <span><a route-href="route: profile; params.bind: {name : activity.user}">${activity.user}</a></span>
+                            <div if.bind="activity.name === 'processing'">
+                              <i class="material-icons circle">label_outline</i>
+                              <p innerhtml.bind="activity.description">}</p>
                             </div>
-                            <div class="col s6 right-align">
-                                <span>${activity.createdAt | dateFormat}</span>
-                            </div>    
+                            <div if.bind="activity.name === 'resolved'">
+                              <i class="material-icons circle">done</i>
+                              <em class="remark-status"> ${'remark.remark_was_resolved' | t}</em>
+                              <p innerhtml.bind="activity.description">}</p>
+                            </div>
+                            <div if.bind="activity.name === 'canceled'">
+                              <i class="material-icons circle">stop</i>
+                              <em class="remark-status"> ${'remark.remark_was_canceled' | t}</em>
+                              <p innerhtml.bind="activity.description">}</p>
+                            </div>
+                            <div if.bind="activity.name === 'renewed'">
+                              <i class="material-icons circle">replay</i>
+                              <em class="remark-status"> ${'remark.remark_was_renewed' | t}</em>
+                              <p innerhtml.bind="activity.description">}</p>
+                            </div>
+                          </div>
+                          <div if.bind="activity.removed">
+                              <i class="material-icons circle">clear</i>
+                              <em>${'remark.activity_removed' | t}</em>
+                          </div>
                         </div>
+                        <div class="col s6">
+                          <span><a route-href="route: profile; params.bind: {name : activity.user}">${activity.user}</a></span>
+                        </div>
+                        <div class="col s6 right-align">                          
+                          <span>${activity.createdAt | dateFormat}</span>
+                        </div>                        
+                      </div>
+                      <div class="row">
+                        <div class="col s1 offset-s11" if.bind="canDelete(activity) && !activity.removed">
+                          <a md-modal-trigger disabled.bind="sending" 
+                            href="#modal-delete-${activity.id}" title="${'common.delete' | t}" 
+                            class="btn waves-effect waves-light">
+                              <i class="material-icons center">delete</i>
+                          </a>
+                        </div>
+                      </div>
+                      <div id="modal-delete-${activity.id}" class="modal">
+                        <div class="modal-content">
+                          <p>${'remark.delete_activity_question' | t}</p>
+                        </div>
+                        <div class="modal-footer">
+                          <a click.delegate="delete(activity)" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+                          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+                        </div>
+                      </div>
                     </li>
                 </ul>
             </div>

@@ -241,13 +241,21 @@ export class Remark {
     this.vote = remark.votes.find(x => x.userId === this.account.userId);
     this.activitiesCount = this.remark.states.length - 1;
 
-    if (remark.comments.length > 0) {
-      this.latestComment = remark.comments[remark.comments.length - 1];
+    let latestCommentIndex = remark.comments
+      .map(x => x.removed)
+      .lastIndexOf(false);
+
+    if (latestCommentIndex > -1) {
+      this.latestComment = remark.comments[latestCommentIndex];
     }
 
     let latestActivity = {description: ''};
-    if (this.remark.states.length > 1) {
-      latestActivity = this.remark.states[this.remark.states.length - 1];
+    let latestActivityIndex = this.remark.states
+      .map(x => x.removed)
+      .lastIndexOf(false);
+
+    if (latestActivityIndex > 0) {
+      latestActivity = this.remark.states[latestActivityIndex];
       this._setLatestActivity(latestActivity.description);
     }
   }
@@ -575,7 +583,7 @@ export class Remark {
     this.toast.success(this.translationService.tr('remark.activity_sent'));
     this.processDescription = '';
     this.activitiesCount++;
-    this.remark.state.state = 'processed';
+    this.remark.state.state = 'processing';
     this._setLatestActivity(description);
   }
 

@@ -76,6 +76,28 @@ export class RemarkActivity {
     }
   }
 
+  canDelete(activity) {
+    if (!activity || !activity.id) {
+      return false;
+    }
+
+    if (activity.id === '00000000-0000-0000-0000-000000000000') {
+      return false;
+    }
+
+    if (activity.removed) {
+      return false;
+    }
+
+    return this.isAuthenticated
+      && this.isProcessingState(activity)
+      && this.isActivityAuthor(activity);
+  }
+
+  isProcessingState = (activity) => activity.name === 'processing';
+
+  isActivityAuthor = (activity) => activity.userId === this.account.userId;
+
   get isParticipant() {
     return this.remark.participants.find(x => x.user.userId === this.account.userId);
   }
@@ -85,13 +107,23 @@ export class RemarkActivity {
   }
 
   displayStates() {
+    let removedMessage = this.translationService.tr('remark.activity_removed');
     this.activities = this.remark.states.map(x => {
       return {
+        id: x.id,
         name: x.state,
-        description: x.description,
+        description: x.removed ? removedMessage : x.description,
         createdAt: x.createdAt,
-        user: x.user.name
+        user: x.user.name,
+        userId: x.user.userId,
+        removed: x.removed
       };
     });
+  }
+
+  async delete(activity) {
+    await this.remarkService.deleteState(this.id, activity.id);
+    this.toast.info(this.translationService.tr('remark.activity_removed'));
+    activity.removed = true;
   }
 }
