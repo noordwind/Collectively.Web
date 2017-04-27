@@ -88,7 +88,7 @@ export class Map {
     let lng = location.coords.longitude;
     let lat = location.coords.latitude;
     this.userPosition = new google.maps.LatLng(lat, lng);
-    this.drawUserMarker();
+    this.moveUserMarker();
     this.filtersService.setDefaultCenter({latitude: lat, longitude: lng});
     if (this.filtersService.filters.map.follow) {
       await this.map.setCenter(this.userPosition);
@@ -165,6 +165,11 @@ export class Map {
     let content = this.translationService.tr('common.you_are_here');
     let markerImg = 'assets/images/current_location.png';
     this.userMarker = this.drawMarker(lng, lat, title, content, markerImg, 35, 35);
+  }
+
+  moveUserMarker() {
+    let lat = this.userPosition.lat();
+    let lng = this.userPosition.lng();
     let bounds = this.map.getBounds();
     if (bounds && bounds.contains(this.userPosition)) {
       this.moveMarker(this.userMarker, lat, lng);
