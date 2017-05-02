@@ -7,9 +7,9 @@
         <remark-summary remark.bind="remark" rating.bind="rating" create-mode.bind="false" display-on-map.call="display()"></remark-summary>
         <div class="row text-field">
           <div class="col s12">
-            <span>Dodane przez </span> 
+            <span>${'remark.created_by' | t} </span> 
             <a route-href="route: profile; params.bind: {name : remark.author.name}" title="${'account.browse_user_profile' | t}">${remark.author.name}</a>
-            dnia ${remark.createdAt | dateFormat}
+            ${'remark.on_day' | t} ${remark.createdAt | dateFormat}
           </div>
         </div>
         <div class="row text-field">
