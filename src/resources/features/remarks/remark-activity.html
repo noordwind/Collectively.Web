@@ -46,7 +46,7 @@
                         </div>                        
                       </div>
                       <div class="row">
-                        <div class="col s1 offset-s11" if.bind="canDelete(activity) && !activity.removed">
+                        <div class="col s3 l1 offset-s9 offset-l11" if.bind="canDelete(activity) && !activity.removed">
                           <a md-modal-trigger disabled.bind="sending" 
                             href="#modal-delete-${activity.id}" title="${'common.delete' | t}" 
                             class="btn waves-effect waves-light">

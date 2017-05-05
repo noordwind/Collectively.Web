@@ -274,6 +274,7 @@ export class RemarkComments {
   }
 
   toggleCommentForm() {
+    this.canAdd = !this.canAdd;
     this.commentFormVisible = !this.commentFormVisible;
     this.comment = '';
   }
