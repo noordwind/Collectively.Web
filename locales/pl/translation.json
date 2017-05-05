@@ -285,7 +285,9 @@
   "route": {
     "change_password": "Zmiana hasła",
     "create_remark": "Dodaj zgłoszenie",
+    "feedback": "Opinie",
     "filter_remarks": "Filtruj zgłoszenia",
+    "find_us_at": "Znajdź nas na",
     "location": "Lokalizacja",
     "logout": "Wyloguj",
     "map": "Mapa",

@@ -286,7 +286,9 @@
   "route": {
     "change_password": "Change password",
     "create_remark": "Create remark",
+    "feedback": "Feedback",
     "filter_remarks": "Filter remarks",
+    "find_us_at": "Find us at",
     "location": "Location",
     "logout": "Sign out",
     "map": "Map",

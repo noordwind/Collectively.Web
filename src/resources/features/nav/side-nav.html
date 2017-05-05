@@ -19,14 +19,20 @@
               <a class="waves-effect" href="#" click.delegate="logout()">
                   ${'route.logout' | t | lowercase }
               </a>
+              <div class="divider"></div>
           </li>
+          <li>
+              <a class="waves-effect" href="http://forum.becollective.ly" target="_blank">
+                  ${'route.feedback' | t | lowercase }
+              </a>
+          </li>          
         </ul>
       </div>
       <div class="row noordwind-info">
         <div class="col s10 offset-s1">
-          <span class="col s12">Find us at</span>
+          <span class="col s12">${'route.find_us_at' | t }</span>
           <div class="col s2 no-padding">
-            <a href="https://www.facebook.com/noordwindcoop">
+            <a href="https://www.facebook.com/becollectively" target="_blank">
               <div class="follow follow-fb">
                 <img src="/assets/images/icon_facebook.png"/>
               </div>
