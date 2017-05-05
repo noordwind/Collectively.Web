@@ -12,13 +12,14 @@
             <div class="input-field col s12">
               <input type="text" value.bind="address" placeholder="${'remark.type_location' | t}"  />
             </div>
-            <div class="col s12 m3 center">
-              <button class="waves-effect waves-light btn-flat" click.delegate="clearAddress()">
+            <div class="col s12 m4">
+              <button class="btn waves-effect waves-light" click.delegate="clearAddress()">
                 ${'remark.clear_location' | t}
               </button>
             </div>
-            <div class="col s12 m3 center">
-              <button class="waves-effect waves-light btn-flat" click.delegate="refreshLocation()">
+           <div class="row"></div>
+            <div class="col s12 m4">
+              <button class="btn waves-effect waves-light" click.delegate="refreshLocation()">
                 ${'remark.actual_location' | t}
               </button>
             </div>            
