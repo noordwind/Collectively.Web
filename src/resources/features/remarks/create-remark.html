@@ -4,7 +4,7 @@
   <div class="create-remark-view">
     <div class="section">
       <form submit.delegate="sendRemark()">
-        <div class="fill-remark-screen" if.bind="!summaryVisible">
+        <div class="fill-remark-screen ${ summaryVisible ? 'hide' : '' }">
           <div class="row">
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category.name | t}</span>
@@ -54,7 +54,7 @@
             </div>
           </div>
         </div>
-        <div if.bind="summaryVisible">
+        <div class="${ summaryVisible ? '' : 'hide' }">
           <remark-summary remark.bind="remark" create-mode.bind="true"></remark-summary>
           <div class="row center">
             <div class="col s10 offset-s1 center">
