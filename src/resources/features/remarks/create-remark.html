@@ -26,15 +26,34 @@
             <div class="input-field col s12">
                 <textarea id="description" placeholder="${'remark.description' | t}" class="materialize-textarea" value.bind="remark.description" maxlength="500"></textarea>
             </div>
-            <div class="col s12">
-              <div class="add-media pointer" click.trigger="displayCamera()">
-                <div class="col s12">
-                  <img class="placeholder" if.bind="!remark.photos" src="assets/images/add_media_icon.png" />
+            <div class="col s12 add-media">
+              <div class="col s6 l12 ${ displayRemarkPhoto ? 'hide' : ''}">
+                <div class="pointer" click.trigger="displayCamera()">
+                  <div class="col s12">
+                    <i class="material-icons large placeholder">add_a_photo</i>
+                  </div>
+                  <span class="col s12">${'remark.take_photo' | t}</span>
                 </div>
-                <span class="col s12" if.bind="!remark.photos">${'remark.add_photo' | t}</span>
-                <img if.bind="remark.photos" src.bind="remark.photos[0].medium" />
+                <input class="hide" id="camera-input" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
               </div>
-              <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+              <div class="col s6 hide-on-large-only ${ displayRemarkPhoto ? 'hide' : ''}">
+                <div class="pointer" if.bind="!displayRemarkPhoto" click.trigger="displayFileInput()">
+                  <div class="col s12">
+                    <i class="material-icons large placeholder">photo_library</i>
+                  </div>
+                  <span class="col s12">${'remark.browse_gallery' | t}</span>
+                </div>
+                <input class="hide" id="file-input" name="new-image" type="file" accept="image/*" files.bind="files"/>
+              </div>
+              <div if.bind="displayRemarkPhoto" class="col s12">
+                <div class="photo-wrapper">
+                  <img src.bind="remark.photos[0].medium" />
+                  <a title="${'common.delete' | t}" class="btn btn-img btn-floating waves-effect waves-light"
+                    click.trigger="removePhoto()">
+                    <i class="material-icons">remove</i>
+                  </a>
+                </div>
+              </div>
               <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
             </div>
           </div>

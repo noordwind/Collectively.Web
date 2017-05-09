@@ -63,10 +63,9 @@ export class CreateRemark {
     this.operationService.subscribe('create_remark',
       async operation => await this.handleRemarkCreated(operation),
       operation => this.handleCreateRemarkRejected(operation));
-    this.fileInput = document.getElementById('new-image');
-    $('#new-image').change(async () => {
-      this.newImage = this.files[0];
-    });
+
+    this.setupCameraInput();
+    this.setupFileInput();
 
     this.observerLocator.getObserver(this, 'address')
       .subscribe(async (newValue, oldValue) => {
@@ -87,6 +86,24 @@ export class CreateRemark {
   detached() {
     this.operationService.unsubscribeAll();
     this.location.stopUpdatingAddress();
+  }
+
+  get displayRemarkPhoto() {
+    return this.remark.photos && this.remark.photos.length > 0;
+  }
+
+  setupCameraInput() {
+    this.cameraInput = document.getElementById('camera-input');
+    $('#camera-input').change(async () => {
+      this.newImage = this.files[0];
+    });
+  }
+
+  setupFileInput() {
+    this.fileInput = document.getElementById('file-input');
+    $('#file-input').change(async () => {
+      this.newImage = this.files[0];
+    });
   }
 
   refreshLocation() {
@@ -135,7 +152,15 @@ export class CreateRemark {
   }
 
   displayCamera() {
+    this.cameraInput.click();
+  }
+
+  displayFileInput() {
     this.fileInput.click();
+  }
+
+  removePhoto() {
+    this.remark.photos = [];
   }
 
   newImageResized = async (base64) => {
