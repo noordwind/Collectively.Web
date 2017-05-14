@@ -130,7 +130,7 @@
     "user": "User",
     "yes": "Yes",
     "you_are_here": "Hey, you are here!",
-    "update": "Aktualizuj",
+    "update": "Update",
     "what_happened": "I'd like to report a..."
   },
   "dashboard": {
@@ -210,14 +210,14 @@
     "current_location": "Your current location.",
     "delete_activity_question": "Do you really want to delete this activity?",
     "delete_comment_question": "Do you really want to delete the comment?",
-    "delete_from_favorites": "Remove to favorites",
+    "delete_from_favorites": "Delete from favorites",
     "delete_photo_question": "Do you really want to delete the selected photo?",
     "delete_question": "Do you really want to delete the remark?",
     "delete_vote": "Delete rating",
     "deleting_vote": "Deleting rating...",
     "display": "Display on map",
     "distinguish_liked": "Distinguish liked (with positive scores).",
-    "details": "Remark",
+    "details": "Details",
     "description": "Description (optional)",
     "deleted_photo": "Photo has been deleted.",   
     "deleting_photo": "Deleting photo, please wait...",
@@ -313,7 +313,7 @@
     "user_resolved_remarks": "User resolved remarks"
   },
   "start": {
-    "header": "Make your city great again!"
+    "header": "Make your commune great again!"
   },
   "statistics": {
     "categories": "Categories",
