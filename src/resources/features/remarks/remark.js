@@ -145,10 +145,8 @@ export class Remark {
 
   async attached() {
     let that = this;
-    this.fileInput = document.getElementById('new-image');
-    $('#new-image').change(async () => {
-      this.newImage = this.files[0];
-    });
+    this.setupFileInput();
+    this.setupCameraInput();
     this.scrollToTop();
     this.remarkResolvedSubscription = await this.subscribeRemarkResolved();
     this.remarkDeletedSubscription = await this.subscribeRemarkDeleted();
@@ -203,6 +201,20 @@ export class Remark {
     this.remarkVoteSubmittedSubscription.dispose();
     this.remarkVoteDeletedSubscription.dispose();
     this.operationService.unsubscribeAll();
+  }
+
+  setupCameraInput() {
+    this.cameraInput = document.getElementById('camera-input');
+    $('#camera-input').change(async () => {
+      this.newImage = this.files[0];
+    });
+  }
+
+  setupFileInput() {
+    this.fileInput = document.getElementById('file-input');
+    $('#file-input').change(async () => {
+      this.newImage = this.files[0];
+    });
   }
 
   async loadRemark() {
@@ -303,6 +315,10 @@ export class Remark {
   }
 
   displayCamera() {
+    this.cameraInput.click();
+  }
+
+  browseGallery() {
     this.fileInput.click();
   }
 

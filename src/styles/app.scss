@@ -578,6 +578,20 @@ li > a {
       font-size: 15px;
       font-weight: 300;
     }
+
+    a:not(.btn) {
+      p {
+        color: $secondary-dark-color;
+      }
+
+      i {
+        color: $secondary-dark-color;
+      }
+    }
+  }
+
+  .btn{
+    font-weight: 300;
   }
 }
 
@@ -1012,6 +1026,11 @@ li > a {
 
 .marker-content {
   color: $primary-dark-color;
+  text-align: center;
+
+  a {
+    margin: 5px 0;
+  }
 }
 
 @media only screen and (min-device-width: $mobile-width) {
