@@ -5,10 +5,7 @@
       <div class="col s12 category-text">
         <img src="${'assets/images/'+remark.category.name+'_icon_dark.png'}"/>
         <span>${'remark.category_'+remark.category.name | t}</span>
-      </div> 
-      <div class="col s2" if.bind="showRating">
-        <p textcontent.bind="rating" class="rating"></p>              
-      </div>       
+      </div>     
       </div>
       <div class="col s2" if.bind="showFavorite">
          <span if.bind="isFavorite" class="pointer" title="${'remark.delete_from_favorites' | t}" click.delegate="deleteFavorite()">

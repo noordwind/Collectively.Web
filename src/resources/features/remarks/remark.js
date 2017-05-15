@@ -238,7 +238,7 @@ export class Remark {
     if (remark.votes === null) {
       remark.votes = [];
     }
-    this.vote = remark.votes.find(x => x.userId === this.account.userId);
+    this._calculateVotes();
     this.activitiesCount = this.remark.states.length - 1;
 
     let latestCommentIndex = remark.comments
@@ -258,6 +258,19 @@ export class Remark {
       latestActivity = this.remark.states[latestActivityIndex];
       this._setLatestActivity(latestActivity.description);
     }
+  }
+
+  _calculateVotes() {
+    this.positiveVotes = 0;
+    this.negativeVotes = 0;
+    this.remark.votes.forEach(x => {
+        if (x.positive) {
+          this.positiveVotes++;
+        } else {
+          this.negativeVotes++;
+        }
+      })
+    this.vote = this.remark.votes.find(x => x.userId === this.account.userId);
   }
 
   _setLatestActivity(description) {
@@ -482,38 +495,35 @@ export class Remark {
   async deleteVote() {
     this.sending = true;
     await this.remarkService.deleteVote(this.id);
-    let positive = !this.vote.positive;
+    if(this.vote.positive) {
+      this.positiveVotes--;
+    } else{
+      this.negativeVotes--;
+    } 
     this.vote = null;
-    this._updateRating(positive);
     this.sending = false;
   }
 
   _changeVoteType(positive) {
-    this._updateRating(positive);
+    if(positive) {
+      this.positiveVotes++;
+    } else{
+      this.negativeVotes++;
+    }
     if (!this.hasVoted) {
       this.vote = {
-        userId: this.account.userId
+        userId: this.account.userId,
+        positive: positive
       };
+      return; 
     }
+
     this.vote.positive = positive;
-  }
-
-  _updateRating(positive) {
-    if (!this.hasVoted) {
-      if (positive) {
-        this.rating++;
-      } else {
-        this.rating--;
-      }
-
-      return;
-    }
-
-    if (positive) {
-      this.rating += 2;
-    } else {
-      this.rating -= 2;
-    }
+    if(positive) {
+      this.negativeVotes--;
+    } else{
+      this.positiveVotes--;
+    } 
   }
 
   handleRemarkResolved(operation) {

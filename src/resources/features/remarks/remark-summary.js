@@ -52,9 +52,6 @@ export class RemarkSummary {
   get isRemarkReported() {
     return !!this.remark.createdAt;
   }
-  get showRating() {
-    return this.isRemarkReported;
-  }
 
   get showFavorite() {
     return this.isRemarkReported;
