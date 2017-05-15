@@ -78,22 +78,22 @@
                         <div class="row" if.bind="!comment.editMode">
                             <div class="col s3 m2 l1" if.bind="canVote && (comment.hasVoted && !comment.hasVotedPositively) && !comment.removed && !remark.resolved">
                                 <button class="btn waves-effect waves-light btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote(comment.id)">
-                                    <i class="material-icons center">thumb_down</i>
+                                    <i class="material-icons center">remove</i>
                                  </button>
                             </div>
                             <div class="col s3 m2 l1" if.bind="canVote && (!comment.hasVoted || comment.hasVotedPositively) && !comment.removed && !remark.resolved">
                                 <button class="btn waves-effect waves-light" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative(comment.id)">
-                                    <i class="material-icons center">thumb_down</i>
+                                    <i class="material-icons center">remove</i>
                                 </button>
                             </div>
                             <div class="col s3 m2 l1" if.bind="canVote && (comment.hasVoted && comment.hasVotedPositively) && !comment.removed && !remark.resolved">
                                 <button class="btn waves-effect waves-light btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote(comment.id)">
-                                    <i class="material-icons center">thumb_up</i>
+                                    <i class="material-icons center">add</i>
                                 </button>
                             </div>
                             <div class="col s3 m2 l1 " if.bind="canVote && (!comment.hasVoted || !comment.hasVotedPositively) && !comment.removed && !remark.resolved">
                                 <button class="btn waves-effect waves-light" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive(comment.id)">
-                                    <i class="material-icons center">thumb_up</i>
+                                    <i class="material-icons center">add</i>
                                 </button>                                  
                             </div>
                             <div class="col s3 m2 l1">

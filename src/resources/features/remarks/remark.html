@@ -53,21 +53,21 @@
           <div class="row">
             <div class="col s6">
               <button if.bind="hasVotedNegatively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                <i class="material-icons center">thumb_down</i>
+                <i class="material-icons center">remove</i>
                 <span class="right light-text">[${negativeVotes}]</span>
               </button>
               <button if.bind="canVoteNegatively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_negative' | t}" disabled.bind="sending" click.delegate="voteNegative()">
-                <i class="material-icons center">thumb_down</i>
+                <i class="material-icons center">remove</i>
                 <span class="right light-text">[${negativeVotes}]</span>
               </button>
             </div>          
             <div class="col s6">
               <button if.bind="hasVotedPositively" class="btn waves-effect waves-light btn-large btn-highlighted" title="${'remark.delete_vote' | t}" disabled.bind="sending" click.delegate="deleteVote()">
-                <i class="material-icons center">thumb_up</i>
+                <i class="material-icons center">add</i>
                 <span class="right light-text">[${positiveVotes}]</span>
               </button>
               <button if.bind="canVotePositively" class="btn waves-effect waves-light btn-large" title="${'remark.vote_positive' | t}" disabled.bind="sending" click.delegate="votePositive()">
-                <i class="material-icons center">thumb_up</i>
+                <i class="material-icons center">add</i>
                 <span class="right light-text">[${positiveVotes}]</span>
               </button>                    
             </div>
