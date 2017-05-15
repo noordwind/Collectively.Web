@@ -13,15 +13,38 @@
           </div>
         </div>
         <div class="row text-field">
-          <div class="col s12">
-            <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}">${'remark.activity' | t} [${activitiesCount}]</a>
-            <p class="truncate">${latestActivity.description}</p>
+          <div class="col s6">
+            <a route-href="route: remark-activity; params.bind: {id : remark.id}" title="${'remark.browse_activity' | t}">
+              <span class="col s12 no-padding">${'remark.activity' | t} [${activitiesCount}]</span>
+              <p class="col s10 no-padding truncate">${latestActivity.description}</p>
+              <i class="col s2 material-icons right">keyboard_arrow_right</i>
+            </a>
           </div>
-        </div>         
+          <div class="col s6">
+            <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">group_work</i>
+              ${'remark.send_activity' | t}
+            </a>
+          </div> 
+        </div>
+        <div id="modal-process" class="modal">
+          <div class="modal-content">
+            <div class="input-field col s12">
+              <textarea placeholder="${'remark.send_activity_description' | t}" class="materialize-textarea" value.bind="processDescription" maxlength="2000"></textarea>
+            </div>                        
+          </div>
+          <div class="modal-footer">
+            <button click.delegate="process()" disabled.bind="sending || !isProcessDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
+            <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
+          </div>
+        </div>
         <div class="row text-field">
           <div class="col s12">
-            <a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">${'remark.comments' | t} [${remark.comments.length}]</a>
-            <p class="truncate">${latestComment.text}</p>
+            <a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">
+              <span class="col s12 no-padding">${'remark.comments' | t} [${remark.comments.length}]</span>
+              <p class="col s10 no-padding truncate">${latestComment.text}</p>
+              <i class="col s2 material-icons right">keyboard_arrow_right</i>
+            </a>
           </div>
         </div>            
       </div>   
@@ -48,31 +71,21 @@
         </div>
       </div>
       <div class="section" if.bind="canProcess">
-        <div class="row"> 
+        <div class="row">
           <div if.bind="canAddPhotos" class="col s6">
             <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="displayCamera()">
               <i class="material-icons left">add_a_photo</i>
-              ${'remark.add_photo' | t}
+              ${'common.camera' | t}
             </button>
           </div>
-          <div class="col s6">
-            <a md-modal-trigger href="#modal-process" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">group_work</i>
-              ${'remark.send_activity' | t}
-            </a>
-            <div id="modal-process" class="modal">
-              <div class="modal-content">
-                <div class="input-field col s12">
-                  <textarea placeholder="${'remark.send_activity_description' | t}" class="materialize-textarea" value.bind="processDescription" maxlength="2000"></textarea>
-                </div>                        
-              </div>
-              <div class="modal-footer">
-                <button click.delegate="process()" disabled.bind="sending || !isProcessDescriptionValid" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.send' | t}</button>
-                <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
-              </div>
-            </div>                
-          </div> 
-          <input class="hide" id="new-image" name="new-image" type="file" capture="camera" accept="image/*" files.bind="files"/>
+          <div if.bind="canAddPhotos" class="col s6">
+            <button class="btn waves-effect waves-light btn-large" disabled.bind="sending" click.delegate="browseGallery()">
+              <i class="material-icons left">photo_library</i>
+              ${'common.gallery' | t}
+            </button>
+          </div>
+          <input class="hide" id="camera-input" name="camera-input" type="file" capture="camera" accept="image/*" files.bind="files"/>
+          <input class="hide" id="file-input" name="file-input" type="file" accept="image/*" files.bind="files"/>
           <div class="row">
             <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
           </div>
