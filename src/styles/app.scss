@@ -1010,6 +1010,10 @@ li > a {
   }
 }
 
+.marker-content {
+  color: $primary-dark-color;
+}
+
 @media only screen and (min-device-width: $mobile-width) {
     .remark-side-list {
       .side-nav {

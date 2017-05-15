@@ -193,7 +193,7 @@ export class Map {
     let width = enlarge ? 50 : 37.5;
     let height = enlarge ? 75 : 50;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
-    let content = `<strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}`;
+    let content = `<div class="marker-content"><strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}</div>`;
     this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
   }
 
