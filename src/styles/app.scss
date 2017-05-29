@@ -751,6 +751,9 @@ li > a {
   @extend .filters-view;
   margin-top: 20px;
   
+  .indented {
+    padding-left: 25px;
+  }
 }
 
 .main-menu {

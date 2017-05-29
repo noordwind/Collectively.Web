@@ -32,13 +32,13 @@ export class NotificationsSettings {
   processSettings(settings) {
     let checkboxes = [
       {name: 'enabled', checked: settings.enabled, translationKey: 'notifications.enabled'},
-      {name: 'remarkCreated', checked: settings.remarkCreated, translationKey: 'notifications.remark_created'},
-      {name: 'remarkProcessed', checked: settings.remarkProcessed, translationKey: 'notifications.remark_processed'},
-      {name: 'remarkResolved', checked: settings.remarkResolved, translationKey: 'notifications.remark_resolved'},
-      {name: 'remarkCanceled', checked: settings.remarkCanceled, translationKey: 'notifications.remark_canceled'},
-      {name: 'remarkRenewed', checked: settings.remarkRenewed, translationKey: 'notifications.remark_renewed'},
-      {name: 'photosToRemarkAdded', checked: settings.photosToRemarkAdded, translationKey: 'notifications.photo_added'},
-      {name: 'commentAdded', checked: settings.commentAdded, translationKey: 'notifications.comment_added'}
+      {name: 'remarkCreated', checked: settings.remarkCreated, translationKey: 'notifications.remark_created', description: 'notifications.remark_created_description'},
+      {name: 'remarkProcessed', checked: settings.remarkProcessed, translationKey: 'notifications.remark_processed', description: 'notifications.remark_processed_description'},
+      {name: 'remarkResolved', checked: settings.remarkResolved, translationKey: 'notifications.remark_resolved', description: 'notifications.remark_resolved_description'},
+      {name: 'remarkCanceled', checked: settings.remarkCanceled, translationKey: 'notifications.remark_canceled', description: 'notifications.remark_canceled_description'},
+      {name: 'remarkRenewed', checked: settings.remarkRenewed, translationKey: 'notifications.remark_renewed', description: 'notifications.remark_renewed_description'},
+      {name: 'photosToRemarkAdded', checked: settings.photosToRemarkAdded, translationKey: 'notifications.photo_added', description: 'notifications.photo_added_description'},
+      {name: 'commentAdded', checked: settings.commentAdded, translationKey: 'notifications.comment_added', description: 'notifications.comment_added_description'}
     ];
 
     return checkboxes;
@@ -67,6 +67,10 @@ export class NotificationsSettings {
     }, this);
 
     return settings;
+  }
+
+  isMainSwitch(setting) {
+    return setting && setting.name === 'enabled';
   }
 
   get showEmailSection() {

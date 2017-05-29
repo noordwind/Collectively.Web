@@ -20,9 +20,10 @@
         <div class="col s12" if.bind="!showEmailSettings">
           <checkbox value.bind="emailSettings[0]" label="${emailSettings[0].translationKey | t}"></checkbox>
         </div>
-        <div class="col s12" if.bind="showEmailSettings"
+        <div class="col s12 ${isMainSwitch(setting)? '':'indented'}" if.bind="showEmailSettings"
         repeat.for="setting of emailSettings">
-          <checkbox value.bind="setting" label="${setting.translationKey | t}"></checkbox>
+          <checkbox value.bind="setting" label="${setting.translationKey | t}"
+          description="${setting.description | t}"></checkbox>
         </div>
       </div>
     </section>
@@ -34,9 +35,10 @@
         <div class="col s12" if.bind="!showPushSettings">
           <checkbox value.bind="pushSettings[0]" label="${pushSettings[0].translationKey | t}"></checkbox>
         </div>
-        <div class="col s12" if.bind="showPushSettings"
+        <div class="col s12 ${isMainSwitch(setting)? '':'indented'}"" if.bind="showPushSettings"
         repeat.for="setting of pushSettings">
-          <checkbox value.bind="setting" label="${setting.translationKey | t}"></checkbox>
+          <checkbox value.bind="setting" label="${setting.translationKey | t}"
+          description="${setting.description | t}"></checkbox>
         </div>
       </div>
     </section>
