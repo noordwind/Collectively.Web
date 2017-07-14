@@ -9,12 +9,13 @@ branches:
     - master
     - develop
 before_script:
-  - chmod a+x ./travis-build.sh
-  - chmod a+x ./after-success.sh
+  - chmod a+x ./ci/travis-build.sh
+  - chmod a+x ./ci/docker-publish-ci.sh
+  - chmod a+x ./ci/after-success.sh
 script:
-  - ./travis-build.sh
+  - ./ci/travis-build.sh
 after_success:
-  - ./after-success.sh
+  - ./ci/after-success.sh
 notifications:
   email:
     on_success: never
