@@ -3,7 +3,7 @@ export default {
   testing: true,
   title: 'Collectively [Docker]',
   apiUrl: 'http://api:5000/',
-  websocketUrl: 'http://websockets-service:15000',
+  websocketUrl: 'http://websockets-service:9050',
   websocketPath: '/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
