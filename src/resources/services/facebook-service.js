@@ -55,10 +55,8 @@ export default class FacebookService {
       });
       if (session.token) {
         this.authService.session = {
-          sessionId: session.sessionId,
-          sessionKey: session.sessionKey,
           token: session.token,
-          expiry: session.expiry,
+          expires: session.expires,
           provider: 'facebook',
           externalAccessToken: accessToken
         };

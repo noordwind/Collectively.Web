@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import StorageService from 'resources/services/storage-service';
 import environment from '../../environment';
+import * as moment from 'moment';
 
 @inject(StorageService)
 export default class AuthService {
@@ -10,7 +11,7 @@ export default class AuthService {
   }
 
   get token() {
-    if (this.session && new Date(this.session.expiry) > new Date()) {
+    if (this.session && moment.unix(this.session.expires) > new Date()) {
       return this.session.token;
     }
 

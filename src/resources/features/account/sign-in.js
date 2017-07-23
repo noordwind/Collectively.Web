@@ -74,11 +74,8 @@ export class SignIn {
     let session = await this.userService.signIn(this.account);
     if (session.token) {
       this.authService.session = {
-        sessionId: session.sessionId,
-        sessionKey: session.sessionKey,
         token: session.token,
-        expiry: session.expiry,
-        key: session.key,
+        expires: session.expires,
         provider: 'collectively'
       };
       this.loader.hide();
