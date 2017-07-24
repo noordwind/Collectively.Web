@@ -3,7 +3,7 @@ export default {
   testing: false,
   title: 'Collectively [Dev]',
   apiUrl: 'https://api-dev.becollective.ly/',
-  websocketUrl: 'https://api-dev.becollective.ly',
+  websocketUrl: 'https://websockets-dev.becollective.ly',
   websocketPath: '/websockets/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
