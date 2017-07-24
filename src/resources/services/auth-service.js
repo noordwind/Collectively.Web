@@ -11,7 +11,7 @@ export default class AuthService {
   }
 
   get token() {
-    if (this.session && moment.unix(this.session.expires) > new Date()) {
+    if (this.session && moment.unix(this.session.expires) > moment.utc()) {
       return this.session.token;
     }
 
