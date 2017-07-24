@@ -4,7 +4,7 @@ export default {
   title: 'Collectively',
   apiUrl: 'https://api.becollective.ly/',
   websocketUrl: 'https://websockets.becollective.ly',
-  websocketPath: '/websockets/socket.io',
+  websocketPath: '/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',
   locationStorageKey: 'location',
