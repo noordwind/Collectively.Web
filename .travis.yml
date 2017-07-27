@@ -9,9 +9,7 @@ branches:
     - master
     - develop
 before_script:
-  - chmod a+x ./ci/travis-build.sh
-  - chmod a+x ./ci/docker-publish-ci.sh
-  - chmod a+x ./ci/after-success.sh
+  - chmod -R a+x ci
 script:
   - ./ci/travis-build.sh
 after_success:
