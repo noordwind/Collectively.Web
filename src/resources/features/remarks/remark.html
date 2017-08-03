@@ -39,13 +39,19 @@
           </div>
         </div>
         <div class="row text-field">
-          <div class="col s12">
+          <div class="col s6">
             <a route-href="route: remark-comments; params.bind: {id : remark.id}" title="${'remark.browse_comments' | t}">
               <span class="col s12 no-padding">${'remark.comments' | t} [${remark.comments.length}]</span>
               <p class="col s10 no-padding truncate">${latestComment.text}</p>
               <i class="col s2 material-icons right">keyboard_arrow_right</i>
             </a>
           </div>
+          <div class="col s6">
+            <a route-href="route: remark-comments; params.bind: {id : remark.id}" class="btn waves-effect waves-light btn-large">
+              <i class="material-icons left">edit</i>
+              ${'remark.add_comment' | t}
+            </a>
+          </div> 
         </div>            
       </div>   
       <div if.bind="canVote">
