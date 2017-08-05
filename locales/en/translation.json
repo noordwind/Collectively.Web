@@ -1,6 +1,8 @@
 {
   "account":{
     "account_created": "Your account has been created.",
+    "activation": "Account activation",
+    "activate": "Activate account",
     "already_have_account": "Already have an account?",
     "avatar_removed": "Avatar was removed.",
     "avatar_uploaded": "Avatar was changed.",
@@ -301,6 +303,7 @@
     "vote_submitted": "Remark has been rated."
   },
   "route": {
+    "activate": "Activate account",
     "change_password": "Change password",
     "create_remark": "Create remark",
     "feedback": "Feedback",

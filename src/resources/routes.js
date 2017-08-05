@@ -71,6 +71,20 @@ export default [
     }
   },
   {
+    route: 'account/activate',
+    moduleId: `${modulePrefix}/account/activate-account`,
+    name: 'activate-account',
+    title: 'Activate account',
+    settings: {
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'start'
+      },
+      translationKey: 'route.activate'
+    }
+  },
+  {
     route: 'location',
     moduleId: `${modulePrefix}/home/location`,
     name: 'location',

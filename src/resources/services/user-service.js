@@ -81,6 +81,14 @@ export default class UserService {
       => await this.apiBaseService.delete(`account/favorites/remarks/${remarkId}`));
   }
 
+  async activateAccount(email, token) {
+    return await this.operationService.execute(async ()
+    => await this.apiBaseService.post('account/activate', {
+      email: email,
+      token: token
+    }));
+  }
+
   _clearUserCache() {
     this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account*/);
   }

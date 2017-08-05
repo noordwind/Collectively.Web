@@ -1,6 +1,8 @@
 {
   "account":{
     "account_created": "Twoje konto zostało utworzone.",
+    "activation": "Aktywacja konta",
+    "activate": "Aktywuj konto",
     "already_have_account": "Posiadasz już konto?",
     "avatar_removed": "Awatar został usunięty.",
     "avatar_uploaded": "Awatar został zmieniony.",
@@ -300,6 +302,7 @@
     "vote_submitted": "Zgłoszenie zostało ocenione."
   },
   "route": {
+    "activate": "Aktywuj konto",
     "change_password": "Zmiana hasła",
     "create_remark": "Dodaj zgłoszenie",
     "feedback": "Opinie",
