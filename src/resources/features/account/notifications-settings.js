@@ -97,7 +97,7 @@ export class NotificationsSettings {
       culture: 'en-gb',
       emailSettings: {
         enabled: true,
-        remarkCreated: true,
+        remarkCreated: false,
         remarkProcessed: true,
         remarkResolved: true,
         remarkCanceled: true,
