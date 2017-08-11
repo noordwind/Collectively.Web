@@ -102,6 +102,7 @@ export class SignUp {
 
   handleSignedUp(operation) {
     this.toast.success(this.translationService.tr('account.account_created'));
+    this.toast.info(this.translationService.tr('account.activate_account_sent_message'));
     this.loader.hide();
     this.router.navigateToRoute('sign-in');
   }
