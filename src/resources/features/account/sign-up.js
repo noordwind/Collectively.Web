@@ -84,6 +84,7 @@ export class SignUp {
     this.sending = true;
     this.toast.info(this.translationService.tr('account.creating_account'));
     await this.userService.signUp(this.account);
+    this.toast.info(this.translationService.tr('activate_account_sent_message'));
   }
 
   facebookSignIn() {

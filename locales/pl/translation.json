@@ -1,6 +1,8 @@
 {
   "account":{
     "account_created": "Twoje konto zostało utworzone.",
+    "account_activated": "Konto zostało aktywowane",
+    "activate_account_sent_message": "Wysłano aktywacyjny email",
     "activation": "Aktywacja konta",
     "activate": "Aktywuj konto",
     "already_have_account": "Posiadasz już konto?",

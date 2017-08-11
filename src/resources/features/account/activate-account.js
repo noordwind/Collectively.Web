@@ -4,17 +4,19 @@ import TranslationService from 'resources/services/translation-service';
 import UserService from 'resources/services/user-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
+import {Router} from 'aurelia-router';
 
 @inject(I18N, TranslationService, UserService,
-ToastService, LoaderService)
+ToastService, LoaderService, Router)
 export class ActivateAccount {
   constructor(i18n, translationService, userService,
-  toastService, loaderService) {
+  toastService, loaderService, router) {
     this.i18n = i18n;
     this.translationService = translationService;
     this.userService = userService;
     this.toastService = toastService;
     this.loaderService = loaderService;
+    this.router = router;
   }
 
   activate(params, routeConfig, navigationInstruction) {
@@ -26,7 +28,9 @@ export class ActivateAccount {
     this.loaderService.display();
     this.sending = true;
     await this.userService.activateAccount(this.email, this.token);
+    this.toast.info(this.translationService.tr('account.account_activated'));
     this.sending = false;
     this.loaderService.hide();
+    this.router.navigateToRoute('sign-in');
   }
 }
