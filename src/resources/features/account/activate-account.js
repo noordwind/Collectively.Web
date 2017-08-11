@@ -28,7 +28,7 @@ export class ActivateAccount {
     this.loaderService.display();
     this.sending = true;
     await this.userService.activateAccount(this.email, this.token);
-    this.toast.info(this.translationService.tr('account.account_activated'));
+    this.toastService.info(this.translationService.tr('account.account_activated'));
     this.sending = false;
     this.loaderService.hide();
     this.router.navigateToRoute('sign-in');
