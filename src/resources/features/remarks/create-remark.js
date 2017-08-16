@@ -4,6 +4,7 @@ import {I18N} from 'aurelia-i18n';
 import TranslationService from 'resources/services/translation-service';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
+import GroupService from 'resources/services/group-service';
 import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
@@ -11,16 +12,17 @@ import LogService from 'resources/services/log-service';
 import {ObserverLocator} from 'aurelia-binding';
 
 @inject(Router, I18N, TranslationService, LocationService,
-RemarkService, ToastService, LoaderService, OperationService,
+RemarkService, GroupService, ToastService, LoaderService, OperationService,
 LogService, ObserverLocator)
 export class CreateRemark {
-  constructor(router, i18n, translationService, location, remarkService, toast,
-    loader, operationService, logService, observerLocator) {
+  constructor(router, i18n, translationService, location, remarkService,
+    groupService, toast, loader, operationService, logService, observerLocator) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
     this.location = location;
     this.remarkService = remarkService;
+    this.groupService = groupService;
     this.toast = toast;
     this.loader = loader;
     this.operationService = operationService;
@@ -48,6 +50,9 @@ export class CreateRemark {
     this.remark.address = this.location.current.address;
     this.coordinates.latitude = this.location.current.latitude;
     this.coordinates.longitude = this.location.current.longitude;
+    this.groups = await this.groupService.browse({});
+    this.groups.push({id: "", name: this.translationService.tr('group.send_globally')});
+    this.selectedGroup = this.groups[0];
     let tags = await this.remarkService.getTags();
     this.tags = tags.map(tag => {
       return {
@@ -117,6 +122,10 @@ export class CreateRemark {
     this.address = '';
   }
 
+  selectGroup(group) {
+    this.selectedGroup = group;
+  }
+
   async geocode(value) {
     return new Promise((resolve, reject) => {
       new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
@@ -145,10 +154,11 @@ export class CreateRemark {
     this.sending = true;
     this.loader.display();
     this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
+    this.remark.groupId = this.selectedGroup.id;
     let remark = JSON.parse(JSON.stringify(this.remark));
     remark.category = this.remark.category.name;
     this.log.trace('create_remark_submitted', {remark: remark});
-    await this.remarkService.sendRemark(remark);
+    //await this.remarkService.sendRemark(remark);
   }
 
   displayCamera() {

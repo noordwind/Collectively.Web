@@ -9,6 +9,12 @@
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category.name | t}</span>
             </div>
+            <div class="col s12">
+              <a md-button md-dropdown="activates: groups;">${selectedGroup.name}</a>
+              <ul id="groups">
+                <li repeat.for="group of groups"><a click.trigger="selectGroup(group)">${group.name}</a></li>
+              </ul>
+            </div>
             <div class="input-field col s12">
               <input type="text" value.bind="address" placeholder="${'remark.type_location' | t}"  />
             </div>

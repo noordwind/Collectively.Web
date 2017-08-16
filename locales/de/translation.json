@@ -156,6 +156,9 @@
     "unresolved": "offen",
     "my_remarks": "zeige nur meine"
   },
+  "group": {
+    "send_globally": "---Schicken Sie global---"
+  },
   "location": {
     "fetching_location_message": "Position wird ermittelt...",
     "fetching_location_title": "Bitte warte bis wir Deine Postion ermittelt haben...",

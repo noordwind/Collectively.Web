@@ -157,6 +157,9 @@
     "unresolved": "nierozwiązane",
     "my_remarks": "pokaż tylko moje"
   },
+  "group": {
+    "send_globally": "---Wyślij globalnie---"
+  },
   "location": {
     "fetching_location_message": "Ustalamy aktualną lokalizację...",
     "fetching_location_title": "Trwa ustalanie Twojej lokalizacji, proszę czekać...",
