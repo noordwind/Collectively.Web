@@ -158,7 +158,8 @@
     "my_remarks": "pokaż tylko moje"
   },
   "group": {
-    "send_globally": "---Wyślij globalnie---"
+    "send_globally": "---Wyślij globalnie---",
+    "globally": "Globalnie"
   },
   "location": {
     "fetching_location_message": "Ustalamy aktualną lokalizację...",

@@ -8,7 +8,12 @@
       </div> 
       <div class="col s10 location-text">
           <i class="material-icons">grain</i>
-          <span>${remark.groupName}</span>
+            <span if.bind="remark.group === null" class="pointer" title="${'remark.delete_from_favorites' | t}" click.delegate="deleteFavorite()">
+                ${'group.globally' | t}
+            </span>
+            <span if.bind="remark.group !== null" class="pointer" title="${'remark.add_to_favorites' | t}" click.delegate="addFavorite()">
+                ${remark.group.name}
+            </span>
         </div>
       </div>
       <div class="col s2" if.bind="showFavorite">

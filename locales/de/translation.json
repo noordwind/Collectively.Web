@@ -157,7 +157,8 @@
     "my_remarks": "zeige nur meine"
   },
   "group": {
-    "send_globally": "---Schicken Sie global---"
+    "send_globally": "---Schicken Sie global---",
+    "globally": "Global"
   },
   "location": {
     "fetching_location_message": "Position wird ermittelt...",
