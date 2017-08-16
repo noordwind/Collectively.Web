@@ -123,8 +123,9 @@ export class CreateRemark {
   }
 
   selectGroup(group) {
+    this.remark.group = {};
     this.remark.groupId = group.id;
-    this.remark.groupName = group.name;
+    this.remark.group.name = group.name;
   }
 
   get defaultGroup() {

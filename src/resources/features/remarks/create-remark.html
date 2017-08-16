@@ -10,7 +10,7 @@
               <span class="text-underlined">${'remark.category_'+remark.category.name | t}</span>
             </div>
             <div class="col s12">
-              <a md-button md-dropdown="activates: groups;">${remark.groupName}</a>
+              <a md-button md-dropdown="activates: groups;">${remark.group.name}</a>
               <ul id="groups">
                 <li repeat.for="group of groups"><a click.trigger="selectGroup(group)">${group.name}</a></li>
               </ul>
