@@ -158,7 +158,8 @@
   },
   "group": {
     "send_globally": "---Schicken Sie global---",
-    "globally": "Global"
+    "globally": "Global",
+    "remark_group": "Meldung Gruppe"
   },
   "location": {
     "fetching_location_message": "Position wird ermittelt...",

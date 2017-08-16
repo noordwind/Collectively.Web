@@ -159,7 +159,8 @@
   },
   "group": {
     "send_globally": "---Wyślij globalnie---",
-    "globally": "Globalnie"
+    "globally": "Globalnie",
+    "remark_group": "Grupa zgłoszenia"
   },
   "location": {
     "fetching_location_message": "Ustalamy aktualną lokalizację...",

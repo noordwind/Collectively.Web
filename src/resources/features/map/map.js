@@ -185,6 +185,7 @@ export class Map {
     let longitude = remark.location.coordinates[0];
     let latitude = remark.location.coordinates[1];
     let category = this.translationService.tr(`remark.category_${remark.category.name}`);
+    let group = remark.group !== null ? `<em>${remark.group.name}</em><br/>` : '';
     let detailsText = this.translationService.tr('common.details');
     let url = this.router.generate('remark', {id: remark.id});
     let description = remark.description ? remark.description : '';
@@ -193,7 +194,7 @@ export class Map {
     let width = enlarge ? 50 : 37.5;
     let height = enlarge ? 75 : 50;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
-    let content = `<div class="marker-content"><strong>${category}</strong><br/><a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}</div>`;
+    let content = `<div class="marker-content"><strong>${category}</strong><br/>${group}<a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}</div>`;
     this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
   }
 

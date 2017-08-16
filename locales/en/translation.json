@@ -160,7 +160,8 @@
   },
   "group": {
     "send_globally": "---Send globally---",
-    "globally": "Globally"
+    "globally": "Globally",
+    "remark_group": "Remark group"
   },
   "location": {
     "fetching_location_message": "Fetching the current location...",
