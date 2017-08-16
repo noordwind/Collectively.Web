@@ -51,7 +51,7 @@ export class CreateRemark {
     this.coordinates.latitude = this.location.current.latitude;
     this.coordinates.longitude = this.location.current.longitude;
     this.groups = await this.groupService.browse({});
-    this.groups.push({id: "", name: this.translationService.tr('group.send_globally')});
+    this.groups.push(this.defaultGroup);
     this.selectGroup(this.groups[0]);
     let tags = await this.remarkService.getTags();
     this.tags = tags.map(tag => {
@@ -125,6 +125,10 @@ export class CreateRemark {
   selectGroup(group) {
     this.remark.groupId = group.id;
     this.remark.groupName = group.name;
+  }
+
+  get defaultGroup() {
+    return {id: "", name: this.translationService.tr('group.send_globally')};
   }
 
   async geocode(value) {

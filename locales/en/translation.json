@@ -249,6 +249,8 @@
     "favorite_remark_added": "Remark was added to the favorites list.",
     "favorite_remark_deleted": "Remark was removed from the favorites list.",
     "filter": "Filter remarks",
+    "group": "Group",
+    "groups": "Groups",
     "location": "Location",
     "no_image": "No image provided",
     "on_day": "on day",

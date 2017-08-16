@@ -17,6 +17,7 @@ export default class FiltersService {
   get defaultFilters() {
     //Kraków coordinates - the center of the Europe ;).
     return {
+      groupId: '',
       radius: 1000,
       results: 100000,
       categories: [],

@@ -247,6 +247,8 @@
     "favorite_remark_added": "Meldung wurde zur Favoritenliste hinzugefügt.",
     "favorite_remark_deleted": "Meldung wurde von Favoritenliste entfernt.",
     "filter": "Meldungen filtern",
+    "group": "Group",
+    "groups": "Groups",
     "location": "Position",
     "no_image": "Kein Foto bereitgestellt",
     "on_day": "am",

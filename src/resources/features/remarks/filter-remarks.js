@@ -6,11 +6,13 @@ import LocationService from 'resources/services/location-service';
 import FiltersService from 'resources/services/filters-service';
 import ToastService from 'resources/services/toast-service';
 import RemarkService from 'resources/services/remark-service';
+import GroupService from 'resources/services/group-service';
 
 @inject(Router, I18N, TranslationService,
- LocationService, FiltersService, ToastService, RemarkService)
+ LocationService, FiltersService, ToastService, RemarkService, GroupService)
 export class FilterRemarks {
-  constructor(router, i18n, translationService, locationService, filtersService, toast, remarkService) {
+  constructor(router, i18n, translationService, locationService, filtersService, 
+      toast, remarkService, groupService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -18,6 +20,7 @@ export class FilterRemarks {
     this.filtersService = filtersService;
     this.toast = toast;
     this.remarkService = remarkService;
+    this.groupService = groupService;
     this.filters = this.filtersService.filters;
     this.showMyRemarks = {
       checked: this.filters.type === 'mine'
@@ -27,6 +30,7 @@ export class FilterRemarks {
   async activate() {
     this.location.startUpdating();
     await this.setupCategoriesFilter();
+    await this.setupGroupsFilter();
     this.setupStateFilter();
     this.setupTypeFilter();
   }
@@ -37,6 +41,7 @@ export class FilterRemarks {
 
   resetFilters() {
     this.categories.forEach(c => c.checked = true);
+    this.selectedGroup = this.defaultGroup;
     this.filters = this.filtersService.defaultFilters;
     this._updateFilters();
   }
@@ -44,6 +49,7 @@ export class FilterRemarks {
   filterRemarks() {
     this.filters.categories = this.selectedCategories;
     this.filters.states = this.selectedStates;
+    this.filters.groupId = this.selectedGroup.id;
     if (this.showMyRemarks.checked) {
       this.filters.type = 'mine';
     } else {
@@ -82,6 +88,23 @@ export class FilterRemarks {
       }
     });
     that.categories = categories;
+  }
+
+  async setupGroupsFilter() {
+    this.groups = [];
+    this.groups.push(this.defaultGroup);
+    let groups = await this.groupService.browse({});
+    this.groups.push(...groups);
+    let selectedGroup = this.filters.groupId !== '' ? groups.find(x => x.id === this.filters.groupId) : this.groups[0];
+    this.selectGroup(selectedGroup);
+  }
+
+  selectGroup(group) {
+    this.selectedGroup = group;
+  }
+
+  get defaultGroup() {
+    return {id: "", name: this.translationService.tr('group.globally')};
   }
 
   setupStateFilter() {

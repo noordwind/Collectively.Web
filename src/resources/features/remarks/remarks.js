@@ -103,6 +103,7 @@ export class Remarks {
       longitude: this.filtersService.filters.center.longitude
     };
     let query = {
+      groupId: this.filtersService.filters.groupId,
       categories: encodeURI(this.filtersService.filters.categories),
       states: encodeURI(this.filtersService.filters.states),
       disliked: this.filtersService.filters.disliked,
@@ -133,6 +134,7 @@ export class Remarks {
   async browseForList(page, results, clear = false) {
     let query = {
       radius: 0,
+      groupId: this.filtersService.filters.groupId,
       longitude: this.location.current.longitude,
       latitude: this.location.current.latitude,
       categories: encodeURI(this.filtersService.filters.categories),
