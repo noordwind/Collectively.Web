@@ -52,7 +52,7 @@ export class CreateRemark {
     this.coordinates.longitude = this.location.current.longitude;
     this.groups = await this.groupService.browse({});
     this.groups.push({id: "", name: this.translationService.tr('group.send_globally')});
-    this.selectedGroup = this.groups[0];
+    this.selectGroup(this.groups[0]);
     let tags = await this.remarkService.getTags();
     this.tags = tags.map(tag => {
       return {
@@ -123,7 +123,8 @@ export class CreateRemark {
   }
 
   selectGroup(group) {
-    this.selectedGroup = group;
+    this.remark.groupId = group.id;
+    this.remark.groupName = group.name;
   }
 
   async geocode(value) {
@@ -154,11 +155,10 @@ export class CreateRemark {
     this.sending = true;
     this.loader.display();
     this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
-    this.remark.groupId = this.selectedGroup.id;
     let remark = JSON.parse(JSON.stringify(this.remark));
     remark.category = this.remark.category.name;
     this.log.trace('create_remark_submitted', {remark: remark});
-    //await this.remarkService.sendRemark(remark);
+    await this.remarkService.sendRemark(remark);
   }
 
   displayCamera() {
