@@ -24,7 +24,7 @@ export class Users {
   async activate() {
     this.query = {
       page: 1,
-      results: 10
+      results: 50
     }
     this.users = await this.browse();
   }

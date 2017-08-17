@@ -71,6 +71,22 @@
             </div>
           </div>
         </div>
+        <div if.bind="canModerate">
+          <div if.bind="isLocked" class="row">
+              <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
+                <button click.delegate="unlockAccount()" class="btn waves-effect waves-light btn-large btn-white">
+                  <i class="material-icons left">lock_open</i>${'account.unlock' | t}
+                </button>
+              </div>
+            </div> 
+            <div if.bind="!isLocked" class="row">
+              <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4">
+                <button click.delegate="lockAccount()" class="btn waves-effect waves-light btn-large btn-white">
+                  <i class="material-icons left">lock_outline</i>${'account.lock' | t}
+                </button>
+              </div>
+            </div> 
+        </div>
         <div id="modal-remove-avatar" class="modal">
           <div class="modal-content">
             <p>${'remark.delete_photo_question' | t}</p>

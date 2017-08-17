@@ -1,6 +1,9 @@
 {
   "account":{
+    "account_activated": "Your account has been activated.",
     "account_created": "Ihr Konto wurde angelegt.",
+    "account_locked": "Account has been locked.",
+    "account_unlocked": "Account has been unlocked.",
     "activation": "Kontoaktivierung",
     "activate": "Aktivieren",
     "already_have_account": "Du hast bereits ein Konto?",
@@ -25,6 +28,7 @@
     "go_back_to_remarks": "Zurück zu Meldung",
     "invalid_credentials": "Ungültige Zugangsdaten",
     "list_remarks": "Alle Meldungen",
+    "lock": "Lock",
     "my_list_remarks": "Meine Meldungen",
     "name": "Name",
     "name_in_use": "Name wird bereits verwendet.",
@@ -62,6 +66,7 @@
     "to_reset_password": "zum zurücksetzen.",
     "to_sign_in": "zum anmelden.",
     "upload_avatar": "Avatar hochladen",
+    "unlock": "Unlock",
     "user": "Benutzer"
   },
   "code": {
@@ -369,5 +374,11 @@
     "dirty": "dreckig",
     "glass": "Glass",
     "plastic": "Plastik"
+  },
+  "user": {
+    "role_user": "benutzer",
+    "role_associate": "assoziieren",
+    "role_moderator": "moderator",
+    "role_administrator": "administrator"
   }
 }

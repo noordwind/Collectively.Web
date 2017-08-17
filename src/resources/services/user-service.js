@@ -94,6 +94,16 @@ export default class UserService {
     }));
   }
 
+  async lockAccount(userId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`users/${userId}/lock`));
+  }
+
+  async unlockAccount(userId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`users/${userId}/unlock`));
+  }
+
   canModerate(user) {
     return user !== null && typeof user !== 'undefined' && 
       this.moderatorRoles.indexOf(user.role) >= 0;

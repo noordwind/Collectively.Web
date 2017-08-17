@@ -49,6 +49,12 @@ export class Profile {
     this.operationService.subscribe('remove_avatar',
       async operation => await this.handleAvatarRemoved(operation),
       operation => this.handleRemoveAvatarRejected(operation));
+    this.operationService.subscribe('lock_account',
+      async operation => await this.handleAccountLocked(operation),
+      operation => this.handleLockAccountRejected(operation));
+    this.operationService.subscribe('unlock_account',
+      async operation => await this.handleAccountUnlocked(operation),
+      operation => this.handleUnlockAccountRejected(operation));
     await this.fetchUser();
     if (!this.user.name) {
       return;
@@ -100,6 +106,22 @@ export class Profile {
 
   get defaultAvatarUrl() {
     return 'assets/images/user_placeholder.png';
+  }
+
+  get canModerate() {
+    return this.userService.canModerate(this.currentUser);
+  }
+
+  get isLocked() {
+    return this.user.state === 'locked';
+  }
+
+  async lockAccount() {
+    await this.userService.lockAccount(this.user.userId);
+  }
+
+  async unlockAccount() {
+    await this.userService.unlockAccount(this.user.userId);
   }
 
   get isAvatarDefault() {
@@ -180,5 +202,29 @@ export class Profile {
 
   setDefaultAvatar() {
     this.avatar = this.defaultAvatarUrl;
+  }
+
+  handleAccountLocked(operation) {
+    this.toast.success(this.translationService.tr('account.account_locked'));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleLockAccountRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleAccountUnlocked(operation) {
+    this.toast.success(this.translationService.tr('account.account_unlocked'));
+    this.sending = false;
+    this.loader.hide();
+  }
+
+  handleUnlockAccountRejected(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
   }
 }

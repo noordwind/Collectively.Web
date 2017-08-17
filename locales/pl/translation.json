@@ -1,7 +1,9 @@
 {
   "account":{
-    "account_created": "Twoje konto zostało utworzone.",
     "account_activated": "Konto zostało aktywowane",
+    "account_created": "Twoje konto zostało utworzone.",
+    "account_locked": "Konto zostało zablokowane.",
+    "account_unlocked": "Konto zostało odblokowane.",
     "activate_account_sent_message": "Wysłano aktywacyjny email",
     "activation": "Aktywacja konta",
     "activate": "Aktywuj konto",
@@ -27,6 +29,7 @@
     "go_back_to_remarks": "Powrót do zgłoszeń",
     "invalid_credentials": "Niepoprawne dane logowania",
     "list_remarks": "Zgłoszenia",
+    "lock": "Zablokujr",
     "my_list_remarks": "Moje zgłoszenia",
     "name": "Nazwa",
     "name_in_use": "Wybrana nazwa jest już zajęta.",
@@ -64,6 +67,7 @@
     "to_reset_password": "aby je zresetować.",
     "to_sign_in": "aby się zalogować.",
     "upload_avatar": "Wyślij awatar",
+    "unlock": "Odblokuj",
     "user": "Użytkownik"
   },
   "code": {
@@ -370,5 +374,11 @@
     "dirty": "brudny",
     "glass": "szkło",
     "plastic": "plastik"
+  },
+  "user": {
+    "role_user": "użytkownik",
+    "role_associate": "współpracownik",
+    "role_moderator": "moderator",
+    "role_administrator": "administrator"
   }
 }

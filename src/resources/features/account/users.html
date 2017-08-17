@@ -8,6 +8,7 @@
           <a route-href="route: profile; params.bind: {name : user.name}" class="pointer">
             <img src.bind="user.avatarUrl" class="circle">
               <span class="title">${user.name | truncate}</span>
+              <p><em>${'user.role_'+user.role | t}</em></p>
           </a>
       </li>
   </ul>

@@ -30,6 +30,8 @@ export default class OperationService {
       map('remove_avatar', 'avatar_removed'),
       map('change_username', 'username_changed'),
       map('change_password', 'password_changed'),
+      map('lock_account', 'account_locked'),
+      map('unlock_account', 'account_unlocked'),
       map('create_remark', 'remark_created'),
       map('delete_remark', 'remark_deleted'),
       map('resolve_remark', 'remark_resolved'),

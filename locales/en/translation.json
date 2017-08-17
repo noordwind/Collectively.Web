@@ -1,7 +1,9 @@
 {
   "account":{
+    "account_activated": "Your account has been activated.",
     "account_created": "Your account has been created.",
-    "account_activated": "Your account is activated",
+    "account_locked": "Account has been locked.",
+    "account_unlocked": "Account has been unlocked.",
     "activate_account_sent_message": "Activation email was sent",
     "activation": "Account activation",
     "activate": "Activate account",
@@ -27,6 +29,7 @@
     "go_back_to_remarks": "Go back to remarks",
     "invalid_credentials": "Invalid credentials",
     "list_remarks": "All remarks",
+    "lock": "Lock",
     "my_list_remarks": "My remarks",
     "name": "Name",
     "name_in_use": "Name is already in use.",
@@ -64,6 +67,7 @@
     "to_reset_password": "to reset it.",
     "to_sign_in": "to sign in.",
     "upload_avatar": "Upload avatar",
+    "unlock": "Unlock",
     "user": "User"
   },
   "code": {
@@ -371,5 +375,11 @@
     "dirty": "dirty",
     "glass": "glass",
     "plastic": "plastic"
+  },
+  "user": {
+    "role_user": "user",
+    "role_associate": "associate",
+    "role_moderator": "moderator",
+    "role_administrator": "administrator"
   }
 }
