@@ -59,13 +59,16 @@ export class Remark {
   }
 
   get canDelete() {
-    return this.isAuthor || this.criteriaService.canDeleteRemark(this.remark, this.account.userId);
+    return this.isAuthor || 
+      this.userService.canModerate(this.account) ||
+      this.criteriaService.canDeleteRemark(this.remark, this.account.userId);
   }
 
   get canResolve() {
     return this.remark.resolved === false
       && (this.feature.resolveRemarkLocationRequired === false || this.isInRange)
-      && (this.criteriaService.canResolveRemark(this.remark, this.account.userId));
+      && (this.userService.canModerate(this.account) || 
+          this.criteriaService.canResolveRemark(this.remark, this.account.userId));
   }
 
   get canRenew() {

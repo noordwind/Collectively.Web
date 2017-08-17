@@ -59,6 +59,7 @@ export class RemarkComments {
 
   canDelete(userId) {
     return this.isAuthenticated && (this.account.userId === userId || 
+      this.userService.canModerate(this.account) ||
       this.criteriaService.canDeleteRemarkComment(this.remark, this.account.userId));
   }
 

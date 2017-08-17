@@ -377,5 +377,21 @@ export default [
       },
       translationKey: 'route.user_remarks'
     }
+  },
+  {
+    route: 'users',
+    moduleId: `${modulePrefix}/account/users`,
+    name: 'users',
+    title: 'Users',
+    nav: true,
+    settings: {
+      reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'white-bg',
+        backRoute: 'statistics'
+      },
+      translationKey: 'route.users'
+    }
   }
 ];

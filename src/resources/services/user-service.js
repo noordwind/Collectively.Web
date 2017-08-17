@@ -7,6 +7,11 @@ export default class UserService {
   constructor(apiBaseService, operationService)  {
     this.apiBaseService = apiBaseService;
     this.operationService = operationService;
+    this.moderatorRoles = ['moderator', 'administrator'];
+  }
+
+  async browse(query) {
+    return await this.apiBaseService.get("users", query);
   }
 
   async signIn(account) {
@@ -87,6 +92,11 @@ export default class UserService {
       email: email,
       token: token
     }));
+  }
+
+  canModerate(user) {
+    return user !== null && typeof user !== 'undefined' && 
+      this.moderatorRoles.indexOf(user.role) >= 0;
   }
 
   _clearUserCache() {
