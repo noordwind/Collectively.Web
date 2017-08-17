@@ -9,6 +9,7 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
+import CriteriaService from 'resources/services/criteria-service';
 import WebsocketService from 'resources/services/websocket-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
@@ -17,14 +18,14 @@ import Environment from '../../../environment';
 
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
-ToastService, LoaderService, AuthService, UserService,
-WebsocketService, OperationService, EventAggregator,
-LogService, Environment)
+ToastService, LoaderService, AuthService, UserService, 
+CriteriaService, WebsocketService, OperationService, 
+EventAggregator, LogService, Environment)
 export class RemarkComments {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, websockets, operationService,
+  toastService, loader, authService, userService, criteriaService, websockets, operationService,
   eventAggregator, logService, environment) {
     this.router = router;
     this.i18n = i18n;
@@ -36,6 +37,7 @@ export class RemarkComments {
     this.loader = loader;
     this.authService = authService;
     this.userService = userService;
+    this.criteriaService = criteriaService;
     this.websockets = websockets;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
@@ -56,7 +58,8 @@ export class RemarkComments {
   }
 
   canDelete(userId) {
-    return this.isAuthenticated && this.account.userId === userId && !this.remark.resolved;
+    return this.isAuthenticated && (this.account.userId === userId || 
+      this.criteriaService.canDeleteRemarkComment(this.remark, this.account.userId));
   }
 
   canEdit(userId) {
