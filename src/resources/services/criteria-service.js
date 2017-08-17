@@ -26,6 +26,9 @@ export default class CriteriaService {
     if (userId === null || typeof userId === 'undefined') {
       return false;
     }
+    if (remark.group === null) {
+      return true;
+    }
     let criterionRoles = remark.group.criteria[criterion];
     if (criterionRoles === null || typeof criterionRoles === 'undefined') {
       return false;
