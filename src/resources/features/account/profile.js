@@ -110,7 +110,7 @@ export class Profile {
 
   get canModerate() {
     return this.userService.canModerate(this.currentUser) 
-      && this.currentUser !== this.user;
+      && this.currentUser !== this.user && this.user.role !== 'owner';
   }
 
   get isLocked() {
