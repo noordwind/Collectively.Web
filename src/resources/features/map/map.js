@@ -203,13 +203,7 @@ export class Map {
   }
 
   getRemarkMarker(remark) {
-    switch (remark.category.name) {
-    case 'defect': return '/assets/images/defect_marker.png';
-    case 'issue': return '/assets/images/issue_marker.png';
-    case 'suggestion': return '/assets/images/suggestion_marker.png';
-    case 'praise': return '/assets/images/praise_marker.png';
-    default: return '/assets/images/issue_marker.png';
-    }
+    return `/assets/images/markers/${remark.category.name}_marker_${remark.state.state}.png`;
   }
 
   drawMarker(longitude, latitude, title, content, imgPath, width, height) {
