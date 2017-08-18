@@ -379,6 +379,7 @@
     "role_user": "użytkownik",
     "role_associate": "współpracownik",
     "role_moderator": "moderator",
-    "role_administrator": "administrator"
+    "role_administrator": "administrator",
+    "role_owner": "właściciel"
   }
 }

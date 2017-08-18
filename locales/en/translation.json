@@ -380,6 +380,7 @@
     "role_user": "user",
     "role_associate": "associate",
     "role_moderator": "moderator",
-    "role_administrator": "administrator"
+    "role_administrator": "administrator",
+    "role_owner": "owner"
   }
 }
