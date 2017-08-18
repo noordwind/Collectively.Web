@@ -116,14 +116,6 @@ export class Profile {
     return this.user.state === 'locked';
   }
 
-  async lockAccount() {
-    await this.userService.lockAccount(this.user.userId);
-  }
-
-  async unlockAccount() {
-    await this.userService.unlockAccount(this.user.userId);
-  }
-
   get isAvatarDefault() {
     return this.avatarUrl === this.defaultAvatarUrl;
   }
@@ -204,10 +196,21 @@ export class Profile {
     this.avatar = this.defaultAvatarUrl;
   }
 
+  async lockAccount() {
+    this.sending = true;
+    await this.userService.lockAccount(this.user.userId);
+  }
+
+  async unlockAccount() {
+    this.sending = true;
+    await this.userService.unlockAccount(this.user.userId);
+  }
+
   handleAccountLocked(operation) {
     this.toast.success(this.translationService.tr('account.account_locked'));
     this.sending = false;
     this.loader.hide();
+    this.user.state = 'locked';
   }
 
   handleLockAccountRejected(operation) {
@@ -220,6 +223,7 @@ export class Profile {
     this.toast.success(this.translationService.tr('account.account_unlocked'));
     this.sending = false;
     this.loader.hide();
+    this.user.state = 'active';
   }
 
   handleUnlockAccountRejected(operation) {

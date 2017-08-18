@@ -11,7 +11,7 @@ export default class UserService {
   }
 
   async browse(query) {
-    return await this.apiBaseService.get("users", query);
+    return await this.apiBaseService.get("users", query, false);
   }
 
   async signIn(account) {
@@ -28,7 +28,7 @@ export default class UserService {
   }
 
   async getAccountByName(name) {
-    return await this.apiBaseService.get(`users/${name}`);
+    return await this.apiBaseService.get(`users/${name}`, {}, false);
   }
 
   async getUserNotificationSettings() {
@@ -65,13 +65,13 @@ export default class UserService {
   }
 
   async uploadAvatar(avatar) {
-    this._clearUserCache();
+    this._clearAccountCache();
     return await this.operationService.execute(async ()
       => await this.apiBaseService.post('account/avatar', avatar));
   }
 
   async removeAvatar() {
-    this._clearUserCache();
+    this._clearAccountCache();
     return await this.operationService.execute(async ()
       => await this.apiBaseService.delete('account/avatar'));
   }
@@ -95,11 +95,13 @@ export default class UserService {
   }
 
   async lockAccount(userId) {
+    this._clearUsersCache();
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`users/${userId}/lock`));
   }
 
   async unlockAccount(userId) {
+    this._clearUsersCache();
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`users/${userId}/unlock`));
   }
@@ -109,7 +111,11 @@ export default class UserService {
       this.moderatorRoles.indexOf(user.role) >= 0;
   }
 
-  _clearUserCache() {
+  _clearAccountCache() {
     this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/api\/account*/);
   }
+
+  _clearUsersCache() {
+  this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/user*/);
+}
 }
