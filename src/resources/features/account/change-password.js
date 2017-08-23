@@ -33,6 +33,20 @@ export class ChangePassword {
     this.currentPassword = '';
     this.newPassword = '';
 
+    ValidationRules.customRule(
+      'matchesProperty',
+      (value, obj, otherPropertyName) => 
+        value === null
+        || value === undefined
+        || value === ''
+        || obj[otherPropertyName] === null
+        || obj[otherPropertyName] === undefined
+        || obj[otherPropertyName] === ''
+        || value === obj[otherPropertyName],
+      this.translationService.tr('account.new_password_confirmation_is_invalid'),
+      otherPropertyName => ({ otherPropertyName })
+    );    
+
     ValidationRules
       .ensure('currentPassword')
         .required()
@@ -48,6 +62,10 @@ export class ChangePassword {
           .withMessage(this.translationService.tr('account.new_password_is_invalid'))
         .maxLength(100)
           .withMessage(this.translationService.tr('account.new_password_is_invalid'))
+      .ensure('newPasswordConfirmation')
+        .required()
+          .withMessage(this.translationService.tr('account.new_password_confirmation_is_required'))
+        .satisfiesRule('matchesProperty', 'newPassword')
       .on(this);
   }
 
