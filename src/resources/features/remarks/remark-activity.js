@@ -148,8 +148,8 @@ export class RemarkActivity {
     this.toast.success(this.translationService.tr('remark.report_sent'));
     this.loader.hide();
     this.sending = false;
-    this.reportedComment.reportsCount++;
-    this.reportedComment = null;
+    this.reportedActivity.reportsCount++;
+    this.reportedActivity = null;
   }
 
   handleRejectedOperation(operation) {
