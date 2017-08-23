@@ -145,7 +145,7 @@ export class RemarkActivity {
   }
 
   handleActivityReported(operation) {
-    this.toast.success(this.translationService.tr('remark.remark_reported'));
+    this.toast.success(this.translationService.tr('remark.report_sent'));
     this.loader.hide();
     this.sending = false;
     this.reportedComment.reportsCount++;
