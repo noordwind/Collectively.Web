@@ -10,6 +10,7 @@ import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import CriteriaService from 'resources/services/criteria-service';
+import ReportService from 'resources/services/report-service';
 import WebsocketService from 'resources/services/websocket-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
@@ -19,14 +20,14 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-CriteriaService, WebsocketService, OperationService, 
+CriteriaService, ReportService, WebsocketService, OperationService, 
 EventAggregator, LogService, Environment)
 export class Remark {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, criteriaService, websockets, operationService,
-  eventAggregator, logService, environment) {
+  toastService, loader, authService, userService, criteriaService, reportService,
+  websockets, operationService, eventAggregator, logService, environment) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -38,6 +39,7 @@ export class Remark {
     this.authService = authService;
     this.userService = userService;
     this.criteriaService = criteriaService;
+    this.reportService = reportService;
     this.websockets = websockets;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
@@ -77,6 +79,10 @@ export class Remark {
 
   get canAddPhotos() {
     return this.remark.resolved === false && this.remark.photos.length < this.remarkPhotosLimit;
+  }
+
+  get canReport() {
+    return this.isAuthenticated;
   }
 
   get canDeletePhotos() {
@@ -189,6 +195,10 @@ export class Remark {
 
     this.operationService.subscribe('renew_remark',
       operation => this.handleRemarkRenewed(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('report_remark',
+      operation => this.handleRemarkReported(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.newImageResized = async (base64) => {
@@ -348,6 +358,10 @@ export class Remark {
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.resolving_remark'));
     await this.remarkService.resolveRemark(command);
+  }
+
+  async report() {
+    await this.reportService.reportRemark(this.id);
   }
 
   async renew() {
@@ -571,6 +585,13 @@ export class Remark {
     this.toast.success(this.translationService.tr('remark.remark_removed'));
     this.loader.hide();
     this.router.navigateToRoute('remarks');
+  }
+
+  handleRemarkReported(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_reported'));
+    this.loader.hide();
+    this.sending = false;
+    this.remark.reportsCount++;
   }
 
   async handlePhotosAddedToRemark(operation) {

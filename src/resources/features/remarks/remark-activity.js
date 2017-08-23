@@ -9,6 +9,7 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
+import ReportService from 'resources/services/report-service';
 import WebsocketService from 'resources/services/websocket-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
@@ -18,13 +19,13 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-WebsocketService, OperationService, EventAggregator,
-LogService, Environment)
+ReportService, WebsocketService, OperationService, 
+EventAggregator, LogService, Environment)
 export class RemarkActivity {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, websockets, operationService,
+  toastService, loader, authService, userService, reportService, websockets, operationService,
   eventAggregator, logService, environment) {
     this.router = router;
     this.i18n = i18n;
@@ -36,6 +37,7 @@ export class RemarkActivity {
     this.loader = loader;
     this.authService = authService;
     this.userService = userService;
+    this.reportService = reportService;
     this.websockets = websockets;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
@@ -44,6 +46,7 @@ export class RemarkActivity {
     this.remark = {};
     this.activities = [];
     this.sending = false;
+    this.reportedActivity = null;
     this.websockets.initialize();
   }
 
@@ -62,6 +65,10 @@ export class RemarkActivity {
   }
 
   async attached() {
+    this.operationService.subscribe('report_remark',
+      operation => this.handleActivityReported(operation),
+      operation => this.handleRejectedOperation(operation));
+
     this.log.trace('remark_participants_attached');
   }
 
@@ -94,6 +101,10 @@ export class RemarkActivity {
       && this.isActivityAuthor(activity);
   }
 
+  get canReport() {
+    return this.isAuthenticated;
+  }
+
   isProcessingState = (activity) => activity.name === 'processing';
 
   isActivityAuthor = (activity) => activity.userId === this.account.userId;
@@ -116,7 +127,8 @@ export class RemarkActivity {
         createdAt: x.createdAt,
         user: x.user.name,
         userId: x.user.userId,
-        removed: x.removed
+        removed: x.removed,
+        reportsCount: x.reportsCount
       };
     });
   }
@@ -125,5 +137,24 @@ export class RemarkActivity {
     await this.remarkService.deleteState(this.id, activity.id);
     this.toast.info(this.translationService.tr('remark.activity_removed'));
     activity.removed = true;
+  }
+
+  async report(activity) {
+    this.reportedActivity = activity;
+    await this.reportService.reportActivity(this.remark.id, activity.id);
+  }
+
+  handleActivityReported(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_reported'));
+    this.loader.hide();
+    this.sending = false;
+    this.reportedComment.reportsCount++;
+    this.reportedComment = null;
+  }
+
+  handleRejectedOperation(operation) {
+    this.toast.error(this.translationService.trCode(operation.code));
+    this.sending = false;
+    this.loader.hide();
   }
 }

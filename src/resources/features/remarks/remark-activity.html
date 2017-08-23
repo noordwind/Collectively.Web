@@ -63,6 +63,23 @@
                           <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
                         </div>
                       </div>
+                      <div class="row" if.bind="canReport && !activity.removed">
+                          <div class="col s12 center">
+                              <a md-modal-trigger href="#modal-report" disabled.bind="sending" class="btn-flat waves-effect waves-light btn-tiny">
+                                  <i class="material-icons left">add_alert</i>
+                                  ${'remark.report' | t} [${activity.reportsCount}]
+                              </a>
+                          </div>
+                          <div id="modal-report" class="modal">
+                              <div class="modal-content">
+                              <p>${'remark.report_question' | t}</p>
+                              </div>
+                              <div class="modal-footer">
+                              <a click.delegate="report(activity)" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+                              <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+                              </div>
+                          </div>
+                      </div> 
                     </li>
                 </ul>
             </div>

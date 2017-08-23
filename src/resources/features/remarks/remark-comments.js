@@ -10,6 +10,7 @@ import LoaderService from 'resources/services/loader-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import CriteriaService from 'resources/services/criteria-service';
+import ReportService from 'resources/services/report-service';
 import WebsocketService from 'resources/services/websocket-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
@@ -19,14 +20,14 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService, 
-CriteriaService, WebsocketService, OperationService, 
+CriteriaService, ReportService, WebsocketService, OperationService, 
 EventAggregator, LogService, Environment)
 export class RemarkComments {
   newImageResized = null;
 
   constructor(router, i18n, translationService, location, filtersService, remarkService,
-  toastService, loader, authService, userService, criteriaService, websockets, operationService,
-  eventAggregator, logService, environment) {
+  toastService, loader, authService, userService, criteriaService, reportService,
+  websockets, operationService, eventAggregator, logService, environment) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -38,6 +39,7 @@ export class RemarkComments {
     this.authService = authService;
     this.userService = userService;
     this.criteriaService = criteriaService;
+    this.reportService = reportService;
     this.websockets = websockets;
     this.operationService = operationService;
     this.eventAggregator = eventAggregator;
@@ -50,6 +52,7 @@ export class RemarkComments {
     this.editedCommentText = '';
     this.editedCommentOriginalText = '';
     this.editedComment = null;
+    this.reportedComment = null;
     this.websockets.initialize();
   }
 
@@ -65,6 +68,10 @@ export class RemarkComments {
 
   canEdit(userId) {
     return this.isAuthenticated && this.account.userId === userId && !this.remark.resolved;
+  }
+
+  get canReport() {
+    return this.isAuthenticated;
   }
 
   removeUserVote(comment) {
@@ -129,6 +136,10 @@ export class RemarkComments {
 
     this.operationService.subscribe('delete_remark_comment_vote',
       operation => this.handleVoteDeleted(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('report_remark',
+      operation => this.handleCommentReported(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.log.trace('remark_comments_attached');
@@ -251,6 +262,11 @@ export class RemarkComments {
     }
   }
 
+  async report(comment) {
+    this.reportedComment = comment;
+    await this.reportService.reportComment(this.remark.id, comment.id);
+  }
+
   get isCommentValid() {
     return this._isCommentValid(this.comment);
   }
@@ -319,6 +335,7 @@ export class RemarkComments {
       editMode: false,
       rating: 0,
       createdAt: new Date(),
+      reportsCount: 0,
       history: [],
       votes: [],
       user: {
@@ -350,6 +367,14 @@ export class RemarkComments {
 
   handleRemarkVoteDeleted(operation) {
     this.toast.success(this.translationService.tr('remark.vote_deleted'));
+  }
+
+  handleCommentReported(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_reported'));
+    this.loader.hide();
+    this.sending = false;
+    this.reportedComment.reportsCount++;
+    this.reportedComment = null;
   }
 
   handleRejectedOperation(operation) {
