@@ -361,6 +361,7 @@ export class Remark {
   }
 
   async report() {
+    this.sending = true;
     await this.reportService.reportRemark(this.id);
   }
 
