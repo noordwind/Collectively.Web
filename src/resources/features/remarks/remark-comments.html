@@ -121,8 +121,8 @@
                             </div>  
                             <div class="section" if.bind="canReport && !comment.removed">
                                 <div class="col s12 center">
-                                    <a md-modal-trigger href="#modal-report-${comment.id}"" disabled.bind="sending" class="btn-flat waves-effect waves-light btn-tiny">
-                                        <i class="material-icons left">add_alert</i>
+                                    <a md-modal-trigger href="#modal-report-${comment.id}" disabled.bind="sending" class="btn-flat waves-effect waves-light btn-tiny">
+                                        <i class="material-icons left">sentiment_very_dissatisfied</i>
                                         ${'remark.report' | t} [${comment.reportsCount}]
                                     </a>
                                 </div>
