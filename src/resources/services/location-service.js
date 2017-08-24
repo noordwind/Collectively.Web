@@ -130,9 +130,14 @@ export default class LocationService {
   }
 
   calculateDistanceBetweenTwoPoints(source, target) {
+    if (source === null || typeof source === 'undefined') {
+      return 0;
+    }
+    if (target === null || typeof target === 'undefined') {
+      return 0;
+    }
     let distanceToRadians = Math.PI / 180.0;
     let EarthRadius = 6378.1370;
-
     let sourceLatitudeInRadians = source.latitude * distanceToRadians;
     let targetLatitudeInRadians = target.latitude * distanceToRadians;
     let latitudeDifferenceInRadians = (target.latitude - source.latitude) * distanceToRadians;
