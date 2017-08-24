@@ -43,16 +43,28 @@
       <div class="photos-section">
         <div class="photos-slider">
           <div class="photos-wrapper">
-            <div if.bind="!hasPhoto" class="photo-placeholder"></div>
-            <div repeat.for="photo of remark.photos" if.bind="photo.visible">
-              <a if.bind="photo.big" href.bind="photo.big" target="_blank">
-                <img src.bind="photo.medium" />
-              </a>
-              <img if.bind="!photo.big" src.bind="photo.medium" />
-              <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"   
-                disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">  
-                <i class="material-icons">remove</i>
-              </a>
+            <div if.bind="!hasPhoto || isProcessingPhotos" class="photo-placeholder">
+              <div if.bind="isProcessingPhotos">
+                <div class="progress">
+                    <div class="indeterminate"></div>
+                </div>
+                <h6>${'remark.processing_photos' | t}</h6>
+              </div>
+              <div if.bind="!isProcessingPhotos">
+                <h6>${'remark.no_photos' | t}</h6>
+              </div>
+            </div>
+            <div if.bind="hasPhoto && !isProcessingPhotos">
+              <div repeat.for="photo of remark.photos" if.bind="photo.visible">
+                <a if.bind="photo.big" href.bind="photo.big" target="_blank">
+                  <img src.bind="photo.medium" />
+                </a>
+                <img if.bind="!photo.big" src.bind="photo.medium" />
+                <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"   
+                  disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">  
+                  <i class="material-icons">remove</i>
+                </a>
+              </div>
             </div>
             <div if.bind="isRemarkReported && hasMultiplePhotos">
               <div class="prev-button">

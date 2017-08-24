@@ -361,6 +361,7 @@ export class Remark {
   }
 
   async report() {
+    this.loader.display();
     this.sending = true;
     await this.reportService.reportRemark(this.id);
   }
@@ -379,8 +380,8 @@ export class Remark {
   }
 
   async addPhotos(base64Image) {
+    this.remark.status = 'processing_photos';
     this.sending = true;
-    this.loader.display();
     this.toast.info(this.translationService.tr('remark.adding_photo'));
     let reader = new FileReader();
     let file = this.newImage;
@@ -597,7 +598,8 @@ export class Remark {
 
   async handlePhotosAddedToRemark(operation) {
     this.loader.hide();
-    this.sending = false;
+    this.sending = false; 
+    this.remark.status = null;
   }
 
   async handlePhotosFromRemarkRemoved(operation) {

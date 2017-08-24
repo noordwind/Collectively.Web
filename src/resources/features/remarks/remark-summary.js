@@ -60,6 +60,10 @@ export class RemarkSummary {
   get hasPhoto() {
     return this.remark && this.remark.photos && this.remark.photos.length > 0;
   }
+  
+  get isProcessingPhotos() {
+    return this.remark && this.remark.status === 'processing_photos';
+  }
 
   get hasMultiplePhotos() {
     return this.hasPhoto && this.remark.photos.length > 1;
@@ -149,6 +153,7 @@ export class RemarkSummary {
           medium: mediumPhoto.url,
           big: bigPhoto.url
         };
+        this.remark.status = null;   
         this.remark.photos.push(photo);
         this.showLastPhoto();
       });

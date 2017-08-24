@@ -140,6 +140,7 @@ export class RemarkActivity {
   }
 
   async report(activity) {
+    this.loader.display();
     this.sending = true;
     this.reportedActivity = activity;
     await this.reportService.reportActivity(this.remark.id, activity.id);

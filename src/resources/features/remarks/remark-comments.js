@@ -263,6 +263,7 @@ export class RemarkComments {
   }
 
   async report(comment) {
+    this.loader.display();
     this.sending = true;
     this.reportedComment = comment;
     await this.reportService.reportComment(this.remark.id, comment.id);
