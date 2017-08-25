@@ -4,6 +4,7 @@
     "account_created": "Your account has been created.",
     "account_locked": "Account has been locked.",
     "account_unlocked": "Account has been unlocked.",
+    "account_unconfirmed": "Your account was not confirmed.",
     "activate_account_sent_message": "Activation email was sent",
     "activation": "Account activation",
     "activate": "Activate account",

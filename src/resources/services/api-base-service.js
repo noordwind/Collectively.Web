@@ -4,15 +4,17 @@ import environment from '../../environment';
 import CacheService from 'resources/services/cache-service';
 import AuthService from 'resources/services/auth-service';
 import ToastService from 'resources/services/toast-service';
+import TranslationService from 'resources/services/translation-service';
 import LanguageDetectionService from 'resources/services/language-detection-service';
 
-@inject(HttpClient, CacheService, AuthService, ToastService)
+@inject(HttpClient, CacheService, AuthService, ToastService, TranslationService)
 export default class ApiBaseService {
-  constructor(http, cacheService, authService, toast) {
+  constructor(http, cacheService, authService, toast, translationService) {
     this.http = http;
     this.cacheService = cacheService;
     this.authService = authService;
     this.toast = toast;
+    this.translationService = translationService;
     this.http.configure(config => {
       config.withBaseUrl(environment.apiUrl)
               .withDefaults({
@@ -60,7 +62,7 @@ export default class ApiBaseService {
       body: body ? json(body) : null
     });
 
-    return this.handleResponse(response);
+    return await this.handleResponse(response);
   }
 
   buildPathWithQuery(path, params = {}) {
@@ -72,7 +74,12 @@ export default class ApiBaseService {
     return pathWithQuery;
   }
 
-  handleResponse(response) {
+  async handleResponse(response) {
+    if (response.status === 403) {
+      await this.toast.error(this.translationService.tr('account.account_unconfirmed'));
+
+      return new Promise((resolve) => resolve({}));
+    }
     if (this.emptyBodyStatuses.includes(response.status)) {
       return this.exposeHeaders(response);
     } else if (this.emptyResponseStatuses.includes(response.status)) {

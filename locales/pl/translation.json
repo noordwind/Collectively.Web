@@ -4,6 +4,7 @@
     "account_created": "Twoje konto zostało utworzone.",
     "account_locked": "Konto zostało zablokowane.",
     "account_unlocked": "Konto zostało odblokowane.",
+    "account_unconfirmed": "Twoje konto nie zostało potwierdzone.",
     "activate_account_sent_message": "Wysłano aktywacyjny email",
     "activation": "Aktywacja konta",
     "activate": "Aktywuj konto",
