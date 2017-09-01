@@ -1,6 +1,7 @@
 import {inject} from 'aurelia-framework';
 import {Router} from 'aurelia-router';
 import {I18N} from 'aurelia-i18n';
+import environment from '../../../environment';
 import TranslationService from 'resources/services/translation-service';
 import LocationService from 'resources/services/location-service';
 import RemarkService from 'resources/services/remark-service';
@@ -9,23 +10,27 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
+import StorageService from 'resources/services/storage-service'
 import {ObserverLocator} from 'aurelia-binding';
 
 @inject(Router, I18N, TranslationService, LocationService,
 RemarkService, GroupService, ToastService, LoaderService, OperationService,
-LogService, ObserverLocator)
+LogService, StorageService, ObserverLocator)
 export class CreateRemark {
   constructor(router, i18n, translationService, location, remarkService,
-    groupService, toast, loader, operationService, logService, observerLocator) {
+    groupService, toast, loader, operationService, logService, 
+    storageService, observerLocator) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
+    this.environment = environment;
     this.location = location;
     this.remarkService = remarkService;
     this.groupService = groupService;
     this.toast = toast;
     this.loader = loader;
     this.operationService = operationService;
+    this.storageService = storageService;
     this.log = logService;
     this.observerLocator = observerLocator;
     this.remark = {
@@ -41,7 +46,6 @@ export class CreateRemark {
   }
 
   async activate(params) {
-    this.refreshLocation();
     this.address = this.location.current.address;
     this.foundAddress = this.address;
     this.remark.category.name = params.category;
@@ -50,6 +54,18 @@ export class CreateRemark {
     this.remark.address = this.location.current.address;
     this.coordinates.latitude = this.location.current.latitude;
     this.coordinates.longitude = this.location.current.longitude;
+    let remarkLocation = this.storageService.read(this.environment.createRemarkLocationStorageKey);
+    if (remarkLocation !== null && typeof remarkLocation !== 'undefined') {
+      this.address = remarkLocation.address;
+      this.foundAddress = remarkLocation.address;
+      this.remark.latitude = remarkLocation.latitude;
+      this.remark.longitude = remarkLocation.longitude;
+      this.remark.address = remarkLocation.address;
+      this.coordinates.latitude = remarkLocation.latitude;
+      this.coordinates.longitude = remarkLocation.longitude;      
+    } else {
+      this.refreshLocation();
+    }
     this.groups = await this.groupService.browse({});
     this.groups.push(this.defaultGroup);
     this.selectGroup(this.groups[0]);

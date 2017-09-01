@@ -1,31 +1,37 @@
 import {inject, bindable} from 'aurelia-framework';
-import TranslationService from 'resources/services/translation-service';
 import {Router} from 'aurelia-router';
+import environment from '../../../environment';
+import TranslationService from 'resources/services/translation-service';
 import LocationService from 'resources/services/location-service';
 import FiltersService from 'resources/services/filters-service';
+import StorageService from 'resources/services/storage-service';
 import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, TranslationService, LocationService,
-FiltersService, LogService, EventAggregator)
+FiltersService, StorageService, LogService, EventAggregator)
 export class Map {
     @bindable remarks = [];
     @bindable radiusChanged = null;
     @bindable center = null;
 
   constructor(router, translationService, location,
-  filtersService, logService, eventAggregator) {
+  filtersService, storageService, logService, eventAggregator) {
     this.router = router;
+    this.environment = environment;
     this.translationService = translationService;
     this.location = location;
     this.filtersService = filtersService;
+    this.storageService = storageService;
     this.log = logService;
     this.eventAggregator = eventAggregator;
     this.map = null;
     this.radius = null;
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
+    this.remarkToCreateMarker = null;
     this.centerInitialized = false;
+    this.storageService.delete(this.environment.createRemarkLocationStorageKey);
   }
 
   async attached() {
@@ -39,6 +45,7 @@ export class Map {
       longitude = userLongitude;
     }
     this.userPosition = new google.maps.LatLng(userLatitude, userLongitude);
+    this.remarkToCreatePosition = new google.maps.LatLng(userLatitude, userLongitude);
     this.position = new google.maps.LatLng(latitude, longitude);
     this.drawMap();
     this.drawUserMarker();
@@ -107,6 +114,13 @@ export class Map {
       styles: [{featureType: 'poi', elementType: 'labels', stylers: [{visibility: 'off'}]}]
     });
 
+    this.map.addListener('click', async event => {
+      this.remarkToCreatePosition = event.latLng;
+      let address = await this.drawRemarkToCreateMarker();
+      this.storageService.write(this.environment.createRemarkLocationStorageKey, 
+          {address, latitude: event.latLng.lat(), longitude: event.latLng.lng()});
+    });
+
     this.map.addListener('zoom_changed', () => {
       this.filtersService.setZoomLevel(this.map.getZoom());
       this._recalculateRadius();
@@ -153,6 +167,25 @@ export class Map {
       };
       this.radiusChanged(args);
     }
+  }
+
+  async drawRemarkToCreateMarker() {
+    let lat = this.remarkToCreatePosition.lat();
+    let lng = this.remarkToCreatePosition.lng();
+    if (this.remarkToCreateMarker !== null) {
+      this.remarkToCreateMarker.setMap(null);
+    }
+    let address = await this.location.getAddress(lat, lng);
+    let title = `${this.translationService.tr('remark.create_here')}:\n${address}.`;
+    let markerImg = 'assets/images/create_remark_marker.png';
+    this.remarkToCreateMarker = this.drawMarker(lng, lat, title, null, markerImg, 50, 50, 
+        true, () => 
+        { 
+          this.remarkToCreatePosition = this.userPosition;
+          this.storageService.delete(this.environment.createRemarkLocationStorageKey);
+        }); 
+      
+    return address;
   }
 
   drawUserMarker() {
@@ -206,7 +239,8 @@ export class Map {
     return `/assets/images/markers/${remark.category.name}_marker_${remark.state.state}.png`;
   }
 
-  drawMarker(longitude, latitude, title, content, imgPath, width, height) {
+  drawMarker(longitude, latitude, title, content, imgPath, width, height, 
+      removeOnClick = false, removeOnClickFunc) {
     let position = new google.maps.LatLng(latitude, longitude);
     let infowindow = new google.maps.InfoWindow({
       content: content
@@ -223,9 +257,18 @@ export class Map {
         scaledSize: size
       }
     });
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
+    if (removeOnClick) {
+      marker.addListener('click', function() {
+        marker.setMap(null);
+        if (removeOnClickFunc) {
+          removeOnClickFunc();
+        }
+      });
+    } else {
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+      });
+    }
 
     return marker;
   }

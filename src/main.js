@@ -28,7 +28,8 @@ export async function configure(aurelia) {
             .useRange()
             .useSelect()
             .useSlider()
-            .useSwitch();
+            .useSwitch()
+            .useTapTarget();
     })
     .plugin('aurelia-validation')
     .plugin('aurelia-i18n', (instance) => {
