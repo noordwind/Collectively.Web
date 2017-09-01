@@ -176,14 +176,15 @@ export class Map {
       this.remarkToCreateMarker.setMap(null);
     }
     let address = await this.location.getAddress(lat, lng);
-    let title = `${this.translationService.tr('remark.create_here')}:\n${address}.`;
+    let title = this.translationService.tr('remark.create_here');
+    let content = `<div class="marker-content"><strong>${title}:</strong><br/>${address}</div>`;
     let markerImg = 'assets/images/create_remark_marker.png';
-    this.remarkToCreateMarker = this.drawMarker(lng, lat, title, null, markerImg, 50, 50, 
+    this.remarkToCreateMarker = this.drawMarker(lng, lat, title, content, markerImg, 50, 50, 
         true, () => 
         { 
           this.remarkToCreatePosition = this.userPosition;
           this.storageService.delete(this.environment.createRemarkLocationStorageKey);
-        }); 
+        }, true); 
       
     return address;
   }
@@ -240,7 +241,7 @@ export class Map {
   }
 
   drawMarker(longitude, latitude, title, content, imgPath, width, height, 
-      removeOnClick = false, removeOnClickFunc) {
+      removeOnClick = false, removeOnClickFunc = null, openInfoWindow = false) {
     let position = new google.maps.LatLng(latitude, longitude);
     let infowindow = new google.maps.InfoWindow({
       content: content
@@ -257,6 +258,9 @@ export class Map {
         scaledSize: size
       }
     });
+    if (openInfoWindow) {
+      infowindow.open(map, marker);
+    }
     if (removeOnClick) {
       marker.addListener('click', function() {
         marker.setMap(null);
