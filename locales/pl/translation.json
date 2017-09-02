@@ -162,8 +162,10 @@
     "submit_remark": "Wyślij zgłoszenie"
   },
   "filters": {
+    "new": "nowe",
+    "processing": "przetwarzane",
+    "renewed": "otwarte ponownie",
     "resolved": "rozwiązane",
-    "unresolved": "nierozwiązane",
     "my_remarks": "pokaż tylko moje"
   },
   "group": {

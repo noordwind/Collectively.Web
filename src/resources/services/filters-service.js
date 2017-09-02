@@ -22,7 +22,7 @@ export default class FiltersService {
       results: 100000,
       categories: [],
       type: 'all',
-      states: ['new', 'processing', 'renewed'],
+      states: ['new', 'processing', 'renewed', 'resolved'],
       disliked: false,
       distinguishLiked: true,
       defaultCenter: {
@@ -39,6 +39,10 @@ export default class FiltersService {
         follow: true
       }
     };
+  }
+
+  get states() {
+    return ['new', 'processing', 'renewed', 'resolved'];
   }
 
   get filters() {

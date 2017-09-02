@@ -163,8 +163,10 @@
     "submit_remark": "Submit a remark"
   },
   "filters": {
+    "new": "new",
+    "processing": "processing",
+    "renewed": "renewed",
     "resolved": "resolved",
-    "unresolved": "unresolved",
     "my_remarks": "show only mine"
   },
   "group": {

@@ -27,12 +27,19 @@
     </div>
     <div class="section">
       <div class="row title-section">
-        <span class="col s12">${'common.other' | t}</span>
+        <span class="col s12">${'remark.type' | t}</span>
       </div>
       <div class="row">
         <div repeat.for="state of states" class="col s12">
           <checkbox value.bind="state" label="${'filters.'+state.name |t | lowercase}"></checkbox>
         </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="row title-section">
+        <span class="col s12">${'common.other' | t}</span>
+      </div>
+      <div class="row">
         <div class="col s12">
           <checkbox value.bind="showMyRemarks" label="${'filters.my_remarks' | t}"></checkbox>
         </div>

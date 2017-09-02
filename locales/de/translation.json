@@ -162,8 +162,10 @@
     "submit_remark": "Meldung senden"
   },
   "filters": {
+    "new": "neu",
+    "processing": "wird bearbeitet",
+    "renewed": "erneuert",
     "resolved": "abgeschlossen",
-    "unresolved": "offen",
     "my_remarks": "zeige nur meine"
   },
   "group": {

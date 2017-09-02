@@ -22,6 +22,7 @@ export class FilterRemarks {
     this.remarkService = remarkService;
     this.groupService = groupService;
     this.filters = this.filtersService.filters;
+    this.states = [];
     this.showMyRemarks = {
       checked: this.filters.type === 'mine'
     };
@@ -64,17 +65,7 @@ export class FilterRemarks {
   }
 
   get selectedStates() {
-    let states = [];
-    let unresolved = this.states.find(x => x.name === 'unresolved');
-    if (unresolved.checked) {
-      states = states.concat(['new', 'processing', 'renewed']);
-    }
-    let resolved = this.states.find(x => x.name === 'resolved');
-    if (resolved.checked) {
-      states.push('resolved');
-    }
-
-    return states;
+    return this.states.filter(x => x.checked).map(x => x.value);
   }
 
   async setupCategoriesFilter() {
@@ -108,12 +99,11 @@ export class FilterRemarks {
   }
 
   setupStateFilter() {
-    let resolvedEnabled = this.filters.states.findIndex(s => s === 'resolved') > -1;
-    let unresolvedEnabled = this.filters.states.findIndex(s => s === 'new') > -1;
-    this.states = [
-      { name: 'resolved',  value: 'resolved', checked: resolvedEnabled},
-      { name: 'unresolved', value: 'unresolved', checked: unresolvedEnabled}
-    ];
+    this.filtersService.states.forEach(x => 
+    {
+      let checked = this.filters.states.findIndex(s => s === x) > -1;
+      this.states.push({ name: x, value: x, checked: checked});
+    });
   }
 
   setupTypeFilter() {
