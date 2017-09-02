@@ -43,6 +43,7 @@ export class CreateRemark {
     this.foundAddress = '';
     this.coordinates = {};
     this.summaryVisible = false;
+    this.similarRemarks = [];
   }
 
   async activate(params) {
@@ -76,6 +77,17 @@ export class CreateRemark {
         value: this.translationService.tr(`tags.${tag.name}`),
         selected: false
       };
+    });
+    let query = {
+      radius: 10,
+      longitude: this.location.current.longitude,
+      latitude: this.location.current.latitude,
+      category: this.remark.category.name
+    };
+    this.similarRemarks = await this.remarkService.browseSimilar(query);
+    this.similarRemarks.forEach(remark => {
+      remark.url = this.router.generate('remark', { id: remark.id });
+      remark.icon = `assets/images/${remark.category.name}_icon_dark.png`;
     });
   }
 
@@ -170,6 +182,10 @@ export class CreateRemark {
 
   toggleSummary() {
     this.summaryVisible = !this.summaryVisible;
+  }
+
+  get displaySimilarRemarks() {
+    return this.similarRemarks.length > 0;
   }
 
   async sendRemark() {

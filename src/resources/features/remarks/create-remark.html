@@ -1,6 +1,7 @@
 <template>
   <require from="resources/features/remarks/remark-summary"></require>
   <require from="resources/features/images/image-resizer"></require>
+  <require from="resources/features/remarks/remark-list"></require>
   <div class="create-remark-view">
     <div class="section">
       <form submit.delegate="sendRemark()">
@@ -18,13 +19,13 @@
             <div class="input-field col s12">
               <input type="text" value.bind="address" placeholder="${'remark.type_location' | t}"  />
             </div>
-            <div class="col s12 m4">
+            <div class="col s12 m6">
               <button class="btn waves-effect waves-light" click.delegate="clearAddress()">
                 ${'remark.clear_location' | t}
               </button>
             </div>
-           <div class="row"></div>
-            <div class="col s12 m4">
+            <div class="row hide-on-med-and-up"></div>
+            <div class="col s12 m6">
               <button class="btn waves-effect waves-light" click.delegate="refreshLocation()">
                 ${'remark.actual_location' | t}
               </button>
@@ -97,6 +98,17 @@
           </div>
         </div>
       </form>
+    </div>
+    <div class="section" if.bind="displaySimilarRemarks">
+      <div class="divider"></div>
+      <div class="row">
+        <div class="s12">
+          <div class="remark-list-view">
+              <h5 class="center">${'remark.similar_remarks' | t}</h5>
+              <remark-list remarks.bind="similarRemarks"></remark-list>
+            </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

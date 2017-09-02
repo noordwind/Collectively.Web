@@ -40,6 +40,15 @@ export default class RemarkService {
     return await this.apiBaseService.get(path, query, cache, newCacheKey);
   }
 
+  async browseSimilar(query) {
+    let latitude = query.latitude || 0;
+    let longitude = query.longitude || 0;
+    query.latitude = parseFloat(latitude.toFixed(5));
+    query.longitude = parseFloat(longitude.toFixed(5));
+    
+    return await this.apiBaseService.get('remarks/similar', query, false);
+  }
+
   async addPhotos(remarkId, photos) {
     return await this.operationService.execute(async ()
       => await this.apiBaseService.put(`remarks/${remarkId}/photos`, photos));

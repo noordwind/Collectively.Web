@@ -35,7 +35,7 @@ export class RemarkList {
               longitude: r.location.coordinates[0]
             };
             r.distance = this.locationService.calculateDistance(location);
-            r.hasPhoto = r.smallPhotoUrl ? true : false;
+            r.hasPhoto = r.smallPhotoUrl !== null && r.smallPhotoUrl !== '';
           });
         }
       });
