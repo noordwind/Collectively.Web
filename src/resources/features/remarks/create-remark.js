@@ -80,8 +80,8 @@ export class CreateRemark {
     });
     let query = {
       radius: 10,
-      longitude: this.location.current.longitude,
-      latitude: this.location.current.latitude,
+      longitude: this.coordinates.longitude,
+      latitude: this.coordinates.latitude,
       category: this.remark.category.name
     };
     this.similarRemarks = await this.remarkService.browseSimilar(query);
