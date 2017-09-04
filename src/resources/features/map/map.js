@@ -74,8 +74,19 @@ export class Map {
   }
 
   remarksChanged(newValue) {
-    this.clearRemarksMarkers();
-    newValue.forEach(remark => this.drawRemarkMarker(remark));
+    if (newValue === null || typeof newValue === 'undefined') {
+      return;
+    }
+    if (this.remarksMarkers.length > 100) {
+      this.clearRemarksMarkers();
+    }
+    newValue.forEach(remark => {
+      let existsingMarker = this.remarksMarkers.find(x => x.id === remark.id);
+      if (!existsingMarker) {
+        let marker = this.drawRemarkMarker(remark);
+        this.remarksMarkers.push({id: remark.id, marker});
+      }
+    });
   }
 
   centerChanged(newValue) {
@@ -231,8 +242,8 @@ export class Map {
     let height = enlarge ? 75 : 50;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<div class="marker-content"><strong>${category}</strong><br/>${group}<a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}</div>`;
-    let marker = this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
-    this.remarksMarkers.push(marker);
+    
+    return this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
   }
 
   getDefaultGoogleMarker(color) {
@@ -294,7 +305,7 @@ export class Map {
   }
 
   clearRemarksMarkers() {
-    this.remarksMarkers.forEach(x => x.setMap(null));
+    this.remarksMarkers.forEach(x => x.marker.setMap(null));
     this.remarksMarkers = [];
   }
 }
