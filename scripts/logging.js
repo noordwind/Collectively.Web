@@ -36,11 +36,11 @@
   }
 
   window.onerror = (msg, url, line, col, error) => {
-    if (msg.indexOf('undefined') >= 0
-      || msg.indexOf('not defined') >= 0
-      || msg.indexOf('null') >= 0) {
-      localStorage.clear();
-      window.location = '/';
-    }
+    // if (msg.indexOf('undefined') >= 0
+    //   || msg.indexOf('not defined') >= 0
+    //   || msg.indexOf('null') >= 0) {
+    //   localStorage.clear();
+    //   window.location = '/';
+    // }
   };
 })();
