@@ -145,7 +145,7 @@ export class Map {
         longitude: center.lng()
       };
       this.filtersService.setCenter(position);
-      context.eventAggregator.publish('remarks:update-map-remarks');
+      this.eventAggregator.publish('remarks:update-map-remarks');
     });
   }
 
