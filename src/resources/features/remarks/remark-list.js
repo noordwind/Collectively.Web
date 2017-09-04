@@ -20,6 +20,7 @@ export class RemarkList {
     this.eventAggregator = eventAggregator;
     this.locationService = locationService;
     this.locationLoadedSubscription = null;
+    this.remarks = [];
   }
 
   async activate() {

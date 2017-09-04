@@ -31,7 +31,11 @@ export class Map {
     this.userMarker = null;
     this.remarkToCreateMarker = null;
     this.centerInitialized = false;
+    this.centerRecalculated = false;
+    this.radiusRecalculated = false;
     this.storageService.delete(this.environment.createRemarkLocationStorageKey);
+    this._loopCenterRecalculated(this);
+    this._loopRadiusRecalculated(this);
   }
 
   async attached() {
@@ -123,7 +127,7 @@ export class Map {
 
     this.map.addListener('zoom_changed', () => {
       this.filtersService.setZoomLevel(this.map.getZoom());
-      this._recalculateRadius();
+      this.radiusRecalculated = true;
     });
 
     this.map.addListener('dragstart', () => {
@@ -133,7 +137,7 @@ export class Map {
     });
 
     this.map.addListener('dragend', () => {
-      this._recalculateRadius();
+      this.radiusRecalculated = true;
     });
 
     this.map.addListener('center_changed', () => {
@@ -143,11 +147,32 @@ export class Map {
         longitude: center.lng()
       };
       this.filtersService.setCenter(position);
-      this.eventAggregator.publish('remarks:update-map-remarks');
+      this.centerRecalculated = true;
     });
   }
 
+  _loopRadiusRecalculated(context) {
+    context._recalculateRadius();
+    setTimeout(() => {
+      context._loopRadiusRecalculated(context);
+    }, 1000);
+  };
+
+  _loopCenterRecalculated(context) {
+    if (context.centerRecalculated) {
+      context.centerRecalculated = false;
+      context.eventAggregator.publish('remarks:update-map-remarks');
+    }
+    setTimeout(() => {
+      context._loopCenterRecalculated(context);
+    }, 1000);
+  };
+
   _recalculateRadius() {
+    if (!this.radiusRecalculated) {
+      return;
+    }
+    this.radiusRecalculated = false;
     let bounds = this.map.getBounds();
     let center = bounds.getCenter();
     let northEast = bounds.getNorthEast();

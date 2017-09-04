@@ -23,6 +23,7 @@ export class UserRemarks {
       results: 25
     };
     this.loading = false;
+    this.remarks = [];
   }
 
   async activate(params) {

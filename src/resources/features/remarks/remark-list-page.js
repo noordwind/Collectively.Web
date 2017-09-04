@@ -26,6 +26,7 @@ export class RemarkListPage {
     this.loading = false;
     this.orderBy = 'distance';
     this.sortOrder = 'ascending';
+    this.remarks = [];
   }
 
   async activate(params) {
