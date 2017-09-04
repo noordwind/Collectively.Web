@@ -33,6 +33,7 @@ export class Map {
     this.centerInitialized = false;
     this.centerRecalculated = false;
     this.radiusRecalculated = false;
+    this.remarksMarkers = [];
     this.storageService.delete(this.environment.createRemarkLocationStorageKey);
     this._loopCenterRecalculated(this);
     this._loopRadiusRecalculated(this);
@@ -77,6 +78,7 @@ export class Map {
   }
 
   remarksChanged(newValue) {
+    this.clearRemarksMarkers();
     newValue.forEach(remark => this.drawRemarkMarker(remark));
   }
 
@@ -254,7 +256,8 @@ export class Map {
     let height = enlarge ? 75 : 50;
     description = description.length > 15 ? `${description.substring(0, 15)}...` : description;
     let content = `<div class="marker-content"><strong>${category}</strong><br/>${group}<a href="${url}" class="btn waves-effect waves-light">${detailsText}</a><br/>${description}</div>`;
-    this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
+    let marker = this.drawMarker(longitude, latitude, detailsText, content, markerImage, width, height);
+    this.remarksMarkers.push(marker);
   }
 
   getDefaultGoogleMarker(color) {
@@ -313,5 +316,10 @@ export class Map {
       center: this.position,
       radius: parseFloat(this.filters.radius)
     });
+  }
+
+  clearRemarksMarkers() {
+    this.remarksMarkers.forEach(x => x.setMap(null));
+    this.remarksMarkers = [];
   }
 }
