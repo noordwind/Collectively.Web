@@ -389,7 +389,7 @@ export default [
       navbar: {
         hide: false,
         bgColor: 'white-bg',
-        backRoute: 'users'
+        backRoute: 'remarks'
       },
       translationKey: 'route.users'
     }
