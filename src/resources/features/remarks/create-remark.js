@@ -39,6 +39,7 @@ export class CreateRemark {
       },
       tags: []
     };
+    this.groups = [];
     this.sending = false;
     this.foundAddress = '';
     this.coordinates = {};
@@ -67,17 +68,23 @@ export class CreateRemark {
     } else {
       this.refreshLocation();
     }
+    this.groups.push(this.defaultLoadingGroup);
+    this.selectGroup(this.groups[0]);
+    this.loadInitialData();
+  }
+
+  async loadInitialData() {
+    // let tags = await this.remarkService.getTags();
+    // this.tags = tags.map(tag => {
+    //   return {
+    //     key: tag.name,
+    //     value: this.translationService.tr(`tags.${tag.name}`),
+    //     selected: false
+    //   };
+    // });
     this.groups = await this.groupService.browse({});
     this.groups.push(this.defaultGroup);
     this.selectGroup(this.groups[0]);
-    let tags = await this.remarkService.getTags();
-    this.tags = tags.map(tag => {
-      return {
-        key: tag.name,
-        value: this.translationService.tr(`tags.${tag.name}`),
-        selected: false
-      };
-    });
     let query = {
       radius: 10,
       longitude: this.coordinates.longitude,
@@ -89,7 +96,7 @@ export class CreateRemark {
       remark.url = this.router.generate('remark', { id: remark.id });
       remark.icon = `assets/images/${remark.category.name}_icon_dark.png`;
     });
-  }
+  } 
 
   attached() {
     this.log.trace('create_remark_attached');
@@ -160,6 +167,10 @@ export class CreateRemark {
     return {id: "", name: this.translationService.tr('group.send_globally')};
   }
 
+  get defaultLoadingGroup() {
+    return {id: "", name: this.translationService.tr('group.loading')};
+  }
+  
   async geocode(value) {
     return new Promise((resolve, reject) => {
       new google.maps.Geocoder().geocode({ address: value }, (results, status) => {
@@ -191,7 +202,7 @@ export class CreateRemark {
   async sendRemark() {
     this.sending = true;
     this.loader.display();
-    this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
+    //this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
     let remark = JSON.parse(JSON.stringify(this.remark));
     remark.category = this.remark.category.name;
     this.log.trace('create_remark_submitted', {remark: remark});

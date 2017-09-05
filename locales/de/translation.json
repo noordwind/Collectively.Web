@@ -169,9 +169,10 @@
     "my_remarks": "zeige nur meine"
   },
   "group": {
-    "send_globally": "---Schicken Sie global---",
     "globally": "Global",
-    "remark_group": "Meldung Gruppe"
+    "loading": "Gruppen laden...",
+    "remark_group": "Meldung Gruppe",
+    "send_globally": "---Schicken Sie global---"
   },
   "location": {
     "fetching_location_message": "Position wird ermittelt...",

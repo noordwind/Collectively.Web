@@ -170,9 +170,10 @@
     "my_remarks": "show only mine"
   },
   "group": {
-    "send_globally": "---Send globally---",
     "globally": "Globally",
-    "remark_group": "Remark group"
+    "loading": "Loading groups...",
+    "remark_group": "Remark group",
+    "send_globally": "---Send globally---"
   },
   "location": {
     "fetching_location_message": "Fetching the current location...",
