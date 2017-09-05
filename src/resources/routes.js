@@ -121,7 +121,7 @@ export default [
     title: 'Statistics',
     nav: true,
     settings: {
-      reqLogin: true,
+      reqLogin: false,
       icon: 'show_chart',
       navbar: {
         hide: false,
@@ -385,11 +385,11 @@ export default [
     title: 'Users',
     nav: true,
     settings: {
-      reqLogin: true,
+      reqLogin: false,
       navbar: {
         hide: false,
         bgColor: 'white-bg',
-        backRoute: 'statistics'
+        backRoute: 'users'
       },
       translationKey: 'route.users'
     }

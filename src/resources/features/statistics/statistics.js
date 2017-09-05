@@ -3,17 +3,19 @@ import { Router } from 'aurelia-router';
 import { EventAggregator } from 'aurelia-event-aggregator';
 import StatisticsService from 'resources/services/statistics-service';
 import UserService from 'resources/services/user-service';
+import AuthService from 'resources/services/auth-service';
 import TranslationService from 'resources/services/translation-service';
 
 @inject(Router, EventAggregator, StatisticsService,
-UserService, TranslationService)
+UserService, AuthService, TranslationService)
 export class Statistics {
   constructor(router, eventAggregator, statisticsService,
-  userService, translationService) {
+  userService, authService, translationService) {
     this.router = router;
     this.eventAggregator = eventAggregator;
     this.statisticsService = statisticsService;
     this.userService = userService;
+    this.authService = authService;
     this.translationService = translationService;
     this.general = {
       reported: 0,
@@ -28,15 +30,20 @@ export class Statistics {
       results: 10
     };
     this.currentTab = 1;
+    this.isAuthenticated = this.authService.isLoggedIn;
   }
 
   async activate() {
     await this.browseGeneralStatistics();
+    await this.browseCategories();
     await this.fetchMyStatistics();
+    this.loadAdditionalData();
+  }
+
+  async loadAdditionalData() {
     await this.browseReporters();
     await this.browseResolvers();
-    await this.browseCategories();
-    await this.browseTags();
+    //await this.browseTags();
   }
 
   async attached() {
@@ -55,6 +62,10 @@ export class Statistics {
     this.currentTab = tab || 1;
   }
 
+  get displayCurrentUserStatistics() {
+    return this.isAuthenticated;
+  }
+
   async browseGeneralStatistics() {
     let generalStats = await this.statisticsService.getGeneralStatistics();
     this.generalStats = generalStats;
@@ -70,6 +81,9 @@ export class Statistics {
   }
 
   async fetchMyStatistics() {
+    if (!this.isAuthenticated) {
+      return;
+    }
     let currentUser = await this.userService.getAccount();
     let statistics = await this.statisticsService.getUserStatistics(currentUser.userId);
     this.myStatistics = statistics.remarks;

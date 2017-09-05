@@ -34,11 +34,11 @@
           <span class="col s12 number">${generalStats.reportedCount - generalStats.deletedCount - generalStats.resolvedCount}</span>
           <span class="col s12 text">${'statistics.remarks_unresolved' | t}</span> 
         </div>
-        <div class="col s6">
+        <div class="col s6" if.bind="displayCurrentUserStatistics">
           <span class="col s12 number">${myStatistics.resolvedCount}</span>
           <span class="col s12 text">${'statistics.remarks_resolved_by_you' | t}</span>
         </div>
-        <div class="col s6">
+        <div class="col s6" if.bind="displayCurrentUserStatistics">
           <span class="col s12 number">${myStatistics.reportedCount}</span>
           <span class="col s12 text">${'statistics.remarks_added_by_you' | t}</span>   
         </div>
