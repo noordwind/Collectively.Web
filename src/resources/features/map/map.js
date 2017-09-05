@@ -32,6 +32,7 @@ export class Map {
     this.remarkToCreateMarker = null;
     this.centerInitialized = false;
     this.remarksMarkers = [];
+    this.visibleRemarksLimit = 1000;
     this.storageService.delete(this.environment.createRemarkLocationStorageKey);
   }
 
@@ -77,8 +78,8 @@ export class Map {
     if (newValue === null || typeof newValue === 'undefined') {
       return;
     }
-    if (this.remarksMarkers.length > 100) {
-      this.clearRemarksMarkers();
+    if (this.remarksMarkers.length > this.visibleRemarksLimit) {
+      this.clearAllRemarksMarkers();
     }
     newValue.forEach(remark => {
       let existsingMarker = this.remarksMarkers.find(x => x.id === remark.id);
@@ -304,7 +305,7 @@ export class Map {
     });
   }
 
-  clearRemarksMarkers() {
+  clearAllRemarksMarkers() {
     this.remarksMarkers.forEach(x => x.marker.setMap(null));
     this.remarksMarkers = [];
   }
