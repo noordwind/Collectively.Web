@@ -3,6 +3,7 @@
     <require from="resources/features/nav/side-nav"></require>
     <require from="resources/features/remarks/remark-list"></require>
     <require from="resources/custom-attributes/infinite-scroll"></require>
+    <div class="au-animate"> 
     <div class="remarks-view">
       <map remarks.two-way="mapRemarks" center.bind="filtersService.filters.center" radius-changed.call="radiusChanged(radiusMeters, center)"></map>
       <side-nav router.bind="router"></side-nav>
@@ -60,5 +61,6 @@
           </button>
         </div>
       </div>
+    </div>
     </div>
 </template>

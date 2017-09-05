@@ -14,6 +14,7 @@ export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature('resources')
+    .plugin('aurelia-animator-css')
     .plugin('aurelia-materialize-bridge', bridge => {
       bridge.useAutoComplete()
             .useButton()

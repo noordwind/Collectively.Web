@@ -1,4 +1,5 @@
 <template>
+  <div class="au-animate">
   <require from="resources/features/extras/checkbox"></require>
   <div class="notification-settings-view">
     <section>
@@ -35,12 +36,13 @@
         <div class="col s12" if.bind="!showPushSettings">
           <checkbox value.bind="pushSettings[0]" label="${pushSettings[0].translationKey | t}"></checkbox>
         </div>
-        <div class="col s12 ${isMainSwitch(setting)? '':'indented'}"" if.bind="showPushSettings"
+        <div class="col s12 ${isMainSwitch(setting)? '':'indented'}" if.bind="showPushSettings"
         repeat.for="setting of pushSettings">
           <checkbox value.bind="setting" label="${setting.translationKey | t}"
           description="${setting.description | t}"></checkbox>
         </div>
       </div>
     </section>
+  </div>
   </div>
 </template>

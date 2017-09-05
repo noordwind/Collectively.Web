@@ -1,6 +1,7 @@
 <template>
     <require from="resources/features/remarks/remark-list"></require>
     <require from="resources/features/images/image-resizer"></require>
+    <div class="au-animate">
     <div class="profile-view">
       <div class="row" if.bind="!user.name">
         <h3>${'account.user' | t} ${username} ${'account.does_not_exist' | t}</h3>
@@ -97,5 +98,6 @@
           </div>
         </div>
       </div>
+    </div>
     </div>
 </template>

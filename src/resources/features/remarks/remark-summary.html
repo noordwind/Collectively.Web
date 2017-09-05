@@ -1,5 +1,6 @@
 <template>
   <require from="resources/converters/dateFormatValueConverter"></require>
+  <div class="au-animate">
   <div class="remark-summary-view">
     <div class="row">
       <div class="col s12 category-text">
@@ -89,7 +90,6 @@
         <p if.bind="!createMode" innerhtml.bind="remark.description"></p>
       </div>
     </div>
-  </div>
   <div id="modal-delete-photo" class="modal">
     <div class="modal-content">
       <p>${'remark.delete_photo_question' | t}</p>
@@ -98,5 +98,6 @@
       <a click.delegate="deletePhoto()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
       <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
     </div>
+  </div>
   </div>
 </template>

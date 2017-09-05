@@ -1082,3 +1082,16 @@ em.remark-status {
 .light-text {
   color: $primary-light-color;
 }
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.au-leave-active {
+  animation: fadeOut 0.3s;
+}

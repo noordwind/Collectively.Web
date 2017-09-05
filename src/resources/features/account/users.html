@@ -2,6 +2,7 @@
   <require from="resources/converters/truncateValueConverter"></require>
   <require from="resources/converters/sortValueConverter"></require>
   <require from="resources/custom-attributes/infinite-scroll"></require>
+  <div class="au-animate">
   <ul class="collection" infinite-scroll="callback.call: loadMore(); window-scroll.bind: true"
   order-by.bind="orderBy" sort-order.bind="sortOrder">
       <li class="collection-item avatar" repeat.for="user of users">            
@@ -12,4 +13,5 @@
           </a>
       </li>
   </ul>
+  </div>
 </template>
