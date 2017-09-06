@@ -180,18 +180,18 @@ export class RemarkSummary {
   }
 
   async addFavorite() {
-    await this.userService.addFavoriteRemark(this.remark.id);
     if (this.remark.userFavorites === null) {
       this.remark.userFavorites = [];
     }
     this.remark.userFavorites.push(this.account.userId);
+    await this.userService.addFavoriteRemark(this.remark.id);
     this.toast.info(this.translationService.tr('remark.favorite_remark_added'));
   }
 
   async deleteFavorite() {
-    await this.userService.deleteFavoriteRemark(this.remark.id);
     let index = this.remark.userFavorites.indexOf(this.account.userId);
     this.remark.userFavorites.splice(index, 1);
+    await this.userService.deleteFavoriteRemark(this.remark.id);
     this.toast.info(this.translationService.tr('remark.favorite_remark_deleted'));
   }
 }

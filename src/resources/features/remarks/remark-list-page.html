@@ -2,7 +2,7 @@
     <require from="resources/features/remarks/remark-list"></require>
     <require from="resources/custom-attributes/infinite-scroll"></require>
     <div class="remark-list-view">
-      <h4>${header} [${remarks.length}]</h4>
+      <h4>${header}</h4>
       <remark-list remarks.bind="remarks" 
       infinite-scroll="callback.call: loadMore(); window-scroll.bind: true"
         order-by.bind="orderBy" sort-order.bind="sortOrder"></remark-list>

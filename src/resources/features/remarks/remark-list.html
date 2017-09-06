@@ -10,8 +10,7 @@
             <a href.bind="remark.url">
               <div class="row">
                 <div class="col s2 no-padding icon">
-                  <img if.bind="remark.hasPhoto" src.bind="remark.smallPhotoUrl" />
-                  <img if.bind="!remark.hasPhoto" src.bind="remark.icon" />
+                  <img src.bind="remark.icon" />
                 </div>
                 <div class="col s7">
                   <div class="header">${'remark.category_'+remark.category.name | t}</div>

@@ -202,6 +202,7 @@ export class CreateRemark {
   async sendRemark() {
     this.sending = true;
     this.loader.display();
+    this.toast.info(this.translationService.tr('remark.sending'));
     //this.remark.tags = this.tags.filter(x => x.selected).map(x => x.key);
     let remark = JSON.parse(JSON.stringify(this.remark));
     remark.category = this.remark.category.name;
