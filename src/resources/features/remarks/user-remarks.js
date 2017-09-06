@@ -20,7 +20,8 @@ export class UserRemarks {
     this.query = {
       authorId: '',
       page: 1,
-      results: 25
+      results: 25,
+      skipLocation: true
     };
     this.loading = false;
     this.remarks = [];
@@ -30,7 +31,7 @@ export class UserRemarks {
     this.location.startUpdating();
     let name = params.name;
     this.user = await this.userService.getAccountByName(name);
-    this.query.authorId = this.user .userId;
+    this.query.authorId = this.user.userId;
     this.remarks = await this.browse();
   }
 
