@@ -27,12 +27,14 @@ export class Map {
     this.eventAggregator = eventAggregator;
     this.map = null;
     this.radius = null;
+    this.currentRadius = this.filtersService.filters.radius;
     this.defaultRemarkMarkerColor = '9F6807';
     this.userMarker = null;
     this.remarkToCreateMarker = null;
     this.centerInitialized = false;
     this.remarksMarkers = [];
     this.visibleRemarksLimit = 1000;
+    this.currentCenter = null;
     this.storageService.delete(this.environment.createRemarkLocationStorageKey);
   }
 
@@ -49,6 +51,7 @@ export class Map {
     this.userPosition = new google.maps.LatLng(userLatitude, userLongitude);
     this.remarkToCreatePosition = new google.maps.LatLng(userLatitude, userLongitude);
     this.position = new google.maps.LatLng(latitude, longitude);
+    this.currentCenter = this.position;
     this.drawMap();
     this.drawUserMarker();
     this.eventAggregator.publish('map:loaded');
@@ -122,6 +125,7 @@ export class Map {
     this.map = new google.maps.Map(document.getElementById('map'), {
       zoom: filters.map.zoomLevel,
       minZoom: 8,
+      maxZoom: 20,
       center: this.position,
       gestureHandling: 'greedy',
       disableDefaultUI: true,
@@ -138,6 +142,7 @@ export class Map {
     this.map.addListener('zoom_changed', () => {
       this.filtersService.setZoomLevel(this.map.getZoom());
       this._recalculateRadius();
+      this.eventAggregator.publish('remarks:update-map-remarks');
     });
 
     this.map.addListener('dragstart', () => {
@@ -152,12 +157,20 @@ export class Map {
 
     this.map.addListener('center_changed', () => {
       let center = this.map.getCenter();
+      let currentCenterCoords = {
+        latitude: this.currentCenter.lat(),
+        longitude: this.currentCenter.lng()
+      };
       let position = {
         latitude: center.lat(),
         longitude: center.lng()
       };
+      let distance = this.location.calculateDistanceBetweenTwoPoints(currentCenterCoords, position);
       this.filtersService.setCenter(position);
-      this.eventAggregator.publish('remarks:update-map-remarks');
+      if (distance > this.currentRadius / 3) {
+        this.eventAggregator.publish('remarks:update-map-remarks');
+        this.currentCenter = center;
+      }
     });
   }
 
@@ -173,6 +186,7 @@ export class Map {
     let radiusMeters = earthRadius * Math.acos(Math.sin(centerLat) * Math.sin(northEastLat) +
                         Math.cos(centerLat) * Math.cos(northEastLat) * Math.cos(northEastLng - centerLng));
 
+    this.currentRadius = radiusMeters;
     this.filtersService.setRadius(radiusMeters);
     if (this.radiusChanged !== null) {
       let args = {

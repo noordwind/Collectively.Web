@@ -213,7 +213,6 @@ export class Remarks {
   async radiusChanged(radius, center) {
     this.filtersService.setRadius(radius);
     this.setCenter(center.lat(), center.lng());
-    await this.browseForMap();
   }
 
   async resetPosition() {
