@@ -26,6 +26,7 @@ export class RemarkListPage {
     this.loading = false;
     this.orderBy = 'distance';
     this.sortOrder = 'ascending';
+    this.skipLocation = false;
     this.remarks = [];
   }
 
@@ -38,6 +39,7 @@ export class RemarkListPage {
       this.header = `${header} ${params.username}`;
       this.orderBy = 'createdAt';
       this.sortOrder = 'descending';
+      this.skipLocation = true;
     }
 
     let userFavorites = '';
@@ -46,6 +48,7 @@ export class RemarkListPage {
       let header = this.translationService.trCapitalized('remark.favorite_remarks');
       this.header = `${header}: ${params.username}`;
       userFavorites = this.userId;
+      this.skipLocation = true;
     }
     if (params.resolver) {
       let user = await this.userService.getAccountByName(params.resolver);
@@ -54,6 +57,7 @@ export class RemarkListPage {
       this.header = `${header} ${params.resolver}`;
       this.orderBy = 'createdAt';
       this.sortOrder = 'descending';
+      this.skipLocation = true;
     }
     if (params.category) {
       let header = this.translationService.trCapitalized('remark.category');
@@ -77,7 +81,8 @@ export class RemarkListPage {
       state: params.state || '',
       orderBy: this.orderBy,
       sortOrder: this.sortOrder,
-      userFavorites: userFavorites
+      userFavorites: userFavorites,
+      skipLocation: this.skipLocation
     };
     this.remarks = await this.browse();
   }
