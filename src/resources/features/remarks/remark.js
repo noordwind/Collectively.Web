@@ -309,16 +309,17 @@ export class Remark {
   }
 
   processPhotos(remark) {
-    let smallPhotos = remark.photos.filter(x => x.size === 'small');
-    let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
+    //Only big photos for now
+    // let smallPhotos = remark.photos.filter(x => x.size === 'small');
+    // let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
     let bigPhotos = remark.photos.filter(x => x.size === 'big');
-    this.remark.photos = smallPhotos.map((photo, index) => {
+    this.remark.photos = bigPhotos.map((photo, index) => {
       return {
         groupId: photo.groupId,
         visible: index === 0,
-        small: photo.url,
-        medium: mediumPhotos[index].url,
-        big: bigPhotos[index].url,
+        // small: smallPhotos[index].url,
+        // medium: mediumPhotos[index].url,
+        big: photo.url,
         user: photo.user
       };
     });
@@ -605,6 +606,7 @@ export class Remark {
   async handlePhotosFromRemarkRemoved(operation) {
     this.loader.hide();
     this.sending = false;
+    this.remark.status = null;
     await this.toast.success(this.translationService.tr('remark.deleted_photo'));
   }
 
