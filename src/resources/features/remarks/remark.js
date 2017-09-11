@@ -322,7 +322,6 @@ export class Remark {
         user: photo.user
       };
     });
-    console.log(this.remark.photos);
   }
 
   display() {
