@@ -309,20 +309,20 @@ export class Remark {
   }
 
   processPhotos(remark) {
-    //Only big photos for now
-    // let smallPhotos = remark.photos.filter(x => x.size === 'small');
-    // let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
+    let smallPhotos = remark.photos.filter(x => x.size === 'small');
+    let mediumPhotos = remark.photos.filter(x => x.size === 'medium');
     let bigPhotos = remark.photos.filter(x => x.size === 'big');
-    this.remark.photos = bigPhotos.map((photo, index) => {
+    this.remark.photos = smallPhotos.map((photo, index) => {
       return {
         groupId: photo.groupId,
         visible: index === 0,
-        // small: smallPhotos[index].url,
-        // medium: mediumPhotos[index].url,
-        big: photo.url,
+        small: photo.url,
+        medium: mediumPhotos[index].url,
+        big: bigPhotos[index].url,
         user: photo.user
       };
     });
+    console.log(this.remark.photos);
   }
 
   display() {

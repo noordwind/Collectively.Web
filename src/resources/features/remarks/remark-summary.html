@@ -58,7 +58,7 @@
             <div if.bind="hasPhoto && !isProcessingPhotos">
               <div repeat.for="photo of remark.photos" if.bind="photo.visible">
                 <a if.bind="photo.big" href.bind="photo.big" target="_blank">
-                  <img src.bind="photo.big" />
+                  <img src.bind="photo.medium" />
                 </a>
                 <!-- <img if.bind="!photo.big" src.bind="photo.medium" /> -->
                 <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"   
