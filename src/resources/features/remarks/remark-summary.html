@@ -60,7 +60,7 @@
                 <a if.bind="photo.big" href.bind="photo.big" target="_blank">
                   <img src.bind="photo.medium" />
                 </a>
-                <!-- <img if.bind="!photo.big" src.bind="photo.medium" /> -->
+                <img if.bind="!photo.big" src.bind="photo.medium" />
                 <a if.bind="canDeletePhotos" title="${'common.delete' | t}" md-modal-trigger href="#modal-delete-photo"   
                   disabled.bind="sending" click.delegate="markPhotoToDelete(photo)" class="btn btn-img btn-floating waves-effect waves-light">  
                   <i class="material-icons">remove</i>
