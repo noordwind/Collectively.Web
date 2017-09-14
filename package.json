@@ -11,6 +11,7 @@
     "aurelia-animator-css": "^1.0.0",
     "aurelia-bootstrapper": "^1.0.0",
     "aurelia-fetch-client": "^1.0.0",
+    "aurelia-cookie": "^1.0.0",
     "aurelia-i18n": "^1.1.0",
     "aurelia-materialize-bridge": "^0.30.0",
     "aurelia-validation": "^0.13.1",
