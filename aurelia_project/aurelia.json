@@ -148,7 +148,12 @@
           "name": "aurelia-validation",
           "path": "../node_modules/aurelia-validation/dist/amd",
           "main": "aurelia-validation"
-          },           
+          },  
+          {
+            "name": "aurelia-cookie",
+            "path": "../node_modules/aurelia-cookie/dist/amd",
+            "main": "index"
+          },
           {
             "name": "aurelia-i18n",
             "path": "../node_modules/aurelia-i18n/dist/amd",

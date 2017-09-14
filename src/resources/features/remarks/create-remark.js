@@ -11,15 +11,16 @@ import LoaderService from 'resources/services/loader-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
 import StorageService from 'resources/services/storage-service'
+import FeatureService from 'resources/services/feature-service'
 import {ObserverLocator} from 'aurelia-binding';
 
 @inject(Router, I18N, TranslationService, LocationService,
 RemarkService, GroupService, ToastService, LoaderService, OperationService,
-LogService, StorageService, ObserverLocator)
+LogService, StorageService, FeatureService, ObserverLocator)
 export class CreateRemark {
   constructor(router, i18n, translationService, location, remarkService,
     groupService, toast, loader, operationService, logService, 
-    storageService, observerLocator) {
+    storageService, featureService, observerLocator) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -33,12 +34,26 @@ export class CreateRemark {
     this.storageService = storageService;
     this.log = logService;
     this.observerLocator = observerLocator;
+    this.featureService = featureService;
     this.remark = {
       category: {
         name: ''
       },
-      tags: []
+      tags: [],
+      hasOffering: false,
+      offering: {
+        price: 1,
+        currency: "BTC",
+        startDate: null,
+        endDate: null
+      }
     };
+    this.currencies = [
+      {"name": "BTC", "code": "BTC"},
+      {"name": "PLN", "code": "PLN"},
+      {"name": "EUR", "code": "EUR"},
+      {"name": "USD", "code": "USD"}
+    ];
     this.groups = [];
     this.sending = false;
     this.foundAddress = '';
@@ -123,6 +138,10 @@ export class CreateRemark {
       });
   }
 
+  get featuresEnabled() {
+    return this.featureService.enabled;
+  }
+
   detached() {
     this.operationService.unsubscribeAll();
     this.location.stopUpdatingAddress();
@@ -163,6 +182,10 @@ export class CreateRemark {
     this.remark.group.name = group.name;
   }
 
+  selectCurrency(currency) {
+    this.remark.offering.currency = currency.code;
+  }
+
   get defaultGroup() {
     return {id: "", name: this.translationService.tr('group.send_globally')};
   }
@@ -184,6 +207,9 @@ export class CreateRemark {
       this.toast.error(this.translationService.trCode('invalid_address'));
 
       return;
+    }
+    if (!this.remark.hasOffering) {
+      this.remark.offering = null;
     }
     this.remark.address = this.foundAddress;
     this.remark.latitude = this.coordinates.latitude;

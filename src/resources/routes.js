@@ -257,7 +257,7 @@ export default [
     moduleId: `${modulePrefix}/account/profile`,
     name: 'profile',
     title: 'My account',
-    nav: 'true',
+    nav: true,
     href: '/profile',
     settings: {
       reqLogin: true,
@@ -393,5 +393,22 @@ export default [
       },
       translationKey: 'route.users'
     }
-  }
+  },
+  {
+    route: 'wallet',
+    moduleId: `${modulePrefix}/wallet/wallet`,
+    name: 'wallet',
+    title: 'My wallet',
+    nav: false,
+    href: '/wallet',
+    settings: {
+      reqLogin: true,
+      navbar: {
+        hide: false,
+        bgColor: 'blue-bg',
+        backRoute: 'remarks'
+      },
+      translationKey: 'route.wallet'
+    }
+  },
 ];

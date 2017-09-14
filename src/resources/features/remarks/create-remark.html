@@ -73,6 +73,42 @@
               </md-chip>
               </div>
           </div>-->
+          <div class="row" if.bind="featuresEnabled">
+            <div class="col s12">
+              <md-checkbox md-checked.bind="remark.hasOffering">${'remark.offering' | t}</md-checkbox>
+            </div>
+            <div if.bind="remark.hasOffering">
+              <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                      <span class="card-title">${'remark.offering' | t}</span>
+                      <div class="section">
+                          <input type="number" value.bind="remark.offering.price" min="1" max="100000" placeholder="${'remark.offering_price' | t}"  />
+                        </div>
+                        <div class="section">
+                          <a class="btn-flat waves-effect waves-light" md-dropdown="activates: currencies;">${remark.offering.currency}</a>
+                          <ul id="currencies">
+                            <li repeat.for="currency of currencies"><a click.trigger="selectCurrency(currency)">${currency.name}</a></li>
+                          </ul>
+                        </div>
+                        <div class="section">
+                          <input md-datepicker="container: body; value.two-way: remark.offering.startDate;" type="date" placeholder="${'remark.offering_start_date' | t}" />
+                        </div>
+                        <div class="section">
+                          <input md-datepicker="container: body; value.two-way: remark.offering.endDate;" type="date" placeholder="${'remark.offering_end_date' | t}" />
+                        </div>
+                    </div>
+                  </div>                  
+              </div>
+              <!-- <div class="col s12 m6">
+                <div class="card">
+                    <div class="card-content">
+                      <span class="card-title">Info</span>
+                    </div>
+                  </div>    
+              </div> -->
+            </div>
+          </div>           
           <div class="row">
             <div class="col s10 offset-s1 center">
               <button class="btn waves-effect waves-light" click.delegate="goToSummary()">

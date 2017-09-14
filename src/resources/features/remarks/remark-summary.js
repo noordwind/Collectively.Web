@@ -7,10 +7,11 @@ import RemarkService from 'resources/services/remark-service';
 import OperationService from 'resources/services/operation-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
+import FeatureService from 'resources/services/feature-service'
 
 @inject(ToastService, LoaderService, TranslationService,
  RemarkService, OperationService, AuthService,
- UserService, EventAggregator)
+ UserService, FeatureService, EventAggregator)
 export class RemarkSummary {
   @bindable remark = null;
   @bindable createMode = false;
@@ -19,7 +20,7 @@ export class RemarkSummary {
 
   constructor(toastService, loader, translationService,
   remarkService, operationService, authService,
-  userService, eventAggregator) {
+  userService, featureService, eventAggregator) {
     this.toast = toastService;
     this.loader = loader;
     this.translationService = translationService;
@@ -27,6 +28,7 @@ export class RemarkSummary {
     this.operationService = operationService;
     this.authService = authService;
     this.userService = userService;
+    this.featureService = featureService;
     this.eventAggregator = eventAggregator;
     this.visiblePhotoIndex = 0;
     this.account = {userId: ''};
@@ -47,6 +49,10 @@ export class RemarkSummary {
 
   get isAuthenticated() {
     return this.authService.isLoggedIn;
+  }
+
+  get featuresEnabled() {
+    return this.featureService.enabled;
   }
 
   get isRemarkReported() {

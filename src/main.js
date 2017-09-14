@@ -14,12 +14,15 @@ export async function configure(aurelia) {
   aurelia.use
     .standardConfiguration()
     .feature('resources')
+    .plugin('aurelia-cookie')
     .plugin('aurelia-animator-css')
     .plugin('aurelia-materialize-bridge', bridge => {
       bridge.useAutoComplete()
             .useButton()
             .useCarousel()
+            .useCheckbox()
             .useChip()
+            .useDatePicker()
             .useDropdown()
             .useFile()
             .useInput()

@@ -90,14 +90,20 @@
         <p if.bind="!createMode" innerhtml.bind="remark.description"></p>
       </div>
     </div>
-  <div id="modal-delete-photo" class="modal">
-    <div class="modal-content">
-      <p>${'remark.delete_photo_question' | t}</p>
+    <div id="modal-delete-photo" class="modal">
+      <div class="modal-content">
+        <p>${'remark.delete_photo_question' | t}</p>
+      </div>
+      <div class="modal-footer">
+        <a click.delegate="deletePhoto()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
+        <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+      </div>
     </div>
-    <div class="modal-footer">
-      <a click.delegate="deletePhoto()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.yes' | t}</a>
-      <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.no' | t}</a>
+    <div if.bind="featuresEnabled && ((createMode && remark.hasOffering) || (!createMode && remark.offering))" class="row">
+      <div class="col s12">
+        <strong>${'remark.offering' | t}: ${remark.offering.price} ${remark.offering.currency}</strong>
+      </div>
     </div>
-  </div>
+    </div>
   </div>
 </template>
