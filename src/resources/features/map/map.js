@@ -266,6 +266,10 @@ export class Map {
   }
 
   getRemarkMarker(remark) {
+    if (remark.offering !== null) {
+      return `/assets/images/markers/offering_marker.png`;
+    }
+
     return `/assets/images/markers/${remark.category.name}_marker_${remark.state.state}.png`;
   }
 

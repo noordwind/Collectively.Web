@@ -4,7 +4,7 @@ import {AureliaCookie} from 'aurelia-cookie';
 @inject()
 export default class FeatureService {
   constructor()  {
-      this.cookieName = 'collectively-features';
+      this.cookieName = 'collectively-devmode';
   }
  
   enable() {

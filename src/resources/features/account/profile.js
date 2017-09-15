@@ -7,15 +7,16 @@ import ToastService from 'resources/services/toast-service';
 import LoaderService from 'resources/services/loader-service';
 import TranslationService from 'resources/services/translation-service';
 import OperationService from 'resources/services/operation-service';
+import FeatureService from 'resources/services/feature-service'
 import {Router} from 'aurelia-router';
 
 @inject(AuthService, UserService, LocationService,
 StatisticsService, ToastService, LoaderService,
-TranslationService, OperationService, Router)
+TranslationService, OperationService, FeatureService, Router)
 export class Profile {
   constructor(authService, userService, locationService,
   statisticsService, toast, loader, translationService,
-  operationService, router) {
+  operationService, featureService, router) {
     this.authService = authService;
     this.userService = userService;
     this.location = locationService;
@@ -24,6 +25,7 @@ export class Profile {
     this.loader = loader;
     this.translationService = translationService;
     this.operationService = operationService;
+    this.featureService = featureService;
     this.router = router;
     this.sending = false;
     this.username = '';
@@ -39,6 +41,17 @@ export class Profile {
   async activate(params) {
     if (params.name) {
       this.username = params.name;
+    }
+    if (!params.devmode) {
+      return;
+    }
+    switch (params.devmode) {
+      case 'enable': this.featureService.enable(); 
+        console.log('Development mode enabled.'); 
+        break;
+      case 'disable': this.featureService.disable();
+        console.log('Development mode disabled.'); 
+        break;
     }
   }
 
