@@ -50,6 +50,8 @@
     "password_is_required": "Password is required.",
     "password_is_invalid": "Password is invalid.",
     "profile": "Profile",
+    "regulations": "regulations",
+    "regulations_info": "By creating an account you state that you accept the",
     "remarks": "Remarks",
     "remember_password_already": "Remember your password already?",
     "reported_remarks": "remarks added",

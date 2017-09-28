@@ -50,6 +50,8 @@
     "password_is_required": "Hasło jest wymagane.",
     "password_is_invalid": "Hasło jest niepoprawne.",  
     "profile": "Profil",
+    "regulations": "regulamin",
+    "regulations_info": "Tworząc konto oświadczasz, że akceptujesz",
     "remarks": "Zgłoszenia",
     "remember_password_already": "Pamiętasz już swoje hasło?",
     "reported_remarks": "dodanych zgłoszeń",
