@@ -22,9 +22,10 @@ export default class FacebookService {
     this.operationService = operationService;
     this.toast = toast;
     this.eventAggregator = eventAggregator;
+    this._initialized = false;
   }
 
-  init() {
+  init(next) {
     const facebookScriptUrl = '//connect.facebook.net/en_US/sdk.js';
     this.scriptLoadingService.load(facebookScriptUrl).then(() => {
       window.fbAsyncInit = () => {
@@ -34,11 +35,17 @@ export default class FacebookService {
           xfbml: false,
           version: 'v2.8'
         });
+        this._initialized = true;
       };
     });
 
     return this;
   }
+
+  get initialized() {
+    return this._initialized;
+  }
+  
 
   login(next, err) {
     FB.login((response) => this.loginCallback(response, next, err), {scope: 'email, publish_actions'});

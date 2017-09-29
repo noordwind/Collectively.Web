@@ -86,6 +86,10 @@ export class SignUp {
     await this.userService.signUp(this.account);
   }
 
+  get loadingFB() {
+    return !this.facebookService.initialized;
+  }
+
   facebookSignIn() {
     this.sending = true;
     this.loader.display();

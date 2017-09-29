@@ -61,6 +61,10 @@ export class SignIn {
     return 'geolocation' in navigator;
   }
 
+  get loadingFB() {
+    return !this.facebookService.initialized;
+  }
+
   async submit() {
     let errors = await this.controller.validate();
     if (errors.length > 0) {
