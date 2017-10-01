@@ -133,6 +133,9 @@ export class RemarkSummary {
   }
 
   displayPhoto() {
+    if (!this.remark.photos) {
+      return;
+    }
     this.remark.photos.forEach((photo, index) => {
       if (this.visiblePhotoIndex === index) {
         photo.visible = true;
@@ -169,6 +172,9 @@ export class RemarkSummary {
     return await this.eventAggregator
       .subscribe('remark:photo_removed', async message => {
         if (message.remarkId !== this.remark.id) {
+          return;
+        }
+        if (!message.groupIds) {
           return;
         }
         message.groupIds.forEach(groupId => {
