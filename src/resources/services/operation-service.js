@@ -2,10 +2,10 @@ import {inject} from 'aurelia-framework';
 import {EventAggregator} from 'aurelia-event-aggregator';
 import AuthService from 'resources/services/auth-service';
 import ApiBaseService from 'resources/services/api-base-service';
-import WebsocketService from 'resources/services/websocket-service';
+import SignalRService from 'resources/services/signalr-service';
 import * as retry from 'retry';
 
-@inject(EventAggregator, AuthService, ApiBaseService, WebsocketService)
+@inject(EventAggregator, AuthService, ApiBaseService, SignalRService)
 export default class OperationService {
   constructor(eventAggregator, authService, apiBaseService, websocket) {
     this.eventAggregator = eventAggregator;

@@ -8,13 +8,13 @@ import LoaderService from 'resources/services/loader-service';
 import ToastService from 'resources/services/toast-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
-import WebsocketService from 'resources/services/websocket-service';
+import SignalRService from 'resources/services/signalr-service';
 import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
 
 @inject(Router, TranslationService, LocationService, RemarkService,
 FiltersService, LoaderService, ToastService, AuthService,
-UserService, WebsocketService, LogService, EventAggregator)
+UserService, SignalRService, LogService, EventAggregator)
 export class Remarks {
   constructor(router, translationService, location,
   remarkService, filtersService, loader, toast, authService,

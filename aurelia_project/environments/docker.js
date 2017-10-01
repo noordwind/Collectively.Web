@@ -4,6 +4,7 @@ export default {
   title: 'Collectively [Docker]',
   apiUrl: 'http://api:5000/',
   websocketUrl: 'http://websockets-service:9050',
+  signalRUrl: 'http://signalr-service:10010/collectively',
   websocketPath: '/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',

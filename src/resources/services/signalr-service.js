@@ -20,8 +20,9 @@ export default class SignalRService {
     if (!this.authService.isLoggedIn) {
       return;
     }
-
-    this.connection = new RpcConnection(environment.signalRUrl, 'formatType=json&format=text');
+    let transportType = signalR.TransportType.WebSockets;
+    let http = new signalR.HttpConnection(environment.signalRUrl, { transport: transportType });
+    this.connection = new signalR.HubConnection(http);
     this.connection.on('remark_created', (message) => {
       this.eventAggregator.publish('remark:created', message);
     });
@@ -47,6 +48,7 @@ export default class SignalRService {
       this.eventAggregator.publish('operation:updated', message);
     });
     this.connection.on('disconnect', async (message) => {
+      console.log("disconnecting...");
       this.reconnect = false;
       this.connection.stop();
     });
@@ -75,12 +77,12 @@ export default class SignalRService {
       maxTimeout: 5000
     });
     operation.attempt(currentAttempt => {
-      console.log(`Connecting to the CollectivelyHub, attempt: ${currentAttempt}.`);
+      console.log(`Connecting to the Collectively Hub, attempt: ${currentAttempt}.`);
       let connection = this.connection;
       let token = `Bearer ${this.authService.token}`;
       connection.start()
         .then(() => {
-          connection.invoke('Collectively.Services.SignalR.Hubs.CollectivelyHub.InitializeAsync', token);
+          connection.invoke('initializeAsync', token.split(' ')[1]);
         })
         .catch(err => operation.retry(err));
     });

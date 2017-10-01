@@ -11,7 +11,7 @@ import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
 import CriteriaService from 'resources/services/criteria-service';
 import ReportService from 'resources/services/report-service';
-import WebsocketService from 'resources/services/websocket-service';
+import SignalRService from 'resources/services/signalr-service';
 import OperationService from 'resources/services/operation-service';
 import LogService from 'resources/services/log-service';
 import {EventAggregator} from 'aurelia-event-aggregator';
@@ -20,7 +20,7 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService, 
-CriteriaService, ReportService, WebsocketService, OperationService, 
+CriteriaService, ReportService, SignalRService, OperationService, 
 EventAggregator, LogService, Environment)
 export class RemarkComments {
   newImageResized = null;

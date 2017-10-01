@@ -4,6 +4,7 @@ export default {
   title: 'Collectively [Local]',
   apiUrl: 'http://localhost:5000/',
   websocketUrl: 'http://localhost:9050',
+  signalRUrl: 'http://localhost:10010/collectively',
   websocketPath: '/socket.io',
   sessionStorageKey: 'session',
   filtersStorageKey: 'filters',

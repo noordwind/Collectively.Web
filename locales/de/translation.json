@@ -76,6 +76,7 @@
     "user": "Benutzer"
   },
   "code": {
+    "address_not_found": "Adresse wurde nicht gefunden, bitte versuchen Sie es erneut.",
     "cannot_add_comment_too_often": "Anzahl Kommentare in Zeitfenster limitiert (Bitte warte eine Minute).",
     "cannot_convert_file": "Datei kann nicht konvertiert werden",
     "cannot_create_remark_too_often": "Anzahl Meldungen in Zeitfenster limitiert (Bitte warte eine Minute).",

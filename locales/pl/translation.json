@@ -77,6 +77,7 @@
     "user": "Użytkownik"
   },
   "code": {
+    "address_not_found": "Adres nie został znaleziony, prosimy spróbować ponownie.",
     "cannot_add_comment_too_often": "Nie można zbyt często dodawać komentarzy (prosimy poczekaj minutę).",
     "cannot_convert_file": "Wystąpił błąd podczas konwersji pliku.",
     "cannot_create_remark_too_often": "Nie można zbyt często dodawać zgłoszeń (prosimy poczekaj minutę).",
