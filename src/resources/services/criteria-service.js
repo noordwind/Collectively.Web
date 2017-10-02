@@ -14,6 +14,10 @@ export default class CriteriaService {
     return this._canExecute('remark_resolve', remark, userId);
   }
 
+  canCancelRemark(remark, userId) {
+    return this._canExecute('remark_cancel', remark, userId);
+  }
+
   canDeleteRemark(remark, userId) {
     return this._canExecute('remark_delete', remark, userId);
   }

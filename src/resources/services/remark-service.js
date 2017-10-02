@@ -146,6 +146,11 @@ export default class RemarkService {
       => await this.apiBaseService.put(`remarks/${remarkId}/process`, { description }));
   }
 
+  async cancelRemark(remarkId, description) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.put(`remarks/${remarkId}/cancel`, { description }));
+  }
+
   async deleteState(remarkId, stateId) {
     return await this.operationService.execute(async ()
       => await this.apiBaseService.delete(`remarks/${remarkId}/states/${stateId}`));

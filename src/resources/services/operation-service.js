@@ -35,6 +35,7 @@ export default class OperationService {
       map('create_remark', 'remark_created'),
       map('delete_remark', 'remark_deleted'),
       map('resolve_remark', 'remark_resolved'),
+      map('cancel_remark', 'remark_canceled'),
       map('add_photos_to_remark', 'photos_to_remark_added'),
       map('remove_photos_from_remark', 'photos_from_remark_removed'),
       map('submit_remark_vote', 'remark_vote_submitted'),

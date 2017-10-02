@@ -53,6 +53,7 @@ export class Remark {
     this.isPositiveVote = false;
     this.visiblePhotoIndex = 0;
     this.processDescription = '';
+    this.cancelDescription = '';
     this.websockets.initialize();
   }
 
@@ -67,10 +68,15 @@ export class Remark {
   }
 
   get canResolve() {
-    return this.remark.resolved === false
+    return (this.remark.resolved === false && this.state !== 'canceled')
       && (this.feature.resolveRemarkLocationRequired === false || this.isInRange)
       && (this.userService.canModerate(this.account) || 
           this.criteriaService.canResolveRemark(this.remark, this.account.userId));
+  }
+
+  get canCancel() {
+    return (this.remark.resolved === false && this.state !== 'canceled')
+      && (this.criteriaService.canCancelRemark(this.remark, this.account.userId));
   }
 
   get canRenew() {
@@ -118,7 +124,7 @@ export class Remark {
   }
 
   get canProcess() {
-    return !this.remark.resolved;
+    return !this.remark.resolved && this.state !== 'canceled';
   }
 
   get isParticipant() {
@@ -133,10 +139,15 @@ export class Remark {
     return this._isDescriptionValid(this.processDescription);
   }
 
+  get isCancelDescriptionValid() {
+    return this._isDescriptionValid(this.cancelDescription);
+  }
+
   _isDescriptionValid(description) {
     return description !== null &&
       description.match(/^ *$/) === null &&
-      description.length <= 2000;
+      description.length <= 2000 &&
+      description.length >= 3
   }
 
   async activate(params, routeConfig) {
@@ -171,6 +182,10 @@ export class Remark {
 
     this.operationService.subscribe('delete_remark',
       operation => this.handleRemarkDeleted(operation),
+      operation => this.handleRejectedOperation(operation));
+
+      this.operationService.subscribe('cancel_remark',
+      operation => this.handleRemarkCanceled(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.operationService.subscribe('add_photos_to_remark',
@@ -238,7 +253,7 @@ export class Remark {
     this.remark = remark;
     this.remark.categoryName = this.translationService.tr(`remark.category_${this.remark.category.name}`);
     this.processPhotos(remark);
-    this.state = remark.resolved ? 'resolved' : 'new';
+    this.state = remark.state.state;
     this.stateName = this.translationService.tr(`remark.state_${this.state}`);
     this.latitude = remark.location.coordinates[1];
     this.longitude = remark.location.coordinates[0];
@@ -344,7 +359,17 @@ export class Remark {
 
       return;
     }
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.deleting_remark'));
     await this.remarkService.deleteRemark(this.id);
+  }
+
+  async cancel() {
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.canceling_remark'));
+    await this.remarkService.cancelRemark(this.id, this.cancelDescription);
   }
 
   async resolve() {
@@ -581,6 +606,12 @@ export class Remark {
     this.sending = false;
     this.activitiesCount++;
     this.remark.state.state = 'renewed';
+  }
+
+  handleRemarkCanceled(operation) {
+    this.toast.success(this.translationService.tr('remark.remark_canceled'));
+    this.loader.hide();
+    this.router.navigateToRoute('remarks');
   }
 
   handleRemarkDeleted(operation) {
