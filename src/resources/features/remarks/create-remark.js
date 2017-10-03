@@ -107,6 +107,9 @@ export class CreateRemark {
       category: this.remark.category.name
     };
     this.similarRemarks = await this.remarkService.browseSimilar(query);
+    if (!this.similarRemarks) {
+      this.similarRemarks = [];
+    }
     this.similarRemarks.forEach(remark => {
       remark.url = this.router.generate('remark', { id: remark.id });
       remark.icon = `assets/images/${remark.category.name}_icon_dark.png`;

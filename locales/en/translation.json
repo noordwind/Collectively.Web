@@ -258,6 +258,7 @@
     "delete_photo_question": "Do you really want to delete the selected photo?",
     "delete_question": "Do you really want to delete the remark?",
     "delete_vote": "Delete rating",
+    "deleting_remark": "Deleting a remark...",
     "deleting_vote": "Deleting rating...",
     "display": "Display on map",
     "distinguish_liked": "Distinguish liked (with positive scores).",
