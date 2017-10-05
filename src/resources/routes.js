@@ -103,7 +103,6 @@ export default [
     moduleId: `${modulePrefix}/remarks/remarks`,
     name: 'remarks',
     title: 'Remarks',
-    nav: true,
     settings: {
       reqLogin: true,
       icon: 'view_list',
