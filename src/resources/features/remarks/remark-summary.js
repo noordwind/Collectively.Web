@@ -7,7 +7,7 @@ import RemarkService from 'resources/services/remark-service';
 import OperationService from 'resources/services/operation-service';
 import AuthService from 'resources/services/auth-service';
 import UserService from 'resources/services/user-service';
-import FeatureService from 'resources/services/feature-service'
+import FeatureService from 'resources/services/feature-service';
 
 @inject(ToastService, LoaderService, TranslationService,
  RemarkService, OperationService, AuthService,
@@ -66,7 +66,7 @@ export class RemarkSummary {
   get hasPhoto() {
     return this.remark && this.remark.photos && this.remark.photos.length > 0;
   }
-  
+
   get isProcessingPhotos() {
     return this.remark && this.remark.status === 'processing_photos';
   }
@@ -87,8 +87,8 @@ export class RemarkSummary {
     return this.isAuthenticated
       && this.remark.createdAt
       && this.account
-      && (this.account.userId === this.remark.author.userId) || 
-        this.userService.canModerate(this.account);
+      && (this.account.userId === this.remark.author.userId ||
+        this.userService.canModerate(this.account));
   }
 
   markPhotoToDelete(photo) {
@@ -163,7 +163,7 @@ export class RemarkSummary {
           medium: mediumPhoto.url,
           big: bigPhoto.url
         };
-        this.remark.status = null;   
+        this.remark.status = null;
         this.remark.photos.push(photo);
         this.showLastPhoto();
       });
