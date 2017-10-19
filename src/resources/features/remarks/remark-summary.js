@@ -87,7 +87,8 @@ export class RemarkSummary {
     return this.isAuthenticated
       && this.remark.createdAt
       && this.account
-      && this.account.userId === this.remark.author.userId;
+      && (this.account.userId === this.remark.author.userId) || 
+        this.userService.canModerate(this.account);
   }
 
   markPhotoToDelete(photo) {
