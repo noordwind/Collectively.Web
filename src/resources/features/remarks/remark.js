@@ -92,7 +92,7 @@ export class Remark {
   }
 
   get canDeletePhotos() {
-    return this.isAuthor;
+    return this.isAuthor || this.userService.canModerate(this.account);
   }
 
   get canVoteNegatively() {
