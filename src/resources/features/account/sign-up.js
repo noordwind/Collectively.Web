@@ -38,15 +38,15 @@ export class SignUp {
     this.controller.addRenderer(new MaterializeFormValidationRenderer());
 
     ValidationRules
-      .ensure('name')
-        .required()
-          .withMessage(this.translationService.tr('account.name_is_required'))
-        .minLength(2)
-          .withMessage(this.translationService.tr('account.name_is_invalid'))
-        .maxLength(50)
-          .withMessage(this.translationService.tr('account.name_is_invalid'))
-        .matches(/^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+[a-zA-Z0-9]$/)
-          .withMessage(this.translationService.tr('account.name_is_invalid'))
+      // .ensure('name')
+      //   .required()
+      //     .withMessage(this.translationService.tr('account.name_is_required'))
+      //   .minLength(2)
+      //     .withMessage(this.translationService.tr('account.name_is_invalid'))
+      //   .maxLength(50)
+      //     .withMessage(this.translationService.tr('account.name_is_invalid'))
+      //   .matches(/^(?![_.-])(?!.*[_.-]{2})[a-zA-Z0-9._.-]+[a-zA-Z0-9]$/)
+      //     .withMessage(this.translationService.tr('account.name_is_invalid'))
       .ensure('email')
         .required()
           .withMessage(this.translationService.tr('account.email_is_required'))
@@ -83,6 +83,7 @@ export class SignUp {
     this.loader.display();
     this.sending = true;
     this.toast.info(this.translationService.tr('account.creating_account'));
+    this.account.name = this.account.name.replace(/\s/g, '');
     await this.userService.signUp(this.account);
   }
 
