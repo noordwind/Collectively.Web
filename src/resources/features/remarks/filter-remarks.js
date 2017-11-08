@@ -7,12 +7,13 @@ import FiltersService from 'resources/services/filters-service';
 import ToastService from 'resources/services/toast-service';
 import RemarkService from 'resources/services/remark-service';
 import GroupService from 'resources/services/group-service';
+import UserService from 'resources/services/user-service';
 
 @inject(Router, I18N, TranslationService,
- LocationService, FiltersService, ToastService, RemarkService, GroupService)
+ LocationService, FiltersService, ToastService, RemarkService, GroupService, UserService)
 export class FilterRemarks {
   constructor(router, i18n, translationService, locationService, filtersService, 
-      toast, remarkService, groupService) {
+      toast, remarkService, groupService, userService) {
     this.router = router;
     this.i18n = i18n;
     this.translationService = translationService;
@@ -21,8 +22,10 @@ export class FilterRemarks {
     this.toast = toast;
     this.remarkService = remarkService;
     this.groupService = groupService;
+    this.userService = userService;
     this.filters = this.filtersService.filters;
     this.states = [];
+    this.groups = [];
     this.showMyRemarks = {
       checked: this.filters.type === 'mine'
     };
@@ -30,8 +33,9 @@ export class FilterRemarks {
 
   async activate() {
     this.location.startUpdating();
+    this.currentUser = await this.userService.getAccount(false);
+    this.setupGroupsFilter();
     await this.setupCategoriesFilter();
-    await this.setupGroupsFilter();
     this.setupStateFilter();
     this.setupTypeFilter();
   }
@@ -81,13 +85,15 @@ export class FilterRemarks {
     that.categories = categories;
   }
 
-  async setupGroupsFilter() {
-    this.groups = [];
+  setupGroupsFilter() {
     this.groups.push(this.defaultGroup);
-    let groups = await this.groupService.browse({});
-    this.groups.push(...groups);
-    let selectedGroup = this.filters.groupId !== '' ? groups.find(x => x.id === this.filters.groupId) : this.groups[0];
+    this.groups.push(...this.currentUser.groups);
+    let selectedGroup = this.filters.groupId !== '' ? this.groups.find(x => x.id === this.filters.groupId) : this.groups[0];
     this.selectGroup(selectedGroup);
+  }
+
+  get displayGroups() {
+    return this.groups.length > 1;
   }
 
   selectGroup(group) {
@@ -95,12 +101,11 @@ export class FilterRemarks {
   }
 
   get defaultGroup() {
-    return {id: "", name: this.translationService.tr('group.globally')};
+    return {id: '', name: this.translationService.tr('group.globally')};
   }
 
   setupStateFilter() {
-    this.filtersService.states.forEach(x => 
-    {
+    this.filtersService.states.forEach(x => {
       let checked = this.filters.states.findIndex(s => s === x) > -1;
       this.states.push({ name: x, value: x, checked: checked});
     });

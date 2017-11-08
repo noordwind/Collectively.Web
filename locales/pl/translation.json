@@ -114,6 +114,7 @@
     "name_already_set": "Nazwa została już ustawiona.",
     "name_in_use": "Nazwa jest w użyciu.",
     "no_files": "Pliki nie zostały wybrane.",
+    "no_tags": "Wybierz przynajmniej jeden tag.",
     "operation_not_found": "Operacja nie została znaleziona.",
     "remark_not_found": "Zgłoszenie nie zostało znalezione.",
     "report_already_sent": "Zgłoszenie o naruszeniu zasad zostało już wysłane.",
@@ -327,7 +328,7 @@
     "state_deleted": "usunięte",
     "state_renewed": "otwarte ponownie",
     "submitting_vote": "Wysyłamy ocenę...",    
-    "tags": "Tagi (opcjonalne)",
+    "tags": "Tagi",
     "take_action": "Podejmij akcję",
     "take_action_description": "Opisz krótko jak możesz pomóc.",
     "take_action_question": "Chcesz podjąć działanie? Świetnie!",
@@ -393,16 +394,7 @@
   },
   "tags": {
     "tag": "tag",
-    "select_tags": "Tagi (opcjonalne)",
-    "junk": "śmieć",
-    "small": "mały",
-    "medium": "średni",
-    "big": "duży",
-    "crash": "wypadek",
-    "stink": "smród",
-    "dirty": "brudny",
-    "glass": "szkło",
-    "plastic": "plastik"
+    "select_tags": "Tagi"
   },
   "user": {
     "role_user": "użytkownik",

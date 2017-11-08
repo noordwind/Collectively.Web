@@ -113,6 +113,7 @@
     "name_already_set": "Name bereits gesetzt.",
     "name_in_use": "Name bereits in Verwendung.",
     "no_files": "Dateien nicht spezifiziert.",
+    "no_tags": "Select at least one tag.",
     "operation_not_found": "Operation nicht gefunden.",
     "remark_not_found": "Meldung nicht gefunden.",
     "report_already_sent": "Report about the rules violation was already sent.",
@@ -327,7 +328,7 @@
     "state_deleted": "gelöscht",
     "state_renewed": "wieder geöffnet",
     "submitting_vote": "Sende Bewertung...",
-    "tags": "Tags (optional)",
+    "tags": "Tags",
     "take_action": "Leg los",
     "take_action_description": "Beschreibe kurz wie Du helfen kannst.",
     "take_action_question": "Du willst handeln? Super!!",
@@ -393,16 +394,7 @@
   },
   "tags": {
     "tag": "Tag",
-    "select_tags": "Tags (optional)",
-    "junk": "Müll",
-    "small": "klein",
-    "medium": "medium",
-    "big": "groß",
-    "crash": "Unfall",
-    "stink": "Gestank",
-    "dirty": "dreckig",
-    "glass": "Glass",
-    "plastic": "Plastik"
+    "select_tags": "Tags"
   },
   "user": {
     "role_user": "benutzer",

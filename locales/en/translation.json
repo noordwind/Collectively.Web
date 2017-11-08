@@ -114,6 +114,7 @@
     "name_already_set": "Name is already set.",
     "name_in_use": "Name is in use.",
     "no_files": "Files have not been specified.",
+    "no_tags": "Select at least one tag.",
     "operation_not_found": "Operation has not been found.",
     "remark_not_found": "Remark has not been found.",
     "report_already_sent": "Report about the rules violation was already sent.",
@@ -328,7 +329,7 @@
     "state_deleted": "deleted",
     "state_renewed": "reopened",
     "submitting_vote": "Submitting vote...",
-    "tags": "Tags (optional)",
+    "tags": "Tags",
     "take_action": "Take action",
     "take_action_description": "Describe shortly how could you help.",
     "take_action_question": "Want to take an action? That's great!",
@@ -394,16 +395,7 @@
   },
   "tags": {
     "tag": "tag",
-    "select_tags": "Tags (optional)",
-    "junk": "junk",
-    "small": "small",
-    "medium": "medium",
-    "big": "big",
-    "crash": "crash",
-    "stink": "stink",
-    "dirty": "dirty",
-    "glass": "glass",
-    "plastic": "plastic"
+    "select_tags": "Tags"
   },
   "user": {
     "role_user": "user",

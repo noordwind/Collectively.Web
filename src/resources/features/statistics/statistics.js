@@ -139,7 +139,7 @@ export class Statistics {
     });
     tags.forEach(x => {
       x.url = this.router.generate('tag-remarks', {tag: x.name});
-      x.name = this.translationService.trCapitalized(`tags.${x.name}`);
+      x.name = x.name;
       x.count = x.remarks.reportedCount;
     });
     this.tags = tags;

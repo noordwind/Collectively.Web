@@ -9,12 +9,9 @@
       </div> 
       <div class="col s10 location-text">
           <i class="material-icons">grain</i>
-            <span if.bind="remark.group === null" title="${'group.remark_group' | t}">
-                ${'group.globally' | t}
-            </span>
-            <span if.bind="remark.group !== null" title="${'group.remark_group' | t}">
-                ${remark.group.name}
-            </span>
+          <span title="${'group.remark_group' | t}">
+            ${remarkGroupName}
+          </span>        
         </div>
       </div>
       <div class="col s2" if.bind="showFavorite">
@@ -88,6 +85,16 @@
       <div class="col s12">
         <p if.bind="createMode">${remark.description}</p>
         <p if.bind="!createMode" innerhtml.bind="remark.description"></p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col s12">
+        <md-chip if.bind="createMode" md-close="false" repeat.for="tag of selectedTags">
+          ${tag.value}
+        </md-chip>
+        <md-chip if.bind="!createMode" md-close="false" repeat.for="tag of tags">
+          ${tag.value}
+        </md-chip>
       </div>
     </div>
     <div id="modal-delete-photo" class="modal">

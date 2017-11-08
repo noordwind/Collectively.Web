@@ -18,7 +18,7 @@ export default class RemarkService {
   }
 
   async getTags() {
-    return await this.apiBaseService.get('remarks/tags');
+    return await this.apiBaseService.get('tags');
   }
 
   async browse(query, cache = true) {
@@ -45,7 +45,7 @@ export default class RemarkService {
     let longitude = query.longitude || 0;
     query.latitude = parseFloat(latitude.toFixed(5));
     query.longitude = parseFloat(longitude.toFixed(5));
-    
+
     return await this.apiBaseService.get('remarks/similar', query, false);
   }
 

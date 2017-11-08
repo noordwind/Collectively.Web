@@ -59,8 +59,25 @@ export class RemarkSummary {
     return !!this.remark.createdAt;
   }
 
+  get selectedTags() {
+    return this.remark.selectedTags ? this.remark.selectedTags : [];
+  }
+
+  get tags() {
+    return this.remark.tags ? this.remark.tags.map(tag => {
+      return {
+        key: tag.id,
+        value: tag.name
+      };
+    }) : [];
+  }
+
   get showFavorite() {
     return this.isRemarkReported;
+  }
+
+  get remarkGroupName() {
+    return !this.remark.group ? this.translationService.tr('group.globally') : this.remark.group.name;
   }
 
   get hasPhoto() {

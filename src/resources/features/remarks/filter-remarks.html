@@ -2,7 +2,7 @@
   <require from="resources/features/extras/checkbox"></require>
   <require from="resources/converters/lowercaseValueConverter"></require>
   <div class="filters-view">
-  <div class="section">
+  <div class="section" if.bind="displayGroups">
       <div class="row title-section">
         <span class="col s12">${'remark.group' | t}</span>
       </div>

@@ -66,7 +66,7 @@ export class RemarkListPage {
     }
     if (params.tag) {
       let header = this.translationService.trCapitalized('tags.tag');
-      let tag = this.translationService.trCapitalized(`tags.${params.tag}`);
+      let tag = params.tag;
       this.header = `${header}: ${tag}`;
     }
     this.query = {

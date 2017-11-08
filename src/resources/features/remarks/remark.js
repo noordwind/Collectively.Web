@@ -273,8 +273,8 @@ export class Remark {
     }
     this.tags = remark.tags.map(tag => {
       return {
-        key: tag,
-        value: this.translationService.tr(`tags.${tag}`)
+        key: tag.id,
+        value: tag.name
       };
     });
     this.rating = remark.rating;

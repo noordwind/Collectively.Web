@@ -11,12 +11,6 @@
             <div class="input-field col s12">
               <span class="text-underlined">${'remark.category_'+remark.category.name | t}</span>
             </div>
-            <div class="col s12">
-              <a md-button md-dropdown="activates: groups;">${remark.group.name}</a>
-              <ul id="groups">
-                <li repeat.for="group of groups"><a click.trigger="selectGroup(group)">${group.name}</a></li>
-              </ul>
-            </div>
             <div class="input-field col s12">
               <input type="text" value.bind="address" placeholder="${'remark.type_location' | t}"  />
             </div>
@@ -65,14 +59,14 @@
               <image-resizer image.bind="newImage" resized.bind="newImageResized"></image-resizer>
             </div>
           </div>
-          <!--<div class="row">
+          <div class="row">
               <div class="input-field col s12">
               <h5>${'tags.select_tags' | t}</h5>
               <md-chip md-close="false" repeat.for="tag of tags" click.delegate="toggleTag(tag)" class="tag ${tag.selected ? 'tag-selected' : ''}">
                   ${tag.value}
               </md-chip>
               </div>
-          </div>-->
+          </div>
           <div class="row" if.bind="featuresEnabled">
             <div class="col s12">
               <md-checkbox md-checked.bind="remark.hasOffering">${'remark.offering' | t}</md-checkbox>
