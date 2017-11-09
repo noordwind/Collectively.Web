@@ -658,7 +658,8 @@ export class Remark {
     this.loader.hide();
     this.sending = false;
     this.remark.assignee = `group:${this.assignedGroup.id}`;
-    this.remark.group = { id: this.assignedGroup.id, name: this.assignedGroup.name };
+    this.assignedGroup = {};
+    this.router.navigateToRoute('remarks');
   }
 
   async handlePhotosAddedToRemark(operation) {
