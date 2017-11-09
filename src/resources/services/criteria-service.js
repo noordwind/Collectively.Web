@@ -7,7 +7,7 @@ export default class CriteriaService {
   constructor(apiBaseService, operationService)  {
     this.apiBaseService = apiBaseService;
     this.operationService = operationService;
-    this.memberRoles = ['participant', 'moderator', 'administrator', 'owner']
+    this.memberRoles = ['participant', 'moderator', 'administrator', 'owner'];
   }
 
   canResolveRemark(remark, userId) {
@@ -37,7 +37,7 @@ export default class CriteriaService {
     if (criterionRoles === null || typeof criterionRoles === 'undefined') {
       return false;
     }
-    let criterionRole = criterionRoles[0]; 
+    let criterionRole = criterionRoles[0];
     if (criterionRole === 'public') {
       return true;
     }
@@ -52,7 +52,7 @@ export default class CriteriaService {
     }
     let criterionRoleIndex = this.memberRoles.indexOf(criterionRole);
     let memberRoleIndex = this.memberRoles.indexOf(memberRole);
-    
+
     return memberRoleIndex >= criterionRoleIndex;
   }
 }

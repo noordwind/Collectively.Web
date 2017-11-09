@@ -129,6 +129,7 @@
   },
   "common": {
     "all": "Wszystkie",
+    "assign": "Przypisz",
     "apply": "Zatwierdź",
     "camera": "Aparat",
     "cancel": "Anuluj",
@@ -224,6 +225,10 @@
     "add_photo": "Dodaj zdjęcie",
     "added_photo": "Zdjęcie zostało pomyślnie zapisane.",
     "adding_photo": "Dodajemy zdjęcie, proszę czekać...",
+    "assign": "Przypisz",
+    "assigning_group": "Przypisujemy zgłoszenie do grupy...",
+    "assigned_to_group": "Zgłoszenie zostało przypisane do grupy",
+    "assign_question": "Wybierz grupę aby przypisać zgłoszenie",
     "author": "Autor",
     "browse_activity": "Przeglądnij aktywność",
     "browse_comments": "Przeglądnij komentarze",

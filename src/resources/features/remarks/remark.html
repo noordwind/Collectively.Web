@@ -102,8 +102,16 @@
           </div>
         </div>                      
       </div>
-      <div class="divider" if.bind="canResolve || canRenew || canDelete"></div>
+      <div class="divider" if.bind="canAssign || canResolve || canRenew || canDelete"></div>
       <div class="section">
+          <div class="row" if.bind="canAssign">
+          <div class="col s12">
+              <a md-modal-trigger href="#modal-assign" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
+                <i class="material-icons left">done</i>
+                ${'remark.assign' | t}
+              </a>
+            </div>
+          </div>
         <div class="row">
           <div if.bind="canResolve" class="col s12">
             <a md-modal-trigger href="#modal-resolve" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
@@ -133,6 +141,24 @@
               ${'common.delete' | t}
             </a>
           </div>           
+        </div>
+      </div>
+      <div if.bind="canAssign" id="modal-assign" class="modal">
+        <div class="modal-content">
+          <p>${'remark.assign_question' | t}</p>
+          <div class="section"
+            <div class="row">
+              <div class="col s12">
+                <a md-button md-dropdown="activates: assignableGroups;">${assignedGroup.name}</a>
+                <ul id="assignableGroups">
+                  <li repeat.for="group of assignableGroups"><a click.trigger="setAssignedGroup(group)">${group.name}</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <a click.delegate="assignGroup()" md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.assign' | t}</a>
+          <a md-button="flat: true;" md-waves="color: accent;" class="modal-action modal-close">${'common.cancel' | t}</a>
         </div>
       </div>
       <div if.bind="canResolve" id="modal-resolve" class="modal">

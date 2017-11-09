@@ -156,12 +156,43 @@ export default class RemarkService {
       => await this.apiBaseService.delete(`remarks/${remarkId}/states/${stateId}`));
   }
 
+  async assignGroup(remarkId, groupId) {
+    return await this.operationService.execute(async ()
+      => await this.apiBaseService.post(`remarks/${remarkId}/assignments`, { groupId }));
+  }
+
   async deleteRemark(id) {
     this._clearRemarksCache();
     this._clearStatisticsCache();
 
     return await this.operationService.execute(async ()
       => await this.apiBaseService.delete(`remarks/${id}`));
+  }
+
+  getAssignableGroups(remark, user) {
+    if (!user.groups || user.groups.length === 0) {
+      return [];
+    }
+    if (!remark.availableGroups || remark.availableGroups.length === 0) {
+      return [];
+    }
+
+    let groups = [];
+    user.groups.forEach(userGroup => {
+      if (!userGroup.isActive) {
+        return;
+      }
+      if (userGroup.role === 'participant') {
+        return;
+      }
+      let isValidGroup = remark.availableGroups.findIndex(x => x === userGroup.id) >= 0;
+      if (!isValidGroup) {
+        return;
+      }
+      groups.push({id: userGroup.id, name: userGroup.name});
+    });
+
+    return groups;
   }
 
   get remarksRegexp() {

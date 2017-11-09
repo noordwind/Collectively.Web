@@ -20,7 +20,7 @@ import Environment from '../../../environment';
 @inject(Router, I18N, TranslationService,
 LocationService, FiltersService, RemarkService,
 ToastService, LoaderService, AuthService, UserService,
-CriteriaService, ReportService, SignalRService, OperationService, 
+CriteriaService, ReportService, SignalRService, OperationService,
 EventAggregator, LogService, Environment)
 export class Remark {
   newImageResized = null;
@@ -47,6 +47,8 @@ export class Remark {
     this.feature = environment.feature;
     this.remarkPhotosLimit = environment.constraints.remarkPhotosLimit * 3; //3 different sizes.
     this.remark = {};
+    this.assignableGroups = [];
+    this.assignedGroup = {};
     this.sending = false;
     this.isInRange = false;
     this.photoToDelete = null;
@@ -62,7 +64,7 @@ export class Remark {
   }
 
   get canDelete() {
-    return this.isAuthor || 
+    return this.isAuthor ||
       this.userService.canModerate(this.account) ||
       this.criteriaService.canDeleteRemark(this.remark, this.account.userId);
   }
@@ -70,13 +72,19 @@ export class Remark {
   get canResolve() {
     return (this.remark.resolved === false && this.state !== 'canceled')
       && (this.feature.resolveRemarkLocationRequired === false || this.isInRange)
-      && (this.userService.canModerate(this.account) || 
+      && (this.userService.canModerate(this.account) ||
           this.criteriaService.canResolveRemark(this.remark, this.account.userId));
   }
 
   get canCancel() {
     return (this.remark.resolved === false && this.state !== 'canceled')
       && (this.criteriaService.canCancelRemark(this.remark, this.account.userId));
+  }
+
+  get canAssign() {
+    return this.isAuthenticated && !this.remark.assignee &&
+      !this.remark.resolved && this.state !== 'canceled' &&
+      this.assignableGroups.length > 0;
   }
 
   get canRenew() {
@@ -147,7 +155,7 @@ export class Remark {
     return description !== null &&
       description.match(/^ *$/) === null &&
       description.length <= 2000 &&
-      description.length >= 3
+      description.length >= 3;
   }
 
   async activate(params, routeConfig) {
@@ -159,7 +167,10 @@ export class Remark {
       this.account = await this.userService.getAccount();
     }
     await this.loadRemark();
-
+    this.assignableGroups = this.remarkService.getAssignableGroups(this.remark, this.account);
+    if (this.assignableGroups.length > 0) {
+      this.setAssignedGroup(this.assignableGroups[0]);
+    }
     this.log.trace('remark_details_activated', {
       remark: this.remark,
       filters: this.filtersService.filters
@@ -184,7 +195,7 @@ export class Remark {
       operation => this.handleRemarkDeleted(operation),
       operation => this.handleRejectedOperation(operation));
 
-      this.operationService.subscribe('cancel_remark',
+    this.operationService.subscribe('cancel_remark',
       operation => this.handleRemarkCanceled(operation),
       operation => this.handleRejectedOperation(operation));
 
@@ -214,6 +225,10 @@ export class Remark {
 
     this.operationService.subscribe('report_remark',
       operation => this.handleRemarkReported(operation),
+      operation => this.handleRejectedOperation(operation));
+
+    this.operationService.subscribe('assign_remark_to_group',
+      operation => this.handleRemarkAssignedToGroup(operation),
       operation => this.handleRejectedOperation(operation));
 
     this.newImageResized = async (base64) => {
@@ -307,12 +322,12 @@ export class Remark {
     this.positiveVotes = 0;
     this.negativeVotes = 0;
     this.remark.votes.forEach(x => {
-        if (x.positive) {
-          this.positiveVotes++;
-        } else {
-          this.negativeVotes++;
-        }
-      })
+      if (x.positive) {
+        this.positiveVotes++;
+      } else {
+        this.negativeVotes++;
+      }
+    });
     this.vote = this.remark.votes.find(x => x.userId === this.account.userId);
   }
 
@@ -321,6 +336,17 @@ export class Remark {
       description = this.translationService.tr('remark.activity_has_no_description');
     }
     this.latestActivity = {description};
+  }
+
+  setAssignedGroup(group) {
+    this.assignedGroup = group;
+  }
+
+  async assignGroup() {
+    this.sending = true;
+    this.loader.display();
+    this.toast.info(this.translationService.tr('remark.assigning_group'));
+    await this.remarkService.assignGroup(this.id, this.assignedGroup.id);
   }
 
   processPhotos(remark) {
@@ -558,19 +584,19 @@ export class Remark {
   async deleteVote() {
     this.sending = true;
     await this.remarkService.deleteVote(this.id);
-    if(this.vote.positive) {
+    if (this.vote.positive) {
       this.positiveVotes--;
-    } else{
+    } else {
       this.negativeVotes--;
-    } 
+    }
     this.vote = null;
     this.sending = false;
   }
 
   _changeVoteType(positive) {
-    if(positive) {
+    if (positive) {
       this.positiveVotes++;
-    } else{
+    } else {
       this.negativeVotes++;
     }
     if (!this.hasVoted) {
@@ -578,15 +604,15 @@ export class Remark {
         userId: this.account.userId,
         positive: positive
       };
-      return; 
+      return;
     }
 
     this.vote.positive = positive;
-    if(positive) {
+    if (positive) {
       this.negativeVotes--;
-    } else{
+    } else {
       this.positiveVotes--;
-    } 
+    }
   }
 
   handleRemarkResolved(operation) {
@@ -627,9 +653,17 @@ export class Remark {
     this.remark.reportsCount++;
   }
 
+  handleRemarkAssignedToGroup(operation) {
+    this.toast.success(this.translationService.tr('remark.assigned_to_group'));
+    this.loader.hide();
+    this.sending = false;
+    this.remark.assignee = `group:${this.assignedGroup.id}`;
+    this.remark.group = { id: this.assignedGroup.id, name: this.assignedGroup.name };
+  }
+
   async handlePhotosAddedToRemark(operation) {
     this.loader.hide();
-    this.sending = false; 
+    this.sending = false;
     this.remark.status = null;
   }
 

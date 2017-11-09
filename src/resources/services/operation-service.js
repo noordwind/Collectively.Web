@@ -50,7 +50,8 @@ export default class OperationService {
       map('cancel_remark_action', 'remark_action_canceled'),
       map('process_remark', 'remark_processed'),
       map('renew_remark', 'remark_renewed'),
-      map('report_remark', 'remark_reported')
+      map('report_remark', 'remark_reported'),
+      map('assign_remark_to_group', 'remark_assigned_to_group')
     ];
 
     function map(name, event) {
