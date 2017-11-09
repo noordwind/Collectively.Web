@@ -107,7 +107,7 @@
           <div class="row" if.bind="canAssign">
           <div class="col s12">
               <a md-modal-trigger href="#modal-assign" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-                <i class="material-icons left">done</i>
+                <i class="material-icons left">assignment</i>
                 ${'remark.assign' | t}
               </a>
             </div>
@@ -129,7 +129,7 @@
         <div class="row" if.bind="canCancel">
           <div class="col s12">
             <a md-modal-trigger href="#modal-cancel" disabled.bind="sending" class="btn waves-effect waves-light btn-large">
-              <i class="material-icons left">done</i>
+              <i class="material-icons left">close</i>
               ${'remark.cancel' | t}
             </a>
           </div>
