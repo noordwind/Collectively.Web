@@ -119,6 +119,7 @@
     "remark_not_found": "Remark has not been found.",
     "report_already_sent": "Report about the rules violation was already sent.",
     "session_not_found": "Session has not been found.",
+    "tags_not_supported": "Selected tags are currently unavailable.",
     "text_too_long": "Text is too long.",
     "user_id_in_use": "User identifier is in use.",
     "user_not_allowed_to_delete_remark" : "User is not allowed to delete a remark.",
@@ -171,6 +172,8 @@
     "processing": "processing",
     "renewed": "renewed",
     "resolved": "resolved",
+    "assigned": "assigned",
+    "unassigned": "unassigned",
     "my_remarks": "show only mine"
   },
   "group": {
@@ -328,6 +331,8 @@
     "state_canceled": "canceled",
     "state_deleted": "deleted",
     "state_renewed": "reopened",
+    "state_assigned": "assigned",
+    "state_unassigned": "unassigned",
     "submitting_vote": "Submitting vote...",
     "tags": "Tags",
     "take_action": "Take action",

@@ -18,7 +18,7 @@ export default class RemarkService {
   }
 
   async getTags() {
-    return await this.apiBaseService.get('tags');
+    return await this.apiBaseService.get('tags?results=1000');
   }
 
   async browse(query, cache = true) {

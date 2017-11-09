@@ -267,13 +267,13 @@ export class Map {
 
   getRemarkMarker(remark) {
     if (remark.offering !== null) {
-      return `/assets/images/markers/offering_marker.png`;
+      return '/assets/images/markers/offering_marker.png';
     }
 
     return `/assets/images/markers/${remark.category.name}_marker_${remark.state.state}.png`;
   }
 
-  drawMarker(longitude, latitude, title, content, imgPath, width, height, 
+  drawMarker(longitude, latitude, title, content, imgPath, width, height,
       removeOnClick = false, removeOnClickFunc = null, openInfoWindow = false) {
     let position = new google.maps.LatLng(latitude, longitude);
     let infowindow = new google.maps.InfoWindow({

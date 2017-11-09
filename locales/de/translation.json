@@ -118,6 +118,7 @@
     "remark_not_found": "Meldung nicht gefunden.",
     "report_already_sent": "Report about the rules violation was already sent.",
     "session_not_found": "Session nicht gefunden.",
+    "tags_not_supported": "Selected tags are currently unavailable.",
     "text_too_long": "Text zu lang.",
     "user_id_in_use": "Benutzer ID bereits in Verwendung.",
     "user_not_allowed_to_delete_remark" : "Benutzer darf nicht Löschen.",
@@ -170,6 +171,8 @@
     "processing": "wird bearbeitet",
     "renewed": "erneuert",
     "resolved": "abgeschlossen",
+    "assigned": "zugewiesen",
+    "unassigned": "nicht zugeordnet",
     "my_remarks": "zeige nur meine"
   },
   "group": {
@@ -327,6 +330,8 @@
     "state_canceled": "abgebrochen",
     "state_deleted": "gelöscht",
     "state_renewed": "wieder geöffnet",
+    "state_assigned": "zugewiesen",
+    "state_unassigned": "nicht zugeordnet",
     "submitting_vote": "Sende Bewertung...",
     "tags": "Tags",
     "take_action": "Leg los",

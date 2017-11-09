@@ -60,6 +60,13 @@ export class FilterRemarks {
     } else {
       this.filters.type = 'all';
     }
+    if (this.states.findIndex(x => x.checked && x.value === 'unassigned') >= 0) {
+      this.filters.availableGroupId = this.selectedGroup.id;
+      this.filters.groupId = '';
+    } else {
+      this.filters.availableGroupId = '';
+      this.filters.groupId = this.selectedGroup.id;
+    }
     this._updateFilters();
   }
 

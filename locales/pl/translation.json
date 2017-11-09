@@ -119,6 +119,7 @@
     "remark_not_found": "Zgłoszenie nie zostało znalezione.",
     "report_already_sent": "Zgłoszenie o naruszeniu zasad zostało już wysłane.",
     "session_not_found": "Sesja nie została znaleziona.",
+    "tags_not_supported": "Wybrane tagi są aktualnie niedostępne.",
     "text_too_long": "Tekst jest zbyt długi.",
     "user_id_in_use": "Identyfikator użytkownika jest w użyciu.",
     "user_not_allowed_to_delete_remark" : "Użytkownik nie może usunąć wybranego zgłoszenia.",
@@ -170,6 +171,8 @@
     "processing": "przetwarzane",
     "renewed": "otwarte ponownie",
     "resolved": "rozwiązane",
+    "assigned": "przypisane",
+    "unassigned": "nieprzypisane",
     "my_remarks": "pokaż tylko moje"
   },
   "group": {
@@ -327,6 +330,8 @@
     "state_canceled": "anulowane",
     "state_deleted": "usunięte",
     "state_renewed": "otwarte ponownie",
+    "state_assigned": "przypisane",
+    "state_unassigned": "nieprzypisany",
     "submitting_vote": "Wysyłamy ocenę...",    
     "tags": "Tagi",
     "take_action": "Podejmij akcję",
