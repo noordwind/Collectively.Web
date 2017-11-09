@@ -128,6 +128,7 @@
   },
   "common": {
     "all": "Alle",
+    "assign": "Assign",
     "apply": "Anwenden",
     "camera": "Kamera",
     "cancel": "Abbrechen",
@@ -224,6 +225,10 @@
     "add_photo": "Foto hinzufügen",
     "added_photo": "Foto wurde gespeichert.",   
     "adding_photo": "Foto wird hinzugefügt. Bitte warten...",
+    "assign": "Assign",
+    "assigning_group": "Assigning a remark to the group, please wait...",
+    "assigned_to_group": "Remark was assigned to the group",
+    "assign_question": "Select a group to which the remark will be assigned",
     "author": "Author",
     "browse_activity": "Aktivitäten durchsuchen",
     "browse_comments": "Kommentare durchsuchen",
