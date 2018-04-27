@@ -37,6 +37,9 @@ export class UserRemarks {
 
   async browse() {
     let remarks = await this.remarkService.browse(this.query);
+    if (remarks === null) {
+      remarks = [];
+    }
     remarks.forEach(remark => {
       remark.url = this.router.generate('remark', { id: remark.id });
       remark.distance = this.location.calculateDistance({
@@ -56,6 +59,9 @@ export class UserRemarks {
       this.loading = true;
       this.query.page += 1;
       let remarks = await this.browse();
+      if (remarks === null) {
+        remarks = [];
+      }
       remarks.forEach(x => this.remarks.push(x));
       this.loading = false;
     }

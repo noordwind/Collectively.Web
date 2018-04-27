@@ -144,6 +144,9 @@ export class Remarks {
       results: results || 25
     };
     let remarks = await this.browse(query, !clear);
+    if (remarks === null) {
+      remarks = [];
+    }
     if (clear) {
       this.remarks = [];
     }
@@ -161,6 +164,9 @@ export class Remarks {
       query.authorId = this.account.userId;
     }
     let remarks = await this.remarkService.browse(query, cache);
+    if (remarks === null) {
+      remarks = [];
+    }
     remarks.forEach(remark => this.processRemark(remark), this);
 
     return remarks;

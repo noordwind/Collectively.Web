@@ -59,25 +59,18 @@ export class RemarkSummary {
     return !!this.remark.createdAt;
   }
 
-  get selectedTags() {
-    return this.remark.selectedTags ? this.remark.selectedTags : [];
-  }
-
-  get tags() {
-    return this.remark.tags ? this.remark.tags.map(tag => {
-      return {
-        key: tag.id,
-        value: tag.name
-      };
-    }) : [];
-  }
-
   get showFavorite() {
     return this.isRemarkReported;
   }
 
-  get remarkGroupName() {
-    return !this.remark.group ? this.translationService.tr('group.globally') : this.remark.group.name;
+  get remarkTagName() {
+    if (this.remark.selectedTag) {
+      return this.remark.selectedTag;
+    }
+    if (this.remark.tags && this.remark.tags.length > 0) {
+      return this.remark.tags[0].name;
+    }
+    return '';
   }
 
   get hasPhoto() {

@@ -3,6 +3,7 @@ export default {
   testing: false,
   title: 'Collectively',
   apiUrl: 'https://api.becollective.ly/',
+  identityApiUrl: 'https://identity.becollective.ly/',
   websocketUrl: 'https://websockets.becollective.ly',
   signalRUrl: 'https://ws.becollective.ly/collectively',
   websocketPath: '/socket.io',

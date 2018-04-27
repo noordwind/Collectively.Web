@@ -89,6 +89,9 @@ export class RemarkListPage {
 
   async browse() {
     let remarks = await this.remarkService.browse(this.query);
+    if (remarks === null) {
+      remarks = [];
+    }
     remarks.forEach(remark => {
       remark.url = this.router.generate('remark', { id: remark.id });
       remark.distance = this.location.calculateDistance({
@@ -96,6 +99,7 @@ export class RemarkListPage {
         longitude: remark.location.coordinates[0]
       });
       remark.icon = `assets/images/${remark.category.name}_icon_dark.png`;
+      remark.selectedTag = remark.tags && remark.tags.length > 0 ? remark.tags[0].name : '';
     }, this);
 
     return remarks;

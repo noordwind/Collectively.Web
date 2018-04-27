@@ -1,17 +1,19 @@
 import {inject} from 'aurelia-framework';
 import ApiBaseService from 'resources/services/api-base-service';
+import IdentityBaseService from 'resources/services/identity-base-service';
 import OperationService from 'resources/services/operation-service';
 
-@inject(ApiBaseService, OperationService)
+@inject(ApiBaseService, IdentityBaseService, OperationService)
 export default class UserService {
-  constructor(apiBaseService, operationService)  {
+  constructor(apiBaseService, identityBaseService, operationService)  {
     this.apiBaseService = apiBaseService;
+    this.identityBaseService = identityBaseService;
     this.operationService = operationService;
     this.moderatorRoles = ['moderator', 'administrator'];
   }
 
   async browse(query) {
-    return await this.apiBaseService.get("users", query, false);
+    return await this.apiBaseService.get('users', query, false);
   }
 
   async signIn(account) {
@@ -107,7 +109,7 @@ export default class UserService {
   }
 
   canModerate(user) {
-    return user !== null && typeof user !== 'undefined' && 
+    return user !== null && typeof user !== 'undefined' &&
       this.moderatorRoles.indexOf(user.role) >= 0;
   }
 
@@ -116,6 +118,6 @@ export default class UserService {
   }
 
   _clearUsersCache() {
-  this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/user*/);
-}
+    this.apiBaseService.cacheService.invalidateMatchingKeys(/^cache\/user*/);
+  }
 }

@@ -3,6 +3,7 @@ export default {
   testing: true,
   title: 'Collectively [Local]',
   apiUrl: 'http://localhost:5000/',
+  identityApiUrl: 'http://localhost:10002/',
   websocketUrl: 'http://localhost:9050',
   signalRUrl: 'http://localhost:10010/collectively',
   websocketPath: '/socket.io',

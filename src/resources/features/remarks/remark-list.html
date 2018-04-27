@@ -13,8 +13,8 @@
                   <img src.bind="remark.icon" />
                 </div>
                 <div class="col s7">
-                  <div class="header">${'remark.category_'+remark.category.name | t}</div>
-                  <div class="second-line address">${remark.group.name}</div>
+                  <div class="header">${remark.selectedTag}</div>
+                  <div class="second-line address">${'remark.category_'+remark.category.name | t}</div>
                   <div class="second-line address">${remark.location.address}</div>
                   <div class="third-line">
                     <i if.bind="remark.state.state === 'resolved'" class="material-icons">done</i>

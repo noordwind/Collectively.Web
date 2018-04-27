@@ -79,7 +79,7 @@ export class CreateRemark {
       this.remark.longitude = remarkLocation.longitude;
       this.remark.address = remarkLocation.address;
       this.coordinates.latitude = remarkLocation.latitude;
-      this.coordinates.longitude = remarkLocation.longitude;      
+      this.coordinates.longitude = remarkLocation.longitude;
     } else {
       this.refreshLocation();
     }
@@ -95,12 +95,13 @@ export class CreateRemark {
       }
 
       return {
-        key: translatedTag.id,
-        value: translatedTag.name,
+        id: translatedTag.id,
+        name: translatedTag.name,
         selected: false
       };
     });
-    this.tags = this.tags.sort((t1, t2) => (t1.value < t2.value) ? -1 : (t1.value > t2.value) ? 1 : 0);
+    this.tags = this.tags.sort((t1, t2) => (t1.name < t2.name) ? -1 : (t1.name > t2.name) ? 1 : 0);
+    this.selectTag(this.tags[0]);
     let query = {
       radius: 10,
       longitude: this.coordinates.longitude,
@@ -198,16 +199,16 @@ export class CreateRemark {
 
       return;
     }
-    let selectedTags = this.tags.filter(x => x.selected);
-    if (selectedTags.length === 0) {
-      this.toast.error(this.translationService.trCode('no_tags'));
+    // let selectedTags = this.tags.filter(x => x.selected);
+    // if (selectedTags.length === 0) {
+    //   this.toast.error(this.translationService.trCode('no_tags'));
 
-      return;
-    }
+    //   return;
+    // }
     if (!this.remark.hasOffering) {
       this.remark.offering = null;
     }
-    this.remark.selectedTags = selectedTags;
+    //this.remark.selectedTags = selectedTags;
     this.remark.address = this.foundAddress;
     this.remark.latitude = this.coordinates.latitude;
     this.remark.longitude = this.coordinates.longitude;
@@ -223,13 +224,13 @@ export class CreateRemark {
   }
 
   async sendRemark() {
-    let selectedTags = this.tags.filter(x => x.selected);
-    if (selectedTags.length === 0) {
-      this.toast.error(this.translationService.trCode('no_tags'));
+    // let selectedTags = this.tags.filter(x => x.selected);
+    // if (selectedTags.length === 0) {
+    //   this.toast.error(this.translationService.trCode('no_tags'));
 
-      return;
-    }
-    this.remark.tags = selectedTags.map(x => x.key);
+    //   return;
+    // }
+    // this.remark.tags = selectedTags.map(x => x.key);
     this.sending = true;
     this.loader.display();
     this.toast.info(this.translationService.tr('remark.sending'));
@@ -313,5 +314,10 @@ export class CreateRemark {
 
   toggleTag(tag) {
     tag.selected = !tag.selected;
+  }
+
+  selectTag(tag) {
+    this.remark.selectedTag = tag.name;
+    this.remark.tags = [ tag.id ];
   }
 }

@@ -86,7 +86,6 @@ export class SignIn {
       await this.redirectAfterSignIn();
       return;
     }
-
     this.sending = false;
     this.loader.hide();
     this.toast.error(this.translationService.trCode('invalid_credentials'));
